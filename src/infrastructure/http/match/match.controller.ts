@@ -16,6 +16,7 @@ import { GetMatchByIdUseCase } from '@/application/match/use-cases/get-match-by-
 import { UpdateMatchUseCase } from '@/application/match/use-cases/update-match.usecase';
 import { DeleteMatchUseCase } from '@/application/match/use-cases/delete-match.usecase';
 import { DeleteMatchDto } from '@/application/match/dto/delete-match.dto';
+import { UpdateMatchDto } from '@/application/match/dto/update-match.dto';
 
 import {
   MATCH_REPOSITORY,

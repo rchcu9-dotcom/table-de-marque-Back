@@ -30,7 +30,8 @@ export class UpdateMatchUseCase {
     if (data.teamA !== undefined) match.teamA = data.teamA;
     if (data.teamB !== undefined) match.teamB = data.teamB;
     if (data.date !== undefined) match.date = new Date(data.date);
-    if (data.status !== undefined) match.status = data.status;
+    if (data.status !== undefined) match.status = data.status as any;
+
 
     return await this.matchRepo.update(match);
   }
