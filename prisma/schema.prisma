@@ -1,0 +1,17 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Match {
+  id        String   @id @default(uuid())
+  date      DateTime
+  teamA     String
+  teamB     String
+  status    String   @default("planned")
+  createdAt DateTime @default(now())
+}
