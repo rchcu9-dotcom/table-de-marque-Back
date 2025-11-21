@@ -1,9 +1,9 @@
 export class Match {
   constructor(
-    public readonly id: string,
-    public readonly date: Date,
-    public readonly teamA: string,
-    public readonly teamB: string,
-    public status: 'planned' | 'ongoing' | 'finished' = 'planned',
+    public id: string,
+    public date: Date,
+    public teamA: string,
+    public teamB: string,
+    public status: 'planned' | 'ongoing' | 'finished' | 'deleted' = 'planned',
   ) {}
 }
