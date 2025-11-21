@@ -2,11 +2,11 @@ import { Module } from '@nestjs/common';
 
 import { MatchController } from './match.controller';
 
-import { CreateMatchUseCase } from '@/application/match/use-cases/create-match.usecase.ts';
-import { GetAllMatchesUseCase } from '@/application/match/use-cases/get-all-matches.usecase.ts';
-import { GetMatchByIdUseCase } from '@/application/match/use-cases/get-match-by-id.usecase.ts';
-import { UpdateMatchUseCase } from '@/application/match/use-cases/update-match.usecase.ts';
-import { DeleteMatchUseCase } from '@/application/match/use-cases/delete-match.usecase.ts';
+import { CreateMatchUseCase } from '@/application/match/use-cases/create-match.usecase';
+import { GetAllMatchesUseCase } from '@/application/match/use-cases/get-all-matches.usecase';
+import { GetMatchByIdUseCase } from '@/application/match/use-cases/get-match-by-id.usecase';
+import { UpdateMatchUseCase } from '@/application/match/use-cases/update-match.usecase';
+import { DeleteMatchUseCase } from '@/application/match/use-cases/delete-match.usecase';
 
 import { MATCH_REPOSITORY } from '@/domain/match/repositories/match.repository';
 
