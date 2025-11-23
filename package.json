@@ -63,6 +63,11 @@
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
+    "globals": {
+      "ts-jest": {
+        "tsconfig": "tsconfig.json"
+      }
+    },
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/$1"
     },
@@ -70,5 +75,4 @@
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
   }
-
 }

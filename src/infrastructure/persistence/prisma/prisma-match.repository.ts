@@ -19,4 +19,9 @@ export class PrismaMatchRepository implements MatchRepository {
   async update(match: Match): Promise<Match> {
     throw new Error('PrismaMatchRepository not implemented yet.');
   }
+
+  async delete(id: string): Promise<void> {
+    // No-op: Prisma repository inactive for now
+    return;
+  }
 }

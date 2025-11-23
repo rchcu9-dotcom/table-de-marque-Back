@@ -9,6 +9,7 @@ import { UpdateMatchUseCase } from '@/application/match/use-cases/update-match.u
 import { DeleteMatchUseCase } from '@/application/match/use-cases/delete-match.usecase';
 
 import { MATCH_REPOSITORY } from '@/domain/match/repositories/match.repository';
+import { InMemoryMatchRepository } from '@/infrastructure/persistence/memory/in-memory-match.repository';
 
 // ⚠️ ATTENTION : quand tu créeras l’implémentation Prisma,
 // remplace le InMemoryMatchRepository par PrismaMatchRepository.
@@ -28,7 +29,7 @@ class PrismaMatchRepository {} // à remplacer plus tard
     // Repository Injection
     {
       provide: MATCH_REPOSITORY,
-      useClass: PrismaMatchRepository, // sera remplacé par l’impl réelle
+      useClass: InMemoryMatchRepository,// sera remplacé par l’impl réelle
     },
   ],
 })
