@@ -5,7 +5,7 @@ on:
     branches: ["main"]
 
 env:
-  PROJECT_ID: table-de-marque-72e86
+  PROJECT_ID: table-de-marque
   REGION: europe-west1
   SERVICE_NAME: match-service
   ARTIFACT_REPO: table-de-marque-backend
