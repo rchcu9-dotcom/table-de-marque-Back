@@ -3,6 +3,14 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.enableCors({
+    origin: [
+      "https://table-de-marque-72e86.web.app",
+      "https://table-de-marque-72e86.firebaseapp.com"
+    ],
+  });
+
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
