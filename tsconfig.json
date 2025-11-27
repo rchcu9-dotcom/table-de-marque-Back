@@ -29,5 +29,10 @@
   },
 
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/**/*.spec.ts",
+    "src/infrastructure/persistence/prisma/**/*"
+  ]
 }
