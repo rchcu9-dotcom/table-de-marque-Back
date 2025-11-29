@@ -8,9 +8,13 @@ import { GoogleSheetsPublicCsvMatchRepository } from './google-sheets/google-she
 const persistenceProvider = {
   provide: MATCH_REPOSITORY,
   useFactory: () => {
-    const driver = (process.env.MATCH_REPOSITORY_DRIVER ?? 'memory')
+    const envDriver = (process.env.MATCH_REPOSITORY_DRIVER ?? '')
       .trim()
       .toLowerCase();
+
+    const driver =
+      envDriver ||
+      (process.env.GOOGLE_SHEETS_CSV_URL ? 'google-sheets-public' : 'memory');
 
     if (driver === 'google-sheets-public') {
       return new GoogleSheetsPublicCsvMatchRepository();
