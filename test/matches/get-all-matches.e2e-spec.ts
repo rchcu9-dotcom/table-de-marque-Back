@@ -48,6 +48,10 @@ describe('GET /matches (e2e)', () => {
 
     expect(res.body.length).toBe(1);
     expect(res.body[0].teamA).toBe('A');
+    expect(res.body[0]).toHaveProperty('scoreA');
+    expect(res.body[0]).toHaveProperty('scoreB');
+    expect(res.body[0].scoreA).toBeNull();
+    expect(res.body[0].scoreB).toBeNull();
   });
 
   afterAll(async () => {
