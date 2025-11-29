@@ -9,6 +9,8 @@ env:
   REGION: europe-west9
   SERVICE_NAME: match-service
   ARTIFACT_REPO: table-de-marque-backend
+  SHEETS_RANGE: B3:L32
+  SHEETS_SHEET_NAME: Matchs
 
 jobs:
   build-test-deploy:
@@ -34,6 +36,11 @@ jobs:
         with:
           credentials_json: ${{ secrets.GCP_SA }}
 
+      - name: Setup gcloud
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+
       - name: Configure Docker for Artifact Registry
         run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
 
@@ -50,4 +57,11 @@ jobs:
           service: ${{ env.SERVICE_NAME }}
           region: ${{ env.REGION }}
           image: ${{ env.IMAGE }}
-          flags: --allow-unauthenticated --set-env-vars=NODE_ENV=production
+          flags: >
+            --allow-unauthenticated
+            --set-env-vars=
+              NODE_ENV=production,
+              MATCH_REPOSITORY_DRIVER=google-sheets-public,
+              GOOGLE_SHEETS_CSV_URL=${{ secrets.GOOGLE_SHEETS_CSV_URL }},
+              GOOGLE_SHEETS_RANGE=${{ env.SHEETS_RANGE }},
+              GOOGLE_SHEETS_SHEET_NAME=${{ env.SHEETS_SHEET_NAME }}
