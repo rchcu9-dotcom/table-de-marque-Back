@@ -12,8 +12,8 @@ describe('GoogleSheetsPublicCsvMatchRepository (CSV parsing)', () => {
 
   it('parse une feuille CSV publiée avec scores et statuts', async () => {
     process.env.GOOGLE_SHEETS_CSV_URL = 'mock://csv';
-    // On force la plage à partir de la ligne 1 pour ce test (CSV direct non borné)
-    process.env.GOOGLE_SHEETS_RANGE = 'B1:L32';
+    // Avec une URL directe, on ignore le range pour le filtrage
+    process.env.GOOGLE_SHEETS_RANGE = 'B3:L32';
     process.env.GOOGLE_SHEETS_SHEET_NAME = 'Matchs';
 
     const csv = [

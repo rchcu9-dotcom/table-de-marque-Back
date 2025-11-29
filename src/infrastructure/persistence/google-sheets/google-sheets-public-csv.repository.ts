@@ -96,13 +96,15 @@ export class GoogleSheetsPublicCsvMatchRepository implements MatchRepository {
       return null;
     }
 
-    // Skip rows above the requested start row (range start)
-    const csvRowNumber = index + 1;
-    if (csvRowNumber < this.startRow) {
-      return null;
-    }
-    if (this.endRow && csvRowNumber > this.endRow) {
-      return null;
+    // Skip rows above/below the requested range only when we rely on range-based export
+    if (!this.directCsvUrl) {
+      const sheetRowNumber = this.startRow + index;
+      if (sheetRowNumber < this.startRow) {
+        return null;
+      }
+      if (this.endRow && sheetRowNumber > this.endRow) {
+        return null;
+      }
     }
 
     // Normalize width
