@@ -69,4 +69,30 @@ describe('GoogleSheetsPublicCsvMatchRepository (CSV parsing)', () => {
     expect(matches).toHaveLength(2);
     expect(matches[0]).toMatchObject({ id: '8' });
   });
+
+  it('ajoute les logos equipes depuis une feuille dediee', async () => {
+    process.env.GOOGLE_SHEETS_CSV_URL = 'mock://matches';
+    process.env.TEAM_LOGOS_CSV_URL = 'mock://logos';
+
+    const matchCsv = [
+      '09:00,27,09:04,1,x,Rennes,2,1,Meudon,,8',
+      '09:27,27,09:35,2,x,Le Havre,1,3,Compiegne,,31',
+    ].join('\n');
+    const logosCsv = [
+      'id,Nom,Autre,Logo',
+      ',Rennes,,https://drive.google.com/file/d/ABC123/view',
+      ',Meudon,,https://drive.google.com/file/d/DEF456/view',
+    ].join('\n');
+
+    const fetchMock = jest.fn()
+      .mockResolvedValueOnce({ ok: true, text: async () => matchCsv })
+      .mockResolvedValueOnce({ ok: true, text: async () => logosCsv });
+    (global as any).fetch = fetchMock;
+
+    const repo = new GoogleSheetsPublicCsvMatchRepository();
+    const matches = await repo.findAll();
+
+    expect(matches[0].teamALogo).toBe('https://drive.google.com/thumbnail?id=ABC123&sz=w600');
+    expect(matches[0].teamBLogo).toBe('https://drive.google.com/thumbnail?id=DEF456&sz=w600');
+  });
 });

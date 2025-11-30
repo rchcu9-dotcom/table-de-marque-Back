@@ -24,9 +24,11 @@ export class GoogleSheetsPublicCsvMatchRepository implements MatchRepository {
   private readonly gid?: string;
   private readonly range: string;
   private readonly directCsvUrl?: string;
+  private readonly teamLogosCsvUrl?: string;
   private readonly startRow: number;
   private readonly endRow?: number;
   private readonly rangeAppliedToDirectCsv: boolean;
+  private teamLogosCache?: Record<string, string | null>;
 
   constructor() {
     this.spreadsheetId = process.env.GOOGLE_SHEETS_SPREADSHEET_ID ?? '';
@@ -34,6 +36,9 @@ export class GoogleSheetsPublicCsvMatchRepository implements MatchRepository {
     this.gid = process.env.GOOGLE_SHEETS_GID;
     this.range = process.env.GOOGLE_SHEETS_RANGE ?? 'B3:L32';
     this.directCsvUrl = process.env.GOOGLE_SHEETS_CSV_URL;
+    this.teamLogosCsvUrl =
+      process.env.TEAM_LOGOS_CSV_URL ??
+      'https://docs.google.com/spreadsheets/d/e/2PACX-1vQEDjqyjswKcD9ZcPbkAGIrUf8zbGHGr-XnHYrNnBQX_HOAsdjU_PU0FgYCvdCDXEz5Xc90uGNP8CzQ/pub?gid=1961198584&single=true&output=csv';
     this.rangeAppliedToDirectCsv =
       !!this.directCsvUrl &&
       this.directCsvUrl.toLowerCase().includes('range=');
@@ -69,9 +74,21 @@ export class GoogleSheetsPublicCsvMatchRepository implements MatchRepository {
     const csv = await res.text();
     const rows = this.parseCsv(csv);
 
-    return rows
+    const matches = rows
       .map((row, index) => this.mapRow(row, index))
       .filter((m): m is Match => !!m);
+
+    const logos = await this.loadTeamLogos();
+    if (Object.keys(logos).length > 0) {
+      matches.forEach((m) => {
+        const keyA = this.normalizeTeamKey(m.teamA);
+        const keyB = this.normalizeTeamKey(m.teamB);
+        m.teamALogo = logos[keyA] ?? null;
+        m.teamBLogo = logos[keyB] ?? null;
+      });
+    }
+
+    return matches;
   }
 
   async findById(id: string): Promise<Match | null> {
@@ -275,6 +292,45 @@ export class GoogleSheetsPublicCsvMatchRepository implements MatchRepository {
       return { start: parseInt(startOnly[1], 10) };
     }
     return { start: 1 };
+  }
+
+  private async loadTeamLogos(): Promise<Record<string, string | null>> {
+    if (!this.teamLogosCsvUrl) return {};
+    if (this.teamLogosCache) return this.teamLogosCache;
+
+    const res = await fetch(this.teamLogosCsvUrl);
+    if (!res.ok) {
+      this.teamLogosCache = {};
+      return this.teamLogosCache;
+    }
+    const csv = await res.text();
+    const rows = this.parseCsv(csv);
+    const map: Record<string, string | null> = {};
+
+    rows.forEach((row) => {
+      const name = row[1]?.trim();
+      const image = row[3]?.trim();
+      if (!name) return;
+      const key = this.normalizeTeamKey(name);
+      map[key] = image ? this.normalizeDriveUrl(image) : null;
+    });
+
+    this.teamLogosCache = map;
+    return map;
+  }
+
+  private normalizeDriveUrl(url: string): string {
+    const match = url.match(/\/file\/d\/([^/]+)\//);
+    if (match && match[1]) {
+      const id = match[1];
+      // thumbnail endpoint is generally more reliable for img tags
+      return `https://drive.google.com/thumbnail?id=${id}&sz=w600`;
+    }
+    return url;
+  }
+
+  private normalizeTeamKey(name: string): string {
+    return name.trim().toLowerCase();
   }
 
   private parseDate(value: string | undefined): Date {

@@ -7,5 +7,7 @@ export class Match {
     public status: 'planned' | 'ongoing' | 'finished' | 'deleted' = 'planned',
     public scoreA: number | null = null,
     public scoreB: number | null = null,
+    public teamALogo?: string | null,
+    public teamBLogo?: string | null,
   ) {}
 }
