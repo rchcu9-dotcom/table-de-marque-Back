@@ -26,6 +26,7 @@ export class GoogleSheetsPublicCsvMatchRepository implements MatchRepository {
   private readonly directCsvUrl?: string;
   private readonly startRow: number;
   private readonly endRow?: number;
+  private readonly rangeAppliedToDirectCsv: boolean;
 
   constructor() {
     this.spreadsheetId = process.env.GOOGLE_SHEETS_SPREADSHEET_ID ?? '';
@@ -33,6 +34,9 @@ export class GoogleSheetsPublicCsvMatchRepository implements MatchRepository {
     this.gid = process.env.GOOGLE_SHEETS_GID;
     this.range = process.env.GOOGLE_SHEETS_RANGE ?? 'B3:L32';
     this.directCsvUrl = process.env.GOOGLE_SHEETS_CSV_URL;
+    this.rangeAppliedToDirectCsv =
+      !!this.directCsvUrl &&
+      this.directCsvUrl.toLowerCase().includes('range=');
     const { start, end } = this.extractRangeBounds(this.range);
     this.startRow = start;
     this.endRow = end;
@@ -96,15 +100,15 @@ export class GoogleSheetsPublicCsvMatchRepository implements MatchRepository {
       return null;
     }
 
-    // Skip rows above/below the requested range only when we rely on range-based export
-    if (!this.directCsvUrl) {
-      const sheetRowNumber = this.startRow + index;
-      if (sheetRowNumber < this.startRow) {
-        return null;
-      }
-      if (this.endRow && sheetRowNumber > this.endRow) {
-        return null;
-      }
+    // Skip rows outside the requested bounds, whatever the source URL is
+    const baseRowNumber =
+      this.directCsvUrl && !this.rangeAppliedToDirectCsv ? 1 : this.startRow;
+    const sheetRowNumber = baseRowNumber + index;
+    if (sheetRowNumber < this.startRow) {
+      return null;
+    }
+    if (this.endRow && sheetRowNumber > this.endRow) {
+      return null;
     }
 
     // Normalize width

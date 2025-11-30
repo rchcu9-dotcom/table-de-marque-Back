@@ -96,3 +96,129 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+
+{
+    "Prompt avec contexte IA (env local/prod)": {
+    "prefix": "ia",
+    "body": [
+      "# CONTEXTE :",
+      "# Tu es une IA qui doit répondre dans un cadre prédéfini.",
+      "# Règles :",
+      "# - Le code doit être STRICTEMENT identique entre env local et env prod.",
+      "# - Toute nouvelle fonctionnalité doit prendre en compte l'intégralité du projet :",
+      "#   * Impact backend (API, logique métier, persistance)",
+      "#   * Impact frontend (UI, intégration, cohérence UX) GlideApp like avec utilsation/création de composants",
+      "#   * Tests unitaires et end-to-end (e2e) obligatoires",
+      "#   * Fourniture et documentation des variables d'environnement (local et prod)",
+      "# - Les réponses doivent proposer un plan complet et cohérent, sans oublier les dépendances croisées.",
+      "",
+      "$0"
+    ],
+    "description": "Insère un cadre prédéfini pour Codex avec contraintes env local/prod et couverture projet complète"
+  },
+  "Contexte Basique": {
+    "prefix": "iabase",
+    "body": [
+      "# CONTEXTE : Basique",
+      "# Règles :",
+      "# - Le code doit être STRICTEMENT identique entre env local et env prod.",
+      "$0"
+    ],
+    "description": "Cadre simple pour prompts rapides"
+  },
+  "Contexte Checklist": {
+    "prefix": "iacheck",
+    "body": [
+      "# CONTEXTE : Checklist technique",
+      "# Règles :",
+      "# - Le code doit être STRICTEMENT identique entre env local et env prod.",
+      "# - Toute nouvelle fonctionnalité doit prendre en compte l'intégralité du projet.",
+      "# - Les réponses doivent toujours inclure une CHECKLIST technique :",
+      "- [ ] Backend",
+      "- [ ] Frontend",
+      "- [ ] Tests unitaires",
+      "- [ ] Tests e2e",
+      "- [ ] Variables d'environnement (local/prod)",
+      "- [ ] Dépendances croisées",
+      "$0"
+    ],
+    "description": "Cadre avec checklist technique"
+  },
+  "Contexte Roadmap": {
+    "prefix": "iaroadmap",
+    "body": [
+      "# CONTEXTE : Checklist + Roadmap",
+      "# Règles :",
+      "# - Le code doit être STRICTEMENT identique entre env local et env prod.",
+      "# - Toute nouvelle fonctionnalité doit prendre en compte l'intégralité du projet.",
+      "# - Les réponses doivent toujours inclure une CHECKLIST et un PLAN DE LIVRAISON.",
+      "",
+      "Checklist technique attendue :",
+      "- [ ] Backend",
+      "- [ ] Frontend",
+      "- [ ] Tests unitaires",
+      "- [ ] Tests e2e",
+      "- [ ] Variables d'environnement (local/prod)",
+      "- [ ] Dépendances croisées",
+      "",
+      "Roadmap de livraison attendue :",
+      "Étape 1 : Analyse d'impact global",
+      "Étape 2 : Implémentation backend",
+      "Étape 3 : Implémentation frontend",
+      "Étape 4 : Configuration des variables d'environnement",
+      "Étape 5 : Tests unitaires",
+      "Étape 6 : Tests e2e",
+      "Étape 7 : Documentation et validation finale",
+      "$0"
+    ],
+    "description": "Cadre avec checklist + roadmap"
+  },
+  "Contexte Diagramme": {
+    "prefix": "iaarchi",
+    "body": [
+      "# CONTEXTE : Checklist + Roadmap + Diagramme",
+      "# Règles :",
+      "# - Le code doit être STRICTEMENT identique entre env local et env prod.",
+      "# - Toute nouvelle fonctionnalité doit prendre en compte l'intégralité du projet.",
+      "# - Les réponses doivent inclure une CHECKLIST, une ROADMAP et un DIAGRAMME d’architecture.",
+      "",
+      "Checklist technique attendue :",
+      "- [ ] Backend",
+      "- [ ] Frontend",
+      "- [ ] Tests unitaires",
+      "- [ ] Tests e2e",
+      "- [ ] Variables d'environnement (local/prod)",
+      "- [ ] Dépendances croisées",
+      "",
+      "Roadmap de livraison attendue :",
+      "Étape 1 : Analyse d'impact global",
+      "Étape 2 : Implémentation backend",
+      "Étape 3 : Implémentation frontend",
+      "Étape 4 : Configuration des variables d'environnement",
+      "Étape 5 : Tests unitaires",
+      "Étape 6 : Tests e2e",
+      "Étape 7 : Documentation et validation finale",
+      "",
+      "Diagramme d’architecture attendu (mermaid) :",
+      "```mermaid",
+      "flowchart TD",
+      "    subgraph Backend",
+      "        API --> Persistence",
+      "    end",
+      "    subgraph Frontend",
+      "        UI --> Integration",
+      "    end",
+      "    subgraph Environments",
+      "        Local --> Prod",
+      "    end",
+      "    API --> UI",
+      "    Persistence --> Environments",
+      "    TestsUnit --> API",
+      "    TestsE2E --> UI",
+      "```",
+      "$0"
+    ],
+    "description": "Cadre avec checklist + roadmap + diagramme d’architecture"
+  }
+}
+
