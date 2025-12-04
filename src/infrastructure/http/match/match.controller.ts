@@ -6,7 +6,6 @@ import {
   Put,
   Delete,
   Param,
-  Inject,
 } from '@nestjs/common';
 
 import { CreateMatchDto } from '@/application/match/dto/create-match.dto';
@@ -18,10 +17,7 @@ import { DeleteMatchUseCase } from '@/application/match/use-cases/delete-match.u
 import { DeleteMatchDto } from '@/application/match/dto/delete-match.dto';
 import { UpdateMatchDto } from '@/application/match/dto/update-match.dto';
 
-import {
-  MATCH_REPOSITORY,
-  MatchRepository,
-} from '@/domain/match/repositories/match.repository';
+import { GetMomentumMatchesUseCase } from '@/application/match/use-cases/get-momentum-matches.usecase';
 
 @Controller('matches')
 export class MatchController {
@@ -31,16 +27,18 @@ export class MatchController {
     private readonly getMatchByIdUseCase: GetMatchByIdUseCase,
     private readonly updateMatchUseCase: UpdateMatchUseCase,
     private readonly deleteMatchUseCase: DeleteMatchUseCase,
-
-
-    @Inject(MATCH_REPOSITORY)
-    private readonly matchRepo: MatchRepository,
+    private readonly getMomentumMatchesUseCase: GetMomentumMatchesUseCase,
   ) {}
 
   // CREATE
   @Post()
   async create(@Body() dto: CreateMatchDto) {
     return await this.createMatchUseCase.execute(dto);
+  }
+
+  @Get('momentum')
+  async momentum() {
+    return this.getMomentumMatchesUseCase.execute();
   }
 
   // READ ALL
