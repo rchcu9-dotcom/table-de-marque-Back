@@ -44,7 +44,9 @@ export class GoogleSheetsPublicCsvMatchRepository implements MatchRepository {
     this.rangeAppliedToDirectCsv =
       !!this.directCsvUrl &&
       this.directCsvUrl.toLowerCase().includes('range=');
-    this.classementCsvUrl = process.env.GOOGLE_SHEETS_CLASSEMENT_CSV_URL;
+    this.classementCsvUrl =
+      process.env.GOOGLE_SHEETS_CLASSEMENT_CSV_URL ??
+      process.env.GOOGLE_SHEETS_CSV_URL;
     const { start, end } = this.extractRangeBounds(this.range);
     this.startRow = start;
     this.endRow = end;
