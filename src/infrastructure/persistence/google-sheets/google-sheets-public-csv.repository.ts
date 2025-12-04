@@ -29,6 +29,8 @@ export class GoogleSheetsPublicCsvMatchRepository implements MatchRepository {
   private readonly endRow?: number;
   private readonly rangeAppliedToDirectCsv: boolean;
   private teamLogosCache?: Record<string, string | null>;
+  private readonly classementCsvUrl?: string;
+  private teamPouleCache?: Record<string, { pouleCode: string; pouleName: string }>;
 
   constructor() {
     this.spreadsheetId = process.env.GOOGLE_SHEETS_SPREADSHEET_ID ?? '';
@@ -42,6 +44,7 @@ export class GoogleSheetsPublicCsvMatchRepository implements MatchRepository {
     this.rangeAppliedToDirectCsv =
       !!this.directCsvUrl &&
       this.directCsvUrl.toLowerCase().includes('range=');
+    this.classementCsvUrl = process.env.GOOGLE_SHEETS_CLASSEMENT_CSV_URL;
     const { start, end } = this.extractRangeBounds(this.range);
     this.startRow = start;
     this.endRow = end;
@@ -79,12 +82,21 @@ export class GoogleSheetsPublicCsvMatchRepository implements MatchRepository {
       .filter((m): m is Match => !!m);
 
     const logos = await this.loadTeamLogos();
+    const poules = await this.loadTeamPoules();
     if (Object.keys(logos).length > 0) {
       matches.forEach((m) => {
         const keyA = this.normalizeTeamKey(m.teamA);
         const keyB = this.normalizeTeamKey(m.teamB);
         m.teamALogo = logos[keyA] ?? null;
         m.teamBLogo = logos[keyB] ?? null;
+        const pouleA = poules[keyA];
+        const pouleB = poules[keyB];
+        // if both map to same, take it; otherwise prefer A then B
+        const poule = pouleA ?? pouleB;
+        if (poule) {
+          m.pouleCode = poule.pouleCode;
+          m.pouleName = poule.pouleName;
+        }
       });
     }
 
@@ -351,5 +363,48 @@ export class GoogleSheetsPublicCsvMatchRepository implements MatchRepository {
     if (value === undefined) return null;
     const n = Number(String(value).replace(',', '.').trim());
     return isNaN(n) ? null : n;
+  }
+
+  private async loadTeamPoules(): Promise<Record<string, { pouleCode: string; pouleName: string }>> {
+    if (this.teamPouleCache) return this.teamPouleCache;
+    if (!this.classementCsvUrl) {
+      this.teamPouleCache = {};
+      return this.teamPouleCache;
+    }
+
+    const res = await fetch(this.classementCsvUrl);
+    if (!res.ok) {
+      this.teamPouleCache = {};
+      return this.teamPouleCache;
+    }
+    const csv = await res.text();
+    const rows = this.parseCsv(csv);
+    const map: Record<string, { pouleCode: string; pouleName: string }> = {};
+
+    const ranges = [
+      { code: 'A', startRow: 4, endRow: 9, nameRow: 3 }, // Poule A (N5:W10, label row 4)
+      { code: 'B', startRow: 13, endRow: 18, nameRow: 12 }, // Poule B (N14:W19, label row 13)
+    ];
+    const START_COL = 13; // Column N (0-based)
+    const END_COL = 22; // Column W (0-based)
+    const POULE_NAME_COL = 14; // Column O (0-based)
+
+    ranges.forEach((range) => {
+      const pouleName =
+        rows[range.nameRow]?.[POULE_NAME_COL]?.trim() || `Poule ${range.code}`;
+
+      for (let rowIndex = range.startRow; rowIndex <= range.endRow; rowIndex++) {
+        const row = rows[rowIndex] ?? [];
+        const slice = row.slice(START_COL, END_COL + 1);
+        if (slice.every((cell) => cell === '' || cell === undefined)) continue;
+        const name = (slice[1] ?? '').trim();
+        if (!name) continue;
+        const key = this.normalizeTeamKey(name);
+        map[key] = { pouleCode: String(range.code), pouleName };
+      }
+    });
+
+    this.teamPouleCache = map;
+    return map;
   }
 }

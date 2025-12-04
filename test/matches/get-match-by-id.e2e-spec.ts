@@ -10,8 +10,16 @@ import { Match } from '@/domain/match/entities/match.entity';
 describe('GET /matches/:id (e2e)', () => {
   let app: INestApplication;
   let repository: InMemoryMatchRepository;
+  const originalEnv = { ...process.env };
+  const originalFetch = global.fetch;
 
   beforeAll(async () => {
+    process.env.GOOGLE_SHEETS_CLASSEMENT_CSV_URL = 'mock://classement';
+    (global as any).fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      text: async () => '',
+    });
+
     repository = new InMemoryMatchRepository();
 
     const moduleRef = await Test.createTestingModule({
@@ -51,5 +59,7 @@ describe('GET /matches/:id (e2e)', () => {
 
   afterAll(async () => {
     await app.close();
+    process.env = { ...originalEnv };
+    global.fetch = originalFetch as any;
   });
 });

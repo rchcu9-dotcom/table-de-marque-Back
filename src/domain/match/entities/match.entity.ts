@@ -9,5 +9,7 @@ export class Match {
     public scoreB: number | null = null,
     public teamALogo?: string | null,
     public teamBLogo?: string | null,
+    public pouleCode?: string | null,
+    public pouleName?: string | null,
   ) {}
 }

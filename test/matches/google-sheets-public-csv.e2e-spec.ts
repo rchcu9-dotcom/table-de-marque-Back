@@ -10,6 +10,10 @@ describe('GoogleSheetsPublicCsvMatchRepository (CSV parsing)', () => {
     jest.restoreAllMocks();
   });
 
+  beforeEach(() => {
+    process.env.GOOGLE_SHEETS_CLASSEMENT_CSV_URL = 'mock://classement';
+  });
+
   it('parse une feuille CSV publiee avec scores et statuts et respecte le range', async () => {
     process.env.GOOGLE_SHEETS_CSV_URL = 'mock://csv';
     process.env.GOOGLE_SHEETS_RANGE = 'B3:L32';
@@ -72,7 +76,9 @@ describe('GoogleSheetsPublicCsvMatchRepository (CSV parsing)', () => {
 
   it('ajoute les logos equipes depuis une feuille dediee', async () => {
     process.env.GOOGLE_SHEETS_CSV_URL = 'mock://matches';
+    process.env.GOOGLE_SHEETS_CLASSEMENT_CSV_URL = 'mock://classement';
     process.env.TEAM_LOGOS_CSV_URL = 'mock://logos';
+    process.env.GOOGLE_SHEETS_RANGE = 'A1:L10';
 
     const matchCsv = [
       '09:00,27,09:04,1,x,Rennes,2,1,Meudon,,8',
@@ -86,7 +92,8 @@ describe('GoogleSheetsPublicCsvMatchRepository (CSV parsing)', () => {
 
     const fetchMock = jest.fn()
       .mockResolvedValueOnce({ ok: true, text: async () => matchCsv })
-      .mockResolvedValueOnce({ ok: true, text: async () => logosCsv });
+      .mockResolvedValueOnce({ ok: true, text: async () => logosCsv })
+      .mockResolvedValueOnce({ ok: true, text: async () => '' }); // classement
     (global as any).fetch = fetchMock;
 
     const repo = new GoogleSheetsPublicCsvMatchRepository();
