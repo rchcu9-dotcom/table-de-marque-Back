@@ -59,4 +59,4 @@ jobs:
           image: ${{ env.IMAGE }}
           flags: >
             --allow-unauthenticated
-            --set-env-vars=NODE_ENV=production,MATCH_REPOSITORY_DRIVER=google-sheets-public,GOOGLE_SHEETS_CSV_URL=${{ secrets.GOOGLE_SHEETS_CSV_URL }},GOOGLE_SHEETS_RANGE=${{ env.SHEETS_RANGE }},GOOGLE_SHEETS_SHEET_NAME=${{ env.SHEETS_SHEET_NAME }}
+            --set-env-vars=NODE_ENV=production,MATCH_REPOSITORY_DRIVER=google-sheets-public,SHEETS_PROFILE=${{ secrets.SHEETS_PROFILE }},GOOGLE_SHEETS_CSV_URL=${{ secrets.GOOGLE_SHEETS_CSV_URL }},GOOGLE_SHEETS_CSV_URL_TEST=${{ secrets.GOOGLE_SHEETS_CSV_URL_TEST }},GOOGLE_SHEETS_RANGE=${{ env.SHEETS_RANGE }},GOOGLE_SHEETS_SHEET_NAME=${{ env.SHEETS_SHEET_NAME }}
