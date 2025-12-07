@@ -24,9 +24,12 @@ export class GoogleSheetsPublicCsvEquipeRepository
   private teamLogosCache?: Record<string, string | null>;
 
   constructor() {
+    const profile = (process.env.SHEETS_PROFILE ?? 'prod').trim().toLowerCase();
+    const prodCsvUrl = process.env.GOOGLE_SHEETS_CSV_URL ?? '';
+    const testCsvUrl = process.env.GOOGLE_SHEETS_CSV_URL_TEST ?? '';
     this.classementCsvUrl =
       process.env.GOOGLE_SHEETS_CLASSEMENT_CSV_URL ??
-      process.env.GOOGLE_SHEETS_CSV_URL ??
+      (profile === 'test' ? testCsvUrl || prodCsvUrl : prodCsvUrl) ??
       '';
     this.cacheTtlMs = Number(process.env.EQUIPE_CACHE_TTL_MS ?? '60000');
     this.teamLogosCsvUrl =

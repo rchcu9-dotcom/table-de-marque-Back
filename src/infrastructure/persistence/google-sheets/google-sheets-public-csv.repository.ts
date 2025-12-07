@@ -37,7 +37,10 @@ export class GoogleSheetsPublicCsvMatchRepository implements MatchRepository {
     this.sheetName = process.env.GOOGLE_SHEETS_SHEET_NAME ?? 'Matchs';
     this.gid = process.env.GOOGLE_SHEETS_GID;
     this.range = process.env.GOOGLE_SHEETS_RANGE ?? 'B3:L32';
-    this.directCsvUrl = process.env.GOOGLE_SHEETS_CSV_URL;
+    const profile = (process.env.SHEETS_PROFILE ?? 'prod').trim().toLowerCase();
+    const prodCsvUrl = process.env.GOOGLE_SHEETS_CSV_URL;
+    const testCsvUrl = process.env.GOOGLE_SHEETS_CSV_URL_TEST;
+    this.directCsvUrl = profile === 'test' ? testCsvUrl ?? prodCsvUrl : prodCsvUrl;
     this.teamLogosCsvUrl =
       process.env.TEAM_LOGOS_CSV_URL ??
       'https://docs.google.com/spreadsheets/d/e/2PACX-1vQEDjqyjswKcD9ZcPbkAGIrUf8zbGHGr-XnHYrNnBQX_HOAsdjU_PU0FgYCvdCDXEz5Xc90uGNP8CzQ/pub?gid=1961198584&single=true&output=csv';
@@ -46,7 +49,7 @@ export class GoogleSheetsPublicCsvMatchRepository implements MatchRepository {
       this.directCsvUrl.toLowerCase().includes('range=');
     this.classementCsvUrl =
       process.env.GOOGLE_SHEETS_CLASSEMENT_CSV_URL ??
-      process.env.GOOGLE_SHEETS_CSV_URL;
+      (profile === 'test' ? testCsvUrl ?? prodCsvUrl : prodCsvUrl);
     const { start, end } = this.extractRangeBounds(this.range);
     this.startRow = start;
     this.endRow = end;
