@@ -3,6 +3,8 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 # 1. Installer PNPM
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 
 # 2. Copier uniquement les manifests
