@@ -17,8 +17,8 @@ RUN pnpm install --frozen-lockfile --prod=false
 # 3bis. Copier le reste du backend
 COPY . .
 
-# 4. Build TS (utilise npx pour exécuter le CLI local installé en devDependency)
-RUN npx nest build
+# 4. Build TS (utilise le CLI installé via pnpm)
+RUN pnpm exec nest build
 
 
 # ---- Runtime ----
