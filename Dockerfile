@@ -17,8 +17,8 @@ RUN pnpm install --frozen-lockfile --prod=false
 # 3bis. Copier le reste du backend
 COPY . .
 
-# 4. Build TS (via script build, plus besoin du CLI Nest)
-RUN pnpm run build
+# 4. Build TS (via TypeScript direct pour éviter les soucis de binaire absent)
+RUN pnpm dlx typescript@5.7.3 tsc -p tsconfig.build.json
 
 
 # ---- Runtime ----
