@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 
-import { MATCH_REPOSITORY } from '@/domain/match/repositories/match.repository';
+import { MATCH_REPOSITORY, MATCH_REPOSITORY_SOURCE } from '@/domain/match/repositories/match.repository';
 import {
   EQUIPE_REPOSITORY,
 } from '@/domain/equipe/repositories/equipe.repository';
@@ -8,9 +8,12 @@ import { InMemoryMatchRepository } from './memory/in-memory-match.repository';
 import { GoogleSheetsMatchRepository } from './google-sheets/google-sheets-match.repository';
 import { GoogleSheetsPublicCsvMatchRepository } from './google-sheets/google-sheets-public-csv.repository';
 import { GoogleSheetsPublicCsvEquipeRepository } from './google-sheets/google-sheets-public-csv-equipe.repository';
+import { MatchCacheService } from './match-cache.service';
+import { MatchPollingService } from '@/hooks/match-polling.service';
+import { MatchStreamService } from '@/hooks/match-stream.service';
 
-const persistenceProvider = {
-  provide: MATCH_REPOSITORY,
+const baseMatchRepositoryProvider = {
+  provide: MATCH_REPOSITORY_SOURCE,
   useFactory: () => {
     const envDriver = (process.env.MATCH_REPOSITORY_DRIVER ?? '')
       .trim()
@@ -32,6 +35,11 @@ const persistenceProvider = {
   },
 };
 
+const cachedMatchRepositoryProvider = {
+  provide: MATCH_REPOSITORY,
+  useExisting: MatchCacheService,
+};
+
 const equipePersistenceProvider = {
   provide: EQUIPE_REPOSITORY,
   useFactory: () => {
@@ -48,7 +56,14 @@ const equipePersistenceProvider = {
 };
 
 @Module({
-  providers: [persistenceProvider, equipePersistenceProvider],
-  exports: [MATCH_REPOSITORY, EQUIPE_REPOSITORY],
+  providers: [
+    baseMatchRepositoryProvider,
+    MatchStreamService,
+    MatchCacheService,
+    cachedMatchRepositoryProvider,
+    MatchPollingService,
+    equipePersistenceProvider,
+  ],
+  exports: [MATCH_REPOSITORY, EQUIPE_REPOSITORY, MatchStreamService],
 })
 export class PersistenceModule {}

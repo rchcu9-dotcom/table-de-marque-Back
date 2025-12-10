@@ -9,3 +9,6 @@ export abstract class MatchRepository {
   abstract update(match: Match): Promise<Match>;
   abstract delete(id: string): Promise<void>;
 }
+
+// Internal token used to bind the underlying driver (Google Sheets, memory, etc.)
+export const MATCH_REPOSITORY_SOURCE = Symbol('MATCH_REPOSITORY_SOURCE');
