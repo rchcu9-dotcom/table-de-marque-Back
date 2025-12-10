@@ -17,8 +17,8 @@ RUN pnpm install --frozen-lockfile --prod=false
 # 3bis. Copier le reste du backend
 COPY . .
 
-# 4. Build TS (utilise le CLI via pnpm dlx pour éviter les soucis de résolution binaire)
-RUN pnpm dlx @nestjs/cli@11 nest build
+# 4. Build TS (utilise npx pour exécuter le CLI local installé en devDependency)
+RUN npx nest build
 
 
 # ---- Runtime ----
