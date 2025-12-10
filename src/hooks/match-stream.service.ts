@@ -29,6 +29,10 @@ export class MatchStreamService {
     this.subject.next(event);
   }
 
+  getLastEvent(): MatchStreamEvent | undefined {
+    return this.lastEvent;
+  }
+
   observe(options?: ObserveOptions): Observable<MatchStreamEvent> {
     const replay = options?.replayLast ?? false;
     const completeAfterFirst = options?.completeAfterFirst ?? false;
