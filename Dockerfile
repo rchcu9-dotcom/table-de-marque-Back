@@ -17,8 +17,8 @@ RUN pnpm install --frozen-lockfile --prod=false
 # 3bis. Copier le reste du backend
 COPY . .
 
-# 4. Build TS (utilise le CLI installé via pnpm)
-RUN pnpm exec nest build
+# 4. Build TS (compilation directe via tsc)
+RUN pnpm exec tsc -p tsconfig.build.json
 
 
 # ---- Runtime ----
