@@ -12,6 +12,9 @@ COPY package.json pnpm-lock.yaml ./
 ENV NODE_ENV=development
 RUN pnpm install --frozen-lockfile --prod=false
 
+# 3bis. Installer le CLI Nest en global (résout le path lors du build)
+RUN pnpm add -g @nestjs/cli@11
+
 # 4. Copier le reste du backend
 COPY . .
 
