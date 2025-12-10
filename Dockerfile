@@ -3,22 +3,19 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 # 1. Installer PNPM
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 
 # 2. Copier uniquement les manifests
 COPY package.json pnpm-lock.yaml ./
 
-# 3. Installer deps (inclure dev deps pour le build Nest)
-ENV NODE_ENV=development
-RUN pnpm install --frozen-lockfile --prod=false
+# 3. Installer deps (inclut dev deps par défaut)
+RUN pnpm install --frozen-lockfile
 
-# 3bis. Copier le reste du backend
+# 4. Copier le reste du backend
 COPY . .
 
-# 4. Build TS (via TypeScript direct pour éviter les soucis de binaire absent)
-RUN pnpm dlx typescript@5.7.3 tsc -p tsconfig.build.json
+# 5. Build TS avec le CLI Nest (script package.json)
+RUN pnpm run build
 
 
 # ---- Runtime ----
