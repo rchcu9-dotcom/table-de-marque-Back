@@ -1,6 +1,5 @@
 import { Controller, Header, Req, Sse } from '@nestjs/common';
 import type { MessageEvent } from '@nestjs/common';
-import { map, startWith } from 'rxjs/operators';
 import type { Request } from 'express';
 import { Observable } from 'rxjs';
 
@@ -12,6 +11,8 @@ export class MatchStreamController {
 
   @Sse('stream')
   @Header('Content-Type', 'text/event-stream')
+  @Header('Cache-Control', 'no-cache')
+  @Header('Connection', 'keep-alive')
   stream(@Req() req: Request): Observable<MessageEvent> {
     const once = ((req.query.once as string) ?? '').toLowerCase() === 'true';
     const initial =
@@ -22,9 +23,19 @@ export class MatchStreamController {
         timestamp: Date.now(),
       };
 
-    return this.streamService.observe({ replayLast: true, completeAfterFirst: once }).pipe(
-      startWith(initial),
-      map((data) => ({ data }) as MessageEvent),
-    );
+    return new Observable<MessageEvent>((subscriber) => {
+      subscriber.next({ data: initial });
+
+      const sub = this.streamService
+        .observe({ replayLast: false, completeAfterFirst: once })
+        .subscribe({
+          next: (event) => subscriber.next({ data: event }),
+          error: (err) => subscriber.error(err),
+        });
+
+      return () => {
+        sub.unsubscribe();
+      };
+    });
   }
 }
