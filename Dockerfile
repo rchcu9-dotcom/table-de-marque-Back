@@ -8,8 +8,9 @@ RUN corepack enable
 # 2. Copier uniquement les manifests
 COPY package.json pnpm-lock.yaml ./
 
-# 3. Installer deps
-RUN pnpm install --frozen-lockfile
+# 3. Installer deps (inclure dev deps pour le build Nest)
+ENV NODE_ENV=development
+RUN pnpm install --frozen-lockfile --prod=false
 
 # 4. Copier le reste du backend
 COPY . .
