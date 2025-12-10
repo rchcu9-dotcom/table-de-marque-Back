@@ -9,7 +9,8 @@ RUN corepack enable
 COPY package.json pnpm-lock.yaml ./
 
 # 3. Installer deps (inclut dev deps par défaut)
-RUN pnpm install --frozen-lockfile
+ENV NODE_ENV=development
+RUN pnpm install --frozen-lockfile --prod=false
 
 # 4. Copier le reste du backend
 COPY . .
