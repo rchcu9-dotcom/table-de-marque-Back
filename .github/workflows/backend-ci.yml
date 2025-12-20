@@ -79,7 +79,6 @@ jobs:
           MATCH_CACHE_REFRESH_MS: "${{ secrets.MATCH_CACHE_REFRESH_MS }}"
           MATCH_CACHE_POLLING_ENABLED: "${{ secrets.MATCH_CACHE_POLLING_ENABLED }}"
           EQUIPE_CACHE_TTL_MS: "${{ secrets.EQUIPE_CACHE_TTL_MS }}"
-          PORT: "${{ secrets.PORT }}"
           EOF
 
       - name: Deploy to Cloud Run
