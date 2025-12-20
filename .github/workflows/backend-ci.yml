@@ -37,6 +37,7 @@ jobs:
           KEY="${KEY//$'\n'/\\n}"
           KEY="${KEY//%/%25}"
           echo "GOOGLE_SHEETS_PRIVATE_KEY_ESCAPED=$KEY" >> $GITHUB_ENV
+          echo "GOOGLE_SHEETS_PRIVATE_KEY_BASE64=$(printf "%s" "${GOOGLE_SHEETS_PRIVATE_KEY}" | base64 -w0)" >> $GITHUB_ENV
         env:
           GOOGLE_SHEETS_PRIVATE_KEY: ${{ secrets.GOOGLE_SHEETS_PRIVATE_KEY }}
 
@@ -60,27 +61,6 @@ jobs:
           docker build -t "$IMAGE" .
           docker push "$IMAGE"
 
-      - name: Build env file for Cloud Run
-        run: |
-          cat <<'EOF' > /tmp/env.yaml
-          NODE_ENV: "production"
-          SHEETS_PROFILE: "${{ secrets.SHEETS_PROFILE }}"
-          GOOGLE_SHEETS_CSV_URL: "${{ secrets.GOOGLE_SHEETS_CSV_URL }}"
-          GOOGLE_SHEETS_CSV_URL_TEST: "${{ secrets.GOOGLE_SHEETS_CSV_URL_TEST }}"
-          GOOGLE_SHEETS_CLASSEMENT_CSV_URL: "${{ secrets.GOOGLE_SHEETS_CLASSEMENT_CSV_URL }}"
-          GOOGLE_SHEETS_SPREADSHEET_ID: "${{ secrets.GOOGLE_SHEETS_SPREADSHEET_ID }}"
-          GOOGLE_SHEETS_SPREADSHEET_ID_TEST: "${{ secrets.GOOGLE_SHEETS_SPREADSHEET_ID_TEST }}"
-          GOOGLE_SHEETS_RANGE: "${{ env.SHEETS_RANGE }}"
-          GOOGLE_SHEETS_SHEET_NAME: "${{ env.SHEETS_SHEET_NAME }}"
-          GOOGLE_SHEETS_CLIENT_EMAIL: "${{ secrets.GOOGLE_SHEETS_CLIENT_EMAIL }}"
-          GOOGLE_SHEETS_PRIVATE_KEY: "${{ env.GOOGLE_SHEETS_PRIVATE_KEY_ESCAPED }}"
-          MATCH_REPOSITORY_DRIVER: "${{ secrets.MATCH_REPOSITORY_DRIVER }}"
-          EQUIPE_REPOSITORY_DRIVER: "${{ secrets.EQUIPE_REPOSITORY_DRIVER }}"
-          MATCH_CACHE_REFRESH_MS: "${{ secrets.MATCH_CACHE_REFRESH_MS }}"
-          MATCH_CACHE_POLLING_ENABLED: "${{ secrets.MATCH_CACHE_POLLING_ENABLED }}"
-          EQUIPE_CACHE_TTL_MS: "${{ secrets.EQUIPE_CACHE_TTL_MS }}"
-          EOF
-
       - name: Deploy to Cloud Run
         uses: google-github-actions/deploy-cloudrun@v2
         with:
@@ -89,4 +69,4 @@ jobs:
           image: ${{ env.IMAGE }}
           flags: >
             --allow-unauthenticated
-            --env-vars-file=/tmp/env.yaml
+            --set-env-vars=NODE_ENV=production,SHEETS_PROFILE=${{ secrets.SHEETS_PROFILE }},GOOGLE_SHEETS_CSV_URL="${{ secrets.GOOGLE_SHEETS_CSV_URL }}",GOOGLE_SHEETS_CSV_URL_TEST="${{ secrets.GOOGLE_SHEETS_CSV_URL_TEST }}",GOOGLE_SHEETS_CLASSEMENT_CSV_URL="${{ secrets.GOOGLE_SHEETS_CLASSEMENT_CSV_URL }}",GOOGLE_SHEETS_SPREADSHEET_ID="${{ secrets.GOOGLE_SHEETS_SPREADSHEET_ID }}",GOOGLE_SHEETS_SPREADSHEET_ID_TEST="${{ secrets.GOOGLE_SHEETS_SPREADSHEET_ID_TEST }}",GOOGLE_SHEETS_RANGE=${{ env.SHEETS_RANGE }},GOOGLE_SHEETS_SHEET_NAME=${{ env.SHEETS_SHEET_NAME }},GOOGLE_SHEETS_CLIENT_EMAIL="${{ secrets.GOOGLE_SHEETS_CLIENT_EMAIL }}",GOOGLE_SHEETS_PRIVATE_KEY="${{ env.GOOGLE_SHEETS_PRIVATE_KEY_ESCAPED }}",GOOGLE_SHEETS_PRIVATE_KEY_BASE64="${{ env.GOOGLE_SHEETS_PRIVATE_KEY_BASE64 }}",MATCH_REPOSITORY_DRIVER=${{ secrets.MATCH_REPOSITORY_DRIVER }},EQUIPE_REPOSITORY_DRIVER=${{ secrets.EQUIPE_REPOSITORY_DRIVER }},MATCH_CACHE_REFRESH_MS=${{ secrets.MATCH_CACHE_REFRESH_MS }},MATCH_CACHE_POLLING_ENABLED=${{ secrets.MATCH_CACHE_POLLING_ENABLED }},EQUIPE_CACHE_TTL_MS=${{ secrets.EQUIPE_CACHE_TTL_MS }}
