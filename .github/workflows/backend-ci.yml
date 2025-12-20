@@ -62,7 +62,7 @@ jobs:
 
       - name: Build env file for Cloud Run
         run: |
-          cat > /tmp/env.yaml <<EOF
+          cat <<'EOF' > /tmp/env.yaml
 NODE_ENV: "production"
 SHEETS_PROFILE: "${{ secrets.SHEETS_PROFILE }}"
 GOOGLE_SHEETS_CSV_URL: "${{ secrets.GOOGLE_SHEETS_CSV_URL }}"
