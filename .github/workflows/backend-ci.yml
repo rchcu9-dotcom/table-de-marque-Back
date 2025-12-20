@@ -63,6 +63,7 @@ jobs:
         run: |
           cat <<'EOF' > /tmp/env.yaml
           NODE_ENV: production
+          PORT: "8080"
           SHEETS_PROFILE: "${{ secrets.SHEETS_PROFILE }}"
           GOOGLE_SHEETS_CSV_URL: "${{ secrets.GOOGLE_SHEETS_CSV_URL }}"
           GOOGLE_SHEETS_CSV_URL_TEST: "${{ secrets.GOOGLE_SHEETS_CSV_URL_TEST }}"
@@ -86,6 +87,6 @@ jobs:
           service: ${{ env.SERVICE_NAME }}
           region: ${{ env.REGION }}
           image: ${{ env.IMAGE }}
-          env_vars_file: /tmp/env.yaml
           flags: >
             --allow-unauthenticated
+            --env-vars-file /tmp/env.yaml
