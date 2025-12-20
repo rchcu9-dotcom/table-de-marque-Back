@@ -63,7 +63,6 @@ jobs:
         run: |
           cat <<'EOF' > /tmp/env.yaml
           NODE_ENV: production
-          PORT: "8080"
           SHEETS_PROFILE: "${{ secrets.SHEETS_PROFILE }}"
           GOOGLE_SHEETS_CSV_URL: "${{ secrets.GOOGLE_SHEETS_CSV_URL }}"
           GOOGLE_SHEETS_CSV_URL_TEST: "${{ secrets.GOOGLE_SHEETS_CSV_URL_TEST }}"
