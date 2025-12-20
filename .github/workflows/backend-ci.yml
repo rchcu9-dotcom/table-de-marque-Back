@@ -33,12 +33,10 @@ jobs:
 
       - name: Prepare private key (escape newlines)
         run: |
-          python - <<'PY' >> $GITHUB_ENV
-import os
-k = os.environ["GOOGLE_SHEETS_PRIVATE_KEY"].replace("\r", "")
-k_escaped = k.replace("\n", "\\n").replace("%", "%25")
-print(f"GOOGLE_SHEETS_PRIVATE_KEY_ESCAPED={k_escaped}")
-PY
+          KEY="${GOOGLE_SHEETS_PRIVATE_KEY//$'\r'/}"
+          KEY="${KEY//$'\n'/\\n}"
+          KEY="${KEY//%/%25}"
+          echo "GOOGLE_SHEETS_PRIVATE_KEY_ESCAPED=$KEY" >> $GITHUB_ENV
         env:
           GOOGLE_SHEETS_PRIVATE_KEY: ${{ secrets.GOOGLE_SHEETS_PRIVATE_KEY }}
 
