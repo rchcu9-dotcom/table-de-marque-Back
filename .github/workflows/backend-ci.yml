@@ -31,11 +31,14 @@ jobs:
       - name: Run unit tests
         run: pnpm test
 
-      - name: Decode private key
+      - name: Prepare private key (escape newlines)
         run: |
-          printf "%b" "${GOOGLE_SHEETS_PRIVATE_KEY}" > /tmp/gs-private-key.pem
-          KEY=$(cat /tmp/gs-private-key.pem)
-          echo "GOOGLE_SHEETS_PRIVATE_KEY=$KEY" >> $GITHUB_ENV
+          python - <<'PY' >> $GITHUB_ENV
+import os
+k = os.environ["GOOGLE_SHEETS_PRIVATE_KEY"].replace("\r", "")
+k_escaped = k.replace("\n", "\\n").replace("%", "%25")
+print(f"GOOGLE_SHEETS_PRIVATE_KEY_ESCAPED={k_escaped}")
+PY
         env:
           GOOGLE_SHEETS_PRIVATE_KEY: ${{ secrets.GOOGLE_SHEETS_PRIVATE_KEY }}
 
