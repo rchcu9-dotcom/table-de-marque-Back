@@ -13,7 +13,7 @@ import { MatchStreamController } from './match.stream.controller';
 
 @Module({
   imports: [PersistenceModule],
-  controllers: [MatchController, MatchStreamController],
+  controllers: [MatchStreamController, MatchController],
   providers: [
     CreateMatchUseCase,
     GetAllMatchesUseCase,

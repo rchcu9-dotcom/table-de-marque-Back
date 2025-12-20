@@ -98,7 +98,8 @@ export class MatchCacheService implements MatchRepository {
       };
     }
 
-    const diff = this.computeDiff(this.cache, normalizedNext);
+    const prev = this.cache;
+    const diff = this.computeDiff(prev, normalizedNext);
 
     this.cache = normalizedNext;
     this.lastHash = hash;
@@ -108,6 +109,8 @@ export class MatchCacheService implements MatchRepository {
       this.logger.log(
         `Match cache refreshed (+${diff.added.length}, ~${diff.updated.length}, -${diff.removed.length})`,
       );
+      this.logger.debug(`Hash=${hash}`);
+      this.logDiffDetails(prev, normalizedNext, diff);
     }
 
     const shouldEmit = force || diff.changed;
@@ -125,6 +128,32 @@ export class MatchCacheService implements MatchRepository {
       fetched: normalizedNext.length,
       timestamp: this.lastUpdated,
     };
+  }
+
+  private logDiffDetails(prev: Match[], next: Match[], diff: Omit<RefreshDiff, 'fetched' | 'timestamp'>) {
+    const prevMap = new Map(prev.map((m) => [m.id, m]));
+    const nextMap = new Map(next.map((m) => [m.id, m]));
+
+    const updatedSamples = diff.updated.slice(0, 3).map((id) => {
+      const before = prevMap.get(id);
+      const after = nextMap.get(id);
+      return {
+        id,
+        before: before
+          ? { scoreA: before.scoreA, scoreB: before.scoreB, status: before.status }
+          : null,
+        after: after
+          ? { scoreA: after.scoreA, scoreB: after.scoreB, status: after.status }
+          : null,
+      };
+    });
+
+    const addedSamples = diff.added.slice(0, 3);
+    const removedSamples = diff.removed.slice(0, 3);
+
+    this.logger.debug(
+      `Diff details: updated=${JSON.stringify(updatedSamples)}, added=${JSON.stringify(addedSamples)}, removed=${JSON.stringify(removedSamples)}`,
+    );
   }
 
   private computeDiff(prev: Match[], next: Match[]): Omit<RefreshDiff, 'fetched' | 'timestamp'> {

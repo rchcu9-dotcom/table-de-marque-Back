@@ -1,0 +1,85 @@
+name: Staging Azure Deploy
+
+on:
+  push:
+    branches:
+      - staging
+
+env:
+  ACR_LOGIN_SERVER: ${{ secrets.ACR_LOGIN_SERVER }} # ex: acrtablemarque.azurecr.io
+  ACR_USERNAME: ${{ secrets.ACR_USERNAME }}
+  ACR_PASSWORD: ${{ secrets.ACR_PASSWORD }}
+  CA_RESOURCE_GROUP: rg-table-de-marque
+  CA_NAME: table-de-marque-back
+  IMAGE_NAME: table-de-marque-back
+  IMAGE_TAG: staging
+  SHEETS_PROFILE: ${{ secrets.SHEETS_PROFILE }}
+  GOOGLE_SHEETS_SPREADSHEET_ID: ${{ secrets.GOOGLE_SHEETS_SPREADSHEET_ID }}
+  GOOGLE_SHEETS_SPREADSHEET_ID_TEST: ${{ secrets.GOOGLE_SHEETS_SPREADSHEET_ID_TEST }}
+  GOOGLE_SHEETS_RANGE: ${{ secrets.GOOGLE_SHEETS_RANGE }}
+  GOOGLE_SHEETS_SHEET_NAME: ${{ secrets.GOOGLE_SHEETS_SHEET_NAME }}
+  GOOGLE_SHEETS_CLIENT_EMAIL: ${{ secrets.GOOGLE_SHEETS_CLIENT_EMAIL }}
+  GOOGLE_SHEETS_PRIVATE_KEY: ${{ secrets.GOOGLE_SHEETS_PRIVATE_KEY }}
+  GOOGLE_SHEETS_CSV_URL: ${{ secrets.GOOGLE_SHEETS_CSV_URL }}
+  GOOGLE_SHEETS_CSV_URL_TEST: ${{ secrets.GOOGLE_SHEETS_CSV_URL_TEST }}
+  GOOGLE_SHEETS_CLASSEMENT_CSV_URL: ${{ secrets.GOOGLE_SHEETS_CLASSEMENT_CSV_URL }}
+  MATCH_REPOSITORY_DRIVER: ${{ secrets.MATCH_REPOSITORY_DRIVER }}
+  EQUIPE_REPOSITORY_DRIVER: ${{ secrets.EQUIPE_REPOSITORY_DRIVER }}
+  EQUIPE_CACHE_TTL_MS: ${{ secrets.EQUIPE_CACHE_TTL_MS }}
+  MATCH_CACHE_REFRESH_MS: ${{ secrets.MATCH_CACHE_REFRESH_MS }}
+  MATCH_CACHE_POLLING_ENABLED: ${{ secrets.MATCH_CACHE_POLLING_ENABLED }}
+  PORT: ${{ secrets.PORT }}
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Docker login to ACR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.ACR_LOGIN_SERVER }}
+          username: ${{ env.ACR_USERNAME }}
+          password: ${{ env.ACR_PASSWORD }}
+
+      - name: Build image
+        run: |
+          docker build -t $ACR_LOGIN_SERVER/$IMAGE_NAME:$IMAGE_TAG .
+
+      - name: Push image
+        run: |
+          docker push $ACR_LOGIN_SERVER/$IMAGE_NAME:$IMAGE_TAG
+
+      - name: Deploy to Azure Container App
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az config set extension.use_dynamic_install=yes_without_prompt
+            az containerapp update \
+              --resource-group $CA_RESOURCE_GROUP \
+              --name $CA_NAME \
+              --image $ACR_LOGIN_SERVER/$IMAGE_NAME:$IMAGE_TAG \
+              --set-env-vars \
+                SHEETS_PROFILE=$SHEETS_PROFILE \
+                GOOGLE_SHEETS_SPREADSHEET_ID=$GOOGLE_SHEETS_SPREADSHEET_ID \
+                GOOGLE_SHEETS_SPREADSHEET_ID_TEST=$GOOGLE_SHEETS_SPREADSHEET_ID_TEST \
+                GOOGLE_SHEETS_RANGE="$GOOGLE_SHEETS_RANGE" \
+                GOOGLE_SHEETS_SHEET_NAME="$GOOGLE_SHEETS_SHEET_NAME" \
+                GOOGLE_SHEETS_CLIENT_EMAIL="$GOOGLE_SHEETS_CLIENT_EMAIL" \
+                GOOGLE_SHEETS_PRIVATE_KEY="$GOOGLE_SHEETS_PRIVATE_KEY" \
+                GOOGLE_SHEETS_CSV_URL="$GOOGLE_SHEETS_CSV_URL" \
+                GOOGLE_SHEETS_CSV_URL_TEST="$GOOGLE_SHEETS_CSV_URL_TEST" \
+                GOOGLE_SHEETS_CLASSEMENT_CSV_URL="$GOOGLE_SHEETS_CLASSEMENT_CSV_URL" \
+                MATCH_REPOSITORY_DRIVER=$MATCH_REPOSITORY_DRIVER \
+                EQUIPE_REPOSITORY_DRIVER=$EQUIPE_REPOSITORY_DRIVER \
+                EQUIPE_CACHE_TTL_MS=$EQUIPE_CACHE_TTL_MS \
+                MATCH_CACHE_REFRESH_MS=$MATCH_CACHE_REFRESH_MS \
+                MATCH_CACHE_POLLING_ENABLED=$MATCH_CACHE_POLLING_ENABLED \
+                PORT=$PORT

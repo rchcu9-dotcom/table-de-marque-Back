@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Match } from '@/domain/match/entities/match.entity';
 import { MatchRepository } from '@/domain/match/repositories/match.repository';
 
@@ -19,6 +19,7 @@ const BASE_COLUMNS = {
 
 @Injectable()
 export class GoogleSheetsPublicCsvMatchRepository implements MatchRepository {
+  private readonly logger = new Logger(GoogleSheetsPublicCsvMatchRepository.name);
   private readonly spreadsheetId: string;
   private readonly sheetName: string;
   private readonly gid?: string;
@@ -74,7 +75,8 @@ export class GoogleSheetsPublicCsvMatchRepository implements MatchRepository {
   }
 
   async findAll(): Promise<Match[]> {
-    const url = this.buildCsvUrl();
+    const url = this.withCacheBuster(this.buildCsvUrl());
+    this.logger.debug(`Fetching matches CSV: ${url}`);
     const res = await fetch(url);
     if (!res.ok) {
       throw new Error(`Failed to fetch CSV: ${res.status} ${res.statusText}`);
@@ -88,6 +90,9 @@ export class GoogleSheetsPublicCsvMatchRepository implements MatchRepository {
 
     const logos = await this.loadTeamLogos();
     const poules = await this.loadTeamPoules();
+    this.logger.debug(
+      `Enrichment: logos=${Object.keys(logos).length}, poules=${Object.keys(poules).length}`,
+    );
     if (Object.keys(logos).length > 0) {
       matches.forEach((m) => {
         const keyA = this.normalizeTeamKey(m.teamA);
@@ -129,6 +134,11 @@ export class GoogleSheetsPublicCsvMatchRepository implements MatchRepository {
     return `${base}?${params.toString()}`;
   }
 
+  private withCacheBuster(url: string): string {
+    const separator = url.includes('?') ? '&' : '?';
+    return `${url}${separator}cb=${Date.now()}`;
+  }
+
   private mapRow(row: string[], index: number): Match | null {
     if (!row.length || row.every((cell) => cell === '')) {
       return null;
@@ -145,7 +155,7 @@ export class GoogleSheetsPublicCsvMatchRepository implements MatchRepository {
       return null;
     }
 
-    // Normalize width
+    // Normalize width; some exports include an empty leading column (offset = 1)
     const normalized = [...row];
     const offset = normalized[0] === '' ? 1 : 0;
     const columns = {
