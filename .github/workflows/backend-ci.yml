@@ -31,14 +31,6 @@ jobs:
       - name: Run unit tests
         run: pnpm test
 
-      - name: Prepare private key (escape newlines)
-        run: |
-          KEY="${GOOGLE_SHEETS_PRIVATE_KEY//$'\r'/}"
-          KEY="${KEY//$'\n'/\\n}"
-          echo "GOOGLE_SHEETS_PRIVATE_KEY_ESCAPED=$KEY" >> $GITHUB_ENV
-        env:
-          GOOGLE_SHEETS_PRIVATE_KEY: ${{ secrets.GOOGLE_SHEETS_PRIVATE_KEY }}
-
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
@@ -80,7 +72,7 @@ jobs:
           GOOGLE_SHEETS_RANGE: "${{ env.SHEETS_RANGE }}"
           GOOGLE_SHEETS_SHEET_NAME: "${{ env.SHEETS_SHEET_NAME }}"
           GOOGLE_SHEETS_CLIENT_EMAIL: "${{ secrets.GOOGLE_SHEETS_CLIENT_EMAIL }}"
-          GOOGLE_SHEETS_PRIVATE_KEY: "${{ env.GOOGLE_SHEETS_PRIVATE_KEY_ESCAPED }}"
+          GOOGLE_SHEETS_PRIVATE_KEY: "${{ secrets.GOOGLE_SHEETS_PRIVATE_KEY }}"
           MATCH_REPOSITORY_DRIVER: "$MATCH_DRIVER"
           EQUIPE_REPOSITORY_DRIVER: "${{ secrets.EQUIPE_REPOSITORY_DRIVER }}"
           MATCH_CACHE_REFRESH_MS: "${{ secrets.MATCH_CACHE_REFRESH_MS }}"
