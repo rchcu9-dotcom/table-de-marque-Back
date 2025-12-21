@@ -62,7 +62,14 @@ export class GoogleSheetsMatchRepository implements MatchRepository {
     const sheetIdTest =
       process.env.GOOGLE_SHEETS_SPREADSHEET_ID_TEST ?? sheetIdProd;
     this.spreadsheetId = profileSheet === 'test' ? sheetIdTest : sheetIdProd;
-    this.range = process.env.GOOGLE_SHEETS_RANGE ?? 'Matchs!B3:L54';
+    const envRange = process.env.GOOGLE_SHEETS_RANGE;
+    const envSheet = process.env.GOOGLE_SHEETS_SHEET_NAME ?? 'Matchs';
+    // If range is provided without sheet name, prefix it to avoid fallback to first sheet in Sheets API.
+    if (envRange && !envRange.includes('!')) {
+      this.range = `${envSheet}!${envRange}`;
+    } else {
+      this.range = envRange ?? 'Matchs!B3:L54';
+    }
     const parsedRange = this.parseRange(this.range);
     this.startRow = parsedRange.startRow;
     this.startColumn = parsedRange.startColumn;
