@@ -15,10 +15,7 @@ export class UpdateMatchUseCase {
     private readonly matchRepo: MatchRepository,
   ) {}
 
-  async execute(
-    id: string,
-    data: UpdateMatchDto,
-  ): Promise<Match | null> {
+  async execute(id: string, data: UpdateMatchDto): Promise<Match | null> {
     const all = await this.matchRepo.findAll();
     const match = all.find((m) => m.id === id);
 
@@ -30,8 +27,9 @@ export class UpdateMatchUseCase {
     if (data.teamA !== undefined) match.teamA = data.teamA;
     if (data.teamB !== undefined) match.teamB = data.teamB;
     if (data.date !== undefined) match.date = new Date(data.date);
-    if (data.status !== undefined) match.status = data.status as any;
-
+    if (data.status !== undefined) {
+      match.status = data.status as Match['status'];
+    }
 
     return await this.matchRepo.update(match);
   }

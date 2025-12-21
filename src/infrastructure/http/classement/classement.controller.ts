@@ -1,4 +1,4 @@
-import { Controller, Get, Inject, NotFoundException, Param } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
 
 import { GetClassementByPouleUseCase } from '@/application/equipe/use-cases/get-classement-by-poule.usecase';
 import { GetClassementByMatchUseCase } from '@/application/equipe/use-cases/get-classement-by-match.usecase';
@@ -15,7 +15,9 @@ export class ClassementController {
   async byPoule(@Param('code') code: string): Promise<PouleClassement> {
     const classement = await this.getClassementByPoule.execute(code);
     if (!classement) {
-      throw new NotFoundException(`Classement introuvable pour la poule ${code}`);
+      throw new NotFoundException(
+        `Classement introuvable pour la poule ${code}`,
+      );
     }
     return classement;
   }

@@ -4,24 +4,33 @@ import { MatchRepository } from '@/domain/match/repositories/match.repository';
 
 @Injectable()
 export class PrismaMatchRepository implements MatchRepository {
-  async create(match: Match): Promise<Match> {
-    throw new Error('PrismaMatchRepository not implemented yet.');
+  create(_match: Match): Promise<Match> {
+    return Promise.reject(
+      new Error('PrismaMatchRepository not implemented yet.'),
+    );
   }
 
-  async findAll(): Promise<Match[]> {
-    throw new Error('PrismaMatchRepository not implemented yet.');
+  findAll(): Promise<Match[]> {
+    return Promise.reject(
+      new Error('PrismaMatchRepository not implemented yet.'),
+    );
   }
 
-  async findById(id: string): Promise<Match | null> {
-    throw new Error('PrismaMatchRepository not implemented yet.');
+  findById(_id: string): Promise<Match | null> {
+    return Promise.reject(
+      new Error('PrismaMatchRepository not implemented yet.'),
+    );
   }
 
-  async update(match: Match): Promise<Match> {
-    throw new Error('PrismaMatchRepository not implemented yet.');
+  update(_match: Match): Promise<Match> {
+    return Promise.reject(
+      new Error('PrismaMatchRepository not implemented yet.'),
+    );
   }
 
-  async delete(id: string): Promise<void> {
-    // No-op: Prisma repository inactive for now
-    return;
+  delete(_id: string): Promise<void> {
+    return Promise.reject(
+      new Error('PrismaMatchRepository not implemented yet.'),
+    );
   }
 }

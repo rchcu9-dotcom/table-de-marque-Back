@@ -1,5 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { Equipe, PouleClassement, PouleCode } from '@/domain/equipe/entities/equipe.entity';
+import {
+  Equipe,
+  PouleClassement,
+  PouleCode,
+} from '@/domain/equipe/entities/equipe.entity';
 import { EquipeRepository } from '@/domain/equipe/repositories/equipe.repository';
 
 type CacheEntry = {
@@ -14,9 +18,7 @@ const END_COL = 22; // Column W (0-based)
 const POULE_NAME_COL = 14; // Column O (0-based)
 
 @Injectable()
-export class GoogleSheetsPublicCsvEquipeRepository
-  implements EquipeRepository
-{
+export class GoogleSheetsPublicCsvEquipeRepository implements EquipeRepository {
   private readonly classementCsvUrl: string;
   private readonly cacheTtlMs: number;
   private cache?: CacheEntry;
@@ -43,13 +45,17 @@ export class GoogleSheetsPublicCsvEquipeRepository
     }
   }
 
-  async findClassementByPoule(code: PouleCode): Promise<PouleClassement | null> {
+  async findClassementByPoule(
+    code: PouleCode,
+  ): Promise<PouleClassement | null> {
     const normalized = String(code).trim().toUpperCase();
     const poules = await this.loadClassements();
     return poules[normalized] ?? null;
   }
 
-  async findClassementByTeamName(teamName: string): Promise<PouleClassement | null> {
+  async findClassementByTeamName(
+    teamName: string,
+  ): Promise<PouleClassement | null> {
     const poules = await this.loadClassements();
     const targetKey = this.normalizeTeamKey(teamName);
     return (

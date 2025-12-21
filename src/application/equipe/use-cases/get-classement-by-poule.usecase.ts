@@ -3,7 +3,10 @@ import {
   EQUIPE_REPOSITORY,
   EquipeRepository,
 } from '@/domain/equipe/repositories/equipe.repository';
-import { PouleClassement, PouleCode } from '@/domain/equipe/entities/equipe.entity';
+import {
+  PouleClassement,
+  PouleCode,
+} from '@/domain/equipe/entities/equipe.entity';
 
 @Injectable()
 export class GetClassementByPouleUseCase {

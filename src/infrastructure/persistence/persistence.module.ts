@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 
-import { MATCH_REPOSITORY, MATCH_REPOSITORY_SOURCE } from '@/domain/match/repositories/match.repository';
 import {
-  EQUIPE_REPOSITORY,
-} from '@/domain/equipe/repositories/equipe.repository';
+  MATCH_REPOSITORY,
+  MATCH_REPOSITORY_SOURCE,
+} from '@/domain/match/repositories/match.repository';
+import { EQUIPE_REPOSITORY } from '@/domain/equipe/repositories/equipe.repository';
 import { InMemoryMatchRepository } from './memory/in-memory-match.repository';
 import { GoogleSheetsMatchRepository } from './google-sheets/google-sheets-match.repository';
 import { GoogleSheetsPublicCsvMatchRepository } from './google-sheets/google-sheets-public-csv.repository';

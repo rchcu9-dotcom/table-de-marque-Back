@@ -1,4 +1,9 @@
-import { Injectable, OnModuleDestroy, OnModuleInit, Logger } from '@nestjs/common';
+import {
+  Injectable,
+  OnModuleDestroy,
+  OnModuleInit,
+  Logger,
+} from '@nestjs/common';
 
 import { MatchCacheService } from '@/infrastructure/persistence/match-cache.service';
 
@@ -11,7 +16,9 @@ export class MatchPollingService implements OnModuleInit, OnModuleDestroy {
 
   constructor(private readonly cacheService: MatchCacheService) {
     this.intervalMs = Number(process.env.MATCH_CACHE_REFRESH_MS ?? '60000');
-    const envFlag = (process.env.MATCH_CACHE_POLLING_ENABLED ?? '').toLowerCase();
+    const envFlag = (
+      process.env.MATCH_CACHE_POLLING_ENABLED ?? ''
+    ).toLowerCase();
     const nodeEnv = (process.env.NODE_ENV ?? '').toLowerCase();
     this.enabled = envFlag ? envFlag !== 'false' : nodeEnv !== 'test';
   }
@@ -24,16 +31,18 @@ export class MatchPollingService implements OnModuleInit, OnModuleDestroy {
 
     try {
       await this.cacheService.refresh(true);
-    } catch (error: any) {
-      this.logger.error(`Initial match cache refresh failed: ${error?.message ?? error}`);
+    } catch (error: unknown) {
+      this.logger.error(
+        `Initial match cache refresh failed: ${this.stringifyError(error)}`,
+      );
     }
 
-    this.timer = setInterval(async () => {
-      try {
-        await this.cacheService.refresh();
-      } catch (error: any) {
-        this.logger.error(`Match cache refresh failed: ${error?.message ?? error}`);
-      }
+    this.timer = setInterval(() => {
+      void this.cacheService.refresh().catch((error: unknown) => {
+        this.logger.error(
+          `Match cache refresh failed: ${this.stringifyError(error)}`,
+        );
+      });
     }, this.intervalMs);
     this.timer.unref?.();
   }
@@ -43,5 +52,12 @@ export class MatchPollingService implements OnModuleInit, OnModuleDestroy {
       clearInterval(this.timer);
       this.timer = undefined;
     }
+  }
+
+  private stringifyError(error: unknown): string {
+    if (error instanceof Error) {
+      return error.message;
+    }
+    return String(error);
   }
 }

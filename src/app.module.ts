@@ -4,10 +4,6 @@ import { PersistenceModule } from './infrastructure/persistence/persistence.modu
 import { ClassementModule } from './infrastructure/http/classement/classement.module';
 
 @Module({
-  imports: [
-    PersistenceModule,
-    MatchModule,
-    ClassementModule,
-  ],
+  imports: [PersistenceModule, MatchModule, ClassementModule],
 })
 export class AppModule {}

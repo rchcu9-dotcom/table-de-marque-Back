@@ -6,36 +6,37 @@ import { MatchRepository } from '@/domain/match/repositories/match.repository';
 export class InMemoryMatchRepository implements MatchRepository {
   private items: Match[] = [];
 
-  async create(match: Match): Promise<Match> {
+  create(match: Match): Promise<Match> {
     this.items.push(match);
-    return match;
+    return Promise.resolve(match);
   }
 
-  async findAll(): Promise<Match[]> {
+  findAll(): Promise<Match[]> {
     // On renvoie une copie pour éviter les mutations externes
-    return [...this.items];
+    return Promise.resolve([...this.items]);
   }
 
-  async findById(id: string): Promise<Match | null> {
-    return this.items.find((m) => m.id === id) ?? null;
+  findById(id: string): Promise<Match | null> {
+    return Promise.resolve(this.items.find((m) => m.id === id) ?? null);
   }
 
-  async update(match: Match): Promise<Match> {
+  update(match: Match): Promise<Match> {
     const index = this.items.findIndex((m) => m.id === match.id);
     if (index === -1) {
       this.items.push(match);
-      return match;
+      return Promise.resolve(match);
     }
 
     this.items[index] = match;
-    return match;
+    return Promise.resolve(match);
   }
 
-  async delete(id: string): Promise<void> {
+  delete(id: string): Promise<void> {
     this.items = this.items.filter((m) => m.id !== id);
+    return Promise.resolve();
   }
 
-    /** ⚠️ Utilisé uniquement dans les tests E2E/unitaires pour repartir d'un état propre */
+  // Utilisé uniquement dans les tests E2E/unitaires pour repartir d'un état propre
   clear() {
     this.items = [];
   }

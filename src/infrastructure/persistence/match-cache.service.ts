@@ -130,7 +130,11 @@ export class MatchCacheService implements MatchRepository {
     };
   }
 
-  private logDiffDetails(prev: Match[], next: Match[], diff: Omit<RefreshDiff, 'fetched' | 'timestamp'>) {
+  private logDiffDetails(
+    prev: Match[],
+    next: Match[],
+    diff: Omit<RefreshDiff, 'fetched' | 'timestamp'>,
+  ) {
     const prevMap = new Map(prev.map((m) => [m.id, m]));
     const nextMap = new Map(next.map((m) => [m.id, m]));
 
@@ -140,7 +144,11 @@ export class MatchCacheService implements MatchRepository {
       return {
         id,
         before: before
-          ? { scoreA: before.scoreA, scoreB: before.scoreB, status: before.status }
+          ? {
+              scoreA: before.scoreA,
+              scoreB: before.scoreB,
+              status: before.status,
+            }
           : null,
         after: after
           ? { scoreA: after.scoreA, scoreB: after.scoreB, status: after.status }
@@ -156,7 +164,10 @@ export class MatchCacheService implements MatchRepository {
     );
   }
 
-  private computeDiff(prev: Match[], next: Match[]): Omit<RefreshDiff, 'fetched' | 'timestamp'> {
+  private computeDiff(
+    prev: Match[],
+    next: Match[],
+  ): Omit<RefreshDiff, 'fetched' | 'timestamp'> {
     const prevMap = new Map(prev.map((m) => [m.id, m]));
     const nextMap = new Map(next.map((m) => [m.id, m]));
 

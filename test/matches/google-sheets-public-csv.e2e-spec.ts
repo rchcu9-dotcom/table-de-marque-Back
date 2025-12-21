@@ -16,10 +16,10 @@ describe('GoogleSheetsPublicCsvMatchRepository (CSV parsing)', () => {
 
   it('parse une feuille CSV publiee avec scores et statuts et respecte le range', async () => {
     process.env.GOOGLE_SHEETS_CSV_URL = 'mock://csv';
-    process.env.GOOGLE_SHEETS_RANGE = 'B3:L32';
+    process.env.GOOGLE_SHEETS_RANGE = 'B3:L54';
     process.env.GOOGLE_SHEETS_SHEET_NAME = 'Matchs';
 
-    const filler = Array.from({ length: 29 }, (_, idx) => `ignored-${idx},,,,,,,,,`);
+    const filler = Array.from({ length: 50 }, (_, idx) => `ignored-${idx},,,,,,,,,`);
     const csv = [
       'Heure,Autre,Autre,Id,Statut,EquipeA,ScoreA,ScoreB,EquipeB,,IdFeuille',
       '08:30,,,,,,,',
@@ -53,8 +53,8 @@ describe('GoogleSheetsPublicCsvMatchRepository (CSV parsing)', () => {
   });
 
   it('conserve les lignes lorsque l URL directe applique deja le range', async () => {
-    process.env.GOOGLE_SHEETS_CSV_URL = 'mock://csv?range=B3:L32';
-    process.env.GOOGLE_SHEETS_RANGE = 'B3:L32';
+    process.env.GOOGLE_SHEETS_CSV_URL = 'mock://csv?range=B3:L54';
+    process.env.GOOGLE_SHEETS_RANGE = 'B3:L54';
     process.env.GOOGLE_SHEETS_SHEET_NAME = 'Matchs';
 
     const csv = [

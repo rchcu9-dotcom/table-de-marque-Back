@@ -7,6 +7,7 @@ import { Match } from '@/domain/match/entities/match.entity';
 import { MatchRepository } from '@/domain/match/repositories/match.repository';
 
 type MatchStatus = Match['status'];
+type ServiceAccountKey = { client_email?: string; private_key?: string };
 
 // Columns within the selected range (B..L)
 const SHEET_COLUMNS = {
@@ -33,7 +34,10 @@ export class GoogleSheetsMatchRepository implements MatchRepository {
   private readonly teamLogosCsvUrl?: string;
   private readonly classementCsvUrl?: string;
   private teamLogosCache?: Record<string, string | null>;
-  private teamPouleCache?: Record<string, { pouleCode: string; pouleName: string }>;
+  private teamPouleCache?: Record<
+    string,
+    { pouleCode: string; pouleName: string }
+  >;
 
   constructor() {
     const keyFile = process.env.GOOGLE_APPLICATION_CREDENTIALS;
@@ -43,19 +47,22 @@ export class GoogleSheetsMatchRepository implements MatchRepository {
 
     if (keyFile) {
       const raw = fs.readFileSync(keyFile, 'utf8');
-      const json = JSON.parse(raw);
-      clientEmail = json.client_email;
+      const json = JSON.parse(raw) as ServiceAccountKey;
+      clientEmail = json.client_email ?? clientEmail;
       privateKey = this.normalizePrivateKey(json.private_key ?? '', '');
     } else {
       const rawKey = process.env.GOOGLE_SHEETS_PRIVATE_KEY ?? '';
       const b64Key = process.env.GOOGLE_SHEETS_PRIVATE_KEY_BASE64 ?? '';
       privateKey = this.normalizePrivateKey(rawKey, b64Key);
     }
-    const profileSheet = (process.env.SHEETS_PROFILE ?? 'prod').trim().toLowerCase();
+    const profileSheet = (process.env.SHEETS_PROFILE ?? 'prod')
+      .trim()
+      .toLowerCase();
     const sheetIdProd = process.env.GOOGLE_SHEETS_SPREADSHEET_ID ?? '';
-    const sheetIdTest = process.env.GOOGLE_SHEETS_SPREADSHEET_ID_TEST ?? sheetIdProd;
+    const sheetIdTest =
+      process.env.GOOGLE_SHEETS_SPREADSHEET_ID_TEST ?? sheetIdProd;
     this.spreadsheetId = profileSheet === 'test' ? sheetIdTest : sheetIdProd;
-    this.range = process.env.GOOGLE_SHEETS_RANGE ?? 'Matchs!B2:L32';
+    this.range = process.env.GOOGLE_SHEETS_RANGE ?? 'Matchs!B3:L54';
     const parsedRange = this.parseRange(this.range);
     this.startRow = parsedRange.startRow;
     this.startColumn = parsedRange.startColumn;
@@ -83,7 +90,7 @@ export class GoogleSheetsMatchRepository implements MatchRepository {
     const testCsvUrl = process.env.GOOGLE_SHEETS_CSV_URL_TEST;
     this.classementCsvUrl =
       process.env.GOOGLE_SHEETS_CLASSEMENT_CSV_URL ??
-      (profile === 'test' ? testCsvUrl ?? prodCsvUrl : prodCsvUrl);
+      (profile === 'test' ? (testCsvUrl ?? prodCsvUrl) : prodCsvUrl);
   }
 
   async create(match: Match): Promise<Match> {
@@ -106,9 +113,9 @@ export class GoogleSheetsMatchRepository implements MatchRepository {
       range: this.range,
     });
 
-    const rows = response.data.values ?? [];
+    const rows = (response.data.values ?? []) as string[][];
     const matches = rows
-      .map((row, index) => this.mapRow(row as string[], index))
+      .map((row, index) => this.mapRow(row, index))
       .filter((match): match is Match => !!match);
 
     const logos = await this.loadTeamLogos();
@@ -224,15 +231,7 @@ export class GoogleSheetsMatchRepository implements MatchRepository {
         ? this.parseScore(normalized[SHEET_COLUMNS.scoreB])
         : null;
 
-    return new Match(
-      id,
-      date,
-      teamA,
-      teamB,
-      status,
-      scoreA,
-      scoreB,
-    );
+    return new Match(id, date, teamA, teamB, status, scoreA, scoreB);
   }
 
   private parseDate(value: string | undefined): Date {
@@ -252,17 +251,26 @@ export class GoogleSheetsMatchRepository implements MatchRepository {
       const now = new Date();
       const hours = parseInt(timeMatch[1], 10);
       const minutes = parseInt(timeMatch[2], 10);
-      return new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
+      return new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate(),
+        hours,
+        minutes,
+      );
     }
 
     // Format type "dd/MM/yyyy HH:mm[:ss]"
     const fullMatch = value.match(
-      /^(\d{1,2})[\/-](\d{1,2})[\/-](\d{2,4})[ T](\d{1,2}):(\d{2})(?::(\d{2}))?$/,
+      /^(\d{1,2})[/-](\d{1,2})[/-](\d{2,4})[ T](\d{1,2}):(\d{2})(?::(\d{2}))?$/,
     );
     if (fullMatch) {
       const day = parseInt(fullMatch[1], 10);
       const month = parseInt(fullMatch[2], 10) - 1; // zero-based
-      const year = parseInt(fullMatch[3].length === 2 ? `20${fullMatch[3]}` : fullMatch[3], 10);
+      const year = parseInt(
+        fullMatch[3].length === 2 ? `20${fullMatch[3]}` : fullMatch[3],
+        10,
+      );
       const hours = parseInt(fullMatch[4], 10);
       const minutes = parseInt(fullMatch[5], 10);
       const seconds = fullMatch[6] ? parseInt(fullMatch[6], 10) : 0;
@@ -325,7 +333,12 @@ export class GoogleSheetsMatchRepository implements MatchRepository {
     const [sheetName, coords] = range.split('!');
     const match = coords?.match(/([A-Z]+)(\d+):([A-Z]+)(\d+)/i);
     if (!match) {
-      return { sheetName: sheetName ?? 'Sheet1', startColumn: 'A', endColumn: 'E', startRow: 1 };
+      return {
+        sheetName: sheetName ?? 'Sheet1',
+        startColumn: 'A',
+        endColumn: 'E',
+        startRow: 1,
+      };
     }
     return {
       sheetName: sheetName ?? 'Sheet1',
@@ -399,7 +412,11 @@ export class GoogleSheetsMatchRepository implements MatchRepository {
       const pouleName =
         rows[range.nameRow]?.[POULE_NAME_COL]?.trim() || `Poule ${range.code}`;
 
-      for (let rowIndex = range.startRow; rowIndex <= range.endRow; rowIndex++) {
+      for (
+        let rowIndex = range.startRow;
+        rowIndex <= range.endRow;
+        rowIndex++
+      ) {
         const row = rows[rowIndex] ?? [];
         const slice = row.slice(START_COL, END_COL + 1);
         if (slice.every((cell) => cell === '' || cell === undefined)) continue;

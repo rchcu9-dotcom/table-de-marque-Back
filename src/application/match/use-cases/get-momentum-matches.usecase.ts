@@ -1,6 +1,9 @@
 import { Injectable, Inject } from '@nestjs/common';
 
-import { MATCH_REPOSITORY, MatchRepository } from '@/domain/match/repositories/match.repository';
+import {
+  MATCH_REPOSITORY,
+  MatchRepository,
+} from '@/domain/match/repositories/match.repository';
 import { Match } from '@/domain/match/entities/match.entity';
 
 @Injectable()

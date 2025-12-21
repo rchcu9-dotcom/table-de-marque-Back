@@ -1,4 +1,5 @@
-export type PouleCode = 'A' | 'B' | string;
+// Poule code is usually 'A' or 'B' but allow any string to stay flexible across tournaments.
+export type PouleCode = string;
 
 export class Equipe {
   constructor(

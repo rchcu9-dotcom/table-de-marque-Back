@@ -13,9 +13,9 @@ export class DeleteMatchUseCase {
     private readonly matchRepo: MatchRepository,
   ) {}
 
-  async execute(id: string, dto: DeleteMatchDto): Promise<Match | null> {
+  async execute(id: string, _dto: DeleteMatchDto): Promise<Match | null> {
     const all = await this.matchRepo.findAll();
-    const match = all.find(m => m.id === id);
+    const match = all.find((m) => m.id === id);
 
     if (!match) return null;
 

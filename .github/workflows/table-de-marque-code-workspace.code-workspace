@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "../../../table-de-marque-Front"
+		},
+		{
+			"path": "../../../infra"
 		}
 	],
 	"settings": {}
