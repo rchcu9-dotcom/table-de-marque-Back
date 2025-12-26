@@ -1,0 +1,27 @@
+export type PouleCode = 'A' | 'B' | string;
+
+export class Equipe {
+  constructor(
+    public id: string,
+    public name: string,
+    public logoUrl: string | null,
+    public pouleCode: PouleCode,
+    public pouleName: string,
+    public rang: number,
+    public joues: number,
+    public victoires: number,
+    public nuls: number,
+    public defaites: number,
+    public points: number,
+    public bp: number,
+    public bc: number,
+    public diff: number,
+  ) {}
+}
+
+export type PouleClassement = {
+  pouleCode: PouleCode;
+  pouleName: string;
+  phase?: string | null;
+  equipes: Equipe[];
+};
