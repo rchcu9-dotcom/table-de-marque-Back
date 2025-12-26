@@ -39,7 +39,7 @@ jobs:
           docker build \
             --no-cache \
             -t $ACR_LOGIN_SERVER/$IMAGE_NAME:$TAG \
-            ./table-de-marque-Back-staging
+            .
 
       - name: Push Docker image
         run: |
