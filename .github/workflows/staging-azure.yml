@@ -5,7 +5,7 @@ on:
     branches: [ staging ]
     paths:
       - "**"
-      - "table-de-marque-Back/**"
+      - "table-de-marque-Back-staging/**"
       - ".github/workflows/deploy-back-staging.yml"
 
 env:
@@ -39,7 +39,7 @@ jobs:
           docker build \
             --no-cache \
             -t $ACR_LOGIN_SERVER/$IMAGE_NAME:$TAG \
-            ./table-de-marque-Back
+            ./table-de-marque-Back-staging
 
       - name: Push Docker image
         run: |
