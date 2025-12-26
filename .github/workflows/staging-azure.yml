@@ -4,6 +4,7 @@ on:
   push:
     branches: [ staging ]
     paths:
+      - "**"
       - "table-de-marque-Back/**"
       - ".github/workflows/deploy-back-staging.yml"
 
