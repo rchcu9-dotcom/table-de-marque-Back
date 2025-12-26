@@ -13,7 +13,7 @@ env:
   ACR_LOGIN_SERVER: acrtablemarque.azurecr.io
   IMAGE_NAME: table-de-marque-back
   CONTAINER_APP_NAME: table-de-marque-back
-  RESOURCE_GROUP: table-de-marque-rg
+  RESOURCE_GROUP: rg-table-de-marque
   LOCATION: westeurope
   TAG: staging-${{ github.sha }}
 
