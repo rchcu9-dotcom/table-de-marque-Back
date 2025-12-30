@@ -54,11 +54,13 @@ export class MatchController {
     @Query('competition') competition?: '5v5' | '3v3' | 'challenge',
     @Query('surface') surface?: 'GG' | 'PG',
     @Query('status') status?: 'planned' | 'ongoing' | 'finished' | 'deleted',
+    @Query('teamId') teamId?: string,
   ) {
     return await this.getAllMatchesUseCase.execute({
       competitionType: competition,
       surface,
       status,
+      teamId,
     });
   }
 

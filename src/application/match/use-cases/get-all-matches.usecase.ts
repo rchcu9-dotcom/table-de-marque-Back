@@ -7,6 +7,7 @@ export type MatchFilters = {
   competitionType?: '5v5' | '3v3' | 'challenge';
   surface?: 'GG' | 'PG';
   status?: 'planned' | 'ongoing' | 'finished' | 'deleted';
+  teamId?: string;
 };
 
 @Injectable()
@@ -22,6 +23,10 @@ export class GetAllMatchesUseCase {
       if (filters.competitionType && m.competitionType !== filters.competitionType) return false;
       if (filters.surface && m.surface !== filters.surface) return false;
       if (filters.status && m.status !== filters.status) return false;
+      if (filters.teamId) {
+        const needle = filters.teamId.toLowerCase();
+        if (m.teamA.toLowerCase() !== needle && m.teamB.toLowerCase() !== needle) return false;
+      }
       return true;
     });
   }
