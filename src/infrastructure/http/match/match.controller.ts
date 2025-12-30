@@ -41,10 +41,12 @@ export class MatchController {
   async momentum(
     @Query('competition') competition?: '5v5' | '3v3' | 'challenge',
     @Query('surface') surface?: 'GG' | 'PG',
+    @Query('status') status?: 'planned' | 'ongoing' | 'finished' | 'deleted',
   ) {
     return this.getMomentumMatchesUseCase.execute({
       competitionType: competition,
       surface,
+      status,
     });
   }
 
@@ -55,12 +57,14 @@ export class MatchController {
     @Query('surface') surface?: 'GG' | 'PG',
     @Query('status') status?: 'planned' | 'ongoing' | 'finished' | 'deleted',
     @Query('teamId') teamId?: string,
+    @Query('jour') jour?: 'J1' | 'J2' | 'J3',
   ) {
     return await this.getAllMatchesUseCase.execute({
       competitionType: competition,
       surface,
       status,
       teamId,
+      jour,
     });
   }
 
