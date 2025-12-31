@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { GetAteliersUseCase } from '@/application/challenge/use-cases/get-ateliers.usecase';
 import { GetClassementAtelierUseCase } from '@/application/challenge/use-cases/get-classement-atelier.usecase';
 import { GetClassementGlobalUseCase } from '@/application/challenge/use-cases/get-classement-global.usecase';
@@ -51,7 +51,7 @@ export class ChallengeController {
   }
 
   @Get('all')
-  async challengeAll() {
-    return this.getChallengeAll.execute();
+  async challengeAll(@Query('teamId') teamId?: string) {
+    return this.getChallengeAll.execute(teamId);
   }
 }

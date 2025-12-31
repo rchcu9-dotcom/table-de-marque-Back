@@ -35,7 +35,8 @@ export class GetChallengeAllUseCase {
     @Inject(EQUIPE_REPOSITORY) private readonly equipeRepo: EquipeRepository,
   ) {}
 
-  async execute(): Promise<ChallengeAllResponse> {
+  async execute(teamId?: string): Promise<ChallengeAllResponse> {
+    const teamFilter = teamId?.toLowerCase().trim() || null;
     const joueurs = await this.joueurRepo.findAll();
     const joueurMap = new Map(joueurs.map((j) => [j.id, j]));
     const equipes = await this.equipeRepo.findAllEquipes();
@@ -71,7 +72,10 @@ export class GetChallengeAllUseCase {
       const joueur = joueurMap.get(t.joueurId);
       if (!atelier || !joueur) continue;
 
-      const equipe = equipeMap.get((joueur.equipeId ?? '').toLowerCase());
+      const equipeId = (joueur.equipeId ?? '').toLowerCase();
+      if (teamFilter && equipeId !== teamFilter) continue;
+
+      const equipe = equipeMap.get(equipeId);
       const view: ChallengeAttemptView = {
         joueurId: t.joueurId,
         joueurName: joueur.nom,
