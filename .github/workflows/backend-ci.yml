@@ -9,7 +9,6 @@ env:
   REGION: europe-west9
   SERVICE_NAME: match-service
   ARTIFACT_REPO: table-de-marque-backend
-  IMAGE: ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/${{ env.SERVICE_NAME }}:${{ github.sha }}
 
 jobs:
   build-test-deploy:
@@ -45,6 +44,8 @@ jobs:
 
       - name: Build & push Docker image
         run: |
+          IMAGE="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/${{ env.SERVICE_NAME }}:${{ github.sha }}"
+          echo "IMAGE=$IMAGE" >> $GITHUB_ENV
           docker build --no-cache -t "$IMAGE" .
           docker push "$IMAGE"
 
