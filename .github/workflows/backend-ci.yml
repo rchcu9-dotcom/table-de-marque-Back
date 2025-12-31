@@ -1,4 +1,4 @@
-name: Backend CI/CD
+name: Backend CI/CD (prod)
 
 on:
   push:
@@ -9,8 +9,7 @@ env:
   REGION: europe-west9
   SERVICE_NAME: match-service
   ARTIFACT_REPO: table-de-marque-backend
-  SHEETS_RANGE: B3:L32
-  SHEETS_SHEET_NAME: Matchs
+  IMAGE: ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/${{ env.SERVICE_NAME }}:${{ github.sha }}
 
 jobs:
   build-test-deploy:
@@ -46,61 +45,12 @@ jobs:
 
       - name: Build & push Docker image
         run: |
-          IMAGE="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/${{ env.SERVICE_NAME }}:${{ github.sha }}"
-          echo "IMAGE=$IMAGE" >> $GITHUB_ENV
-          docker build -t "$IMAGE" .
+          docker build --no-cache -t "$IMAGE" .
           docker push "$IMAGE"
 
-      - name: Write env file for Cloud Run
+      - name: Deploy to Cloud Run (reuse existing env vars)
         run: |
-          CSV_URL="${{ secrets.GOOGLE_SHEETS_CSV_URL }}"
-          CSV_URL_TEST="${{ secrets.GOOGLE_SHEETS_CSV_URL_TEST }}"
-          CLASS_URL_RAW="${{ secrets.GOOGLE_SHEETS_CLASSEMENT_CSV_URL }}"
-          if [ -z "$CLASS_URL_RAW" ]; then
-            CLASS_URL_RAW="$CSV_URL"
-          fi
-
-          MATCH_DRIVER="${{ secrets.MATCH_REPOSITORY_DRIVER }}"
-          if [ -z "$MATCH_DRIVER" ]; then
-            MATCH_DRIVER="google-sheets"
-          fi
-
-          EQUIPE_DRIVER="${{ secrets.EQUIPE_REPOSITORY_DRIVER }}"
-          if [ -z "$EQUIPE_DRIVER" ]; then
-            EQUIPE_DRIVER="google-sheets-public"
-          fi
-
-          PROFILE="${{ secrets.SHEETS_PROFILE }}"
-          if [ -z "$PROFILE" ]; then
-            PROFILE="test"
-          fi
-
-          cat > /tmp/env.yaml <<EOF
-NODE_ENV: production
-SHEETS_PROFILE: "${PROFILE}"
-GOOGLE_SHEETS_CSV_URL: "${CSV_URL}"
-GOOGLE_SHEETS_CSV_URL_TEST: "${CSV_URL_TEST}"
-GOOGLE_SHEETS_CLASSEMENT_CSV_URL: "${CLASS_URL_RAW}"
-GOOGLE_SHEETS_SPREADSHEET_ID: "${{ secrets.GOOGLE_SHEETS_SPREADSHEET_ID }}"
-GOOGLE_SHEETS_SPREADSHEET_ID_TEST: "${{ secrets.GOOGLE_SHEETS_SPREADSHEET_ID_TEST }}"
-GOOGLE_SHEETS_RANGE: "${{ env.SHEETS_RANGE }}"
-GOOGLE_SHEETS_SHEET_NAME: "${{ env.SHEETS_SHEET_NAME }}"
-GOOGLE_SHEETS_CLIENT_EMAIL: "${{ secrets.GOOGLE_SHEETS_CLIENT_EMAIL }}"
-GOOGLE_SHEETS_PRIVATE_KEY: |
-${{ secrets.GOOGLE_SHEETS_PRIVATE_KEY }}
-MATCH_REPOSITORY_DRIVER: "${MATCH_DRIVER}"
-EQUIPE_REPOSITORY_DRIVER: "${EQUIPE_DRIVER}"
-MATCH_CACHE_REFRESH_MS: "${{ secrets.MATCH_CACHE_REFRESH_MS }}"
-MATCH_CACHE_POLLING_ENABLED: "${{ secrets.MATCH_CACHE_POLLING_ENABLED }}"
-EQUIPE_CACHE_TTL_MS: "${{ secrets.EQUIPE_CACHE_TTL_MS }}"
-EOF
-
-      - name: Deploy to Cloud Run
-        uses: google-github-actions/deploy-cloudrun@v2
-        with:
-          service: ${{ env.SERVICE_NAME }}
-          region: ${{ env.REGION }}
-          image: ${{ env.IMAGE }}
-          flags: >
+          gcloud run deploy ${{ env.SERVICE_NAME }} \
+            --region ${{ env.REGION }} \
+            --image "$IMAGE" \
             --allow-unauthenticated
-            --env-vars-file /tmp/env.yaml
