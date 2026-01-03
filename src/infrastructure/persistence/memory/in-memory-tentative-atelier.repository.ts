@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/require-await, @typescript-eslint/no-unused-vars, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/require-await */
 import { Injectable } from '@nestjs/common';
 import { TentativeAtelier } from '@/domain/challenge/entities/tentative-atelier.entity';
 import { TentativeAtelierRepository } from '@/domain/challenge/repositories/tentative-atelier.repository';
