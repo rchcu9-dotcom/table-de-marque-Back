@@ -33,7 +33,9 @@ type MatchRepoDriver =
 const baseMatchRepositoryProvider = {
   provide: MATCH_REPOSITORY_SOURCE,
   useFactory: (prismaService: PrismaService) => {
-    const raw = (process.env.MATCH_REPOSITORY_DRIVER ?? '').trim().toLowerCase();
+    const raw = (process.env.MATCH_REPOSITORY_DRIVER ?? '')
+      .trim()
+      .toLowerCase();
     const driver: MatchRepoDriver =
       (raw as MatchRepoDriver) ||
       (process.env.GOOGLE_SHEETS_CSV_URL ? 'google-sheets-public' : 'memory');
@@ -49,7 +51,9 @@ const baseMatchRepositoryProvider = {
       case 'memory':
         return new InMemoryMatchRepository();
       default:
-        throw new Error(`Unsupported MATCH_REPOSITORY_DRIVER: ${driver}`);
+        throw new Error(
+          `Unsupported MATCH_REPOSITORY_DRIVER: ${raw || 'memory'}`,
+        );
     }
   },
   inject: [PrismaService],

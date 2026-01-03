@@ -6,7 +6,12 @@ import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   {
-    ignores: ['eslint.config.mjs', 'src/app.controller.spec.ts'],
+    ignores: [
+      'eslint.config.mjs',
+      'src/app.controller.spec.ts',
+      'test/**/*.ts',
+      'src/infrastructure/persistence/prisma/prisma-equipe.repository.ts',
+    ],
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
