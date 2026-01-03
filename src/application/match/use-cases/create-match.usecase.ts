@@ -26,9 +26,9 @@ export class CreateMatchUseCase {
   }) {
     const match = new Match(
       uuid(),
-      new Date(data.date),
-      data.teamA,
-      data.teamB,
+      new Date(_data.date),
+      _data.teamA,
+      _data.teamB,
       'planned',
       null,
       null,
@@ -36,10 +36,10 @@ export class CreateMatchUseCase {
       undefined,
       undefined,
       undefined,
-      data.competitionType ?? '5v5',
-      data.surface ?? 'GG',
-      data.phase ?? null,
-      data.jour ?? null,
+      _data.competitionType ?? '5v5',
+      _data.surface ?? 'GG',
+      _data.phase ?? null,
+      _data.jour ?? null,
     );
 
     return await this.matchRepo.create(match);

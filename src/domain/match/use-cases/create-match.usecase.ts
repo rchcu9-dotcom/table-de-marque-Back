@@ -9,9 +9,9 @@ export class CreateMatchUseCase {
   async execute(_data: { date: string; teamA: string; teamB: string }) {
     const match = new Match(
       uuid(),
-      new Date(data.date),
-      data.teamA,
-      data.teamB,
+      new Date(_data.date),
+      _data.teamA,
+      _data.teamB,
       'planned',
     );
 

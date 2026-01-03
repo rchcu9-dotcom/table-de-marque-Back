@@ -79,13 +79,14 @@ export class ChallengeMockSeeder implements OnModuleInit {
         6,
       ),
     ];
-    if (
-      typeof (this.ateliers as { clear?: () => Promise<void> }).clear ===
-      'function'
-    ) {
-      await (this.ateliers as { clear: () => Promise<void> }).clear();
+    const atelierWithClear = this.ateliers as unknown as {
+      clear?: () => Promise<void>;
+      seed: (rows: Atelier[]) => Promise<void>;
+    };
+    if (typeof atelierWithClear.clear === 'function') {
+      await atelierWithClear.clear();
     }
-    await this.ateliers.seed(ateliers);
+    await atelierWithClear.seed(ateliers);
 
     const joueurs = await this.ensurePlayers();
     const attempts: TentativeAtelier[] = [];
