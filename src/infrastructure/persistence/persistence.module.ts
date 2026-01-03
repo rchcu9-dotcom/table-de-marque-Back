@@ -13,9 +13,6 @@ import { GoogleSheetsMatchRepository } from './google-sheets/google-sheets-match
 import { GoogleSheetsPublicCsvMatchRepository } from './google-sheets/google-sheets-public-csv.repository';
 import { GoogleSheetsPublicCsvEquipeRepository } from './google-sheets/google-sheets-public-csv-equipe.repository';
 import { InMemoryEquipeRepository } from './memory/in-memory-equipe.repository';
-import { PrismaMatchRepository } from './prisma/prisma-match.repository';
-import { PrismaEquipeRepository } from './prisma/prisma-equipe.repository';
-import { PrismaService } from './prisma/prisma.service';
 import { InMemoryJoueurRepository } from './memory/in-memory-joueur.repository';
 import { InMemoryAtelierRepository } from './memory/in-memory-atelier.repository';
 import { InMemoryTentativeAtelierRepository } from './memory/in-memory-tentative-atelier.repository';
@@ -26,13 +23,11 @@ import { MatchStreamService } from '@/hooks/match-stream.service';
 type MatchRepoDriver =
   | 'google-sheets-public'
   | 'google-sheets'
-  | 'mysql'
-  | 'prisma'
   | 'memory';
 
 const baseMatchRepositoryProvider = {
   provide: MATCH_REPOSITORY_SOURCE,
-  useFactory: (prismaService: PrismaService) => {
+  useFactory: () => {
     const raw = (process.env.MATCH_REPOSITORY_DRIVER ?? '')
       .trim()
       .toLowerCase();
@@ -45,16 +40,12 @@ const baseMatchRepositoryProvider = {
         return new GoogleSheetsPublicCsvMatchRepository();
       case 'google-sheets':
         return new GoogleSheetsMatchRepository();
-      case 'mysql':
-      case 'prisma':
-        return new PrismaMatchRepository(prismaService);
       case 'memory':
         return new InMemoryMatchRepository();
       default:
-        throw new Error(`Unsupported MATCH_REPOSITORY_DRIVER: ${driver}`);
+        return new InMemoryMatchRepository();
     }
   },
-  inject: [PrismaService],
 };
 
 const cachedMatchRepositoryProvider = {
@@ -64,7 +55,7 @@ const cachedMatchRepositoryProvider = {
 
 const equipePersistenceProvider = {
   provide: EQUIPE_REPOSITORY,
-  useFactory: (prismaService: PrismaService) => {
+  useFactory: () => {
     const driver =
       (process.env.EQUIPE_REPOSITORY_DRIVER ?? '').trim().toLowerCase() ||
       'google-sheets-public';
@@ -77,13 +68,8 @@ const equipePersistenceProvider = {
       return new InMemoryEquipeRepository();
     }
 
-    if (driver === 'mysql' || driver === 'prisma') {
-      return new PrismaEquipeRepository(prismaService);
-    }
-
     throw new Error(`Unsupported EQUIPE_REPOSITORY_DRIVER: ${driver}`);
   },
-  inject: [PrismaService],
 };
 
 const joueurPersistenceProvider = {
@@ -103,7 +89,6 @@ const tentativeAtelierPersistenceProvider = {
 
 @Module({
   providers: [
-    PrismaService,
     baseMatchRepositoryProvider,
     MatchStreamService,
     MatchCacheService,
