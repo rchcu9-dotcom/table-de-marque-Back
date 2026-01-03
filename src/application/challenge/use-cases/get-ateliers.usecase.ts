@@ -1,6 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Atelier } from '@/domain/challenge/entities/atelier.entity';
-import { ATELIER_REPOSITORY, AtelierRepository } from '@/domain/challenge/repositories/atelier.repository';
+import {
+  ATELIER_REPOSITORY,
+  AtelierRepository,
+} from '@/domain/challenge/repositories/atelier.repository';
 
 @Injectable()
 export class GetAteliersUseCase {

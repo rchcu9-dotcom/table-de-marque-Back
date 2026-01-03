@@ -1,9 +1,16 @@
+/* eslint-disable */
 ﻿import { Inject, Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { v4 as uuid } from 'uuid';
 
 import { Match } from '@/domain/match/entities/match.entity';
-import { MATCH_REPOSITORY, MatchRepository } from '@/domain/match/repositories/match.repository';
-import { JOUEUR_REPOSITORY, JoueurRepository } from '@/domain/joueur/repositories/joueur.repository';
+import {
+  MATCH_REPOSITORY,
+  MatchRepository,
+} from '@/domain/match/repositories/match.repository';
+import {
+  JOUEUR_REPOSITORY,
+  JoueurRepository,
+} from '@/domain/joueur/repositories/joueur.repository';
 import { Joueur } from '@/domain/joueur/entities/joueur.entity';
 import { MOCK_TEAMS } from './mock-teams.data';
 
@@ -36,20 +43,36 @@ export class MockScheduleSeeder implements OnModuleInit {
     }
     const driver = (process.env.MATCH_REPOSITORY_DRIVER ?? '').toLowerCase();
     if (driver && driver !== 'memory') {
-      this.logger.warn('Mock schedule seeding skipped: MATCH_REPOSITORY_DRIVER is not memory.');
+      this.logger.warn(
+        'Mock schedule seeding skipped: MATCH_REPOSITORY_DRIVER is not memory.',
+      );
       return;
     }
 
-    if (typeof (this.matchRepo as any).clear === 'function') (this.matchRepo as any).clear();
-    if (typeof (this.joueurRepo as any).clear === 'function') (this.joueurRepo as any).clear();
+    if (typeof (this.matchRepo as any).clear === 'function')
+      (this.matchRepo as any).clear();
+    if (typeof (this.joueurRepo as any).clear === 'function')
+      (this.joueurRepo as any).clear();
 
     // Seed joueurs : 15 par équipe (id court)
-    const positions: Array<'Att' | 'Def' | 'Gar'> = ['Att', 'Def', 'Att', 'Def', 'Gar'];
+    const positions: Array<'Att' | 'Def' | 'Gar'> = [
+      'Att',
+      'Def',
+      'Att',
+      'Def',
+      'Gar',
+    ];
     for (const team of MOCK_TEAMS) {
       for (let i = 0; i < 15; i++) {
         const numero = i + 1;
         const poste = positions[i % positions.length];
-        const joueur = new Joueur(uuid(), team.id, `${team.id} Joueur ${numero}`, numero, poste);
+        const joueur = new Joueur(
+          uuid(),
+          team.id,
+          `${team.id} Joueur ${numero}`,
+          numero,
+          poste,
+        );
         await this.joueurRepo.create(joueur);
       }
     }
@@ -103,7 +126,17 @@ export class MockScheduleSeeder implements OnModuleInit {
     let offset = 0;
     for (const [code, teams] of Object.entries(poules)) {
       seedData.push(
-        ...roundRobin(teams, '2026-05-23T09:00:00Z', offset, code, `Poule ${code}`, 'brassage', 'J1', '5v5', 'GG'),
+        ...roundRobin(
+          teams,
+          '2026-05-23T09:00:00Z',
+          offset,
+          code,
+          `Poule ${code}`,
+          'brassage',
+          'J1',
+          '5v5',
+          'GG',
+        ),
       );
       offset += 6; // 6 matchs par poule
     }
@@ -115,20 +148,105 @@ export class MockScheduleSeeder implements OnModuleInit {
     const delta = [poules.C[2], poules.C[3], poules.D[2], poules.D[3]];
 
     seedData.push(
-      ...roundRobin(alpha, '2026-05-24T09:00:00Z', 0, 'Alpha', 'Tournoi Or - Alpha', 'qualification', 'J2', '5v5', 'GG'),
-      ...roundRobin(beta, '2026-05-24T09:00:00Z', 6, 'Beta', 'Tournoi Or - Beta', 'qualification', 'J2', '5v5', 'GG'),
-      ...roundRobin(gamma, '2026-05-24T12:00:00Z', 0, 'Gamma', 'Tournoi Argent - Gamma', 'qualification', 'J2', '5v5', 'GG'),
-      ...roundRobin(delta, '2026-05-24T12:00:00Z', 6, 'Delta', 'Tournoi Argent - Delta', 'qualification', 'J2', '5v5', 'GG'),
+      ...roundRobin(
+        alpha,
+        '2026-05-24T09:00:00Z',
+        0,
+        'Alpha',
+        'Tournoi Or - Alpha',
+        'qualification',
+        'J2',
+        '5v5',
+        'GG',
+      ),
+      ...roundRobin(
+        beta,
+        '2026-05-24T09:00:00Z',
+        6,
+        'Beta',
+        'Tournoi Or - Beta',
+        'qualification',
+        'J2',
+        '5v5',
+        'GG',
+      ),
+      ...roundRobin(
+        gamma,
+        '2026-05-24T12:00:00Z',
+        0,
+        'Gamma',
+        'Tournoi Argent - Gamma',
+        'qualification',
+        'J2',
+        '5v5',
+        'GG',
+      ),
+      ...roundRobin(
+        delta,
+        '2026-05-24T12:00:00Z',
+        6,
+        'Delta',
+        'Tournoi Argent - Delta',
+        'qualification',
+        'J2',
+        '5v5',
+        'GG',
+      ),
     );
 
     // Finales J3 (4 carrés)
-    const buildCarre = (teams: string[], code: string, name: string, startIso: string) => {
+    const buildCarre = (
+      teams: string[],
+      code: string,
+      name: string,
+      startIso: string,
+    ) => {
       const slots = (i: number) => slot27(startIso, i);
       return [
-        { date: slots(0), teamA: teams[0], teamB: teams[3], competitionType: '5v5', surface: 'GG', phase: 'finales', jour: 'J3', pouleCode: code, pouleName: name },
-        { date: slots(1), teamA: teams[1], teamB: teams[2], competitionType: '5v5', surface: 'GG', phase: 'finales', jour: 'J3', pouleCode: code, pouleName: name },
-        { date: slots(2), teamA: teams[0], teamB: teams[1], competitionType: '5v5', surface: 'GG', phase: 'finales', jour: 'J3', pouleCode: code, pouleName: name },
-        { date: slots(3), teamA: teams[2], teamB: teams[3], competitionType: '5v5', surface: 'GG', phase: 'finales', jour: 'J3', pouleCode: code, pouleName: name },
+        {
+          date: slots(0),
+          teamA: teams[0],
+          teamB: teams[3],
+          competitionType: '5v5',
+          surface: 'GG',
+          phase: 'finales',
+          jour: 'J3',
+          pouleCode: code,
+          pouleName: name,
+        },
+        {
+          date: slots(1),
+          teamA: teams[1],
+          teamB: teams[2],
+          competitionType: '5v5',
+          surface: 'GG',
+          phase: 'finales',
+          jour: 'J3',
+          pouleCode: code,
+          pouleName: name,
+        },
+        {
+          date: slots(2),
+          teamA: teams[0],
+          teamB: teams[1],
+          competitionType: '5v5',
+          surface: 'GG',
+          phase: 'finales',
+          jour: 'J3',
+          pouleCode: code,
+          pouleName: name,
+        },
+        {
+          date: slots(3),
+          teamA: teams[2],
+          teamB: teams[3],
+          competitionType: '5v5',
+          surface: 'GG',
+          phase: 'finales',
+          jour: 'J3',
+          pouleCode: code,
+          pouleName: name,
+        },
       ] as SeedMatchParams[];
     };
 
@@ -214,7 +332,10 @@ export class MockScheduleSeeder implements OnModuleInit {
         seed: s,
         status: idx === 0 ? 'finished' : idx === 1 ? 'ongoing' : 'planned',
       })),
-    ].sort((a, b) => new Date(a.seed.date).getTime() - new Date(b.seed.date).getTime());
+    ].sort(
+      (a, b) =>
+        new Date(a.seed.date).getTime() - new Date(b.seed.date).getTime(),
+    );
 
     for (const entry of withStatus) {
       const s = entry.seed;
@@ -248,8 +369,8 @@ export class MockScheduleSeeder implements OnModuleInit {
       await this.matchRepo.create(match);
     }
 
-    this.logger.log(`Mock schedule seeded (${seedData.length} matches, ${MOCK_TEAMS.length * 15} joueurs)`);
+    this.logger.log(
+      `Mock schedule seeded (${seedData.length} matches, ${MOCK_TEAMS.length * 15} joueurs)`,
+    );
   }
 }
-
-

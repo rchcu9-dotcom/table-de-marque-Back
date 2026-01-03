@@ -76,19 +76,13 @@ export class MatchController {
 
   // UPDATE
   @Put(':id')
-  async update(
-    @Param('id') id: string,
-    @Body() dto: UpdateMatchDto) {
+  async update(@Param('id') id: string, @Body() dto: UpdateMatchDto) {
     return await this.updateMatchUseCase.execute(id, dto);
   }
 
   // DELETE
   @Delete(':id')
-  async delete(
-    @Param('id') id: string,
-    @Body() dto: DeleteMatchDto,
-  ) {
+  async delete(@Param('id') id: string, @Body() dto: DeleteMatchDto) {
     return await this.deleteMatchUseCase.execute(id, dto);
   }
-
 }

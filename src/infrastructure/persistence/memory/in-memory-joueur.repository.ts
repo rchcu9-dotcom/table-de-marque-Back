@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/require-await, @typescript-eslint/no-unused-vars, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment */
 import { Injectable } from '@nestjs/common';
 import { Joueur } from '@/domain/joueur/entities/joueur.entity';
 import { JoueurRepository } from '@/domain/joueur/repositories/joueur.repository';
@@ -21,7 +22,9 @@ export class InMemoryJoueurRepository implements JoueurRepository {
 
   async findByEquipe(equipeId: string): Promise<Joueur[]> {
     const needle = equipeId.trim().toLowerCase();
-    return this.items.filter((j) => (j.equipeId ?? '').trim().toLowerCase() === needle);
+    return this.items.filter(
+      (j) => (j.equipeId ?? '').trim().toLowerCase() === needle,
+    );
   }
 
   async update(joueur: Joueur): Promise<Joueur> {

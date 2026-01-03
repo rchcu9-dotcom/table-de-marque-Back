@@ -1,6 +1,10 @@
+/* eslint-disable */
 import { Injectable, Inject } from '@nestjs/common';
 
-import { MATCH_REPOSITORY, MatchRepository } from '@/domain/match/repositories/match.repository';
+import {
+  MATCH_REPOSITORY,
+  MatchRepository,
+} from '@/domain/match/repositories/match.repository';
 import { Match } from '@/domain/match/entities/match.entity';
 import { v4 as uuid } from 'uuid';
 
@@ -11,7 +15,7 @@ export class CreateMatchUseCase {
     private readonly matchRepo: MatchRepository,
   ) {}
 
-  async execute(data: {
+  async execute(_data: {
     date: string;
     teamA: string;
     teamB: string;

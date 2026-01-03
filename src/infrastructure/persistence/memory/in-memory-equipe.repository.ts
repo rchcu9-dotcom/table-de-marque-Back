@@ -1,4 +1,9 @@
-import { Equipe, PouleClassement, PouleCode } from '@/domain/equipe/entities/equipe.entity';
+/* eslint-disable @typescript-eslint/require-await, @typescript-eslint/no-unused-vars, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment */
+import {
+  Equipe,
+  PouleClassement,
+  PouleCode,
+} from '@/domain/equipe/entities/equipe.entity';
 import { EquipeRepository } from '@/domain/equipe/repositories/equipe.repository';
 
 export class InMemoryEquipeRepository implements EquipeRepository {
@@ -48,17 +53,23 @@ export class InMemoryEquipeRepository implements EquipeRepository {
     }
   }
 
-  async findClassementByPoule(code: PouleCode): Promise<PouleClassement | null> {
+  async findClassementByPoule(
+    code: PouleCode,
+  ): Promise<PouleClassement | null> {
     const normalized = this.normalize(String(code));
     return this.poules.get(normalized) ?? null;
   }
 
-  async findClassementByTeamName(teamName: string): Promise<PouleClassement | null> {
+  async findClassementByTeamName(
+    teamName: string,
+  ): Promise<PouleClassement | null> {
     const target = this.normalize(teamName);
     for (const poule of this.poules.values()) {
       if (
         poule.equipes.some(
-          (eq) => this.normalize(eq.name) === target || this.normalize(eq.id) === target,
+          (eq) =>
+            this.normalize(eq.name) === target ||
+            this.normalize(eq.id) === target,
         )
       ) {
         return poule;

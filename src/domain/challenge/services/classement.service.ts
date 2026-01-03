@@ -34,20 +34,31 @@ export class ClassementService {
 
   private getScoreValue(tentative: TentativeAtelier): number {
     if (tentative.metrics.type === 'tir') {
-      return tentative.metrics.totalPoints ?? tentative.metrics.tirs.reduce((a, b) => a + b, 0);
+      return (
+        tentative.metrics.totalPoints ??
+        tentative.metrics.tirs.reduce((a, b) => a + b, 0)
+      );
     }
     if (tentative.metrics.type === 'glisse_crosse') {
-      return tentative.metrics.tempsMs + (tentative.metrics.penalites ?? 0) * 5000;
+      return (
+        tentative.metrics.tempsMs + (tentative.metrics.penalites ?? 0) * 5000
+      );
     }
     return tentative.metrics.tempsMs;
   }
 
   private formatExtra(tentative: TentativeAtelier): Record<string, unknown> {
     if (tentative.metrics.type === 'tir') {
-      return { tirs: tentative.metrics.tirs, total: tentative.metrics.totalPoints };
+      return {
+        tirs: tentative.metrics.tirs,
+        total: tentative.metrics.totalPoints,
+      };
     }
     if (tentative.metrics.type === 'glisse_crosse') {
-      return { tempsMs: tentative.metrics.tempsMs, penalites: tentative.metrics.penalites };
+      return {
+        tempsMs: tentative.metrics.tempsMs,
+        penalites: tentative.metrics.penalites,
+      };
     }
     return { tempsMs: tentative.metrics.tempsMs };
   }

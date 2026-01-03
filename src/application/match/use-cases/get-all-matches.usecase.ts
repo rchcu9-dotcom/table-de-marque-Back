@@ -1,6 +1,9 @@
 import { Injectable, Inject } from '@nestjs/common';
 
-import { MATCH_REPOSITORY, MatchRepository } from '@/domain/match/repositories/match.repository';
+import {
+  MATCH_REPOSITORY,
+  MatchRepository,
+} from '@/domain/match/repositories/match.repository';
 import { Match } from '@/domain/match/entities/match.entity';
 
 export type MatchFilters = {
@@ -21,13 +24,21 @@ export class GetAllMatchesUseCase {
   async execute(filters: MatchFilters = {}): Promise<Match[]> {
     const all = await this.matchRepo.findAll();
     return all.filter((m) => {
-      if (filters.competitionType && m.competitionType !== filters.competitionType) return false;
+      if (
+        filters.competitionType &&
+        m.competitionType !== filters.competitionType
+      )
+        return false;
       if (filters.surface && m.surface !== filters.surface) return false;
       if (filters.status && m.status !== filters.status) return false;
       if (filters.jour && m.jour !== filters.jour) return false;
       if (filters.teamId) {
         const needle = filters.teamId.toLowerCase();
-        if (m.teamA.toLowerCase() !== needle && m.teamB.toLowerCase() !== needle) return false;
+        if (
+          m.teamA.toLowerCase() !== needle &&
+          m.teamB.toLowerCase() !== needle
+        )
+          return false;
       }
       return true;
     });

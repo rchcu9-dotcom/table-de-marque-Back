@@ -13,7 +13,7 @@ export class MatchStreamController {
   @Header('Connection', 'keep-alive')
   stream(@Req() req: Request, @Res() res: Response) {
     // Debug log to confirm handler hit
-    // eslint-disable-next-line no-console
+
     console.log('[SSE] /matches/stream handler invoked');
     res.writeHead(200, {
       'Content-Type': 'text/event-stream',
@@ -35,7 +35,9 @@ export class MatchStreamController {
 
     const ping = once
       ? null
-      : interval(25000).subscribe(() => send({ type: 'ping', timestamp: Date.now() }));
+      : interval(25000).subscribe(() =>
+          send({ type: 'ping', timestamp: Date.now() }),
+        );
 
     req.on('close', () => {
       sub.unsubscribe();

@@ -1,7 +1,16 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ATELIER_REPOSITORY, AtelierRepository } from '@/domain/challenge/repositories/atelier.repository';
-import { TENTATIVE_ATELIER_REPOSITORY, TentativeAtelierRepository } from '@/domain/challenge/repositories/tentative-atelier.repository';
-import { ClassementService, ClassementEntry } from '@/domain/challenge/services/classement.service';
+import {
+  ATELIER_REPOSITORY,
+  AtelierRepository,
+} from '@/domain/challenge/repositories/atelier.repository';
+import {
+  TENTATIVE_ATELIER_REPOSITORY,
+  TentativeAtelierRepository,
+} from '@/domain/challenge/repositories/tentative-atelier.repository';
+import {
+  ClassementService,
+  ClassementEntry,
+} from '@/domain/challenge/services/classement.service';
 
 @Injectable()
 export class GetClassementAtelierUseCase {

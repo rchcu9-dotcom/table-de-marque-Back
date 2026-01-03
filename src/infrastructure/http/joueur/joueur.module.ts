@@ -9,6 +9,10 @@ import { GetJoueursByEquipeUseCase } from '@/application/joueur/use-cases/get-jo
 @Module({
   imports: [PersistenceModule],
   controllers: [JoueurController],
-  providers: [GetAllJoueursUseCase, GetJoueurByIdUseCase, GetJoueursByEquipeUseCase],
+  providers: [
+    GetAllJoueursUseCase,
+    GetJoueurByIdUseCase,
+    GetJoueursByEquipeUseCase,
+  ],
 })
 export class JoueurModule {}

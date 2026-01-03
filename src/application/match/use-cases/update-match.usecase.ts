@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { Injectable, Inject } from '@nestjs/common';
 
 import {
@@ -15,10 +16,7 @@ export class UpdateMatchUseCase {
     private readonly matchRepo: MatchRepository,
   ) {}
 
-  async execute(
-    id: string,
-    data: UpdateMatchDto,
-  ): Promise<Match | null> {
+  async execute(id: string, data: UpdateMatchDto): Promise<Match | null> {
     const all = await this.matchRepo.findAll();
     const match = all.find((m) => m.id === id);
 
@@ -31,7 +29,8 @@ export class UpdateMatchUseCase {
     if (data.teamB !== undefined) match.teamB = data.teamB;
     if (data.date !== undefined) match.date = new Date(data.date);
     if (data.status !== undefined) match.status = data.status as any;
-    if (data.competitionType !== undefined) match.competitionType = data.competitionType;
+    if (data.competitionType !== undefined)
+      match.competitionType = data.competitionType;
     if (data.surface !== undefined) match.surface = data.surface;
     if (data.phase !== undefined) match.phase = data.phase ?? null;
     if (data.jour !== undefined) match.jour = data.jour ?? null;

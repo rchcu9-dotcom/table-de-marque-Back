@@ -1,4 +1,4 @@
-export type PouleCode = 'A' | 'B' | string;
+export type PouleCode = string;
 
 export class Equipe {
   constructor(
