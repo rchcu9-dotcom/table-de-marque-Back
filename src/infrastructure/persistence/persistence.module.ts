@@ -51,7 +51,7 @@ const baseMatchRepositoryProvider = {
       case 'memory':
         return new InMemoryMatchRepository();
       default:
-        return new InMemoryMatchRepository();
+        throw new Error(`Unsupported MATCH_REPOSITORY_DRIVER: ${driver}`);
     }
   },
   inject: [PrismaService],
