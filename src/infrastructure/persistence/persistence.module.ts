@@ -23,30 +23,34 @@ import { MatchCacheService } from './match-cache.service';
 import { MatchPollingService } from '@/hooks/match-polling.service';
 import { MatchStreamService } from '@/hooks/match-stream.service';
 
+type MatchRepoDriver =
+  | 'google-sheets-public'
+  | 'google-sheets'
+  | 'mysql'
+  | 'prisma'
+  | 'memory';
+
 const baseMatchRepositoryProvider = {
   provide: MATCH_REPOSITORY_SOURCE,
   useFactory: (prismaService: PrismaService) => {
-    const envDriver = (process.env.MATCH_REPOSITORY_DRIVER ?? '')
-      .trim()
-      .toLowerCase();
-
-    const driver =
-      envDriver ||
+    const raw = (process.env.MATCH_REPOSITORY_DRIVER ?? '').trim().toLowerCase();
+    const driver: MatchRepoDriver =
+      (raw as MatchRepoDriver) ||
       (process.env.GOOGLE_SHEETS_CSV_URL ? 'google-sheets-public' : 'memory');
 
-    if (driver === 'google-sheets-public') {
-      return new GoogleSheetsPublicCsvMatchRepository();
+    switch (driver) {
+      case 'google-sheets-public':
+        return new GoogleSheetsPublicCsvMatchRepository();
+      case 'google-sheets':
+        return new GoogleSheetsMatchRepository();
+      case 'mysql':
+      case 'prisma':
+        return new PrismaMatchRepository(prismaService);
+      case 'memory':
+        return new InMemoryMatchRepository();
+      default:
+        throw new Error(`Unsupported MATCH_REPOSITORY_DRIVER: ${driver}`);
     }
-
-    if (driver === 'google-sheets') {
-      return new GoogleSheetsMatchRepository();
-    }
-
-    if (driver === 'mysql' || driver === 'prisma') {
-      return new PrismaMatchRepository(prismaService);
-    }
-
-    return new InMemoryMatchRepository();
   },
   inject: [PrismaService],
 };
