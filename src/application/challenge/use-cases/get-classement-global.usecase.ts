@@ -1,6 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ATELIER_REPOSITORY, AtelierRepository } from '@/domain/challenge/repositories/atelier.repository';
-import { TENTATIVE_ATELIER_REPOSITORY, TentativeAtelierRepository } from '@/domain/challenge/repositories/tentative-atelier.repository';
+import {
+  ATELIER_REPOSITORY,
+  AtelierRepository,
+} from '@/domain/challenge/repositories/atelier.repository';
+import {
+  TENTATIVE_ATELIER_REPOSITORY,
+  TentativeAtelierRepository,
+} from '@/domain/challenge/repositories/tentative-atelier.repository';
 import { ClassementService } from '@/domain/challenge/services/classement.service';
 
 export type ClassementGlobalEntry = {
@@ -43,6 +49,8 @@ export class GetClassementGlobalUseCase {
       });
     });
 
-    return Array.from(aggregator.values()).sort((a, b) => a.totalRang - b.totalRang);
+    return Array.from(aggregator.values()).sort(
+      (a, b) => a.totalRang - b.totalRang,
+    );
   }
 }

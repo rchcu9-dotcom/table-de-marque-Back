@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 
-import { MATCH_REPOSITORY, MATCH_REPOSITORY_SOURCE } from '@/domain/match/repositories/match.repository';
 import {
-  EQUIPE_REPOSITORY,
-} from '@/domain/equipe/repositories/equipe.repository';
+  MATCH_REPOSITORY,
+  MATCH_REPOSITORY_SOURCE,
+} from '@/domain/match/repositories/match.repository';
+import { EQUIPE_REPOSITORY } from '@/domain/equipe/repositories/equipe.repository';
 import { JOUEUR_REPOSITORY } from '@/domain/joueur/repositories/joueur.repository';
 import { ATELIER_REPOSITORY } from '@/domain/challenge/repositories/atelier.repository';
 import { TENTATIVE_ATELIER_REPOSITORY } from '@/domain/challenge/repositories/tentative-atelier.repository';
@@ -19,26 +20,31 @@ import { MatchCacheService } from './match-cache.service';
 import { MatchPollingService } from '@/hooks/match-polling.service';
 import { MatchStreamService } from '@/hooks/match-stream.service';
 
+type MatchRepoDriver =
+  | 'google-sheets-public'
+  | 'google-sheets'
+  | 'memory';
+
 const baseMatchRepositoryProvider = {
   provide: MATCH_REPOSITORY_SOURCE,
   useFactory: () => {
-    const envDriver = (process.env.MATCH_REPOSITORY_DRIVER ?? '')
+    const raw = (process.env.MATCH_REPOSITORY_DRIVER ?? '')
       .trim()
       .toLowerCase();
-
-    const driver =
-      envDriver ||
+    const driver: MatchRepoDriver =
+      (raw as MatchRepoDriver) ||
       (process.env.GOOGLE_SHEETS_CSV_URL ? 'google-sheets-public' : 'memory');
 
-    if (driver === 'google-sheets-public') {
-      return new GoogleSheetsPublicCsvMatchRepository();
+    switch (driver) {
+      case 'google-sheets-public':
+        return new GoogleSheetsPublicCsvMatchRepository();
+      case 'google-sheets':
+        return new GoogleSheetsMatchRepository();
+      case 'memory':
+        return new InMemoryMatchRepository();
+      default:
+        return new InMemoryMatchRepository();
     }
-
-    if (driver === 'google-sheets') {
-      return new GoogleSheetsMatchRepository();
-    }
-
-    return new InMemoryMatchRepository();
   },
 };
 

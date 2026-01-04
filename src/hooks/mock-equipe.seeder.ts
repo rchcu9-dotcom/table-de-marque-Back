@@ -1,7 +1,14 @@
+/* eslint-disable */
 import { Inject, Injectable, Logger, OnModuleInit } from '@nestjs/common';
 
-import { EQUIPE_REPOSITORY, EquipeRepository } from '@/domain/equipe/repositories/equipe.repository';
-import { Equipe, PouleClassement } from '@/domain/equipe/entities/equipe.entity';
+import {
+  EQUIPE_REPOSITORY,
+  EquipeRepository,
+} from '@/domain/equipe/repositories/equipe.repository';
+import {
+  Equipe,
+  PouleClassement,
+} from '@/domain/equipe/entities/equipe.entity';
 import { MOCK_TEAMS } from './mock-teams.data';
 
 @Injectable()
@@ -14,16 +21,21 @@ export class MockEquipeSeeder implements OnModuleInit {
   ) {}
 
   async onModuleInit() {
-    const useMock = (process.env.USE_MOCK_SCHEDULE ?? '').toLowerCase() === 'true';
+    const useMock =
+      (process.env.USE_MOCK_SCHEDULE ?? '').toLowerCase() === 'true';
     const driver = (process.env.EQUIPE_REPOSITORY_DRIVER ?? '').toLowerCase();
 
     if (!useMock) {
-      this.logger.debug('Mock equipe seeding skipped (USE_MOCK_SCHEDULE is not true).');
+      this.logger.debug(
+        'Mock equipe seeding skipped (USE_MOCK_SCHEDULE is not true).',
+      );
       return;
     }
 
     if (driver && driver !== 'memory') {
-      this.logger.warn('Mock equipe seeding skipped: EQUIPE_REPOSITORY_DRIVER is not memory.');
+      this.logger.warn(
+        'Mock equipe seeding skipped: EQUIPE_REPOSITORY_DRIVER is not memory.',
+      );
       return;
     }
 
@@ -33,18 +45,78 @@ export class MockEquipeSeeder implements OnModuleInit {
     }
 
     const pouleBuckets: Record<string, PouleClassement> = {
-      A: { pouleCode: 'A', pouleName: 'Poule A', equipes: [], phase: 'Brassage' },
-      B: { pouleCode: 'B', pouleName: 'Poule B', equipes: [], phase: 'Brassage' },
-      C: { pouleCode: 'C', pouleName: 'Poule C', equipes: [], phase: 'Brassage' },
-      D: { pouleCode: 'D', pouleName: 'Poule D', equipes: [], phase: 'Brassage' },
-      Alpha: { pouleCode: 'Alpha', pouleName: 'Tournoi Or - Alpha', equipes: [], phase: 'Qualification' },
-      Beta: { pouleCode: 'Beta', pouleName: 'Tournoi Or - Beta', equipes: [], phase: 'Qualification' },
-      Gamma: { pouleCode: 'Gamma', pouleName: 'Tournoi Argent - Gamma', equipes: [], phase: 'Qualification' },
-      Delta: { pouleCode: 'Delta', pouleName: 'Tournoi Argent - Delta', equipes: [], phase: 'Qualification' },
-      Or1: { pouleCode: 'Or1', pouleName: 'Carre Or 1', equipes: [], phase: 'Finales' },
-      Argent1: { pouleCode: 'Argent1', pouleName: 'Carre Argent 1', equipes: [], phase: 'Finales' },
-      Or5: { pouleCode: 'Or5', pouleName: 'Carre Or 5', equipes: [], phase: 'Finales' },
-      Argent5: { pouleCode: 'Argent5', pouleName: 'Carre Argent 5', equipes: [], phase: 'Finales' },
+      A: {
+        pouleCode: 'A',
+        pouleName: 'Poule A',
+        equipes: [],
+        phase: 'Brassage',
+      },
+      B: {
+        pouleCode: 'B',
+        pouleName: 'Poule B',
+        equipes: [],
+        phase: 'Brassage',
+      },
+      C: {
+        pouleCode: 'C',
+        pouleName: 'Poule C',
+        equipes: [],
+        phase: 'Brassage',
+      },
+      D: {
+        pouleCode: 'D',
+        pouleName: 'Poule D',
+        equipes: [],
+        phase: 'Brassage',
+      },
+      Alpha: {
+        pouleCode: 'Alpha',
+        pouleName: 'Tournoi Or - Alpha',
+        equipes: [],
+        phase: 'Qualification',
+      },
+      Beta: {
+        pouleCode: 'Beta',
+        pouleName: 'Tournoi Or - Beta',
+        equipes: [],
+        phase: 'Qualification',
+      },
+      Gamma: {
+        pouleCode: 'Gamma',
+        pouleName: 'Tournoi Argent - Gamma',
+        equipes: [],
+        phase: 'Qualification',
+      },
+      Delta: {
+        pouleCode: 'Delta',
+        pouleName: 'Tournoi Argent - Delta',
+        equipes: [],
+        phase: 'Qualification',
+      },
+      Or1: {
+        pouleCode: 'Or1',
+        pouleName: 'Carre Or 1',
+        equipes: [],
+        phase: 'Finales',
+      },
+      Argent1: {
+        pouleCode: 'Argent1',
+        pouleName: 'Carre Argent 1',
+        equipes: [],
+        phase: 'Finales',
+      },
+      Or5: {
+        pouleCode: 'Or5',
+        pouleName: 'Carre Or 5',
+        equipes: [],
+        phase: 'Finales',
+      },
+      Argent5: {
+        pouleCode: 'Argent5',
+        pouleName: 'Carre Argent 5',
+        equipes: [],
+        phase: 'Finales',
+      },
     };
 
     const assignPoule = (index: number): keyof typeof pouleBuckets => {
@@ -120,10 +192,30 @@ export class MockEquipeSeeder implements OnModuleInit {
     fillPoule('Delta', deltaTeams);
 
     // Finales : carrés Or/Argent (Or1/Argent1/Or5/Argent5)
-    const or1Teams = [pouleBuckets.Alpha.equipes[0], pouleBuckets.Alpha.equipes[1], pouleBuckets.Beta.equipes[0], pouleBuckets.Beta.equipes[1]];
-    const or5Teams = [pouleBuckets.Alpha.equipes[2], pouleBuckets.Alpha.equipes[3], pouleBuckets.Beta.equipes[2], pouleBuckets.Beta.equipes[3]];
-    const argent1Teams = [pouleBuckets.Gamma.equipes[0], pouleBuckets.Gamma.equipes[1], pouleBuckets.Delta.equipes[0], pouleBuckets.Delta.equipes[1]];
-    const argent5Teams = [pouleBuckets.Gamma.equipes[2], pouleBuckets.Gamma.equipes[3], pouleBuckets.Delta.equipes[2], pouleBuckets.Delta.equipes[3]];
+    const or1Teams = [
+      pouleBuckets.Alpha.equipes[0],
+      pouleBuckets.Alpha.equipes[1],
+      pouleBuckets.Beta.equipes[0],
+      pouleBuckets.Beta.equipes[1],
+    ];
+    const or5Teams = [
+      pouleBuckets.Alpha.equipes[2],
+      pouleBuckets.Alpha.equipes[3],
+      pouleBuckets.Beta.equipes[2],
+      pouleBuckets.Beta.equipes[3],
+    ];
+    const argent1Teams = [
+      pouleBuckets.Gamma.equipes[0],
+      pouleBuckets.Gamma.equipes[1],
+      pouleBuckets.Delta.equipes[0],
+      pouleBuckets.Delta.equipes[1],
+    ];
+    const argent5Teams = [
+      pouleBuckets.Gamma.equipes[2],
+      pouleBuckets.Gamma.equipes[3],
+      pouleBuckets.Delta.equipes[2],
+      pouleBuckets.Delta.equipes[3],
+    ];
 
     fillPoule('Or1', or1Teams);
     fillPoule('Or5', or5Teams);
@@ -135,9 +227,13 @@ export class MockEquipeSeeder implements OnModuleInit {
       seeder.setData(poules);
     } else {
       // Fallback: manually insert if repository exposes create-like methods later.
-      this.logger.warn('InMemoryEquipeRepository not detected; data may not be injected.');
+      this.logger.warn(
+        'InMemoryEquipeRepository not detected; data may not be injected.',
+      );
     }
 
-    this.logger.log(`Mock equipes seeded (${MOCK_TEAMS.length} équipes, driver=memory).`);
+    this.logger.log(
+      `Mock equipes seeded (${MOCK_TEAMS.length} équipes, driver=memory).`,
+    );
   }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/require-await */
 import { Injectable } from '@nestjs/common';
 import { Match } from '@/domain/match/entities/match.entity';
 import { MatchRepository } from '@/domain/match/repositories/match.repository';

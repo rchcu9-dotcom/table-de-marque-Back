@@ -1,7 +1,16 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ATELIER_REPOSITORY, AtelierRepository } from '@/domain/challenge/repositories/atelier.repository';
-import { TENTATIVE_ATELIER_REPOSITORY, TentativeAtelierRepository } from '@/domain/challenge/repositories/tentative-atelier.repository';
-import { JOUEUR_REPOSITORY, JoueurRepository } from '@/domain/joueur/repositories/joueur.repository';
+import {
+  ATELIER_REPOSITORY,
+  AtelierRepository,
+} from '@/domain/challenge/repositories/atelier.repository';
+import {
+  TENTATIVE_ATELIER_REPOSITORY,
+  TentativeAtelierRepository,
+} from '@/domain/challenge/repositories/tentative-atelier.repository';
+import {
+  JOUEUR_REPOSITORY,
+  JoueurRepository,
+} from '@/domain/joueur/repositories/joueur.repository';
 import { AtelierType } from '@/domain/challenge/entities/atelier.entity';
 import { TentativeMetrics } from '@/domain/challenge/entities/tentative-atelier.entity';
 
@@ -28,7 +37,8 @@ type ChallengeEquipeResponse = {
 export class GetChallengeByEquipeUseCase {
   constructor(
     @Inject(ATELIER_REPOSITORY) private readonly atelierRepo: AtelierRepository,
-    @Inject(TENTATIVE_ATELIER_REPOSITORY) private readonly tentativeRepo: TentativeAtelierRepository,
+    @Inject(TENTATIVE_ATELIER_REPOSITORY)
+    private readonly tentativeRepo: TentativeAtelierRepository,
     @Inject(JOUEUR_REPOSITORY) private readonly joueurRepo: JoueurRepository,
   ) {}
 
@@ -38,7 +48,9 @@ export class GetChallengeByEquipeUseCase {
     const ateliers = await this.atelierRepo.findAll();
     const atelierMap = new Map(ateliers.map((a) => [a.id, a]));
 
-    const tentatives = (await this.tentativeRepo.findAll()).filter((t) => joueurMap.has(t.joueurId));
+    const tentatives = (await this.tentativeRepo.findAll()).filter((t) =>
+      joueurMap.has(t.joueurId),
+    );
 
     const grouped: ChallengeEquipeResponse = {
       equipeId,
@@ -54,11 +66,21 @@ export class GetChallengeByEquipeUseCase {
 
     const shouldReplace = (existing: AttemptView, candidate: AttemptView) => {
       const type = candidate.atelierType;
-      if (type === 'tir') {
-        return (candidate.metrics as any).totalPoints > (existing.metrics as any).totalPoints;
+      if (
+        type === 'tir' &&
+        candidate.metrics.type === 'tir' &&
+        existing.metrics.type === 'tir'
+      ) {
+        return candidate.metrics.totalPoints > existing.metrics.totalPoints;
       }
-      if (type === 'vitesse' || type === 'glisse_crosse') {
-        return (candidate.metrics as any).tempsMs < (existing.metrics as any).tempsMs;
+      if (
+        (type === 'vitesse' || type === 'glisse_crosse') &&
+        (candidate.metrics.type === 'vitesse' ||
+          candidate.metrics.type === 'glisse_crosse') &&
+        (existing.metrics.type === 'vitesse' ||
+          existing.metrics.type === 'glisse_crosse')
+      ) {
+        return candidate.metrics.tempsMs < existing.metrics.tempsMs;
       }
       return false;
     };

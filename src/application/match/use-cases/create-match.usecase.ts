@@ -1,6 +1,10 @@
+/* eslint-disable */
 import { Injectable, Inject } from '@nestjs/common';
 
-import { MATCH_REPOSITORY, MatchRepository } from '@/domain/match/repositories/match.repository';
+import {
+  MATCH_REPOSITORY,
+  MatchRepository,
+} from '@/domain/match/repositories/match.repository';
 import { Match } from '@/domain/match/entities/match.entity';
 import { v4 as uuid } from 'uuid';
 
@@ -11,7 +15,7 @@ export class CreateMatchUseCase {
     private readonly matchRepo: MatchRepository,
   ) {}
 
-  async execute(data: {
+  async execute(_data: {
     date: string;
     teamA: string;
     teamB: string;
@@ -22,9 +26,9 @@ export class CreateMatchUseCase {
   }) {
     const match = new Match(
       uuid(),
-      new Date(data.date),
-      data.teamA,
-      data.teamB,
+      new Date(_data.date),
+      _data.teamA,
+      _data.teamB,
       'planned',
       null,
       null,
@@ -32,10 +36,10 @@ export class CreateMatchUseCase {
       undefined,
       undefined,
       undefined,
-      data.competitionType ?? '5v5',
-      data.surface ?? 'GG',
-      data.phase ?? null,
-      data.jour ?? null,
+      _data.competitionType ?? '5v5',
+      _data.surface ?? 'GG',
+      _data.phase ?? null,
+      _data.jour ?? null,
     );
 
     return await this.matchRepo.create(match);

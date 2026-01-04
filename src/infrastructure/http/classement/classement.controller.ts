@@ -1,4 +1,10 @@
-import { Controller, Get, Inject, NotFoundException, Param, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Query,
+} from '@nestjs/common';
 
 import { GetClassementByPouleUseCase } from '@/application/equipe/use-cases/get-classement-by-poule.usecase';
 import { GetClassementByMatchUseCase } from '@/application/equipe/use-cases/get-classement-by-match.usecase';
@@ -8,7 +14,7 @@ import { PouleClassement } from '@/domain/equipe/entities/equipe.entity';
 export class ClassementController {
   constructor(
     private readonly getClassementByPoule: GetClassementByPouleUseCase,
-  private readonly getClassementByMatch: GetClassementByMatchUseCase,
+    private readonly getClassementByMatch: GetClassementByMatchUseCase,
   ) {}
 
   @Get('poules/:code/classement')
@@ -18,7 +24,9 @@ export class ClassementController {
   ): Promise<PouleClassement> {
     const classement = await this.getClassementByPoule.execute(code, phase);
     if (!classement) {
-      throw new NotFoundException(`Classement introuvable pour la poule ${code}`);
+      throw new NotFoundException(
+        `Classement introuvable pour la poule ${code}`,
+      );
     }
     return classement;
   }

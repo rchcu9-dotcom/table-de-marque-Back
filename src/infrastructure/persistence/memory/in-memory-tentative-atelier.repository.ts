@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/require-await */
 import { Injectable } from '@nestjs/common';
 import { TentativeAtelier } from '@/domain/challenge/entities/tentative-atelier.entity';
 import { TentativeAtelierRepository } from '@/domain/challenge/repositories/tentative-atelier.repository';

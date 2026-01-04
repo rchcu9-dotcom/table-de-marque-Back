@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/require-await, @typescript-eslint/no-unused-vars */
 import { Injectable, Logger } from '@nestjs/common';
 import { Match } from '@/domain/match/entities/match.entity';
 import { MatchRepository } from '@/domain/match/repositories/match.repository';
@@ -19,7 +20,9 @@ const BASE_COLUMNS = {
 
 @Injectable()
 export class GoogleSheetsPublicCsvMatchRepository implements MatchRepository {
-  private readonly logger = new Logger(GoogleSheetsPublicCsvMatchRepository.name);
+  private readonly logger = new Logger(
+    GoogleSheetsPublicCsvMatchRepository.name,
+  );
   private readonly spreadsheetId: string;
   private readonly sheetName: string;
   private readonly gid?: string;
@@ -31,7 +34,10 @@ export class GoogleSheetsPublicCsvMatchRepository implements MatchRepository {
   private readonly rangeAppliedToDirectCsv: boolean;
   private teamLogosCache?: Record<string, string | null>;
   private readonly classementCsvUrl?: string;
-  private teamPouleCache?: Record<string, { pouleCode: string; pouleName: string }>;
+  private teamPouleCache?: Record<
+    string,
+    { pouleCode: string; pouleName: string }
+  >;
 
   constructor() {
     this.spreadsheetId = process.env.GOOGLE_SHEETS_SPREADSHEET_ID ?? '';
@@ -41,16 +47,16 @@ export class GoogleSheetsPublicCsvMatchRepository implements MatchRepository {
     const profile = (process.env.SHEETS_PROFILE ?? 'prod').trim().toLowerCase();
     const prodCsvUrl = process.env.GOOGLE_SHEETS_CSV_URL;
     const testCsvUrl = process.env.GOOGLE_SHEETS_CSV_URL_TEST;
-    this.directCsvUrl = profile === 'test' ? testCsvUrl ?? prodCsvUrl : prodCsvUrl;
+    this.directCsvUrl =
+      profile === 'test' ? (testCsvUrl ?? prodCsvUrl) : prodCsvUrl;
     this.teamLogosCsvUrl =
       process.env.TEAM_LOGOS_CSV_URL ??
       'https://docs.google.com/spreadsheets/d/e/2PACX-1vQEDjqyjswKcD9ZcPbkAGIrUf8zbGHGr-XnHYrNnBQX_HOAsdjU_PU0FgYCvdCDXEz5Xc90uGNP8CzQ/pub?gid=1961198584&single=true&output=csv';
     this.rangeAppliedToDirectCsv =
-      !!this.directCsvUrl &&
-      this.directCsvUrl.toLowerCase().includes('range=');
+      !!this.directCsvUrl && this.directCsvUrl.toLowerCase().includes('range=');
     this.classementCsvUrl =
       process.env.GOOGLE_SHEETS_CLASSEMENT_CSV_URL ??
-      (profile === 'test' ? testCsvUrl ?? prodCsvUrl : prodCsvUrl);
+      (profile === 'test' ? (testCsvUrl ?? prodCsvUrl) : prodCsvUrl);
     const { start, end } = this.extractRangeBounds(this.range);
     this.startRow = start;
     this.endRow = end;
@@ -278,8 +284,7 @@ export class GoogleSheetsPublicCsvMatchRepository implements MatchRepository {
     const result: string[] = [];
     let current = '';
     let inQuotes = false;
-    const separator =
-      line.includes(',') ? ',' : line.includes(';') ? ';' : ',';
+    const separator = line.includes(',') ? ',' : line.includes(';') ? ';' : ',';
 
     for (let i = 0; i < line.length; i++) {
       const char = line[i];
@@ -312,7 +317,10 @@ export class GoogleSheetsPublicCsvMatchRepository implements MatchRepository {
   private extractRangeBounds(range: string): { start: number; end?: number } {
     const match = range.match(/[A-Z]+(\d+):[A-Z]+(\d+)/i);
     if (match && match[1]) {
-      return { start: parseInt(match[1], 10), end: match[2] ? parseInt(match[2], 10) : undefined };
+      return {
+        start: parseInt(match[1], 10),
+        end: match[2] ? parseInt(match[2], 10) : undefined,
+      };
     }
     const startOnly = range.match(/[A-Z]+(\d+)/i);
     if (startOnly && startOnly[1]) {
@@ -367,7 +375,13 @@ export class GoogleSheetsPublicCsvMatchRepository implements MatchRepository {
       const now = new Date();
       const hours = parseInt(timeMatch[1], 10);
       const minutes = parseInt(timeMatch[2], 10);
-      return new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
+      return new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate(),
+        hours,
+        minutes,
+      );
     }
     const d = new Date(value);
     if (!isNaN(d.getTime())) return d;
@@ -380,7 +394,9 @@ export class GoogleSheetsPublicCsvMatchRepository implements MatchRepository {
     return isNaN(n) ? null : n;
   }
 
-  private async loadTeamPoules(): Promise<Record<string, { pouleCode: string; pouleName: string }>> {
+  private async loadTeamPoules(): Promise<
+    Record<string, { pouleCode: string; pouleName: string }>
+  > {
     if (this.teamPouleCache) return this.teamPouleCache;
     if (!this.classementCsvUrl) {
       this.teamPouleCache = {};
@@ -408,7 +424,11 @@ export class GoogleSheetsPublicCsvMatchRepository implements MatchRepository {
       const pouleName =
         rows[range.nameRow]?.[POULE_NAME_COL]?.trim() || `Poule ${range.code}`;
 
-      for (let rowIndex = range.startRow; rowIndex <= range.endRow; rowIndex++) {
+      for (
+        let rowIndex = range.startRow;
+        rowIndex <= range.endRow;
+        rowIndex++
+      ) {
         const row = rows[rowIndex] ?? [];
         const slice = row.slice(START_COL, END_COL + 1);
         if (slice.every((cell) => cell === '' || cell === undefined)) continue;

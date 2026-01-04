@@ -1,6 +1,8 @@
 import { TentativeAtelier } from '../entities/tentative-atelier.entity';
 
-export const TENTATIVE_ATELIER_REPOSITORY = Symbol('TENTATIVE_ATELIER_REPOSITORY');
+export const TENTATIVE_ATELIER_REPOSITORY = Symbol(
+  'TENTATIVE_ATELIER_REPOSITORY',
+);
 
 export abstract class TentativeAtelierRepository {
   abstract create(tentative: TentativeAtelier): Promise<TentativeAtelier>;

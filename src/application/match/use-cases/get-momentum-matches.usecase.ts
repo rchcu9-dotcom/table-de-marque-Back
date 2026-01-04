@@ -1,6 +1,9 @@
 import { Injectable, Inject } from '@nestjs/common';
 
-import { MATCH_REPOSITORY, MatchRepository } from '@/domain/match/repositories/match.repository';
+import {
+  MATCH_REPOSITORY,
+  MatchRepository,
+} from '@/domain/match/repositories/match.repository';
 import { Match } from '@/domain/match/entities/match.entity';
 import { MatchFilters } from './get-all-matches.usecase';
 
@@ -16,7 +19,11 @@ export class GetMomentumMatchesUseCase {
     if (!all || all.length === 0) return [];
 
     const filtered = all.filter((m) => {
-      if (filters.competitionType && m.competitionType !== filters.competitionType) return false;
+      if (
+        filters.competitionType &&
+        m.competitionType !== filters.competitionType
+      )
+        return false;
       if (filters.surface && m.surface !== filters.surface) return false;
       if (filters.status && m.status !== filters.status) return false;
       return true;

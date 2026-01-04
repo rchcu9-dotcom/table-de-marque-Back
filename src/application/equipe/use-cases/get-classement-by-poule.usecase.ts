@@ -3,7 +3,10 @@ import {
   EQUIPE_REPOSITORY,
   EquipeRepository,
 } from '@/domain/equipe/repositories/equipe.repository';
-import { PouleClassement, PouleCode } from '@/domain/equipe/entities/equipe.entity';
+import {
+  PouleClassement,
+  PouleCode,
+} from '@/domain/equipe/entities/equipe.entity';
 
 @Injectable()
 export class GetClassementByPouleUseCase {
@@ -12,7 +15,10 @@ export class GetClassementByPouleUseCase {
     private readonly equipeRepo: EquipeRepository,
   ) {}
 
-  async execute(code: PouleCode, phase?: string): Promise<PouleClassement | null> {
+  async execute(
+    code: PouleCode,
+    phase?: string,
+  ): Promise<PouleClassement | null> {
     const res = await this.equipeRepo.findClassementByPoule(code);
     if (!res) return null;
     if (phase && res.phase && res.phase !== phase) {
