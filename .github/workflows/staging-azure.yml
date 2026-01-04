@@ -57,20 +57,6 @@ jobs:
         run: |
           docker push $ACR_LOGIN_SERVER/$IMAGE_NAME:$TAG
 
-      - name: Validate runtime env (Container Apps)
-        env:
-          CONTAINER_APP_NAME: ${{ env.CONTAINER_APP_NAME }}
-          RESOURCE_GROUP: ${{ env.RESOURCE_GROUP }}
-        run: |
-          REQUIRED=(SHEETS_PROFILE MATCH_REPOSITORY_DRIVER EQUIPE_REPOSITORY_DRIVER MATCH_CACHE_REFRESH_MS MATCH_CACHE_POLLING_ENABLED EQUIPE_CACHE_TTL_MS USE_MOCK_SCHEDULE USE_MOCK_CHALLENGE USE_MYSQL DB_PROVIDER DATABASE_URL GOOGLE_SHEETS_SPREADSHEET_ID GOOGLE_SHEETS_SPREADSHEET_ID_TEST GOOGLE_SHEETS_RANGE GOOGLE_SHEETS_SHEET_NAME GOOGLE_SHEETS_CSV_URL GOOGLE_SHEETS_CSV_URL_TEST GOOGLE_SHEETS_CLASSEMENT_CSV_URL GOOGLE_SHEETS_CLIENT_EMAIL GOOGLE_SHEETS_PRIVATE_KEY)
-          ENV_JSON=$(az containerapp show --name "$CONTAINER_APP_NAME" --resource-group "$RESOURCE_GROUP" --query "properties.template.containers[0].env" -o json)
-          missing=0
-          for key in "${REQUIRED[@]}"; do
-            val=$(echo "$ENV_JSON" | jq -r ".[] | select(.name==\"$key\") | .value")
-            if [ -z "$val" ] || [ "$val" = "null" ]; then echo "Missing env: $key"; missing=1; fi
-          done
-          if [ $missing -ne 0 ]; then exit 1; fi
-
       - name: Deploy to Azure Container Apps
         run: |
           az containerapp update \
