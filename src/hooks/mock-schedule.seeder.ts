@@ -122,13 +122,17 @@ export class MockScheduleSeeder implements OnModuleInit {
       D: MOCK_TEAMS.slice(12, 16).map((t) => t.id),
     };
 
+    const day1Base = '2026-01-04T09:00:00Z';
+    const day2Base = '2026-01-05T09:00:00Z';
+    const day3Base = '2026-01-06T08:00:00Z';
+
     const seedData: SeedMatchParams[] = [];
     let offset = 0;
     for (const [code, teams] of Object.entries(poules)) {
       seedData.push(
         ...roundRobin(
           teams,
-          '2026-05-23T09:00:00Z',
+          day1Base,
           offset,
           code,
           `Poule ${code}`,
@@ -150,7 +154,7 @@ export class MockScheduleSeeder implements OnModuleInit {
     seedData.push(
       ...roundRobin(
         alpha,
-        '2026-05-24T09:00:00Z',
+        day2Base,
         0,
         'Alpha',
         'Tournoi Or - Alpha',
@@ -161,7 +165,7 @@ export class MockScheduleSeeder implements OnModuleInit {
       ),
       ...roundRobin(
         beta,
-        '2026-05-24T09:00:00Z',
+        day2Base,
         6,
         'Beta',
         'Tournoi Or - Beta',
@@ -172,7 +176,7 @@ export class MockScheduleSeeder implements OnModuleInit {
       ),
       ...roundRobin(
         gamma,
-        '2026-05-24T12:00:00Z',
+        day2Base,
         0,
         'Gamma',
         'Tournoi Argent - Gamma',
@@ -183,7 +187,7 @@ export class MockScheduleSeeder implements OnModuleInit {
       ),
       ...roundRobin(
         delta,
-        '2026-05-24T12:00:00Z',
+        day2Base,
         6,
         'Delta',
         'Tournoi Argent - Delta',
@@ -251,10 +255,10 @@ export class MockScheduleSeeder implements OnModuleInit {
     };
 
     seedData.push(
-      ...buildCarre(alpha, 'Or1', 'Carre Or 1', '2026-05-25T08:00:00Z'),
-      ...buildCarre(beta, 'Or5', 'Carre Or 5', '2026-05-25T10:00:00Z'),
-      ...buildCarre(gamma, 'Argent1', 'Carre Argent 1', '2026-05-25T12:00:00Z'),
-      ...buildCarre(delta, 'Argent5', 'Carre Argent 5', '2026-05-25T14:00:00Z'),
+      ...buildCarre(alpha, 'Or1', 'Carre Or 1', day3Base),
+      ...buildCarre(beta, 'Or5', 'Carre Or 5', day3Base),
+      ...buildCarre(gamma, 'Argent1', 'Carre Argent 1', day3Base),
+      ...buildCarre(delta, 'Argent5', 'Carre Argent 5', day3Base),
     );
 
     // Tournoi 3v3 (PG) J2 : 2 matchs par équipe (16 matchs)
