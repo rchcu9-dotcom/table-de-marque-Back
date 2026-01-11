@@ -19,15 +19,22 @@ import { InMemoryTentativeAtelierRepository } from './memory/in-memory-tentative
 import { MatchCacheService } from './match-cache.service';
 import { MatchPollingService } from '@/hooks/match-polling.service';
 import { MatchStreamService } from '@/hooks/match-stream.service';
+import { PrismaService } from './mysql/prisma.service';
+import { MySqlMatchRepository } from './mysql/mysql-match.repository';
+import { MySqlEquipeRepository } from './mysql/mysql-equipe.repository';
+import { MySqlJoueurRepository } from './mysql/mysql-joueur.repository';
+import { MySqlAtelierRepository } from './mysql/mysql-atelier.repository';
+import { MySqlTentativeAtelierRepository } from './mysql/mysql-tentative-atelier.repository';
 
 type MatchRepoDriver =
   | 'google-sheets-public'
   | 'google-sheets'
-  | 'memory';
+  | 'memory'
+  | 'prisma';
 
 const baseMatchRepositoryProvider = {
   provide: MATCH_REPOSITORY_SOURCE,
-  useFactory: () => {
+  useFactory: (prisma: PrismaService) => {
     const raw = (process.env.MATCH_REPOSITORY_DRIVER ?? '')
       .trim()
       .toLowerCase();
@@ -40,12 +47,15 @@ const baseMatchRepositoryProvider = {
         return new GoogleSheetsPublicCsvMatchRepository();
       case 'google-sheets':
         return new GoogleSheetsMatchRepository();
+      case 'prisma':
+        return new MySqlMatchRepository(prisma);
       case 'memory':
         return new InMemoryMatchRepository();
       default:
         return new InMemoryMatchRepository();
     }
   },
+  inject: [PrismaService],
 };
 
 const cachedMatchRepositoryProvider = {
@@ -55,7 +65,7 @@ const cachedMatchRepositoryProvider = {
 
 const equipePersistenceProvider = {
   provide: EQUIPE_REPOSITORY,
-  useFactory: () => {
+  useFactory: (prisma: PrismaService) => {
     const driver =
       (process.env.EQUIPE_REPOSITORY_DRIVER ?? '').trim().toLowerCase() ||
       'google-sheets-public';
@@ -68,27 +78,60 @@ const equipePersistenceProvider = {
       return new InMemoryEquipeRepository();
     }
 
+    if (driver === 'prisma') {
+      return new MySqlEquipeRepository(prisma);
+    }
+
     throw new Error(`Unsupported EQUIPE_REPOSITORY_DRIVER: ${driver}`);
   },
+  inject: [PrismaService],
 };
 
 const joueurPersistenceProvider = {
   provide: JOUEUR_REPOSITORY,
-  useFactory: () => new InMemoryJoueurRepository(),
+  useFactory: (prisma: PrismaService) => {
+    const driver =
+      (process.env.JOUEUR_REPOSITORY_DRIVER ?? '').trim().toLowerCase() ||
+      'memory';
+    if (driver === 'prisma') {
+      return new MySqlJoueurRepository(prisma);
+    }
+    return new InMemoryJoueurRepository();
+  },
+  inject: [PrismaService],
 };
 
 const atelierPersistenceProvider = {
   provide: ATELIER_REPOSITORY,
-  useFactory: () => new InMemoryAtelierRepository(),
+  useFactory: () => {
+    const driver =
+      (process.env.ATELIER_REPOSITORY_DRIVER ?? '').trim().toLowerCase() ||
+      'memory';
+    if (driver === 'prisma') {
+      return new MySqlAtelierRepository();
+    }
+    return new InMemoryAtelierRepository();
+  },
 };
 
 const tentativeAtelierPersistenceProvider = {
   provide: TENTATIVE_ATELIER_REPOSITORY,
-  useFactory: () => new InMemoryTentativeAtelierRepository(),
+  useFactory: (prisma: PrismaService) => {
+    const driver =
+      (process.env.TENTATIVE_ATELIER_REPOSITORY_DRIVER ?? '')
+        .trim()
+        .toLowerCase() || 'memory';
+    if (driver === 'prisma') {
+      return new MySqlTentativeAtelierRepository(prisma);
+    }
+    return new InMemoryTentativeAtelierRepository();
+  },
+  inject: [PrismaService],
 };
 
 @Module({
   providers: [
+    PrismaService,
     baseMatchRepositoryProvider,
     MatchStreamService,
     MatchCacheService,
