@@ -12,7 +12,8 @@ COPY package.json pnpm-lock.yaml ./
 ENV NODE_ENV=development
 RUN pnpm install --frozen-lockfile --prod=false
 
-# 3b. Generate Prisma client (pnpm skips build scripts in CI)
+# 3b. Copy Prisma schema, then generate client
+COPY prisma ./prisma
 RUN pnpm prisma generate
 
 # 4. Copy the rest of the backend
