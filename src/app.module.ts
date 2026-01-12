@@ -8,9 +8,11 @@ import { JoueurModule } from './infrastructure/http/joueur/joueur.module';
 import { ChallengeMockSeeder } from './hooks/challenge-mock.seeder';
 import { MockScheduleSeeder } from './hooks/mock-schedule.seeder';
 import { MockEquipeSeeder } from './hooks/mock-equipe.seeder';
+import { CacheModule } from './infrastructure/cache/cache.module';
 
 @Module({
   imports: [
+    CacheModule,
     PersistenceModule,
     MatchModule,
     ClassementModule,
