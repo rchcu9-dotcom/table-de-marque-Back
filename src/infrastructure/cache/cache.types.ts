@@ -2,6 +2,7 @@ export type CacheKey =
   | 'equipes'
   | 'classement'
   | 'matches'
+  | 'meals'
   | 'planning'
   | 'bootstrap';
 

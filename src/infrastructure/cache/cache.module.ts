@@ -16,6 +16,11 @@ import {
   EquipeRepository,
   EQUIPE_REPOSITORY,
 } from '@/domain/equipe/repositories/equipe.repository';
+import {
+  MealRepository,
+  MEAL_REPOSITORY,
+} from '@/domain/meal/repositories/meal.repository';
+import { buildMealsPayload } from '@/application/meal/meal.utils';
 
 @Injectable()
 export class CacheWarmupService implements OnModuleInit, OnModuleDestroy {
@@ -25,6 +30,7 @@ export class CacheWarmupService implements OnModuleInit, OnModuleDestroy {
     private readonly cache: CacheSnapshotService,
     @Inject(MATCH_REPOSITORY) private readonly matchRepo: MatchRepository,
     @Inject(EQUIPE_REPOSITORY) private readonly equipeRepo: EquipeRepository,
+    @Inject(MEAL_REPOSITORY) private readonly mealRepo: MealRepository,
   ) {}
 
   onModuleInit() {
@@ -43,7 +49,7 @@ export class CacheWarmupService implements OnModuleInit, OnModuleDestroy {
   }
 
   private async runWarmup() {
-    await this.cache.staleWhileRevalidate('matches', () =>
+    const matches = await this.cache.staleWhileRevalidate('matches', () =>
       this.matchRepo.findAll(),
     );
     const equipes = await this.cache.staleWhileRevalidate('equipes', () =>
@@ -61,6 +67,12 @@ export class CacheWarmupService implements OnModuleInit, OnModuleDestroy {
     if (Object.keys(byCode).length > 0) {
       this.cache.setEntry('classement', byCode);
     }
+
+    const mealsSource = await this.mealRepo.findMeals();
+    this.cache.setEntry(
+      'meals',
+      buildMealsPayload(mealsSource, matches, new Date()),
+    );
   }
 }
 
