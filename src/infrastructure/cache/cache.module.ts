@@ -1,4 +1,10 @@
-import { Inject, Injectable, Module, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  Module,
+  OnModuleDestroy,
+  OnModuleInit,
+} from '@nestjs/common';
 import { CacheStore } from './cache.store';
 import { CacheSnapshotService } from './cache.snapshot.service';
 import { PersistenceModule } from '@/infrastructure/persistence/persistence.module';
@@ -25,11 +31,11 @@ export class CacheWarmupService implements OnModuleInit, OnModuleDestroy {
     const enabled =
       (process.env.CACHE_WARMUP_ENABLED ?? '').trim().toLowerCase() === 'true';
     if (!enabled) return;
-    const intervalMs = Number(
-      process.env.CACHE_WARMUP_INTERVAL_MS ?? '300000',
-    );
-    this.runWarmup();
-    this.timer = setInterval(() => this.runWarmup(), intervalMs);
+    const intervalMs = Number(process.env.CACHE_WARMUP_INTERVAL_MS ?? '300000');
+    void this.runWarmup();
+    this.timer = setInterval(() => {
+      void this.runWarmup();
+    }, intervalMs);
   }
 
   onModuleDestroy() {

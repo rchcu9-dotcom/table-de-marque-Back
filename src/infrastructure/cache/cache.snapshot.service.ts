@@ -20,7 +20,9 @@ export class CacheSnapshotService implements OnModuleInit {
   loadSnapshotsOnBoot() {
     if (!fs.existsSync(this.snapshotPath)) return;
     try {
-      const raw = JSON.parse(fs.readFileSync(this.snapshotPath, 'utf8'));
+      const raw = JSON.parse(
+        fs.readFileSync(this.snapshotPath, 'utf8'),
+      ) as Record<string, CacheEntry<unknown>>;
       Object.keys(raw).forEach((key) =>
         this.store.setEntry(key as CacheKey, raw[key]),
       );
@@ -54,7 +56,7 @@ export class CacheSnapshotService implements OnModuleInit {
       return entry.data;
     }
     const fresh = await loader();
-    await this.refresh(key, fresh);
+    this.refresh(key, fresh);
     return fresh;
   }
 
@@ -63,13 +65,13 @@ export class CacheSnapshotService implements OnModuleInit {
     this.persist();
   }
 
-  private async refresh<T>(key: CacheKey, data: T) {
+  private refresh<T>(key: CacheKey, data: T) {
     this.store.set(key, data);
     this.persist();
   }
 
   private persist() {
-    const obj: Record<string, any> = {};
+    const obj: Record<string, CacheEntry<unknown>> = {};
     for (const [k, v] of this.store.entries()) obj[k] = v;
     fs.mkdirSync(path.dirname(this.snapshotPath), { recursive: true });
     fs.writeFileSync(this.snapshotPath, JSON.stringify(obj));
