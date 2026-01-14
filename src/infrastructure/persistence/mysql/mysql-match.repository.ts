@@ -8,6 +8,7 @@ import {
   JourKey,
 } from './match-enrichment.mapping';
 import { buildTeamLogoUrl, normalizeKey, pouleDisplayName } from './mysql-utils';
+import { parisDateKey } from './date-paris.utils';
 
 type TaMatchRow = {
   NUM_MATCH: number;
@@ -149,8 +150,7 @@ export class MySqlMatchRepository implements MatchRepository {
   }
 
   private toDateKey(date: Date): string {
-    const d = new Date(date);
-    return d.toISOString().split('T')[0];
+    return parisDateKey(date);
   }
 
   private buildJourMapping(rows: TaMatchRow[]): Map<string, JourKey> {
