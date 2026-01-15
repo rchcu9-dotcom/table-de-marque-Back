@@ -8,10 +8,14 @@ import { RecordTentativeUseCase } from '@/application/challenge/use-cases/record
 import { ClassementService } from '@/domain/challenge/services/classement.service';
 import { GetChallengeByEquipeUseCase } from '@/application/challenge/use-cases/get-challenge-by-equipe.usecase';
 import { GetChallengeAllUseCase } from '@/application/challenge/use-cases/get-challenge-all.usecase';
+import { ChallengeStreamController } from './challenge.stream.controller';
+import { ChallengeCacheService } from '@/infrastructure/persistence/challenge-cache.service';
+import { ChallengeStreamService } from '@/hooks/challenge-stream.service';
+import { ChallengePollingService } from '@/hooks/challenge-polling.service';
 
 @Module({
   imports: [PersistenceModule],
-  controllers: [ChallengeController],
+  controllers: [ChallengeController, ChallengeStreamController],
   providers: [
     GetAteliersUseCase,
     GetClassementAtelierUseCase,
@@ -20,6 +24,9 @@ import { GetChallengeAllUseCase } from '@/application/challenge/use-cases/get-ch
     GetChallengeByEquipeUseCase,
     GetChallengeAllUseCase,
     ClassementService,
+    ChallengeStreamService,
+    ChallengeCacheService,
+    ChallengePollingService,
   ],
 })
 export class ChallengeModule {}
