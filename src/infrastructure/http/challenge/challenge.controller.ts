@@ -6,6 +6,7 @@ import { RecordTentativeUseCase } from '@/application/challenge/use-cases/record
 import { TentativeMetrics } from '@/domain/challenge/entities/tentative-atelier.entity';
 import { GetChallengeByEquipeUseCase } from '@/application/challenge/use-cases/get-challenge-by-equipe.usecase';
 import { GetChallengeAllUseCase } from '@/application/challenge/use-cases/get-challenge-all.usecase';
+import { GetChallengeVitesseJ3UseCase } from '@/application/challenge/use-cases/get-challenge-vitesse-j3.usecase';
 
 @Controller('challenge')
 export class ChallengeController {
@@ -16,6 +17,7 @@ export class ChallengeController {
     private readonly recordTentative: RecordTentativeUseCase,
     private readonly getChallengeByEquipe: GetChallengeByEquipeUseCase,
     private readonly getChallengeAll: GetChallengeAllUseCase,
+    private readonly getChallengeVitesseJ3: GetChallengeVitesseJ3UseCase,
   ) {}
 
   @Get('ateliers')
@@ -53,5 +55,10 @@ export class ChallengeController {
   @Get('all')
   async challengeAll(@Query('teamId') teamId?: string) {
     return this.getChallengeAll.execute(teamId);
+  }
+
+  @Get('vitesse/j3')
+  async challengeVitesseJ3() {
+    return this.getChallengeVitesseJ3.execute();
   }
 }

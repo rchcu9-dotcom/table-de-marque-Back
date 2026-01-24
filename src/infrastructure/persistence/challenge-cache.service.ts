@@ -18,12 +18,17 @@ import {
   GetClassementGlobalUseCase,
   ClassementGlobalEntry,
 } from '@/application/challenge/use-cases/get-classement-global.usecase';
+import {
+  GetChallengeVitesseJ3UseCase,
+  ChallengeVitesseJ3Response,
+} from '@/application/challenge/use-cases/get-challenge-vitesse-j3.usecase';
 
 export type ChallengeSnapshot = {
   all: ChallengeAllResponse;
   ateliers: Atelier[];
   classementGlobal: ClassementGlobalEntry[];
   classementByAtelier: Record<string, ClassementEntry[]>;
+  vitesseJ3: ChallengeVitesseJ3Response;
 };
 
 type ChallengeDiff = {
@@ -48,6 +53,7 @@ export class ChallengeCacheService {
     private readonly getAteliers: GetAteliersUseCase,
     private readonly getClassementAtelier: GetClassementAtelierUseCase,
     private readonly getClassementGlobal: GetClassementGlobalUseCase,
+    private readonly getChallengeVitesseJ3: GetChallengeVitesseJ3UseCase,
     @Optional()
     private readonly stream?: ChallengeStreamService,
   ) {}
@@ -119,10 +125,11 @@ export class ChallengeCacheService {
   }
 
   private async buildSnapshot(): Promise<ChallengeSnapshot> {
-    const [all, ateliers, classementGlobal] = await Promise.all([
+    const [all, ateliers, classementGlobal, vitesseJ3] = await Promise.all([
       this.getChallengeAll.execute(),
       this.getAteliers.execute(),
       this.getClassementGlobal.execute(),
+      this.getChallengeVitesseJ3.execute(),
     ]);
 
     const classementByAtelierEntries = await Promise.all(
@@ -137,6 +144,7 @@ export class ChallengeCacheService {
       ateliers,
       classementGlobal,
       classementByAtelier: Object.fromEntries(classementByAtelierEntries),
+      vitesseJ3,
     };
   }
 
@@ -252,6 +260,7 @@ export class ChallengeCacheService {
       ateliers,
       classementGlobal,
       classementByAtelier,
+      vitesseJ3: snapshot.vitesseJ3,
     };
 
     return createHash('sha256').update(JSON.stringify(plain)).digest('hex');

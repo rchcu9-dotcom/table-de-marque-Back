@@ -8,6 +8,7 @@ import { RecordTentativeUseCase } from '@/application/challenge/use-cases/record
 import { ClassementService } from '@/domain/challenge/services/classement.service';
 import { GetChallengeByEquipeUseCase } from '@/application/challenge/use-cases/get-challenge-by-equipe.usecase';
 import { GetChallengeAllUseCase } from '@/application/challenge/use-cases/get-challenge-all.usecase';
+import { GetChallengeVitesseJ3UseCase } from '@/application/challenge/use-cases/get-challenge-vitesse-j3.usecase';
 import { ChallengeStreamController } from './challenge.stream.controller';
 import { ChallengeCacheService } from '@/infrastructure/persistence/challenge-cache.service';
 import { ChallengeStreamService } from '@/hooks/challenge-stream.service';
@@ -23,6 +24,7 @@ import { ChallengePollingService } from '@/hooks/challenge-polling.service';
     RecordTentativeUseCase,
     GetChallengeByEquipeUseCase,
     GetChallengeAllUseCase,
+    GetChallengeVitesseJ3UseCase,
     ClassementService,
     ChallengeStreamService,
     ChallengeCacheService,
