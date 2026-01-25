@@ -45,7 +45,23 @@ export class GetMomentumMatchesUseCase {
         );
         return desc.slice(0, 3);
       }
-      return sortByDateAsc.slice(0, 3);
+      const now = Date.now();
+      const nextIndex = sortByDateAsc.findIndex((m) => {
+        if (m.status === 'planned') return true;
+        if (m.status === 'finished' || m.status === 'deleted') return false;
+        return new Date(m.date).getTime() > now;
+      });
+      if (nextIndex === -1) {
+        return sortByDateAsc.slice(0, 3);
+      }
+      const lastIndex = sortByDateAsc.length - 1;
+      if (nextIndex === 0) {
+        return sortByDateAsc.slice(0, 3);
+      }
+      if (nextIndex === lastIndex) {
+        return sortByDateAsc.slice(Math.max(lastIndex - 2, 0), lastIndex + 1);
+      }
+      return sortByDateAsc.slice(nextIndex - 1, nextIndex + 2);
     }
 
     const lastIndex = sortByDateAsc.length - 1;
