@@ -10,6 +10,7 @@ import { ChallengeMockSeeder } from './hooks/challenge-mock.seeder';
 import { MockScheduleSeeder } from './hooks/mock-schedule.seeder';
 import { MockEquipeSeeder } from './hooks/mock-equipe.seeder';
 import { CacheModule } from './infrastructure/cache/cache.module';
+import { LiveModule } from './infrastructure/http/live/live.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { CacheModule } from './infrastructure/cache/cache.module';
     EquipeModule,
     JoueurModule,
     MealsModule,
+    LiveModule,
   ],
   providers: [ChallengeMockSeeder, MockScheduleSeeder, MockEquipeSeeder],
 })
