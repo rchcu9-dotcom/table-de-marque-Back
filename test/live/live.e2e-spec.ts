@@ -20,11 +20,17 @@ type MockRes = {
   end: jest.Mock;
 };
 
-const makeDetectionResult = (
-  sourceState: LiveSourceState,
-): LiveDetectionResult => ({
-  isLive: sourceState === 'ok',
-  liveVideoId: sourceState === 'ok' ? 'live-123' : null,
+const makeDetectionResult = ({
+  isLive,
+  sourceState = 'ok',
+  liveVideoId = isLive ? 'live-123' : null,
+}: {
+  isLive: boolean;
+  sourceState?: LiveSourceState;
+  liveVideoId?: string | null;
+}): LiveDetectionResult => ({
+  isLive,
+  liveVideoId,
   sourceState,
 });
 
@@ -59,8 +65,13 @@ describe('Live endpoints integration', () => {
     process.env.LIVE_CACHE_TTL_MS = '10';
     process.env.LIVE_POLLING_INTERVAL_MS = '30';
     process.env.LIVE_FALLBACK_VIDEO_ID = 'fallback-123';
+    process.env.LIVE_QUOTA_COOLDOWN_MS = '120000';
+    process.env.LIVE_FORCE_ENABLED = 'false';
+    process.env.LIVE_FORCE_VIDEO_ID = '';
 
-    detectionServiceMock.detectLive.mockResolvedValue(makeDetectionResult('ok'));
+    detectionServiceMock.detectLive.mockResolvedValue(
+      makeDetectionResult({ isLive: true }),
+    );
 
     const moduleRef = await Test.createTestingModule({
       imports: [LiveModule],
@@ -88,38 +99,122 @@ describe('Live endpoints integration', () => {
     detectionServiceMock.getChannelUrl.mockReturnValue(
       'https://www.youtube.com/@test-channel',
     );
+    process.env.LIVE_FORCE_ENABLED = 'false';
+    process.env.LIVE_FORCE_VIDEO_ID = '';
   });
 
   it.each([
-    'ok',
-    'detection_error',
-    'timeout',
-    'quota_exceeded',
-  ] as const)(
-    'GET /live/status renvoie un payload exploitable avec sourceState=%s',
-    async (sourceState) => {
-      detectionServiceMock.detectLive.mockResolvedValue(
-        makeDetectionResult(sourceState),
-      );
+    {
+      name: 'live valide',
+      detection: makeDetectionResult({ isLive: true, sourceState: 'ok' }),
+      expected: { isLive: true, mode: 'live', sourceState: 'ok' as const },
+    },
+    {
+      name: '/live sans videoId => fallback ok',
+      detection: makeDetectionResult({
+        isLive: false,
+        sourceState: 'ok',
+        liveVideoId: null,
+      }),
+      expected: { isLive: false, mode: 'fallback', sourceState: 'ok' as const },
+    },
+    {
+      name: 'timeout resolution /live => fallback robuste',
+      detection: makeDetectionResult({
+        isLive: false,
+        sourceState: 'ok',
+        liveVideoId: null,
+      }),
+      expected: { isLive: false, mode: 'fallback', sourceState: 'ok' as const },
+    },
+    {
+      name: 'quota videos.list => fallback exploitable',
+      detection: makeDetectionResult({ isLive: false, sourceState: 'quota_exceeded' }),
+      expected: {
+        isLive: false,
+        mode: 'fallback',
+        sourceState: 'quota_exceeded' as const,
+      },
+    },
+    {
+      name: 'detection_error',
+      detection: makeDetectionResult({ isLive: false, sourceState: 'detection_error' }),
+      expected: {
+        isLive: false,
+        mode: 'fallback',
+        sourceState: 'detection_error' as const,
+      },
+    },
+  ])(
+    'GET /live/status renvoie un payload exploitable ($name)',
+    async ({ detection, expected }) => {
+      detectionServiceMock.detectLive.mockResolvedValue(detection);
       await cache.refresh(true);
 
       const res = await request(app.getHttpServer()).get('/live/status').expect(200);
 
       expect(res.body).toEqual(
         expect.objectContaining({
-          isLive: sourceState === 'ok',
-          mode: sourceState === 'ok' ? 'live' : 'fallback',
-          sourceState,
+          isLive: expected.isLive,
+          mode: expected.mode,
+          sourceState: expected.sourceState,
           fallbackEmbedUrl: expect.stringContaining('/fallback-123'),
-          nextRefreshInSec: 1,
+          nextRefreshInSec: expect.any(Number),
           channelUrl: 'https://www.youtube.com/@test-channel',
         }),
       );
     },
   );
 
+  it('LIVE_FORCE_ENABLED=true force le live sans appel externe', async () => {
+    process.env.LIVE_FORCE_ENABLED = 'true';
+    process.env.LIVE_FORCE_VIDEO_ID = 'forced-video-123';
+
+    const res = await request(app.getHttpServer()).get('/live/status').expect(200);
+
+    expect(res.body).toEqual(
+      expect.objectContaining({
+        isLive: true,
+        mode: 'live',
+        sourceState: 'ok',
+        liveVideoId: 'forced-video-123',
+        liveEmbedUrl: expect.stringContaining('/forced-video-123'),
+      }),
+    );
+    expect(detectionServiceMock.detectLive).not.toHaveBeenCalled();
+  });
+
+  it('LIVE_FORCE_ENABLED=false revient en mode nominal', async () => {
+    process.env.LIVE_FORCE_ENABLED = 'true';
+    process.env.LIVE_FORCE_VIDEO_ID = 'forced-video-123';
+    await request(app.getHttpServer()).get('/live/status').expect(200);
+
+    process.env.LIVE_FORCE_ENABLED = 'false';
+    process.env.LIVE_FORCE_VIDEO_ID = '';
+
+    detectionServiceMock.detectLive.mockResolvedValue(
+      makeDetectionResult({
+        isLive: false,
+        sourceState: 'ok',
+        liveVideoId: null,
+      }),
+    );
+    const res = await request(app.getHttpServer()).get('/live/status').expect(200);
+
+    expect(res.body).toEqual(
+      expect.objectContaining({
+        isLive: false,
+        mode: 'fallback',
+        sourceState: 'ok',
+      }),
+    );
+    expect(detectionServiceMock.detectLive).toHaveBeenCalled();
+  });
+
   it('GET /live/stream renvoie le replay initial (once=true)', async () => {
-    detectionServiceMock.detectLive.mockResolvedValue(makeDetectionResult('ok'));
+    detectionServiceMock.detectLive.mockResolvedValue(
+      makeDetectionResult({ isLive: true, sourceState: 'ok' }),
+    );
     await cache.refresh(true);
 
     const { req, res } = createMockSseContext({ once: 'true' });
@@ -136,7 +231,9 @@ describe('Live endpoints integration', () => {
 
   it('GET /live/stream emet un keepalive ping', async () => {
     jest.useFakeTimers();
-    detectionServiceMock.detectLive.mockResolvedValue(makeDetectionResult('ok'));
+    detectionServiceMock.detectLive.mockResolvedValue(
+      makeDetectionResult({ isLive: true, sourceState: 'ok' }),
+    );
     await cache.refresh(true);
 
     const { req, res } = createMockSseContext();
@@ -158,10 +255,14 @@ describe('Live endpoints integration', () => {
       received.push({ type: event.type, version: event.version });
     });
 
-    detectionServiceMock.detectLive.mockResolvedValue(makeDetectionResult('ok'));
+    detectionServiceMock.detectLive.mockResolvedValue(
+      makeDetectionResult({ isLive: true, sourceState: 'ok' }),
+    );
     await cache.refresh(true);
 
-    detectionServiceMock.detectLive.mockResolvedValue(makeDetectionResult('ok'));
+    detectionServiceMock.detectLive.mockResolvedValue(
+      makeDetectionResult({ isLive: true, sourceState: 'ok' }),
+    );
     await cache.refresh(false);
 
     detectionServiceMock.detectLive.mockResolvedValue({

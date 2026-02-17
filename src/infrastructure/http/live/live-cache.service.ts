@@ -18,10 +18,15 @@ export class LiveCacheService {
   private readonly pollingIntervalMs = Number(
     process.env.LIVE_POLLING_INTERVAL_MS ?? '30000',
   );
+  private readonly quotaCooldownMs = Number(
+    process.env.LIVE_QUOTA_COOLDOWN_MS ?? '300000',
+  );
 
   private cache: LiveStatusResponse | null = null;
   private lastHash?: string;
   private refreshPromise?: Promise<LiveStatusResponse>;
+  private quotaCooldownUntilMs = 0;
+  private lastWasForced = false;
 
   constructor(
     private readonly detectionService: LiveDetectionService,
@@ -30,6 +35,20 @@ export class LiveCacheService {
   ) {}
 
   async getStatus(): Promise<LiveStatusResponse> {
+    const forcedVideoId = this.getForcedVideoId();
+    if (forcedVideoId) {
+      if (
+        !this.cache ||
+        !this.lastWasForced ||
+        this.cache.mode !== 'live' ||
+        this.cache.liveVideoId !== forcedVideoId
+      ) {
+        return this.refresh(true);
+      }
+    } else if (this.lastWasForced) {
+      return this.refresh(true);
+    }
+
     if (!this.cache) {
       return this.refresh(true);
     }
@@ -57,8 +76,41 @@ export class LiveCacheService {
   }
 
   private async performRefresh(force: boolean): Promise<LiveStatusResponse> {
-    const detection = await this.detectionService.detectLive();
-    const nextStatus = this.buildStatus(detection);
+    const nowMs = Date.now();
+    const forcedVideoId = this.getForcedVideoId();
+
+    let detection: LiveDetectionResult;
+    if (forcedVideoId) {
+      this.lastWasForced = true;
+      this.quotaCooldownUntilMs = 0;
+      detection = {
+        isLive: true,
+        liveVideoId: forcedVideoId,
+        sourceState: 'ok',
+      };
+    } else if (
+      !force &&
+      this.quotaCooldownUntilMs > nowMs &&
+      this.cache &&
+      this.cache.sourceState === 'quota_exceeded'
+    ) {
+      this.lastWasForced = false;
+      detection = {
+        isLive: false,
+        liveVideoId: null,
+        sourceState: 'quota_exceeded',
+      };
+    } else {
+      this.lastWasForced = false;
+      detection = await this.detectionService.detectLive();
+      if (detection.sourceState === 'quota_exceeded') {
+        this.quotaCooldownUntilMs = nowMs + this.quotaCooldownMs;
+      } else if (detection.sourceState === 'ok') {
+        this.quotaCooldownUntilMs = 0;
+      }
+    }
+
+    const nextStatus = this.buildStatus(detection, nowMs);
     const nextHash = this.hashStatus(nextStatus);
     const changed = force || this.lastHash !== nextHash;
 
@@ -77,7 +129,10 @@ export class LiveCacheService {
     return nextStatus;
   }
 
-  private buildStatus(detection: LiveDetectionResult): LiveStatusResponse {
+  private buildStatus(
+    detection: LiveDetectionResult,
+    nowMs: number,
+  ): LiveStatusResponse {
     const liveVideoId = detection.isLive ? detection.liveVideoId : null;
     const liveEmbedUrl = liveVideoId
       ? this.buildLiveEmbedUrl(liveVideoId)
@@ -96,9 +151,24 @@ export class LiveCacheService {
       fallbackVideoId: this.fallbackVideoId,
       fallbackEmbedUrl: this.buildFallbackEmbedUrl(this.fallbackVideoId),
       updatedAt: new Date().toISOString(),
-      nextRefreshInSec: Math.max(1, Math.floor(this.pollingIntervalMs / 1000)),
+      nextRefreshInSec: this.getNextRefreshInSec(nowMs),
       sourceState,
     };
+  }
+
+  private getForcedVideoId(): string | null {
+    const enabled =
+      (process.env.LIVE_FORCE_ENABLED ?? 'false').toLowerCase() === 'true';
+    const id = (process.env.LIVE_FORCE_VIDEO_ID ?? '').trim();
+    if (!enabled || !id) return null;
+    return id;
+  }
+
+  private getNextRefreshInSec(nowMs: number): number {
+    if (this.quotaCooldownUntilMs > nowMs) {
+      return Math.max(1, Math.ceil((this.quotaCooldownUntilMs - nowMs) / 1000));
+    }
+    return Math.max(1, Math.floor(this.pollingIntervalMs / 1000));
   }
 
   private buildLiveEmbedUrl(videoId: string): string {
