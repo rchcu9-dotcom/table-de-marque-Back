@@ -10,6 +10,8 @@ describe('LiveDetectionService (low quota strategy)', () => {
     process.env.YOUTUBE_CHANNEL_ID = '';
     process.env.LIVE_DETECTION_TIMEOUT_MS = '3000';
     process.env.LIVE_LIVEURL_TIMEOUT_MS = '3000';
+    process.env.LIVE_SEARCH_FALLBACK_ENABLED = 'false';
+    process.env.LIVE_SEARCH_FALLBACK_COOLDOWN_MS = '300000';
   });
 
   afterEach(() => {
@@ -18,28 +20,28 @@ describe('LiveDetectionService (low quota strategy)', () => {
     jest.restoreAllMocks();
   });
 
-  it('detecte live=true via parsing HTML de /live puis validation videos.list', async () => {
+  it('variant A: ytInitialPlayerResponse -> extraction videoId OK + headers browser-like', async () => {
     const urls: string[] = [];
+    const options: Array<RequestInit | undefined> = [];
     global.fetch = jest
-      .fn()
-      .mockImplementationOnce(async (url: string) => {
+      .fn(async (url: string, init?: RequestInit) => {
         urls.push(url);
-        return new Response(
-          `
+        options.push(init);
+        if (urls.length === 1) {
+          return new Response(
+            `
           <html>
             <script>
               var ytInitialPlayerResponse = {"videoDetails":{"videoId":"live123"},"isLive":true};
             </script>
           </html>
           `,
-          {
-            status: 200,
-            headers: { 'Content-Type': 'text/html' },
-          },
-        );
-      })
-      .mockImplementationOnce(async (url: string) => {
-        urls.push(url);
+            {
+              status: 200,
+              headers: { 'Content-Type': 'text/html' },
+            },
+          );
+        }
         return new Response(
           JSON.stringify({
             items: [
@@ -63,12 +65,119 @@ describe('LiveDetectionService (low quota strategy)', () => {
     });
     expect(urls[0]).toContain('/live');
     expect(urls[0]).not.toContain('watch?v=');
+    expect(options[0]?.redirect).toBe('follow');
+    expect(options[0]?.headers).toEqual(
+      expect.objectContaining({
+        'User-Agent': expect.any(String),
+        Accept: expect.stringContaining('text/html'),
+        'Accept-Language': expect.any(String),
+        'Cache-Control': 'no-cache',
+        Pragma: 'no-cache',
+      }),
+    );
     expect(urls[1]).toContain('/youtube/v3/videos');
     expect(urls[1]).toContain('id=live123');
     expect(urls.join(' ')).not.toContain('/youtube/v3/search');
   });
 
-  it('retourne fallback ok quand /live ne fournit pas de videoId', async () => {
+  it('variant B: ytInitialData sans player response -> extraction videoId OK', async () => {
+    const urls: string[] = [];
+    global.fetch = jest
+      .fn()
+      .mockImplementationOnce(async (url: string) => {
+        urls.push(url);
+        return new Response(
+          `
+          <html>
+            <script>
+              var ytInitialData = {
+                "contents":{
+                  "liveRenderer":{
+                    "videoId":"liveFromData1",
+                    "liveBadgeRenderer":{"label":"LIVE"}
+                  }
+                }
+              };
+            </script>
+          </html>
+          `,
+          {
+            status: 200,
+            headers: { 'Content-Type': 'text/html' },
+          },
+        );
+      })
+      .mockImplementationOnce(async (url: string) => {
+        urls.push(url);
+        return new Response(
+          JSON.stringify({
+            items: [
+              {
+                snippet: { liveBroadcastContent: 'live' },
+              },
+            ],
+          }),
+          { status: 200, headers: { 'Content-Type': 'application/json' } },
+        );
+      }) as unknown as typeof fetch;
+
+    const service = new LiveDetectionService();
+    const result = await service.detectLive();
+
+    expect(result).toEqual({
+      isLive: true,
+      liveVideoId: 'liveFromData1',
+      sourceState: 'ok',
+    });
+    expect(urls[1]).toContain('id=liveFromData1');
+  });
+
+  it('variant C: canonical watch URL seul -> extraction videoId OK', async () => {
+    const urls: string[] = [];
+    global.fetch = jest
+      .fn()
+      .mockImplementationOnce(async (url: string) => {
+        urls.push(url);
+        return new Response(
+          `
+          <html>
+            <head>
+              <link rel="canonical" href="https://www.youtube.com/watch?v=canon123" />
+            </head>
+          </html>
+          `,
+          {
+            status: 200,
+            headers: { 'Content-Type': 'text/html' },
+          },
+        );
+      })
+      .mockImplementationOnce(async (url: string) => {
+        urls.push(url);
+        return new Response(
+          JSON.stringify({
+            items: [
+              {
+                snippet: { liveBroadcastContent: 'live' },
+              },
+            ],
+          }),
+          { status: 200, headers: { 'Content-Type': 'application/json' } },
+        );
+      }) as unknown as typeof fetch;
+
+    const service = new LiveDetectionService();
+    const result = await service.detectLive();
+
+    expect(result).toEqual({
+      isLive: true,
+      liveVideoId: 'canon123',
+      sourceState: 'ok',
+    });
+    expect(urls[1]).toContain('id=canon123');
+  });
+
+  it('variant D: aucun candidat + search fallback disabled -> fallback propre', async () => {
     const urls: string[] = [];
     global.fetch = jest.fn(async (url: string) => {
       urls.push(url);
@@ -88,6 +197,54 @@ describe('LiveDetectionService (low quota strategy)', () => {
     });
     expect(urls).toHaveLength(1);
     expect(urls[0]).toContain('/live');
+    expect(urls.join(' ')).not.toContain('/youtube/v3/search');
+  });
+
+  it('variant E: aucun candidat + search fallback enabled -> search.list puis videos.list', async () => {
+    process.env.LIVE_SEARCH_FALLBACK_ENABLED = 'true';
+    process.env.YOUTUBE_CHANNEL_ID = 'channel-x';
+
+    const urls: string[] = [];
+    global.fetch = jest
+      .fn()
+      .mockImplementationOnce(async (url: string) => {
+        urls.push(url);
+        return new Response('<html><body>no candidates</body></html>', {
+          status: 200,
+          headers: { 'Content-Type': 'text/html' },
+        });
+      })
+      .mockImplementationOnce(async (url: string) => {
+        urls.push(url);
+        return new Response(
+          JSON.stringify({
+            items: [{ id: { videoId: 'searchLive123' } }],
+          }),
+          { status: 200, headers: { 'Content-Type': 'application/json' } },
+        );
+      })
+      .mockImplementationOnce(async (url: string) => {
+        urls.push(url);
+        return new Response(
+          JSON.stringify({
+            items: [{ snippet: { liveBroadcastContent: 'live' } }],
+          }),
+          { status: 200, headers: { 'Content-Type': 'application/json' } },
+        );
+      }) as unknown as typeof fetch;
+
+    const service = new LiveDetectionService();
+    const result = await service.detectLive();
+
+    expect(result).toEqual({
+      isLive: true,
+      liveVideoId: 'searchLive123',
+      sourceState: 'ok',
+    });
+    expect(urls[1]).toContain('/youtube/v3/search');
+    expect(urls[1]).toContain('channelId=channel-x');
+    expect(urls[2]).toContain('/youtube/v3/videos');
+    expect(urls[2]).toContain('id=searchLive123');
   });
 
   it('selectionne un videoId pertinent quand HTML contient plusieurs IDs', async () => {
@@ -102,7 +259,11 @@ describe('LiveDetectionService (low quota strategy)', () => {
             <script>
               var ytInitialPlayerResponse = {
                 "videoDetails":{"videoId":"old111"},
-                "canonicalBaseUrl":"/watch?v=best222"
+                "microformat":{
+                  "playerMicroformatRenderer":{
+                    "canonicalUrl":"https://www.youtube.com/watch?v=best222"
+                  }
+                }
               };
             </script>
           </html>
@@ -212,6 +373,41 @@ describe('LiveDetectionService (low quota strategy)', () => {
     expect(result).toEqual({
       isLive: false,
       liveVideoId: null,
+      sourceState: 'ok',
+    });
+  });
+
+  it('applique la regle stricte live si started && !ended (meme sans liveBroadcastContent=live)', async () => {
+    global.fetch = jest
+      .fn()
+      .mockImplementationOnce(async () => {
+        return {
+          ok: true,
+          url: 'https://www.youtube.com/watch?v=strict123',
+        } as Response;
+      })
+      .mockImplementationOnce(async () => {
+        return new Response(
+          JSON.stringify({
+            items: [
+              {
+                snippet: { liveBroadcastContent: 'none' },
+                liveStreamingDetails: {
+                  actualStartTime: '2026-02-18T10:00:00Z',
+                },
+              },
+            ],
+          }),
+          { status: 200, headers: { 'Content-Type': 'application/json' } },
+        );
+      }) as unknown as typeof fetch;
+
+    const service = new LiveDetectionService();
+    const result = await service.detectLive();
+
+    expect(result).toEqual({
+      isLive: true,
+      liveVideoId: 'strict123',
       sourceState: 'ok',
     });
   });
@@ -350,5 +546,41 @@ describe('LiveDetectionService (low quota strategy)', () => {
     const result = await service.detectLive();
 
     expect(result.isLive).toBe(false);
+  });
+
+  it('cooldown search: ne relance pas search.list agressivement pendant la fenetre', async () => {
+    process.env.LIVE_SEARCH_FALLBACK_ENABLED = 'true';
+    process.env.LIVE_SEARCH_FALLBACK_COOLDOWN_MS = '600000';
+    process.env.YOUTUBE_CHANNEL_ID = 'channel-x';
+
+    const urls: string[] = [];
+    global.fetch = jest
+      .fn()
+      .mockImplementation(async (url: string) => {
+        urls.push(url);
+        if (url.includes('/live')) {
+          return new Response('<html><body>no candidates</body></html>', {
+            status: 200,
+            headers: { 'Content-Type': 'text/html' },
+          });
+        }
+        if (url.includes('/youtube/v3/search')) {
+          return new Response(JSON.stringify({ items: [] }), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' },
+          });
+        }
+        return new Response(JSON.stringify({ items: [] }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }) as unknown as typeof fetch;
+
+    const service = new LiveDetectionService();
+    await service.detectLive();
+    await service.detectLive();
+
+    const searchCalls = urls.filter((url) => url.includes('/youtube/v3/search'));
+    expect(searchCalls).toHaveLength(1);
   });
 });

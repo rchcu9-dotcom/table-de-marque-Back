@@ -314,4 +314,26 @@ describe('Live endpoints integration', () => {
     expect(statusAfterFirstFailure.mode).toBe('live');
     expect(receivedModes).toEqual(['live']);
   });
+
+  it('contrat stable quand fallback search est active (mock detection)', async () => {
+    process.env.LIVE_SEARCH_FALLBACK_ENABLED = 'true';
+    detectionServiceMock.detectLive.mockResolvedValue(
+      makeDetectionResult({
+        isLive: true,
+        sourceState: 'ok',
+        liveVideoId: 'search-live-1',
+      }),
+    );
+    await cache.refresh(true);
+
+    const res = await request(app.getHttpServer()).get('/live/status').expect(200);
+    expect(res.body).toEqual(
+      expect.objectContaining({
+        isLive: true,
+        mode: 'live',
+        sourceState: 'ok',
+        liveVideoId: 'search-live-1',
+      }),
+    );
+  });
 });

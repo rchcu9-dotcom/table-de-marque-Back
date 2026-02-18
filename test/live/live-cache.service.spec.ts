@@ -130,4 +130,23 @@ describe('LiveCacheService anti-flap', () => {
     expect(immediateFallback.isLive).toBe(false);
     expect(immediateFallback.mode).toBe('fallback');
   });
+
+  it('cooldown: ne relance pas detectLive agressivement pendant une fenetre quota', async () => {
+    process.env.LIVE_QUOTA_COOLDOWN_MS = '600000';
+    const { service, detectionService } = createService();
+
+    detectionService.detectLive.mockResolvedValueOnce(
+      makeDetection({ isLive: false, sourceState: 'quota_exceeded', liveVideoId: null }),
+    );
+    const first = await service.refresh(true);
+    expect(first.sourceState).toBe('quota_exceeded');
+    expect(detectionService.detectLive).toHaveBeenCalledTimes(1);
+
+    const second = await service.refresh(false);
+    const third = await service.refresh(false);
+
+    expect(second.sourceState).toBe('quota_exceeded');
+    expect(third.sourceState).toBe('quota_exceeded');
+    expect(detectionService.detectLive).toHaveBeenCalledTimes(1);
+  });
 });
