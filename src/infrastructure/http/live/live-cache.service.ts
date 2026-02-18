@@ -21,12 +21,17 @@ export class LiveCacheService {
   private readonly quotaCooldownMs = Number(
     process.env.LIVE_QUOTA_COOLDOWN_MS ?? '300000',
   );
+  private readonly fallbackThreshold = Math.max(
+    1,
+    Number(process.env.LIVE_FALLBACK_STREAK_THRESHOLD ?? '2'),
+  );
 
   private cache: LiveStatusResponse | null = null;
   private lastHash?: string;
   private refreshPromise?: Promise<LiveStatusResponse>;
   private quotaCooldownUntilMs = 0;
   private lastWasForced = false;
+  private fallbackStreak = 0;
 
   constructor(
     private readonly detectionService: LiveDetectionService,
@@ -111,21 +116,58 @@ export class LiveCacheService {
     }
 
     const nextStatus = this.buildStatus(detection, nowMs);
-    const nextHash = this.hashStatus(nextStatus);
+    const stableStatus = this.applyAntiFlap(nextStatus, detection);
+    const nextHash = this.hashStatus(stableStatus);
     const changed = force || this.lastHash !== nextHash;
 
-    this.cache = nextStatus;
+    this.cache = stableStatus;
     this.lastHash = nextHash;
 
     if (changed && this.stream) {
       this.stream.emit({
         type: 'live_status',
-        status: nextStatus,
+        status: stableStatus,
         version: nextHash,
         timestamp: Date.now(),
       });
     }
 
+    return stableStatus;
+  }
+
+  private applyAntiFlap(
+    nextStatus: LiveStatusResponse,
+    detection: LiveDetectionResult,
+  ): LiveStatusResponse {
+    if (nextStatus.isLive) {
+      this.fallbackStreak = 0;
+      return nextStatus;
+    }
+
+    const currentlyLive =
+      Boolean(this.cache?.isLive) &&
+      Boolean(this.cache?.liveVideoId) &&
+      Boolean(this.cache?.liveEmbedUrl);
+    if (!currentlyLive) {
+      this.fallbackStreak = 0;
+      return nextStatus;
+    }
+
+    this.fallbackStreak += 1;
+    this.logger.debug(
+      `Live detection: fallback streak: ${this.fallbackStreak}/${this.fallbackThreshold}`,
+    );
+
+    if (this.fallbackStreak < this.fallbackThreshold) {
+      this.logger.debug('Live detection: state kept live due to anti-flap');
+      return {
+        ...this.cache!,
+        updatedAt: new Date().toISOString(),
+        sourceState: detection.sourceState,
+      };
+    }
+
+    this.fallbackStreak = 0;
     return nextStatus;
   }
 

@@ -37,8 +37,8 @@ export class LiveDetectionService {
     process.env.YOUTUBE_CHANNEL_HANDLE ?? '@titouankerogues2051';
 
   async detectLive(): Promise<LiveDetectionResult> {
-    const liveUrlVideoId = await this.resolveLiveVideoIdFromChannelUrl();
-    if (!liveUrlVideoId) {
+    const candidates = await this.resolveLiveVideoCandidatesFromChannelUrl();
+    if (candidates.length === 0) {
       return { isLive: false, liveVideoId: null, sourceState: 'ok' };
     }
 
@@ -50,20 +50,31 @@ export class LiveDetectionService {
       };
     }
 
-    const validation = await this.validateLiveVideo(liveUrlVideoId);
-    if (!validation.ok) {
-      return {
-        isLive: false,
-        liveVideoId: null,
-        sourceState: validation.sourceState,
-      };
+    for (const candidateId of candidates) {
+      this.logger.debug(
+        `Live detection: live candidate chosen: ${this.maskVideoId(candidateId)}`,
+      );
+      const validation = await this.validateLiveVideo(candidateId);
+      if (!validation.ok) {
+        this.logger.debug(
+          `Live detection: live candidate validated=false (${validation.sourceState})`,
+        );
+        return {
+          isLive: false,
+          liveVideoId: null,
+          sourceState: validation.sourceState,
+        };
+      }
+
+      this.logger.debug(
+        `Live detection: live candidate validated=${validation.isLive}`,
+      );
+      if (validation.isLive) {
+        return { isLive: true, liveVideoId: candidateId, sourceState: 'ok' };
+      }
     }
 
-    if (!validation.isLive) {
-      return { isLive: false, liveVideoId: null, sourceState: 'ok' };
-    }
-
-    return { isLive: true, liveVideoId: liveUrlVideoId, sourceState: 'ok' };
+    return { isLive: false, liveVideoId: null, sourceState: 'ok' };
   }
 
   getChannelUrl(): string {
@@ -86,7 +97,7 @@ export class LiveDetectionService {
     return `${this.getChannelUrl().replace(/\/+$/, '')}/live`;
   }
 
-  private async resolveLiveVideoIdFromChannelUrl(): Promise<string | null> {
+  private async resolveLiveVideoCandidatesFromChannelUrl(): Promise<string[]> {
     const fetched = await this.fetchWithTimeout(
       this.getChannelLiveUrl(),
       {
@@ -96,34 +107,31 @@ export class LiveDetectionService {
     );
 
     if (!fetched.ok || !fetched.response) {
-      return null;
+      return [];
     }
 
+    const candidates: string[] = [];
     const finalUrl = fetched.response.url ?? '';
-    const fromUrl = this.extractVideoId(finalUrl);
+    const fromUrl = this.extractVideoIdFromUrl(finalUrl);
     if (fromUrl) {
-      return fromUrl;
+      candidates.push(fromUrl);
     }
 
-    this.logger.debug('Live detection: no redirect id, trying HTML parse');
-    const html = await this.safeReadText(fetched.response);
-    if (!html) {
-      this.logger.debug('Live detection: HTML parse failed/no id');
-      return null;
+    if (candidates.length === 0) {
+      this.logger.debug('Live detection: no redirect id, trying HTML parse');
+      const html = await this.safeReadText(fetched.response);
+      if (!html) {
+        this.logger.debug('Live detection: HTML parse failed/no id');
+        return [];
+      }
+      const fromHtml = this.extractVideoIdsFromHtml(html);
+      if (fromHtml.length === 0) {
+        this.logger.debug('Live detection: HTML parse failed/no id');
+      }
+      candidates.push(...fromHtml);
     }
 
-    const fromHtml = this.extractVideoIdFromHtml(html);
-    if (fromHtml) {
-      this.logger.debug(
-        `Live detection: videoId extracted from HTML: ${this.maskVideoId(
-          fromHtml,
-        )}`,
-      );
-      return fromHtml;
-    }
-
-    this.logger.debug('Live detection: HTML parse failed/no id');
-    return null;
+    return [...new Set(candidates)];
   }
 
   private async validateLiveVideo(
@@ -216,7 +224,7 @@ export class LiveDetectionService {
     }
   }
 
-  private extractVideoId(url: string): string | null {
+  private extractVideoIdFromUrl(url: string): string | null {
     if (!url) return null;
     const watchMatch = url.match(/[?&]v=([a-zA-Z0-9_-]{6,})/);
     if (watchMatch?.[1]) return watchMatch[1];
@@ -235,36 +243,63 @@ export class LiveDetectionService {
     }
   }
 
-  private extractVideoIdFromHtml(html: string): string | null {
-    const candidates = new Map<string, number>();
-    const patterns = [
-      /"videoId":"([a-zA-Z0-9_-]{6,})"/g,
-      /watch\?v=([a-zA-Z0-9_-]{6,})/g,
-      /\/embed\/([a-zA-Z0-9_-]{6,})/g,
-    ];
+  private extractVideoIdsFromHtml(html: string): string[] {
+    const ids: string[] = [];
 
-    for (const pattern of patterns) {
-      let match: RegExpExecArray | null;
-      while ((match = pattern.exec(html)) !== null) {
-        const id = match[1];
-        const start = Math.max(0, match.index - 200);
-        const end = Math.min(html.length, match.index + 200);
-        const context = html.slice(start, end).toLowerCase();
+    const playerWindow = this.extractWindow(
+      html,
+      'ytInitialPlayerResponse',
+      8000,
+    );
+    if (playerWindow) {
+      const fromVideoDetails = playerWindow.match(
+        /"videoDetails"\s*:\s*\{[\s\S]*?"videoId"\s*:\s*"([a-zA-Z0-9_-]{6,})"/,
+      )?.[1];
+      if (fromVideoDetails) {
+        ids.push(fromVideoDetails);
+      }
 
-        let score = candidates.get(id) ?? 0;
-        score += 1;
-        if (context.includes('live')) score += 3;
-        if (context.includes('islive')) score += 3;
-        if (context.includes('livebroadcastcontent')) score += 2;
-        if (context.includes('hlsmanifesturl')) score += 2;
-        if (context.includes('watch?v=')) score += 1;
-
-        candidates.set(id, score);
+      const fromCanonical = playerWindow.match(
+        /"canonicalBaseUrl"\s*:\s*"\/watch\?v=([a-zA-Z0-9_-]{6,})"/,
+      )?.[1];
+      if (fromCanonical) {
+        ids.push(fromCanonical);
       }
     }
 
-    const best = [...candidates.entries()].sort((a, b) => b[1] - a[1])[0];
-    return best?.[0] ?? null;
+    const canonicalLink = html.match(
+      /<link[^>]+rel="canonical"[^>]+href="https:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_-]{6,})[^"]*"/i,
+    )?.[1];
+    if (canonicalLink) {
+      ids.push(canonicalLink);
+    }
+
+    const liveContextWindow = this.extractWindow(
+      html,
+      'liveStreamingDetails',
+      4000,
+    );
+    if (liveContextWindow) {
+      const liveContextVideoId = liveContextWindow.match(
+        /"videoId"\s*:\s*"([a-zA-Z0-9_-]{6,})"/,
+      )?.[1];
+      if (liveContextVideoId) {
+        ids.push(liveContextVideoId);
+      }
+    }
+
+    return [...new Set(ids)];
+  }
+
+  private extractWindow(
+    text: string,
+    marker: string,
+    length: number,
+  ): string | null {
+    const idx = text.indexOf(marker);
+    if (idx < 0) return null;
+    const end = Math.min(text.length, idx + length);
+    return text.slice(idx, end);
   }
 
   private maskVideoId(videoId: string): string {

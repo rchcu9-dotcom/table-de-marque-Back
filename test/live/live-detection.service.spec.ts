@@ -100,14 +100,9 @@ describe('LiveDetectionService (low quota strategy)', () => {
           `
           <html>
             <script>
-              var stale = {"videoId":"old111","title":"Replay archive"};
-              var spacer = "${'x'.repeat(500)}";
-              var best = {
-                "videoId":"best222",
-                "isLive":true,
-                "liveBroadcastContent":"live",
-                "hlsManifestUrl":"https://cdn/live.m3u8",
-                "watchUrl":"https://www.youtube.com/watch?v=best222"
+              var ytInitialPlayerResponse = {
+                "videoDetails":{"videoId":"old111"},
+                "canonicalBaseUrl":"/watch?v=best222"
               };
             </script>
           </html>
@@ -116,6 +111,23 @@ describe('LiveDetectionService (low quota strategy)', () => {
             status: 200,
             headers: { 'Content-Type': 'text/html' },
           },
+        );
+      })
+      .mockImplementationOnce(async (url: string) => {
+        urls.push(url);
+        return new Response(
+          JSON.stringify({
+            items: [
+              {
+                snippet: { liveBroadcastContent: 'none' },
+                liveStreamingDetails: {
+                  actualStartTime: '2026-02-17T10:00:00Z',
+                  actualEndTime: '2026-02-17T11:00:00Z',
+                },
+              },
+            ],
+          }),
+          { status: 200, headers: { 'Content-Type': 'application/json' } },
         );
       })
       .mockImplementationOnce(async (url: string) => {
@@ -140,7 +152,51 @@ describe('LiveDetectionService (low quota strategy)', () => {
       liveVideoId: 'best222',
       sourceState: 'ok',
     });
-    expect(urls[1]).toContain('id=best222');
+    expect(urls[1]).toContain('id=old111');
+    expect(urls[2]).toContain('id=best222');
+  });
+
+  it('rejette un candidat si videos.list indique non-live', async () => {
+    global.fetch = jest
+      .fn()
+      .mockImplementationOnce(async () => {
+        return new Response(
+          `
+          <html>
+            <script>var candidate = {"videoId":"notlive123","isLive":true};</script>
+          </html>
+          `,
+          {
+            status: 200,
+            headers: { 'Content-Type': 'text/html' },
+          },
+        );
+      })
+      .mockImplementationOnce(async () => {
+        return new Response(
+          JSON.stringify({
+            items: [
+              {
+                snippet: { liveBroadcastContent: 'none' },
+                liveStreamingDetails: {
+                  actualStartTime: '2026-02-17T10:00:00Z',
+                  actualEndTime: '2026-02-17T11:00:00Z',
+                },
+              },
+            ],
+          }),
+          { status: 200, headers: { 'Content-Type': 'application/json' } },
+        );
+      }) as unknown as typeof fetch;
+
+    const service = new LiveDetectionService();
+    const result = await service.detectLive();
+
+    expect(result).toEqual({
+      isLive: false,
+      liveVideoId: null,
+      sourceState: 'ok',
+    });
   });
 
   it('retourne fallback ok si timeout sur URL /live', async () => {
@@ -158,6 +214,39 @@ describe('LiveDetectionService (low quota strategy)', () => {
       liveVideoId: null,
       sourceState: 'ok',
     });
+  });
+
+  it('n utilise pas un parsing global permissif pour des IDs aleatoires', async () => {
+    const urls: string[] = [];
+    global.fetch = jest.fn(async (url: string) => {
+      urls.push(url);
+      return new Response(
+        `
+        <html>
+          <body>
+            token="AbCdEf12345"
+            payload={"id":"ZZYYXX99887"}
+            <!-- no canonical videoId/watch/embed -->
+          </body>
+        </html>
+        `,
+        {
+          status: 200,
+          headers: { 'Content-Type': 'text/html' },
+        },
+      );
+    }) as unknown as typeof fetch;
+
+    const service = new LiveDetectionService();
+    const result = await service.detectLive();
+
+    expect(result).toEqual({
+      isLive: false,
+      liveVideoId: null,
+      sourceState: 'ok',
+    });
+    expect(urls).toHaveLength(1);
+    expect(urls[0]).toContain('/live');
   });
 
   it('retourne quota_exceeded quand videos.list est limite', async () => {

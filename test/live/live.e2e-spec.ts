@@ -149,7 +149,13 @@ describe('Live endpoints integration', () => {
     'GET /live/status renvoie un payload exploitable ($name)',
     async ({ detection, expected }) => {
       detectionServiceMock.detectLive.mockResolvedValue(detection);
-      await cache.refresh(true);
+      if (expected.mode === 'fallback') {
+        // With anti-flap threshold=2, first miss after a live may stay live.
+        await cache.refresh(true);
+        await cache.refresh(true);
+      } else {
+        await cache.refresh(true);
+      }
 
       const res = await request(app.getHttpServer()).get('/live/status').expect(200);
 
@@ -199,6 +205,8 @@ describe('Live endpoints integration', () => {
         liveVideoId: null,
       }),
     );
+    await cache.refresh(true);
+    await cache.refresh(true);
     const res = await request(app.getHttpServer()).get('/live/status').expect(200);
 
     expect(res.body).toEqual(
@@ -278,5 +286,32 @@ describe('Live endpoints integration', () => {
     expect(received[0].type).toBe('live_status');
     expect(received[1].type).toBe('live_status');
     expect(received[0].version).not.toBe(received[1].version);
+  });
+
+  it('anti-flap: un echec ponctuel apres live ne produit pas de bascule parasite', async () => {
+    const receivedModes: string[] = [];
+    const subscription = stream.observe().subscribe((event) => {
+      receivedModes.push(event.status.mode);
+    });
+
+    detectionServiceMock.detectLive.mockResolvedValue(
+      makeDetectionResult({ isLive: true, sourceState: 'ok', liveVideoId: 'live-1' }),
+    );
+    await cache.refresh(true);
+
+    detectionServiceMock.detectLive.mockResolvedValue(
+      makeDetectionResult({
+        isLive: false,
+        sourceState: 'ok',
+        liveVideoId: null,
+      }),
+    );
+    const statusAfterFirstFailure = await cache.refresh(false);
+
+    subscription.unsubscribe();
+
+    expect(statusAfterFirstFailure.isLive).toBe(true);
+    expect(statusAfterFirstFailure.mode).toBe('live');
+    expect(receivedModes).toEqual(['live']);
   });
 });
