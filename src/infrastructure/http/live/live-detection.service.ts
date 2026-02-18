@@ -100,7 +100,30 @@ export class LiveDetectionService {
     }
 
     const finalUrl = fetched.response.url ?? '';
-    return this.extractVideoId(finalUrl);
+    const fromUrl = this.extractVideoId(finalUrl);
+    if (fromUrl) {
+      return fromUrl;
+    }
+
+    this.logger.debug('Live detection: no redirect id, trying HTML parse');
+    const html = await this.safeReadText(fetched.response);
+    if (!html) {
+      this.logger.debug('Live detection: HTML parse failed/no id');
+      return null;
+    }
+
+    const fromHtml = this.extractVideoIdFromHtml(html);
+    if (fromHtml) {
+      this.logger.debug(
+        `Live detection: videoId extracted from HTML: ${this.maskVideoId(
+          fromHtml,
+        )}`,
+      );
+      return fromHtml;
+    }
+
+    this.logger.debug('Live detection: HTML parse failed/no id');
+    return null;
   }
 
   private async validateLiveVideo(
@@ -202,5 +225,50 @@ export class LiveDetectionService {
     const embedMatch = url.match(/\/embed\/([a-zA-Z0-9_-]{6,})/);
     if (embedMatch?.[1]) return embedMatch[1];
     return null;
+  }
+
+  private async safeReadText(response: Response): Promise<string | null> {
+    try {
+      return await response.text();
+    } catch {
+      return null;
+    }
+  }
+
+  private extractVideoIdFromHtml(html: string): string | null {
+    const candidates = new Map<string, number>();
+    const patterns = [
+      /"videoId":"([a-zA-Z0-9_-]{6,})"/g,
+      /watch\?v=([a-zA-Z0-9_-]{6,})/g,
+      /\/embed\/([a-zA-Z0-9_-]{6,})/g,
+    ];
+
+    for (const pattern of patterns) {
+      let match: RegExpExecArray | null;
+      while ((match = pattern.exec(html)) !== null) {
+        const id = match[1];
+        const start = Math.max(0, match.index - 200);
+        const end = Math.min(html.length, match.index + 200);
+        const context = html.slice(start, end).toLowerCase();
+
+        let score = candidates.get(id) ?? 0;
+        score += 1;
+        if (context.includes('live')) score += 3;
+        if (context.includes('islive')) score += 3;
+        if (context.includes('livebroadcastcontent')) score += 2;
+        if (context.includes('hlsmanifesturl')) score += 2;
+        if (context.includes('watch?v=')) score += 1;
+
+        candidates.set(id, score);
+      }
+    }
+
+    const best = [...candidates.entries()].sort((a, b) => b[1] - a[1])[0];
+    return best?.[0] ?? null;
+  }
+
+  private maskVideoId(videoId: string): string {
+    if (videoId.length <= 6) return videoId;
+    return `${videoId.slice(0, 3)}***${videoId.slice(-3)}`;
   }
 }
