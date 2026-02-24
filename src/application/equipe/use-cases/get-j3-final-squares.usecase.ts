@@ -49,7 +49,7 @@ export type J3FinalSquaresResponse = {
   computedAt: string;
 };
 
-const RANKING_PLACEHOLDER = 'Inconnu (en attente du résultat)';
+const RANKING_PLACEHOLDER = 'En attente du résultat';
 
 const SQUARES: Array<{
   dbCode: 'E' | 'F' | 'G' | 'H';

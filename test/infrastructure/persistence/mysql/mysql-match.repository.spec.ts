@@ -22,6 +22,16 @@ type TaEquipeRow = {
   CHALLENGE_SAMEDI: Date | null;
 };
 
+type TaJoueurChallengeRow = {
+  ID: number;
+  EQUIPE_ID: number;
+  TIME_VITESSE: number | null;
+  TIME_SLALOM: number | null;
+  TIR1: number | null;
+  TIR2: number | null;
+  TIR3: number | null;
+};
+
 const matchRow = (overrides: Partial<TaMatchRow> = {}): TaMatchRow => ({
   NUM_MATCH: 1,
   MATCH_CASE: 1,
@@ -45,11 +55,12 @@ const equipeRows: TaEquipeRow[] = [
 ];
 
 describe('MySqlMatchRepository', () => {
-  const buildRepo = (rows: TaMatchRow[]) => {
+  const buildRepo = (rows: TaMatchRow[], playerRows: TaJoueurChallengeRow[] = []) => {
     const queryRaw = jest
       .fn()
       .mockResolvedValueOnce(rows)
-      .mockResolvedValueOnce(equipeRows);
+      .mockResolvedValueOnce(equipeRows)
+      .mockResolvedValueOnce(playerRows);
     const prisma = { $queryRaw: queryRaw } as unknown as PrismaService;
     return { repo: new MySqlMatchRepository(prisma), queryRaw };
   };
@@ -146,6 +157,44 @@ describe('MySqlMatchRepository', () => {
     const result = await repo.findAll();
 
     expect(result.length).toBeGreaterThan(0);
-    expect(queryRaw).toHaveBeenCalledTimes(2);
+    expect(queryRaw).toHaveBeenCalledTimes(3);
+  });
+
+  it('computes challenge status from players attempts', async () => {
+    const nowSpy = jest
+      .spyOn(Date, 'now')
+      .mockReturnValue(new Date('2026-05-23T09:20:00Z').getTime());
+    const challengeEquipeRows: TaEquipeRow[] = [
+      ...equipeRows,
+      { ID: 10, EQUIPE: 'Challenge Team', IMAGE: null, CHALLENGE_SAMEDI: new Date('2026-05-23T09:00:00Z') },
+      { ID: 11, EQUIPE: 'Future Team', IMAGE: null, CHALLENGE_SAMEDI: new Date('2026-05-23T10:00:00Z') },
+    ];
+
+    const queryRaw = jest
+      .fn()
+      .mockResolvedValueOnce([])
+      .mockResolvedValueOnce(challengeEquipeRows)
+      .mockResolvedValueOnce([
+        {
+          ID: 1,
+          EQUIPE_ID: 10,
+          TIME_VITESSE: 12000,
+          TIME_SLALOM: 0,
+          TIR1: 1,
+          TIR2: null,
+          TIR3: null,
+        },
+      ] satisfies TaJoueurChallengeRow[]);
+
+    const prisma = { $queryRaw: queryRaw } as unknown as PrismaService;
+    const repo = new MySqlMatchRepository(prisma);
+
+    const result = await repo.findAll();
+    const ongoingChallenge = result.find((m) => m.id === 'challenge-10');
+    const plannedChallenge = result.find((m) => m.id === 'challenge-11');
+
+    expect(ongoingChallenge?.status).toBe('ongoing');
+    expect(plannedChallenge?.status).toBe('planned');
+    nowSpy.mockRestore();
   });
 });

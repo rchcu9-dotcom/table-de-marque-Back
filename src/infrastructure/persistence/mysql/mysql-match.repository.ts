@@ -36,9 +36,25 @@ type TaEquipeRow = {
   CHALLENGE_SAMEDI: Date | null;
 };
 
+type TaJoueurChallengeRow = {
+  ID: number;
+  EQUIPE_ID: number;
+  TIME_VITESSE: number | null;
+  TIME_SLALOM: number | null;
+  TIR1: number | null;
+  TIR2: number | null;
+  TIR3: number | null;
+};
+
 type DayPouleMap = {
   J1: Map<number, string>;
   J2: Map<number, string>;
+};
+
+type ChallengeTeamProgress = {
+  hasAnyAttempt: boolean;
+  playersCount: number;
+  completedCount: number;
 };
 
 @Injectable()
@@ -58,7 +74,7 @@ export class MySqlMatchRepository implements MatchRepository {
   }
 
   async findAll(): Promise<Match[]> {
-    const [matchRows, equipeRows] = await Promise.all([
+    const [matchRows, equipeRows, joueurRows] = await Promise.all([
       this.prisma.$queryRaw<TaMatchRow[]>`
         SELECT NUM_MATCH, MATCH_CASE, EQUIPE1, EQUIPE2, EQUIPE_ID1, EQUIPE_ID2,
                SCORE1, SCORE2, ETAT, DATEHEURE, SURFACAGE
@@ -68,6 +84,10 @@ export class MySqlMatchRepository implements MatchRepository {
       this.prisma.$queryRaw<TaEquipeRow[]>`
         SELECT ID, EQUIPE, IMAGE, CHALLENGE_SAMEDI
         FROM ta_equipes
+      `,
+      this.prisma.$queryRaw<TaJoueurChallengeRow[]>`
+        SELECT ID, EQUIPE_ID, TIME_VITESSE, TIME_SLALOM, TIR1, TIR2, TIR3
+        FROM ta_joueurs
       `,
     ]);
 
@@ -124,7 +144,11 @@ export class MySqlMatchRepository implements MatchRepository {
       );
     });
 
-    const challengeMatches = this.buildChallengeMatches(equipeRows);
+    const challengeProgressByTeam = this.buildChallengeProgressByTeam(joueurRows);
+    const challengeMatches = this.buildChallengeMatches(
+      equipeRows,
+      challengeProgressByTeam,
+    );
     const all = [...enriched, ...challengeMatches];
     return all.sort((a, b) => a.date.getTime() - b.date.getTime());
   }
@@ -332,16 +356,36 @@ export class MySqlMatchRepository implements MatchRepository {
     return null;
   }
 
-  private buildChallengeMatches(equipes: TaEquipeRow[]): Match[] {
+  private buildChallengeMatches(
+    equipes: TaEquipeRow[],
+    progressByTeam: Map<number, ChallengeTeamProgress>,
+  ): Match[] {
     const nowMs = Date.now();
+    const challengeDurationMs = 45 * 60 * 1000;
     return equipes
       .filter((row) => row.CHALLENGE_SAMEDI)
       .map((row) => {
         const date = row.CHALLENGE_SAMEDI
           ? new Date(row.CHALLENGE_SAMEDI)
           : new Date();
-        const status: Match['status'] =
-          date.getTime() <= nowMs ? 'finished' : 'planned';
+        const progress = progressByTeam.get(row.ID);
+        const hasStarted = progress?.hasAnyAttempt ?? false;
+        const playersCount = progress?.playersCount ?? 0;
+        const completedCount = progress?.completedCount ?? 0;
+        const allPlayersCompleted =
+          playersCount > 0 && completedCount >= playersCount;
+        const elapsed = nowMs - date.getTime();
+
+        let status: Match['status'] = 'planned';
+        if (date.getTime() > nowMs) {
+          status = 'planned';
+        } else if (!hasStarted) {
+          status = 'planned';
+        } else if (allPlayersCompleted || elapsed >= challengeDurationMs) {
+          status = 'finished';
+        } else {
+          status = 'ongoing';
+        }
         return new Match(
           `challenge-${row.ID}`,
           date,
@@ -360,5 +404,35 @@ export class MySqlMatchRepository implements MatchRepository {
           'J1',
         );
       });
+  }
+
+  private buildChallengeProgressByTeam(
+    rows: TaJoueurChallengeRow[],
+  ): Map<number, ChallengeTeamProgress> {
+    const progressByTeam = new Map<number, ChallengeTeamProgress>();
+    rows.forEach((row) => {
+      const current = progressByTeam.get(row.EQUIPE_ID) ?? {
+        hasAnyAttempt: false,
+        playersCount: 0,
+        completedCount: 0,
+      };
+      current.playersCount += 1;
+      const hasAnyAttempt =
+        (row.TIME_VITESSE ?? 0) > 0 ||
+        (row.TIME_SLALOM ?? 0) > 0 ||
+        row.TIR1 !== null ||
+        row.TIR2 !== null ||
+        row.TIR3 !== null;
+      if (hasAnyAttempt) current.hasAnyAttempt = true;
+      const hasCompletedAttempt =
+        (row.TIME_VITESSE ?? 0) > 0 &&
+        (row.TIME_SLALOM ?? 0) > 0 &&
+        row.TIR1 !== null &&
+        row.TIR2 !== null &&
+        row.TIR3 !== null;
+      if (hasCompletedAttempt) current.completedCount += 1;
+      progressByTeam.set(row.EQUIPE_ID, current);
+    });
+    return progressByTeam;
   }
 }

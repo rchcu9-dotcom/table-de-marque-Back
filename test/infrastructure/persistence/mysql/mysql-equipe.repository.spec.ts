@@ -82,4 +82,23 @@ describe('MySqlEquipeRepository J2 poule mapping', () => {
     expect(result?.pouleName).toBe('Tournoi Argent - Delta');
     expect(result?.equipes[0]?.pouleCode).toBe('Delta');
   });
+
+  it('sorts classement by PTS, DIFF, BP then stable team id', async () => {
+    const repo = buildRepo([
+      classementRow({ EQUIPE: 'Team B', EQUIPE_ID: 2, PTS: 6, DIFF: 2, BP: 5 }),
+      classementRow({ EQUIPE: 'Team A', EQUIPE_ID: 1, PTS: 6, DIFF: 3, BP: 4 }),
+      classementRow({ EQUIPE: 'Team C', EQUIPE_ID: 3, PTS: 4, DIFF: 10, BP: 10 }),
+      classementRow({ EQUIPE: 'Team D', EQUIPE_ID: 4, PTS: 6, DIFF: 3, BP: 6 }),
+    ]);
+
+    const result = await repo.findClassementByPoule('Alpha');
+
+    expect(result?.equipes.map((team) => team.name)).toEqual([
+      'Team D',
+      'Team A',
+      'Team B',
+      'Team C',
+    ]);
+    expect(result?.equipes.map((team) => team.rang)).toEqual([1, 2, 3, 4]);
+  });
 });

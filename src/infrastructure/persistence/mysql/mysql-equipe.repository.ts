@@ -52,7 +52,7 @@ export class MySqlEquipeRepository implements EquipeRepository {
         SELECT GROUPE_NOM, ORDRE, EQUIPE, EQUIPE_ID, J, V, N, D, PTS, BP, BC, DIFF
         FROM ta_classement
         WHERE GROUPE_NOM = ${dbCode}
-        ORDER BY ORDRE ASC
+        ORDER BY PTS DESC, DIFF DESC, BP DESC, EQUIPE_ID ASC
       `,
       this.prisma.$queryRaw<TaEquipeRow[]>`
         SELECT ID, EQUIPE, IMAGE FROM ta_equipes
@@ -60,17 +60,23 @@ export class MySqlEquipeRepository implements EquipeRepository {
     ]);
 
     if (!classementRows.length) return null;
+    const sortedRows = [...classementRows].sort((a, b) => {
+      if (b.PTS !== a.PTS) return b.PTS - a.PTS;
+      if (b.DIFF !== a.DIFF) return b.DIFF - a.DIFF;
+      if (b.BP !== a.BP) return b.BP - a.BP;
+      return a.EQUIPE_ID - b.EQUIPE_ID;
+    });
 
     const pouleName = pouleDisplayName(uiCode) ?? uiCode;
-    const equipes = classementRows.map(
-      (row) =>
+    const equipes = sortedRows.map(
+      (row, index) =>
         new Equipe(
           row.EQUIPE,
           row.EQUIPE,
           buildTeamLogoUrl(row.EQUIPE),
           uiCode,
           pouleName,
-          row.ORDRE,
+          index + 1,
           row.J,
           row.V,
           row.N,
@@ -103,14 +109,23 @@ export class MySqlEquipeRepository implements EquipeRepository {
       this.prisma.$queryRaw<TaClassementRow[]>`
         SELECT GROUPE_NOM, ORDRE, EQUIPE, EQUIPE_ID, J, V, N, D, PTS, BP, BC, DIFF
         FROM ta_classement
-        ORDER BY GROUPE_NOM ASC, ORDRE ASC
+        ORDER BY GROUPE_NOM ASC, PTS DESC, DIFF DESC, BP DESC, EQUIPE_ID ASC
       `,
       this.prisma.$queryRaw<TaEquipeRow[]>`
         SELECT ID, EQUIPE, IMAGE FROM ta_equipes
       `,
     ]);
 
-    const mapped = classementRows.map((row) => {
+    const sortedRows = [...classementRows].sort((a, b) => {
+      const groupCmp = String(a.GROUPE_NOM).localeCompare(String(b.GROUPE_NOM), 'fr-FR');
+      if (groupCmp !== 0) return groupCmp;
+      if (b.PTS !== a.PTS) return b.PTS - a.PTS;
+      if (b.DIFF !== a.DIFF) return b.DIFF - a.DIFF;
+      if (b.BP !== a.BP) return b.BP - a.BP;
+      return a.EQUIPE_ID - b.EQUIPE_ID;
+    });
+
+    const mapped = sortedRows.map((row) => {
       const uiCode = toUiPouleCode(row.GROUPE_NOM) ?? row.GROUPE_NOM;
       const pouleName = pouleDisplayName(uiCode) ?? uiCode;
       return new Equipe(
