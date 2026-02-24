@@ -10,6 +10,10 @@ export const PHASE_BY_JOUR_POULE: Record<
     Beta: 'Qualification',
     Gamma: 'Qualification',
     Delta: 'Qualification',
+    '1': 'Qualification',
+    '2': 'Qualification',
+    '3': 'Qualification',
+    '4': 'Qualification',
   },
   J3: {
     'Or 1': 'Finales',

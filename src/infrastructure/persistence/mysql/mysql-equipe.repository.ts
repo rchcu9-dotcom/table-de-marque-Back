@@ -6,7 +6,13 @@ import {
 } from '@/domain/equipe/entities/equipe.entity';
 import { EquipeRepository } from '@/domain/equipe/repositories/equipe.repository';
 import { PrismaService } from './prisma.service';
-import { buildTeamLogoUrl, normalizeKey, pouleDisplayName } from './mysql-utils';
+import {
+  buildTeamLogoUrl,
+  normalizeKey,
+  pouleDisplayName,
+  toClassementDbGroupCode,
+  toUiPouleCode,
+} from './mysql-utils';
 
 type TaEquipeRow = {
   ID: number;
@@ -38,11 +44,14 @@ export class MySqlEquipeRepository implements EquipeRepository {
   ): Promise<PouleClassement | null> {
     const normalized = String(code).trim();
     if (!normalized) return null;
+    const dbCode = toClassementDbGroupCode(normalized);
+    if (!dbCode) return null;
+    const uiCode = toUiPouleCode(normalized) ?? normalized;
     const [classementRows, equipeRows] = await Promise.all([
       this.prisma.$queryRaw<TaClassementRow[]>`
         SELECT GROUPE_NOM, ORDRE, EQUIPE, EQUIPE_ID, J, V, N, D, PTS, BP, BC, DIFF
         FROM ta_classement
-        WHERE GROUPE_NOM = ${normalized}
+        WHERE GROUPE_NOM = ${dbCode}
         ORDER BY ORDRE ASC
       `,
       this.prisma.$queryRaw<TaEquipeRow[]>`
@@ -52,14 +61,14 @@ export class MySqlEquipeRepository implements EquipeRepository {
 
     if (!classementRows.length) return null;
 
-    const pouleName = pouleDisplayName(normalized) ?? normalized;
+    const pouleName = pouleDisplayName(uiCode) ?? uiCode;
     const equipes = classementRows.map(
       (row) =>
         new Equipe(
           row.EQUIPE,
           row.EQUIPE,
           buildTeamLogoUrl(row.EQUIPE),
-          normalized,
+          uiCode,
           pouleName,
           row.ORDRE,
           row.J,
@@ -73,7 +82,7 @@ export class MySqlEquipeRepository implements EquipeRepository {
         ),
     );
 
-    return { pouleCode: normalized, pouleName, equipes };
+    return { pouleCode: uiCode, pouleName, equipes };
   }
 
   async findClassementByTeamName(
@@ -102,12 +111,13 @@ export class MySqlEquipeRepository implements EquipeRepository {
     ]);
 
     const mapped = classementRows.map((row) => {
-      const pouleName = pouleDisplayName(row.GROUPE_NOM) ?? row.GROUPE_NOM;
+      const uiCode = toUiPouleCode(row.GROUPE_NOM) ?? row.GROUPE_NOM;
+      const pouleName = pouleDisplayName(uiCode) ?? uiCode;
       return new Equipe(
         row.EQUIPE,
         row.EQUIPE,
         buildTeamLogoUrl(row.EQUIPE),
-        row.GROUPE_NOM,
+        uiCode,
         pouleName,
         row.ORDRE,
         row.J,

@@ -60,6 +60,27 @@ export class CacheSnapshotService implements OnModuleInit {
     return fresh;
   }
 
+  async readThrough<T>(key: CacheKey, loader: () => Promise<T>): Promise<T> {
+    const entry = this.store.get<T>(key);
+    if (!entry) {
+      this.logger.debug(`${key} cache miss`);
+      const fresh = await loader();
+      this.refresh(key, fresh);
+      return fresh;
+    }
+
+    const isStale = Date.now() - entry.updatedAt > this.ttlMs;
+    if (!isStale) {
+      this.logger.debug(`${key} cache hit fresh`);
+      return entry.data;
+    }
+
+    this.logger.debug(`${key} cache stale refresh`);
+    const fresh = await loader();
+    this.refresh(key, fresh);
+    return fresh;
+  }
+
   setEntry<T>(key: CacheKey, data: T) {
     this.store.set(key, data);
     this.persist();
