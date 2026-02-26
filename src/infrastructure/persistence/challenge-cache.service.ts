@@ -22,6 +22,10 @@ import {
   GetChallengeVitesseJ3UseCase,
   ChallengeVitesseJ3Response,
 } from '@/application/challenge/use-cases/get-challenge-vitesse-j3.usecase';
+import {
+  GetChallengeJ1MomentumUseCase,
+  ChallengeJ1MomentumResponseItem,
+} from '@/application/challenge/use-cases/get-challenge-j1-momentum.usecase';
 
 export type ChallengeSnapshot = {
   all: ChallengeAllResponse;
@@ -29,6 +33,7 @@ export type ChallengeSnapshot = {
   classementGlobal: ClassementGlobalEntry[];
   classementByAtelier: Record<string, ClassementEntry[]>;
   vitesseJ3: ChallengeVitesseJ3Response;
+  j1Momentum: ChallengeJ1MomentumResponseItem[];
 };
 
 type ChallengeDiff = {
@@ -54,6 +59,7 @@ export class ChallengeCacheService {
     private readonly getClassementAtelier: GetClassementAtelierUseCase,
     private readonly getClassementGlobal: GetClassementGlobalUseCase,
     private readonly getChallengeVitesseJ3: GetChallengeVitesseJ3UseCase,
+    private readonly getChallengeJ1Momentum: GetChallengeJ1MomentumUseCase,
     @Optional()
     private readonly stream?: ChallengeStreamService,
   ) {}
@@ -125,11 +131,12 @@ export class ChallengeCacheService {
   }
 
   private async buildSnapshot(): Promise<ChallengeSnapshot> {
-    const [all, ateliers, classementGlobal, vitesseJ3] = await Promise.all([
+    const [all, ateliers, classementGlobal, vitesseJ3, j1Momentum] = await Promise.all([
       this.getChallengeAll.execute(),
       this.getAteliers.execute(),
       this.getClassementGlobal.execute(),
       this.getChallengeVitesseJ3.execute(),
+      this.getChallengeJ1Momentum.execute(),
     ]);
 
     const classementByAtelierEntries = await Promise.all(
@@ -145,6 +152,7 @@ export class ChallengeCacheService {
       classementGlobal,
       classementByAtelier: Object.fromEntries(classementByAtelierEntries),
       vitesseJ3,
+      j1Momentum,
     };
   }
 
@@ -261,6 +269,7 @@ export class ChallengeCacheService {
       classementGlobal,
       classementByAtelier,
       vitesseJ3: snapshot.vitesseJ3,
+      j1Momentum: snapshot.j1Momentum,
     };
 
     return createHash('sha256').update(JSON.stringify(plain)).digest('hex');

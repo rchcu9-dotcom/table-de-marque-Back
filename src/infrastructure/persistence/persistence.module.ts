@@ -10,6 +10,7 @@ import { JOUEUR_REPOSITORY } from '@/domain/joueur/repositories/joueur.repositor
 import { ATELIER_REPOSITORY } from '@/domain/challenge/repositories/atelier.repository';
 import { TENTATIVE_ATELIER_REPOSITORY } from '@/domain/challenge/repositories/tentative-atelier.repository';
 import { CHALLENGE_VITESSE_J3_REPOSITORY } from '@/domain/challenge/repositories/challenge-vitesse-j3.repository';
+import { CHALLENGE_J1_MOMENTUM_REPOSITORY } from '@/domain/challenge/repositories/challenge-j1-momentum.repository';
 import { InMemoryMatchRepository } from './memory/in-memory-match.repository';
 import { GoogleSheetsMatchRepository } from './google-sheets/google-sheets-match.repository';
 import { GoogleSheetsPublicCsvMatchRepository } from './google-sheets/google-sheets-public-csv.repository';
@@ -20,6 +21,7 @@ import { InMemoryMealRepository } from './memory/in-memory-meal.repository';
 import { InMemoryAtelierRepository } from './memory/in-memory-atelier.repository';
 import { InMemoryTentativeAtelierRepository } from './memory/in-memory-tentative-atelier.repository';
 import { InMemoryChallengeVitesseJ3Repository } from './memory/in-memory-challenge-vitesse-j3.repository';
+import { InMemoryChallengeJ1MomentumRepository } from './memory/in-memory-challenge-j1-momentum.repository';
 import { MatchCacheService } from './match-cache.service';
 import { MatchPollingService } from '@/hooks/match-polling.service';
 import { MatchStreamService } from '@/hooks/match-stream.service';
@@ -31,6 +33,7 @@ import { MySqlMealRepository } from './mysql/mysql-meal.repository';
 import { MySqlAtelierRepository } from './mysql/mysql-atelier.repository';
 import { MySqlTentativeAtelierRepository } from './mysql/mysql-tentative-atelier.repository';
 import { MySqlChallengeVitesseJ3Repository } from './mysql/mysql-challenge-vitesse-j3.repository';
+import { MySqlChallengeJ1MomentumRepository } from './mysql/mysql-challenge-j1-momentum.repository';
 
 type MatchRepoDriver =
   | 'google-sheets-public'
@@ -169,6 +172,23 @@ const challengeVitesseJ3PersistenceProvider = {
   inject: [PrismaService],
 };
 
+const challengeJ1MomentumPersistenceProvider = {
+  provide: CHALLENGE_J1_MOMENTUM_REPOSITORY,
+  useFactory: (prisma: PrismaService) => {
+    const driver =
+      (process.env.CHALLENGE_J1_MOMENTUM_REPOSITORY_DRIVER ??
+        process.env.JOUEUR_REPOSITORY_DRIVER ??
+        '')
+        .trim()
+        .toLowerCase() || 'memory';
+    if (driver === 'prisma') {
+      return new MySqlChallengeJ1MomentumRepository(prisma);
+    }
+    return new InMemoryChallengeJ1MomentumRepository();
+  },
+  inject: [PrismaService],
+};
+
 @Module({
   providers: [
     PrismaService,
@@ -183,6 +203,7 @@ const challengeVitesseJ3PersistenceProvider = {
     atelierPersistenceProvider,
     tentativeAtelierPersistenceProvider,
     challengeVitesseJ3PersistenceProvider,
+    challengeJ1MomentumPersistenceProvider,
   ],
   exports: [
     MATCH_REPOSITORY,
@@ -192,6 +213,7 @@ const challengeVitesseJ3PersistenceProvider = {
     ATELIER_REPOSITORY,
     TENTATIVE_ATELIER_REPOSITORY,
     CHALLENGE_VITESSE_J3_REPOSITORY,
+    CHALLENGE_J1_MOMENTUM_REPOSITORY,
     MatchStreamService,
   ],
 })
