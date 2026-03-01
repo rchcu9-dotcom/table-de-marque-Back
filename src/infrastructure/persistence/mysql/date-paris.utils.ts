@@ -89,6 +89,38 @@ export function buildParisInstantFromLocalParts(
   return new Date(instantMs);
 }
 
+export function parseParisSqlDateTime(value: string | null): Date | null {
+  if (!value) return null;
+
+  const trimmed = value.trim();
+  const match = /^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2}):(\d{2})$/.exec(
+    trimmed,
+  );
+  if (!match) {
+    throw new Error(`Invalid MySQL DATETIME value: ${value}`);
+  }
+
+  return buildParisInstantFromLocalParts(
+    Number(match[1]),
+    Number(match[2]),
+    Number(match[3]),
+    Number(match[4]),
+    Number(match[5]),
+    Number(match[6]),
+  );
+}
+
+export function parseRequiredParisSqlDateTime(
+  value: string | null,
+  label: string,
+): Date {
+  const parsed = parseParisSqlDateTime(value);
+  if (!parsed) {
+    throw new Error(`Missing required MySQL DATETIME value for ${label}`);
+  }
+  return parsed;
+}
+
 export function parisDateKey(date: Date): string {
   const parts = getWallParts(date);
   return `${parts.year}-${pad(parts.month)}-${pad(parts.day)}`;

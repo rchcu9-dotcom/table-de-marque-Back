@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { TentativeAtelier } from '@/domain/challenge/entities/tentative-atelier.entity';
 import { TentativeAtelierRepository } from '@/domain/challenge/repositories/tentative-atelier.repository';
 import { PrismaService } from './prisma.service';
+import { parseParisSqlDateTime } from './date-paris.utils';
 
 type TaJoueurRow = {
   ID: number;
@@ -16,19 +17,20 @@ type TaJoueurRow = {
 
 type TaEquipeRow = {
   ID: number;
-  CHALLENGE_SAMEDI: Date | null;
+  CHALLENGE_SAMEDI_SQL: string | null;
 };
 
 @Injectable()
 export class MySqlTentativeAtelierRepository implements TentativeAtelierRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(_tentative: TentativeAtelier): Promise<TentativeAtelier> {
-    throw new Error('MySQL repository is read-only.');
+  create(tentative: TentativeAtelier): Promise<TentativeAtelier> {
+    void tentative;
+    return Promise.reject(new Error('MySQL repository is read-only.'));
   }
 
-  async clear(): Promise<void> {
-    throw new Error('MySQL repository is read-only.');
+  clear(): Promise<void> {
+    return Promise.reject(new Error('MySQL repository is read-only.'));
   }
 
   async findAll(): Promise<TentativeAtelier[]> {
@@ -38,21 +40,23 @@ export class MySqlTentativeAtelierRepository implements TentativeAtelierReposito
         FROM ta_joueurs
       `,
       this.prisma.$queryRaw<TaEquipeRow[]>`
-        SELECT ID, CHALLENGE_SAMEDI FROM ta_equipes
+        SELECT ID,
+               DATE_FORMAT(CHALLENGE_SAMEDI, '%Y-%m-%d %H:%i:%s') AS CHALLENGE_SAMEDI_SQL
+        FROM ta_equipes
       `,
     ]);
 
     const challengeByEquipe = new Map<number, Date>();
     equipes.forEach((row) => {
-      if (row.CHALLENGE_SAMEDI) {
-        challengeByEquipe.set(row.ID, new Date(row.CHALLENGE_SAMEDI));
+      const challengeDate = parseParisSqlDateTime(row.CHALLENGE_SAMEDI_SQL);
+      if (challengeDate) {
+        challengeByEquipe.set(row.ID, challengeDate);
       }
     });
 
     const attempts: TentativeAtelier[] = [];
     joueurs.forEach((row) => {
-      const baseDate =
-        challengeByEquipe.get(row.EQUIPE_ID) ?? new Date();
+      const baseDate = challengeByEquipe.get(row.EQUIPE_ID) ?? new Date();
       const vitesse = Math.max(0, row.TIME_VITESSE ?? 0);
       const slalom = Math.max(0, row.TIME_SLALOM ?? 0);
       const penalites = Math.max(0, row.NB_PORTES ?? 0);

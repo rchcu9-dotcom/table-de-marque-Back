@@ -5,11 +5,12 @@ import {
 } from '@/domain/challenge/repositories/challenge-j1-momentum.repository';
 import { PrismaService } from './prisma.service';
 import { buildTeamLogoUrl } from './mysql-utils';
+import { parseParisSqlDateTime } from './date-paris.utils';
 
 type TaEquipeRow = {
   ID: number;
   EQUIPE: string;
-  CHALLENGE_SAMEDI: Date | null;
+  CHALLENGE_SAMEDI_SQL: string | null;
 };
 
 type TaJoueurChallengeRow = {
@@ -28,15 +29,14 @@ type ChallengeTeamProgress = {
 };
 
 @Injectable()
-export class MySqlChallengeJ1MomentumRepository
-  implements ChallengeJ1MomentumRepository
-{
+export class MySqlChallengeJ1MomentumRepository implements ChallengeJ1MomentumRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async findJ1Momentum(): Promise<ChallengeJ1MomentumEntry[]> {
     const [equipes, joueurRows] = await Promise.all([
       this.prisma.$queryRaw<TaEquipeRow[]>`
-        SELECT ID, EQUIPE, CHALLENGE_SAMEDI
+        SELECT ID, EQUIPE,
+               DATE_FORMAT(CHALLENGE_SAMEDI, '%Y-%m-%d %H:%i:%s') AS CHALLENGE_SAMEDI_SQL
         FROM ta_equipes
       `,
       this.prisma.$queryRaw<TaJoueurChallengeRow[]>`
@@ -50,9 +50,15 @@ export class MySqlChallengeJ1MomentumRepository
     const slotDurationMs = 40 * 60 * 1000;
 
     return equipes
-      .filter((row) => row.CHALLENGE_SAMEDI)
-      .map((row) => {
-        const slotStart = new Date(row.CHALLENGE_SAMEDI!);
+      .map((row) => ({
+        row,
+        slotStart: parseParisSqlDateTime(row.CHALLENGE_SAMEDI_SQL),
+      }))
+      .filter(
+        (entry): entry is { row: TaEquipeRow; slotStart: Date } =>
+          entry.slotStart !== null,
+      )
+      .map(({ row, slotStart }) => {
         const slotEnd = new Date(slotStart.getTime() + slotDurationMs);
         const progress = progressByTeam.get(row.ID);
         const hasAnyAttempt = progress?.hasAnyAttempt ?? false;
@@ -63,9 +69,10 @@ export class MySqlChallengeJ1MomentumRepository
 
         let status: ChallengeJ1MomentumEntry['status'] = 'planned';
         if (hasAnyAttempt) {
-          status = allPlayersCompleted || nowMs >= slotEnd.getTime()
-            ? 'finished'
-            : 'ongoing';
+          status =
+            allPlayersCompleted || nowMs >= slotEnd.getTime()
+              ? 'finished'
+              : 'ongoing';
         } else if (nowMs >= slotEnd.getTime()) {
           status = 'finished';
         }
@@ -121,4 +128,3 @@ export class MySqlChallengeJ1MomentumRepository
     return progressByTeam;
   }
 }
-

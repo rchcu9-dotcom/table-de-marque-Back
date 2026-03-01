@@ -13,7 +13,11 @@ import {
   pouleDisplayName,
   toUiPouleCode,
 } from './mysql-utils';
-import { parisDateKey } from './date-paris.utils';
+import {
+  parisDateKey,
+  parseParisSqlDateTime,
+  parseRequiredParisSqlDateTime,
+} from './date-paris.utils';
 
 type TaMatchRow = {
   NUM_MATCH: number;
@@ -25,7 +29,7 @@ type TaMatchRow = {
   SCORE1: number | null;
   SCORE2: number | null;
   ETAT: string;
-  DATEHEURE: Date;
+  DATEHEURE_SQL: string;
   SURFACAGE: number;
 };
 
@@ -33,7 +37,7 @@ type TaEquipeRow = {
   ID: number;
   EQUIPE: string;
   IMAGE: string | null;
-  CHALLENGE_SAMEDI: Date | null;
+  CHALLENGE_SAMEDI_SQL: string | null;
 };
 
 type TaJoueurChallengeRow = {
@@ -80,12 +84,15 @@ export class MySqlMatchRepository implements MatchRepository {
     const [matchRows, equipeRows, joueurRows] = await Promise.all([
       this.prisma.$queryRaw<TaMatchRow[]>`
         SELECT NUM_MATCH, MATCH_CASE, EQUIPE1, EQUIPE2, EQUIPE_ID1, EQUIPE_ID2,
-               SCORE1, SCORE2, ETAT, DATEHEURE, SURFACAGE
+               SCORE1, SCORE2, ETAT,
+               DATE_FORMAT(DATEHEURE, '%Y-%m-%d %H:%i:%s') AS DATEHEURE_SQL,
+               SURFACAGE
         FROM TA_MATCHS
         ORDER BY DATEHEURE ASC, NUM_MATCH ASC
       `,
       this.prisma.$queryRaw<TaEquipeRow[]>`
-        SELECT ID, EQUIPE, IMAGE, CHALLENGE_SAMEDI
+        SELECT ID, EQUIPE, IMAGE,
+               DATE_FORMAT(CHALLENGE_SAMEDI, '%Y-%m-%d %H:%i:%s') AS CHALLENGE_SAMEDI_SQL
         FROM ta_equipes
       `,
       this.prisma.$queryRaw<TaJoueurChallengeRow[]>`
@@ -110,7 +117,8 @@ export class MySqlMatchRepository implements MatchRepository {
     );
 
     const enriched = filteredMatches.map((row) => {
-      const jour = jourByDate.get(this.toDateKey(row.DATEHEURE)) ?? null;
+      const matchDate = this.toMatchDate(row);
+      const jour = jourByDate.get(this.toDateKey(matchDate)) ?? null;
       const competitionType =
         row.NUM_MATCH > 100 ? ('3v3' as const) : ('5v5' as const);
       const surface =
@@ -135,7 +143,7 @@ export class MySqlMatchRepository implements MatchRepository {
 
       return new Match(
         String(row.NUM_MATCH),
-        new Date(row.DATEHEURE),
+        matchDate,
         row.EQUIPE1,
         row.EQUIPE2,
         status,
@@ -178,9 +186,20 @@ export class MySqlMatchRepository implements MatchRepository {
     return parisDateKey(date);
   }
 
+  private toMatchDate(row: TaMatchRow): Date {
+    return parseRequiredParisSqlDateTime(
+      row.DATEHEURE_SQL,
+      'TA_MATCHS.DATEHEURE',
+    );
+  }
+
+  private toChallengeDate(row: TaEquipeRow): Date | null {
+    return parseParisSqlDateTime(row.CHALLENGE_SAMEDI_SQL);
+  }
+
   private buildJourMapping(rows: TaMatchRow[]): Map<string, JourKey> {
     const uniqueDates = Array.from(
-      new Set(rows.map((row) => this.toDateKey(row.DATEHEURE))),
+      new Set(rows.map((row) => this.toDateKey(this.toMatchDate(row)))),
     ).sort();
     const mapping = new Map<string, JourKey>();
     uniqueDates.slice(0, 3).forEach((dateKey, index) => {
@@ -204,12 +223,12 @@ export class MySqlMatchRepository implements MatchRepository {
       J1: rows.filter(
         (row) =>
           row.NUM_MATCH <= 100 &&
-          jourByDate.get(this.toDateKey(row.DATEHEURE)) === 'J1',
+          jourByDate.get(this.toDateKey(this.toMatchDate(row))) === 'J1',
       ),
       J2: rows.filter(
         (row) =>
           row.NUM_MATCH <= 100 &&
-          jourByDate.get(this.toDateKey(row.DATEHEURE)) === 'J2',
+          jourByDate.get(this.toDateKey(this.toMatchDate(row))) === 'J2',
       ),
     };
 
@@ -302,7 +321,7 @@ export class MySqlMatchRepository implements MatchRepository {
               const keyB = this.teamKey(row.EQUIPE_ID2, row.EQUIPE2);
               return memberSet.has(keyA) && memberSet.has(keyB);
             })
-            .map((row) => new Date(row.DATEHEURE).getTime()),
+            .map((row) => this.toMatchDate(row).getTime()),
         );
         const minTeamName = Array.from(memberSet)
           .map((key) => keyToDisplayName.get(key) ?? key)
@@ -377,12 +396,11 @@ export class MySqlMatchRepository implements MatchRepository {
     const nowMs = Date.now();
     const challengeDurationMs = 40 * 60 * 1000;
     return equipes
-      .filter((row) => row.CHALLENGE_SAMEDI)
+      .map((row) => ({ row, challengeDate: this.toChallengeDate(row) }))
+      .filter(({ challengeDate }) => challengeDate)
       .map((row) => {
-        const date = row.CHALLENGE_SAMEDI
-          ? new Date(row.CHALLENGE_SAMEDI)
-          : new Date();
-        const progress = progressByTeam.get(row.ID);
+        const date = row.challengeDate ?? new Date();
+        const progress = progressByTeam.get(row.row.ID);
         const hasStarted = progress?.hasAnyAttempt ?? false;
         const playersCount = progress?.playersCount ?? 0;
         const completedCount = progress?.completedCount ?? 0;
@@ -401,14 +419,14 @@ export class MySqlMatchRepository implements MatchRepository {
           status = 'ongoing';
         }
         return new Match(
-          `challenge-${row.ID}`,
+          `challenge-${row.row.ID}`,
           date,
-          row.EQUIPE,
+          row.row.EQUIPE,
           'Challenge',
           status,
           null,
           null,
-          buildTeamLogoUrl(row.EQUIPE),
+          buildTeamLogoUrl(row.row.EQUIPE),
           null,
           'CHALL',
           'Challenge individuel',
