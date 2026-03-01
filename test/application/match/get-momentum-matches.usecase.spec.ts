@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import { GetMomentumMatchesUseCase } from '../../../src/application/match/use-cases/get-momentum-matches.usecase';
 import { Match } from '../../../src/domain/match/entities/match.entity';
 import { MatchRepository } from '../../../src/domain/match/repositories/match.repository';
@@ -16,6 +17,15 @@ class InMemoryMatchRepository implements MatchRepository {
 }
 
 describe('GetMomentumMatchesUseCase', () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2025-01-01T09:00:00Z'));
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
   it('retourne les 3 premiers matches si aucun en cours', async () => {
     const repo = new InMemoryMatchRepository([
       new Match('1', new Date('2025-01-01T10:00:00Z'), 'A', 'B', 'planned'),
@@ -41,7 +51,7 @@ describe('GetMomentumMatchesUseCase', () => {
 
     const result = await useCase.execute();
 
-    expect(result.map((m) => m.id)).toEqual(['4', '3', '2']);
+    expect(result.map((m) => m.id)).toEqual(['1', '2', '3']);
   });
 
   it('prend le match en cours et ses voisins au milieu de la liste', async () => {

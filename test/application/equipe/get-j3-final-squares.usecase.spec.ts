@@ -128,9 +128,7 @@ describe('GetJ3FinalSquaresUseCase', () => {
     expect(squareE?.ranking[1].team?.name).toBe('C');
     expect(squareE?.ranking[2].team).toBeNull();
     expect(squareE?.ranking[3].team).toBeNull();
-    expect(squareE?.ranking[2].placeholder).toBe(
-      'Inconnu (en attente du résultat)',
-    );
+    expect(squareE?.ranking[2].placeholder).toBe('En attente du résultat');
   });
 
   it('applies no-draw policy when finished score is tied (team A wins)', async () => {

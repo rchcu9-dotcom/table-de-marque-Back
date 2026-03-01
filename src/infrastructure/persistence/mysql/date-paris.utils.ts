@@ -9,6 +9,17 @@ type DateParts = {
   second: number;
 };
 
+const parisDateTimeFormatter = new Intl.DateTimeFormat('en-GB', {
+  timeZone: PARIS_TIME_ZONE,
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+  second: '2-digit',
+  hour12: false,
+});
+
 const parisOffsetFormatter = new Intl.DateTimeFormat('en-GB', {
   timeZone: PARIS_TIME_ZONE,
   timeZoneName: 'shortOffset',
@@ -18,13 +29,16 @@ const parisOffsetFormatter = new Intl.DateTimeFormat('en-GB', {
 });
 
 function getWallParts(date: Date): DateParts {
+  const parts = parisDateTimeFormatter.formatToParts(date);
+  const read = (type: Intl.DateTimeFormatPartTypes) =>
+    Number(parts.find((part) => part.type === type)?.value ?? '0');
   return {
-    year: date.getUTCFullYear(),
-    month: date.getUTCMonth() + 1,
-    day: date.getUTCDate(),
-    hour: date.getUTCHours(),
-    minute: date.getUTCMinutes(),
-    second: date.getUTCSeconds(),
+    year: read('year'),
+    month: read('month'),
+    day: read('day'),
+    hour: read('hour'),
+    minute: read('minute'),
+    second: read('second'),
   };
 }
 
@@ -52,6 +66,27 @@ function formatOffsetMinutes(offsetMinutes: number) {
   const hours = Math.floor(abs / 60);
   const minutes = abs % 60;
   return `${sign}${padOffset(hours)}:${padOffset(minutes)}`;
+}
+
+export function buildParisInstantFromLocalParts(
+  year: number,
+  month: number,
+  day: number,
+  hour: number,
+  minute: number,
+  second = 0,
+) {
+  const utcGuess = Date.UTC(year, month - 1, day, hour, minute, second, 0);
+  let offsetMinutes = getParisOffsetMinutes(new Date(utcGuess));
+  let instantMs = utcGuess - offsetMinutes * 60_000;
+
+  const correctedOffsetMinutes = getParisOffsetMinutes(new Date(instantMs));
+  if (correctedOffsetMinutes !== offsetMinutes) {
+    offsetMinutes = correctedOffsetMinutes;
+    instantMs = utcGuess - offsetMinutes * 60_000;
+  }
+
+  return new Date(instantMs);
 }
 
 export function parisDateKey(date: Date): string {

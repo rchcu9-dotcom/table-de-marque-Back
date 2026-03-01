@@ -61,16 +61,19 @@ type ChallengeTeamProgress = {
 export class MySqlMatchRepository implements MatchRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(_match: Match): Promise<Match> {
-    throw new Error('MySQL repository is read-only.');
+  create(match: Match): Promise<Match> {
+    void match;
+    return Promise.reject(new Error('MySQL repository is read-only.'));
   }
 
-  async update(_match: Match): Promise<Match> {
-    throw new Error('MySQL repository is read-only.');
+  update(match: Match): Promise<Match> {
+    void match;
+    return Promise.reject(new Error('MySQL repository is read-only.'));
   }
 
-  async delete(_id: string): Promise<void> {
-    throw new Error('MySQL repository is read-only.');
+  delete(id: string): Promise<void> {
+    void id;
+    return Promise.reject(new Error('MySQL repository is read-only.'));
   }
 
   async findAll(): Promise<Match[]> {
@@ -100,17 +103,22 @@ export class MySqlMatchRepository implements MatchRepository {
 
     const filteredMatches = matchRows.filter((row) => row.SURFACAGE === 0);
     const jourByDate = this.buildJourMapping(filteredMatches);
-    const dayPouleMap = this.buildPouleMapByDay(filteredMatches, jourByDate, equipeById);
+    const dayPouleMap = this.buildPouleMapByDay(
+      filteredMatches,
+      jourByDate,
+      equipeById,
+    );
 
     const enriched = filteredMatches.map((row) => {
       const jour = jourByDate.get(this.toDateKey(row.DATEHEURE)) ?? null;
       const competitionType =
         row.NUM_MATCH > 100 ? ('3v3' as const) : ('5v5' as const);
       const surface =
-        SURFACE_BY_COMPETITION[competitionType] ?? SURFACE_BY_COMPETITION['5v5'];
+        SURFACE_BY_COMPETITION[competitionType] ??
+        SURFACE_BY_COMPETITION['5v5'];
       const status = this.mapStatus(row.ETAT);
-      const scoreA = status === 'planned' ? null : row.SCORE1 ?? null;
-      const scoreB = status === 'planned' ? null : row.SCORE2 ?? null;
+      const scoreA = status === 'planned' ? null : (row.SCORE1 ?? null);
+      const scoreB = status === 'planned' ? null : (row.SCORE2 ?? null);
 
       let dbLikePouleCode: string | null = null;
       if (competitionType === '5v5' && jour === 'J1') {
@@ -144,7 +152,8 @@ export class MySqlMatchRepository implements MatchRepository {
       );
     });
 
-    const challengeProgressByTeam = this.buildChallengeProgressByTeam(joueurRows);
+    const challengeProgressByTeam =
+      this.buildChallengeProgressByTeam(joueurRows);
     const challengeMatches = this.buildChallengeMatches(
       equipeRows,
       challengeProgressByTeam,
@@ -262,11 +271,13 @@ export class MySqlMatchRepository implements MatchRepository {
 
     for (const row of rows) {
       const nameA =
-        (row.EQUIPE_ID1 != null ? equipeById.get(row.EQUIPE_ID1)?.EQUIPE : null) ??
-        row.EQUIPE1;
+        (row.EQUIPE_ID1 != null
+          ? equipeById.get(row.EQUIPE_ID1)?.EQUIPE
+          : null) ?? row.EQUIPE1;
       const nameB =
-        (row.EQUIPE_ID2 != null ? equipeById.get(row.EQUIPE_ID2)?.EQUIPE : null) ??
-        row.EQUIPE2;
+        (row.EQUIPE_ID2 != null
+          ? equipeById.get(row.EQUIPE_ID2)?.EQUIPE
+          : null) ?? row.EQUIPE2;
       const teamAKey = this.teamKey(row.EQUIPE_ID1, row.EQUIPE1);
       const teamBKey = this.teamKey(row.EQUIPE_ID2, row.EQUIPE2);
       ensureNode(teamAKey, nameA);
@@ -281,25 +292,28 @@ export class MySqlMatchRepository implements MatchRepository {
       membersByRoot.get(root)!.add(key);
     }
 
-    const components = Array.from(membersByRoot.entries()).map(([root, members]) => {
-      const memberSet = new Set(members);
-      const firstMatchMs = Math.min(
-        ...rows
-          .filter((row) => {
-            const keyA = this.teamKey(row.EQUIPE_ID1, row.EQUIPE1);
-            const keyB = this.teamKey(row.EQUIPE_ID2, row.EQUIPE2);
-            return memberSet.has(keyA) && memberSet.has(keyB);
-          })
-          .map((row) => new Date(row.DATEHEURE).getTime()),
-      );
-      const minTeamName = Array.from(memberSet)
-        .map((key) => keyToDisplayName.get(key) ?? key)
-        .sort((a, b) => a.localeCompare(b, 'fr-FR'))[0];
-      return { root, members: memberSet, firstMatchMs, minTeamName };
-    });
+    const components = Array.from(membersByRoot.entries()).map(
+      ([root, members]) => {
+        const memberSet = new Set(members);
+        const firstMatchMs = Math.min(
+          ...rows
+            .filter((row) => {
+              const keyA = this.teamKey(row.EQUIPE_ID1, row.EQUIPE1);
+              const keyB = this.teamKey(row.EQUIPE_ID2, row.EQUIPE2);
+              return memberSet.has(keyA) && memberSet.has(keyB);
+            })
+            .map((row) => new Date(row.DATEHEURE).getTime()),
+        );
+        const minTeamName = Array.from(memberSet)
+          .map((key) => keyToDisplayName.get(key) ?? key)
+          .sort((a, b) => a.localeCompare(b, 'fr-FR'))[0];
+        return { root, members: memberSet, firstMatchMs, minTeamName };
+      },
+    );
 
     components.sort((a, b) => {
-      if (a.firstMatchMs !== b.firstMatchMs) return a.firstMatchMs - b.firstMatchMs;
+      if (a.firstMatchMs !== b.firstMatchMs)
+        return a.firstMatchMs - b.firstMatchMs;
       return a.minTeamName.localeCompare(b.minTeamName, 'fr-FR');
     });
 
@@ -361,7 +375,7 @@ export class MySqlMatchRepository implements MatchRepository {
     progressByTeam: Map<number, ChallengeTeamProgress>,
   ): Match[] {
     const nowMs = Date.now();
-    const challengeDurationMs = 45 * 60 * 1000;
+    const challengeDurationMs = 40 * 60 * 1000;
     return equipes
       .filter((row) => row.CHALLENGE_SAMEDI)
       .map((row) => {

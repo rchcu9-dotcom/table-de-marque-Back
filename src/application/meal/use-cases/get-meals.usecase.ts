@@ -23,6 +23,6 @@ export class GetMealsUseCase {
       this.mealRepo.findMeals(),
       this.matchRepo.findAll(),
     ]);
-    return buildMealsPayload(source, matches, new Date());
+    return buildMealsPayload(source, matches, new Date(Date.now()));
   }
 }

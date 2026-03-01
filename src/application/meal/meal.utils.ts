@@ -1,9 +1,9 @@
 import type { Match } from '@/domain/match/entities/match.entity';
 import type { MealSource } from '@/domain/meal/repositories/meal.repository';
 import {
-  formatParisIso,
-  parisDateKey,
-} from '@/infrastructure/persistence/mysql/date-paris.utils';
+  getCurrentTournamentDay,
+  normalizeTournamentDateTimeIso,
+} from '@/application/shared/tournament-time.utils';
 
 export type MealDayKey = 'J1' | 'J2' | 'J3';
 
@@ -19,29 +19,8 @@ export type MealsPayload = {
   mealOfDay: MealDay | null;
 };
 
-function sortedDayKeys(matches: Match[]): string[] {
-  const unique = new Set<string>();
-  matches.forEach((m) => {
-    unique.add(parisDateKey(new Date(m.date)));
-  });
-  return Array.from(unique).sort();
-}
-
 export function computeMealDayKey(matches: Match[], now: Date): MealDayKey {
-  const days = sortedDayKeys(matches);
-  if (!days.length) return 'J1';
-
-  const today = parisDateKey(now);
-  const day1 = days[0];
-  const day2 = days[1];
-  const day3 = days[2];
-
-  if (today < day1) return 'J1';
-  if (!day2) return 'J1';
-  if (today < day2) return 'J1';
-  if (!day3) return 'J2';
-  if (today < day3) return 'J2';
-  return 'J3';
+  return getCurrentTournamentDay(matches, now);
 }
 
 export function buildMealsPayload(
@@ -49,7 +28,7 @@ export function buildMealsPayload(
   matches: Match[],
   now: Date,
 ): MealsPayload {
-  const toIso = (value: Date | null) => (value ? formatParisIso(value) : null);
+  const toIso = (value: Date | null) => normalizeTournamentDateTimeIso(value);
   const days: MealDay[] = [
     {
       key: 'J1',
