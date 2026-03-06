@@ -3,15 +3,121 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
-model Match {
-  id        String   @id @default(uuid())
-  date      DateTime
-  teamA     String
-  teamB     String
-  status    String   @default("planned")
-  createdAt DateTime @default(now())
+model TaMatch {
+  numMatch   Int       @id @map("NUM_MATCH")
+  matchCase  Int       @map("MATCH_CASE")
+  equipe1    String    @map("EQUIPE1")
+  equipe2    String    @map("EQUIPE2")
+  equipeId1  Int?      @map("EQUIPE_ID1")
+  equipeId2  Int?      @map("EQUIPE_ID2")
+  score1     Int?      @map("SCORE1")
+  score2     Int?      @map("SCORE2")
+  etat       String    @map("ETAT")
+  dateHeure  DateTime  @map("DATEHEURE")
+  surfacage  Int       @map("SURFACAGE")
+  ecart      String    @map("ECART")
+  lienPhotos String?   @map("LIEN_PHOTOS")
+  nbPhotos   Int       @map("NB_PHOTOS")
+  ancienLien String?   @map("ANCIEN_LIEN")
+
+  @@map("TA_MATCHS")
+}
+
+model TaEquipe {
+  id               Int       @id @map("ID")
+  equipe           String    @map("EQUIPE")
+  repasSamedi      DateTime? @map("REPAS_SAMEDI")
+  challengeSamedi  DateTime? @map("CHALLENGE_SAMEDI")
+  repasDimanche    DateTime? @map("REPAS_DIMANCHE")
+  image            String?   @map("IMAGE")
+  couleurFont      String    @map("COULEUR_FONT")
+  couleurBack      String    @map("COULEUR_BACK")
+  coach1           String?   @map("COACH_1")
+  coach2           String?   @map("COACH_2")
+  coach3           String?   @map("COACH_3")
+  coach4           String?   @map("COACH_4")
+
+  @@map("ta_equipes")
+}
+
+model TaClassement {
+  groupeNom       String    @map("GROUPE_NOM")
+  ordre           Int       @map("ORDRE")
+  ordreFinal      Int       @map("ORDRE_FINAL")
+  equipe          String    @map("EQUIPE")
+  equipeId        Int       @map("EQUIPE_ID")
+  joues           Int       @map("J")
+  victoires       Int       @map("V")
+  nuls            Int       @map("N")
+  defaites        Int       @map("D")
+  points          Int       @map("PTS")
+  bp              Int       @map("BP")
+  bc              Int       @map("BC")
+  diff            Int       @map("DIFF")
+  repasSamedi     DateTime? @map("REPAS_SAMEDI")
+  challengeSamedi DateTime? @map("CHALLENGE_SAMEDI")
+
+  @@id([groupeNom, ordre])
+  @@map("ta_classement")
+}
+
+model TaJoueur {
+  id                 Int      @id @map("ID")
+  equipeId           Int      @map("EQUIPE_ID")
+  numero             Int      @map("NUMERO")
+  position           String   @map("POSITION")
+  nom                String   @map("NOM")
+  prenom             String   @map("PRENOM")
+  tempsSlalom        String   @map("TEMPS_SLALOM")
+  timeSlalom         Int      @map("TIME_SLALOM")
+  nbPortes           Int      @map("NB_PORTES")
+  tempsVitesse       String   @map("TEMPS_VITESSE")
+  timeVitesse        Int      @map("TIME_VITESSE")
+  tir1               Int?     @map("TIR1")
+  tir2               Int?     @map("TIR2")
+  tir3               Int?     @map("TIR3")
+  tempsTotal         String   @map("TEMPS_TOTAL")
+  timeTotal          Int?     @map("TIME_TOTAL")
+  qf                 String?  @map("QF")
+  df                 String?  @map("DF")
+  f                  String?  @map("F")
+  v                  String?  @map("V")
+  gardienNbBut       Int?     @map("GARDIEN_NB_BUT")
+  gardienTempsAtelier String  @map("GARDIEN_TEMPS_ATELIER")
+  gardienTimeAtelier  Int     @map("GARDIEN_TIME_ATELIER")
+  gardienTempsVitesse String  @map("GARDIEN_TEMPS_VITESSE")
+  gardienTimeVitesse  Int     @map("GARDIEN_TIME_VITESSE")
+  gardienTempsTotal   String  @map("GARDIEN_TEMPS_TOTAL")
+  gardienTimeTotal    Int     @map("GARDIEN_TIME_TOTAL")
+  gardienDf          String?  @map("GARDIEN_DF")
+  gardienF           String?  @map("GARDIEN_F")
+  gardienV           String?  @map("GARDIEN_V")
+
+  @@map("ta_joueurs")
+}
+
+model TaConfiguration {
+  id                 Int      @id @map("id")
+  nbAvant            Int      @map("nb_avant")
+  nbSamedi           Int      @map("nb_samedi")
+  nbDimanche         Int      @map("nb_dimanche")
+  nbApres            Int      @map("nb_apres")
+  tirDehors          Int      @map("tir_dehors")
+  tirDedans          Int      @map("tir_dedans")
+  tirHaut            Int      @map("tir_haut")
+  tirBas             Int      @map("tir_bas")
+  libelleDehors      String?  @map("libelle_dehors")
+  libelleDedant      String?  @map("libelle_dedant")
+  libelleBasse       String?  @map("libelle_basse")
+  libelleHaute       String?  @map("libelle_haute")
+  penalitePorte      Int      @map("penalite_porte")
+  libellePorte       String?  @map("libelle_porte")
+  libelleArretSeconde String? @map("libelle_arret_seconde")
+  arretSeconde       Int      @map("arret_seconde")
+
+  @@map("ta_configuration")
 }

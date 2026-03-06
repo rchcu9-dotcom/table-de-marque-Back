@@ -3,9 +3,10 @@ import { EquipeController } from './equipe.controller';
 import { PersistenceModule } from '@/infrastructure/persistence/persistence.module';
 import { GetAllEquipesUseCase } from '@/application/equipe/use-cases/get-all-equipes.usecase';
 import { GetEquipeByIdUseCase } from '@/application/equipe/use-cases/get-equipe-by-id.usecase';
+import { CacheModule } from '@/infrastructure/cache/cache.module';
 
 @Module({
-  imports: [PersistenceModule],
+  imports: [PersistenceModule, CacheModule],
   controllers: [EquipeController],
   providers: [GetAllEquipesUseCase, GetEquipeByIdUseCase],
 })

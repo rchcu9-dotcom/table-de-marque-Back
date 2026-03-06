@@ -33,28 +33,46 @@ export class GetMomentumMatchesUseCase {
     const sortByDateAsc = [...filtered].sort(
       (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
     );
-    const ongoingIndex = sortByDateAsc.findIndex((m) => m.status === 'ongoing');
-    const allFinished = sortByDateAsc.every(
-      (m) => m.status === 'finished' || m.status === 'deleted',
+    const nowMs = Date.now();
+    const relevant = sortByDateAsc.filter(
+      (match) => match.status !== 'deleted',
     );
+    if (relevant.length === 0) return [];
+
+    const ongoingIndex = relevant.findIndex((m) => m.status === 'ongoing');
 
     if (ongoingIndex === -1) {
-      if (allFinished) {
-        const desc = [...sortByDateAsc].sort(
-          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-        );
-        return desc.slice(0, 3);
+      const nextIndex = relevant.findIndex(
+        (match) => new Date(match.date).getTime() > nowMs,
+      );
+      if (nextIndex >= 0) {
+        const lastIndex = relevant.length - 1;
+        if (nextIndex === 0) {
+          return relevant.slice(0, 3);
+        }
+        if (nextIndex === lastIndex) {
+          return relevant.slice(Math.max(lastIndex - 2, 0), lastIndex + 1);
+        }
+        return relevant.slice(nextIndex - 1, nextIndex + 2);
       }
-      return sortByDateAsc.slice(0, 3);
+
+      const finishedOrPast = relevant.filter((match) => {
+        const matchMs = new Date(match.date).getTime();
+        return match.status === 'finished' || matchMs <= nowMs;
+      });
+      const desc = [...finishedOrPast].sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+      );
+      return desc.slice(0, 3);
     }
 
-    const lastIndex = sortByDateAsc.length - 1;
+    const lastIndex = relevant.length - 1;
     if (ongoingIndex === 0) {
-      return sortByDateAsc.slice(0, 3);
+      return relevant.slice(0, 3);
     }
     if (ongoingIndex === lastIndex) {
-      return sortByDateAsc.slice(Math.max(lastIndex - 2, 0), lastIndex + 1);
+      return relevant.slice(Math.max(lastIndex - 2, 0), lastIndex + 1);
     }
-    return sortByDateAsc.slice(ongoingIndex - 1, ongoingIndex + 2);
+    return relevant.slice(ongoingIndex - 1, ongoingIndex + 2);
   }
 }

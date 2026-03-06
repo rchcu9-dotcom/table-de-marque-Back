@@ -5,18 +5,24 @@ import { ClassementModule } from './infrastructure/http/classement/classement.mo
 import { ChallengeModule } from './infrastructure/http/challenge/challenge.module';
 import { EquipeModule } from './infrastructure/http/equipe/equipe.module';
 import { JoueurModule } from './infrastructure/http/joueur/joueur.module';
+import { MealsModule } from './infrastructure/http/meals/meals.module';
 import { ChallengeMockSeeder } from './hooks/challenge-mock.seeder';
 import { MockScheduleSeeder } from './hooks/mock-schedule.seeder';
 import { MockEquipeSeeder } from './hooks/mock-equipe.seeder';
+import { CacheModule } from './infrastructure/cache/cache.module';
+import { LiveModule } from './infrastructure/http/live/live.module';
 
 @Module({
   imports: [
+    CacheModule,
     PersistenceModule,
     MatchModule,
     ClassementModule,
     ChallengeModule,
     EquipeModule,
     JoueurModule,
+    MealsModule,
+    LiveModule,
   ],
   providers: [ChallengeMockSeeder, MockScheduleSeeder, MockEquipeSeeder],
 })

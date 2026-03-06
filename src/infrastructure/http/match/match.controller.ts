@@ -19,6 +19,35 @@ import { DeleteMatchDto } from '@/application/match/dto/delete-match.dto';
 import { UpdateMatchDto } from '@/application/match/dto/update-match.dto';
 
 import { GetMomentumMatchesUseCase } from '@/application/match/use-cases/get-momentum-matches.usecase';
+import { CacheSnapshotService } from '@/infrastructure/cache/cache.snapshot.service';
+import { formatParisIso } from '@/infrastructure/persistence/mysql/date-paris.utils';
+import type { Match } from '@/domain/match/entities/match.entity';
+
+type MatchResponse = Omit<Match, 'date'> & { date: string };
+
+function toMatchResponse(match: Match): MatchResponse {
+  return {
+    id: match.id,
+    date: formatParisIso(new Date(match.date)),
+    teamA: match.teamA,
+    teamB: match.teamB,
+    status: match.status,
+    scoreA: match.scoreA ?? null,
+    scoreB: match.scoreB ?? null,
+    teamALogo: match.teamALogo ?? null,
+    teamBLogo: match.teamBLogo ?? null,
+    pouleCode: match.pouleCode ?? null,
+    pouleName: match.pouleName ?? null,
+    competitionType: match.competitionType ?? '5v5',
+    surface: match.surface ?? 'GG',
+    phase: match.phase ?? null,
+    jour: match.jour ?? null,
+  };
+}
+
+function mapMatches(matches: Match[]) {
+  return matches.map((match) => toMatchResponse(match));
+}
 
 @Controller('matches')
 export class MatchController {
@@ -29,12 +58,14 @@ export class MatchController {
     private readonly updateMatchUseCase: UpdateMatchUseCase,
     private readonly deleteMatchUseCase: DeleteMatchUseCase,
     private readonly getMomentumMatchesUseCase: GetMomentumMatchesUseCase,
+    private readonly cache: CacheSnapshotService,
   ) {}
 
   // CREATE
   @Post()
   async create(@Body() dto: CreateMatchDto) {
-    return await this.createMatchUseCase.execute(dto);
+    const match = await this.createMatchUseCase.execute(dto);
+    return toMatchResponse(match);
   }
 
   @Get('momentum')
@@ -43,11 +74,12 @@ export class MatchController {
     @Query('surface') surface?: 'GG' | 'PG',
     @Query('status') status?: 'planned' | 'ongoing' | 'finished' | 'deleted',
   ) {
-    return this.getMomentumMatchesUseCase.execute({
+    const matches = await this.getMomentumMatchesUseCase.execute({
       competitionType: competition,
       surface,
       status,
     });
+    return mapMatches(matches);
   }
 
   // READ ALL
@@ -59,25 +91,37 @@ export class MatchController {
     @Query('teamId') teamId?: string,
     @Query('jour') jour?: 'J1' | 'J2' | 'J3',
   ) {
-    return await this.getAllMatchesUseCase.execute({
-      competitionType: competition,
-      surface,
-      status,
-      teamId,
-      jour,
-    });
+    const hasFilters = Boolean(
+      competition || surface || status || teamId || jour,
+    );
+    if (hasFilters) {
+      const matches = await this.getAllMatchesUseCase.execute({
+        competitionType: competition,
+        surface,
+        status,
+        teamId,
+        jour,
+      });
+      return mapMatches(matches);
+    }
+    const matches = await this.cache.staleWhileRevalidate('matches', () =>
+      this.getAllMatchesUseCase.execute({}),
+    );
+    return mapMatches(matches);
   }
 
   // READ ONE
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return await this.getMatchByIdUseCase.execute(id);
+    const match = await this.getMatchByIdUseCase.execute(id);
+    return match ? toMatchResponse(match) : null;
   }
 
   // UPDATE
   @Put(':id')
   async update(@Param('id') id: string, @Body() dto: UpdateMatchDto) {
-    return await this.updateMatchUseCase.execute(id, dto);
+    const match = await this.updateMatchUseCase.execute(id, dto);
+    return match ? toMatchResponse(match) : null;
   }
 
   // DELETE
