@@ -11,7 +11,7 @@ type TaMatchRow = {
   SCORE1: number | null;
   SCORE2: number | null;
   ETAT: string;
-  DATEHEURE: Date;
+  DATEHEURE_SQL: string;
   SURFACAGE: number;
 };
 
@@ -19,7 +19,7 @@ type TaEquipeRow = {
   ID: number;
   EQUIPE: string;
   IMAGE: string | null;
-  CHALLENGE_SAMEDI: Date | null;
+  CHALLENGE_SAMEDI_SQL: string | null;
 };
 
 type TaJoueurChallengeRow = {
@@ -42,16 +42,16 @@ const matchRow = (overrides: Partial<TaMatchRow> = {}): TaMatchRow => ({
   SCORE1: 1,
   SCORE2: 0,
   ETAT: 'x',
-  DATEHEURE: new Date('2026-05-23T09:00:00Z'),
+  DATEHEURE_SQL: '2026-05-23 09:00:00',
   SURFACAGE: 0,
   ...overrides,
 });
 
 const equipeRows: TaEquipeRow[] = [
-  { ID: 1, EQUIPE: 'Equipe A1', IMAGE: null, CHALLENGE_SAMEDI: null },
-  { ID: 2, EQUIPE: 'Equipe A2', IMAGE: null, CHALLENGE_SAMEDI: null },
-  { ID: 3, EQUIPE: 'Equipe B1', IMAGE: null, CHALLENGE_SAMEDI: null },
-  { ID: 4, EQUIPE: 'Equipe B2', IMAGE: null, CHALLENGE_SAMEDI: null },
+  { ID: 1, EQUIPE: 'Equipe A1', IMAGE: null, CHALLENGE_SAMEDI_SQL: null },
+  { ID: 2, EQUIPE: 'Equipe A2', IMAGE: null, CHALLENGE_SAMEDI_SQL: null },
+  { ID: 3, EQUIPE: 'Equipe B1', IMAGE: null, CHALLENGE_SAMEDI_SQL: null },
+  { ID: 4, EQUIPE: 'Equipe B2', IMAGE: null, CHALLENGE_SAMEDI_SQL: null },
 ];
 
 describe('MySqlMatchRepository', () => {
@@ -69,7 +69,7 @@ describe('MySqlMatchRepository', () => {
     const rows: TaMatchRow[] = [
       matchRow({
         NUM_MATCH: 1,
-        DATEHEURE: new Date('2026-05-23T09:00:00Z'),
+        DATEHEURE_SQL: '2026-05-23 09:00:00',
         EQUIPE1: 'Equipe A1',
         EQUIPE2: 'Equipe A2',
         EQUIPE_ID1: 1,
@@ -77,7 +77,7 @@ describe('MySqlMatchRepository', () => {
       }),
       matchRow({
         NUM_MATCH: 2,
-        DATEHEURE: new Date('2026-05-23T10:00:00Z'),
+        DATEHEURE_SQL: '2026-05-23 10:00:00',
         EQUIPE1: 'Equipe B1',
         EQUIPE2: 'Equipe B2',
         EQUIPE_ID1: 3,
@@ -85,7 +85,7 @@ describe('MySqlMatchRepository', () => {
       }),
       matchRow({
         NUM_MATCH: 3,
-        DATEHEURE: new Date('2026-05-24T09:00:00Z'),
+        DATEHEURE_SQL: '2026-05-24 09:00:00',
         EQUIPE1: 'Equipe A1',
         EQUIPE2: 'Equipe A2',
         EQUIPE_ID1: 1,
@@ -93,7 +93,7 @@ describe('MySqlMatchRepository', () => {
       }),
       matchRow({
         NUM_MATCH: 4,
-        DATEHEURE: new Date('2026-05-24T10:00:00Z'),
+        DATEHEURE_SQL: '2026-05-24 10:00:00',
         EQUIPE1: 'Equipe B1',
         EQUIPE2: 'Equipe B2',
         EQUIPE_ID1: 3,
@@ -101,7 +101,7 @@ describe('MySqlMatchRepository', () => {
       }),
       matchRow({
         NUM_MATCH: 5,
-        DATEHEURE: new Date('2026-05-25T11:00:00Z'),
+        DATEHEURE_SQL: '2026-05-25 11:00:00',
         EQUIPE1: 'Or 1 - Equipe A1',
         EQUIPE2: 'Or 1 - Equipe A2',
         EQUIPE_ID1: 1,
@@ -109,7 +109,7 @@ describe('MySqlMatchRepository', () => {
       }),
       matchRow({
         NUM_MATCH: 6,
-        DATEHEURE: new Date('2026-05-25T12:00:00Z'),
+        DATEHEURE_SQL: '2026-05-25 12:00:00',
         EQUIPE1: 'Argent 5 - Equipe B1',
         EQUIPE2: 'Argent 5 - Equipe B2',
         EQUIPE_ID1: 3,
@@ -136,10 +136,10 @@ describe('MySqlMatchRepository', () => {
 
   it('does not rely on ta_classement query for poule enrichment', async () => {
     const rows: TaMatchRow[] = [
-      matchRow({ NUM_MATCH: 1, DATEHEURE: new Date('2026-05-23T09:00:00Z') }),
+      matchRow({ NUM_MATCH: 1, DATEHEURE_SQL: '2026-05-23 09:00:00' }),
       matchRow({
         NUM_MATCH: 2,
-        DATEHEURE: new Date('2026-05-24T09:00:00Z'),
+        DATEHEURE_SQL: '2026-05-24 09:00:00',
         EQUIPE1: 'Equipe B1',
         EQUIPE2: 'Equipe B2',
         EQUIPE_ID1: 3,
@@ -147,7 +147,7 @@ describe('MySqlMatchRepository', () => {
       }),
       matchRow({
         NUM_MATCH: 3,
-        DATEHEURE: new Date('2026-05-25T09:00:00Z'),
+        DATEHEURE_SQL: '2026-05-25 09:00:00',
         EQUIPE1: 'Or 5 - Equipe A1',
         EQUIPE2: 'Or 5 - Equipe A2',
       }),
@@ -166,8 +166,8 @@ describe('MySqlMatchRepository', () => {
       .mockReturnValue(new Date('2026-05-23T09:20:00Z').getTime());
     const challengeEquipeRows: TaEquipeRow[] = [
       ...equipeRows,
-      { ID: 10, EQUIPE: 'Challenge Team', IMAGE: null, CHALLENGE_SAMEDI: new Date('2026-05-23T09:00:00Z') },
-      { ID: 11, EQUIPE: 'Future Team', IMAGE: null, CHALLENGE_SAMEDI: new Date('2026-05-23T10:00:00Z') },
+      { ID: 10, EQUIPE: 'Challenge Team', IMAGE: null, CHALLENGE_SAMEDI_SQL: '2026-05-23 11:00:00' },
+      { ID: 11, EQUIPE: 'Future Team', IMAGE: null, CHALLENGE_SAMEDI_SQL: '2026-05-23 12:00:00' },
     ];
 
     const queryRaw = jest
