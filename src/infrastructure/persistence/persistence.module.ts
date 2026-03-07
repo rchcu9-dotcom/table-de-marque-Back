@@ -27,6 +27,7 @@ import { MatchPollingService } from '@/hooks/match-polling.service';
 import { MatchStreamService } from '@/hooks/match-stream.service';
 import { PrismaService } from './mysql/prisma.service';
 import { MySqlMatchRepository } from './mysql/mysql-match.repository';
+import { MatchEnrichmentService } from './mysql/match-enrichment.service';
 import { MySqlEquipeRepository } from './mysql/mysql-equipe.repository';
 import { MySqlJoueurRepository } from './mysql/mysql-joueur.repository';
 import { MySqlMealRepository } from './mysql/mysql-meal.repository';
@@ -43,7 +44,7 @@ type MatchRepoDriver =
 
 const baseMatchRepositoryProvider = {
   provide: MATCH_REPOSITORY_SOURCE,
-  useFactory: (prisma: PrismaService) => {
+  useFactory: (prisma: PrismaService, enrichment: MatchEnrichmentService) => {
     const raw = (process.env.MATCH_REPOSITORY_DRIVER ?? '')
       .trim()
       .toLowerCase();
@@ -57,14 +58,14 @@ const baseMatchRepositoryProvider = {
       case 'google-sheets':
         return new GoogleSheetsMatchRepository();
       case 'prisma':
-        return new MySqlMatchRepository(prisma);
+        return new MySqlMatchRepository(prisma, enrichment);
       case 'memory':
         return new InMemoryMatchRepository();
       default:
         return new InMemoryMatchRepository();
     }
   },
-  inject: [PrismaService],
+  inject: [PrismaService, MatchEnrichmentService],
 };
 
 const cachedMatchRepositoryProvider = {
@@ -192,6 +193,7 @@ const challengeJ1MomentumPersistenceProvider = {
 @Module({
   providers: [
     PrismaService,
+    MatchEnrichmentService,
     baseMatchRepositoryProvider,
     MatchStreamService,
     MatchCacheService,

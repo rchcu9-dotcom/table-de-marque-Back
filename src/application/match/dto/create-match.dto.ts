@@ -1,13 +1,22 @@
-import { IsString, IsDateString, IsOptional, IsIn } from 'class-validator';
+import {
+  IsString,
+  IsDateString,
+  IsOptional,
+  IsIn,
+  IsNotEmpty,
+} from 'class-validator';
 
 export class CreateMatchDto {
   @IsDateString()
+  @IsNotEmpty()
   date: string;
 
   @IsString()
+  @IsNotEmpty()
   teamA: string;
 
   @IsString()
+  @IsNotEmpty()
   teamB: string;
 
   @IsOptional()
