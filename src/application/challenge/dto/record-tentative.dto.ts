@@ -4,11 +4,8 @@ import {
   IsIn,
   IsNumber,
   IsArray,
-  IsOptional,
-  ValidateNested,
   Min,
 } from 'class-validator';
-import { Type } from 'class-transformer';
 
 export class MetricsVitesseDto {
   @IsIn(['vitesse'])
