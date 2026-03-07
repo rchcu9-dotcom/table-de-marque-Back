@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { InscriptionModule } from './inscription/inscription.module';
 import { MatchModule } from './infrastructure/http/match/match.module';
 import { PersistenceModule } from './infrastructure/persistence/persistence.module';
 import { ClassementModule } from './infrastructure/http/classement/classement.module';
@@ -15,6 +16,7 @@ import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
+    InscriptionModule,
     CacheModule,
     PersistenceModule,
     MatchModule,
