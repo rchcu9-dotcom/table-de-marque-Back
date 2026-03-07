@@ -3,11 +3,12 @@ import { GetAteliersUseCase } from '@/application/challenge/use-cases/get-atelie
 import { GetClassementAtelierUseCase } from '@/application/challenge/use-cases/get-classement-atelier.usecase';
 import { GetClassementGlobalUseCase } from '@/application/challenge/use-cases/get-classement-global.usecase';
 import { RecordTentativeUseCase } from '@/application/challenge/use-cases/record-tentative.usecase';
-import { TentativeMetrics } from '@/domain/challenge/entities/tentative-atelier.entity';
 import { GetChallengeByEquipeUseCase } from '@/application/challenge/use-cases/get-challenge-by-equipe.usecase';
 import { GetChallengeAllUseCase } from '@/application/challenge/use-cases/get-challenge-all.usecase';
 import { GetChallengeVitesseJ3UseCase } from '@/application/challenge/use-cases/get-challenge-vitesse-j3.usecase';
 import { GetChallengeJ1MomentumUseCase } from '@/application/challenge/use-cases/get-challenge-j1-momentum.usecase';
+import { RecordTentativeDto } from '@/application/challenge/dto/record-tentative.dto';
+import type { TentativeMetrics } from '@/domain/challenge/entities/tentative-atelier.entity';
 
 @Controller('challenge')
 export class ChallengeController {
@@ -40,12 +41,12 @@ export class ChallengeController {
   @Post('ateliers/:id/tentatives')
   async createTentative(
     @Param('id') id: string,
-    @Body() body: { joueurId: string; metrics: TentativeMetrics },
+    @Body() dto: RecordTentativeDto,
   ) {
     return this.recordTentative.execute({
       atelierId: id,
-      joueurId: body.joueurId,
-      metrics: body.metrics,
+      joueurId: dto.joueurId,
+      metrics: dto.metrics as TentativeMetrics,
     });
   }
 

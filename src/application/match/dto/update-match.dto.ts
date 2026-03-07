@@ -1,12 +1,20 @@
-import { IsString, IsOptional, IsDateString, IsIn } from 'class-validator';
+import {
+  IsString,
+  IsOptional,
+  IsDateString,
+  IsIn,
+  IsNotEmpty,
+} from 'class-validator';
 
 export class UpdateMatchDto {
   @IsOptional()
   @IsString()
+  @IsNotEmpty()
   teamA?: string;
 
   @IsOptional()
   @IsString()
+  @IsNotEmpty()
   teamB?: string;
 
   @IsOptional()
@@ -14,8 +22,8 @@ export class UpdateMatchDto {
   date?: string;
 
   @IsOptional()
-  @IsString()
-  status?: string;
+  @IsIn(['planned', 'ongoing', 'finished', 'deleted'])
+  status?: 'planned' | 'ongoing' | 'finished' | 'deleted';
 
   @IsOptional()
   @IsIn(['5v5', '3v3', 'challenge'])
