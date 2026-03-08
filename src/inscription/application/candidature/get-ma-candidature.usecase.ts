@@ -27,7 +27,7 @@ export class GetMaCandidatureUseCase {
       orderBy: { createdAt: 'desc' },
     });
     if (!edition) {
-      return null;
+      throw new NotFoundException('Aucune édition active');
     }
 
     const inscription = await this.prisma.inscInscription.findFirst({
@@ -35,7 +35,7 @@ export class GetMaCandidatureUseCase {
       include: { equipeRef: true },
     });
     if (!inscription) {
-      return null;
+      throw new NotFoundException('Aucune candidature pour cette édition');
     }
 
     return {
