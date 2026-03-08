@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, UnauthorizedException } from '@nestjs/common';
 import { UpsertUtilisateurUseCase } from '../../application/auth/upsert-utilisateur.usecase';
 import { Inject } from '@nestjs/common';
 import * as admin from 'firebase-admin';
@@ -19,9 +19,12 @@ export class AuthInscriptionController {
   async me(
     @Body() body: MeBody,
   ): Promise<{ id: number; pseudo: string | null; role: string }> {
-    const decoded = await this.firebaseApp
-      .auth()
-      .verifyIdToken(body.firebaseToken);
+    let decoded: admin.auth.DecodedIdToken;
+    try {
+      decoded = await this.firebaseApp.auth().verifyIdToken(body.firebaseToken);
+    } catch {
+      throw new UnauthorizedException('Token Firebase invalide ou expiré');
+    }
 
     const utilisateur = await this.upsertUtilisateur.execute({
       uid: decoded.uid,
