@@ -8,9 +8,18 @@ import { GetEquipesReferentielUseCase } from './application/equipe/get-equipes-r
 import { CreateEquipeReferentielUseCase } from './application/equipe/create-equipe-referentiel.usecase';
 import { ValidateEquipeReferentielUseCase } from './application/equipe/validate-equipe-referentiel.usecase';
 import { UpsertUtilisateurUseCase } from './application/auth/upsert-utilisateur.usecase';
+import { SoumettreCanditatureUseCase } from './application/candidature/soumettre-candidature.usecase';
+import { GetMaCandidatureUseCase } from './application/candidature/get-ma-candidature.usecase';
+import { GetToutesCandidaturesUseCase } from './application/candidature/get-toutes-candidatures.usecase';
+import { AccepterCandidatureUseCase } from './application/candidature/accepter-candidature.usecase';
+import { MettreListeAttenteUseCase } from './application/candidature/mettre-liste-attente.usecase';
+import { RefuserCandidatureUseCase } from './application/candidature/refuser-candidature.usecase';
+import { ValiderPaiementUseCase } from './application/candidature/valider-paiement.usecase';
 import { EditionController } from './infrastructure/http/edition.controller';
 import { EquipeReferentielController } from './infrastructure/http/equipe-referentiel.controller';
 import { AuthInscriptionController } from './infrastructure/http/auth-inscription.controller';
+import { CandidatureController } from './infrastructure/http/candidature.controller';
+import { InscriptionRoleGuard } from './infrastructure/http/inscription-role.guard';
 
 @Module({
   imports: [AuthModule],
@@ -18,6 +27,7 @@ import { AuthInscriptionController } from './infrastructure/http/auth-inscriptio
     EditionController,
     EquipeReferentielController,
     AuthInscriptionController,
+    CandidatureController,
   ],
   providers: [
     InscriptionPrismaService,
@@ -28,6 +38,14 @@ import { AuthInscriptionController } from './infrastructure/http/auth-inscriptio
     CreateEquipeReferentielUseCase,
     ValidateEquipeReferentielUseCase,
     UpsertUtilisateurUseCase,
+    SoumettreCanditatureUseCase,
+    GetMaCandidatureUseCase,
+    GetToutesCandidaturesUseCase,
+    AccepterCandidatureUseCase,
+    MettreListeAttenteUseCase,
+    RefuserCandidatureUseCase,
+    ValiderPaiementUseCase,
+    InscriptionRoleGuard,
   ],
 })
 export class InscriptionModule {}
