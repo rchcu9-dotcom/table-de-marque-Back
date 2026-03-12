@@ -1,0 +1,2412 @@
+-- UPDATE ta_matchs ID='J1-A-1'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J1-A-1'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=0, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-A-2'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J1-A-2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-A-2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J1-A-2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J1-A-2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J1-A-2'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=1, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J1-A-3'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J1-A-3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-A-3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-A-3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=3, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-A-3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=4, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-A-3'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=4, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-A-4'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J1-A-4'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-A-4'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-A-4'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=2, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-A-5'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J1-A-5'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-A-5'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-A-5'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J1-A-5'
+UPDATE ta_matchs SET SCORE_EQUIPE1=3, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J1-A-5'
+UPDATE ta_matchs SET SCORE_EQUIPE1=4, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J1-A-5'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=4, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J1-A-6'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J1-A-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-A-6'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-B-1'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J1-B-1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-B-1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-B-1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J1-B-1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=3, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J1-B-1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=3, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J1-B-1'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=3, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J1-B-2'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J1-B-2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-B-2'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-B-3'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J1-B-3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-B-3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-B-3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J1-B-3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=3, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J1-B-3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=3, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J1-B-3'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=3, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J1-B-4'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J1-B-4'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J1-B-4'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J1-B-4'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J1-B-4'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J1-B-4'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=4;
+-- UPDATE ta_matchs ID='J1-B-4'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=5;
+-- UPDATE ta_matchs ID='J1-B-4'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=1, SCORE_EQUIPE2=5;
+-- UPDATE ta_matchs ID='J1-B-5'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J1-B-5'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J1-B-5'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J1-B-5'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J1-B-5'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=4;
+-- UPDATE ta_matchs ID='J1-B-5'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=4;
+-- UPDATE ta_matchs ID='J1-B-5'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=1, SCORE_EQUIPE2=4;
+-- UPDATE ta_matchs ID='J1-B-6'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J1-B-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J1-B-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J1-B-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J1-B-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J1-B-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=3, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J1-B-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=3, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J1-B-6'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=3, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J1-C-1'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J1-C-1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-C-1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J1-C-1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J1-C-1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J1-C-1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J1-C-1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=3, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J1-C-1'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=3, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J1-C-2'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J1-C-2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-C-2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J1-C-2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J1-C-2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J1-C-2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J1-C-2'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=2, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J1-C-3'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J1-C-3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J1-C-3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J1-C-3'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=1, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J1-C-4'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J1-C-4'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-C-4'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J1-C-4'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J1-C-4'
+UPDATE ta_matchs SET SCORE_EQUIPE1=3, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J1-C-4'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=3, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J1-C-5'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J1-C-5'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J1-C-5'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J1-C-5'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J1-C-5'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=4;
+-- UPDATE ta_matchs ID='J1-C-5'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=5;
+-- UPDATE ta_matchs ID='J1-C-5'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=6;
+-- UPDATE ta_matchs ID='J1-C-5'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=0, SCORE_EQUIPE2=6;
+-- UPDATE ta_matchs ID='J1-C-6'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J1-C-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J1-C-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J1-C-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J1-C-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J1-C-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=4;
+-- UPDATE ta_matchs ID='J1-C-6'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=1, SCORE_EQUIPE2=4;
+-- UPDATE ta_matchs ID='J1-D-1'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J1-D-1'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=0, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-D-2'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J1-D-2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-D-2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-D-2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=3, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-D-2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=4, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-D-2'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=4, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-D-3'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J1-D-3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-D-3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-D-3'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=2, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-D-4'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J1-D-4'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=0, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-D-5'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J1-D-5'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-D-5'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J1-D-6'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J1-D-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J1-D-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J1-D-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J1-D-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J1-D-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J1-D-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=4;
+-- UPDATE ta_matchs ID='J1-D-6'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=2, SCORE_EQUIPE2=4;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P01", TEAM_ID="A1", ATELIER="vitesse", RESULTAT=15.96, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P01", TEAM_ID="A1", ATELIER="agilite", RESULTAT=12.37, META="base:12.37,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P01", TEAM_ID="A1", ATELIER="tir", RESULTAT=-1, META="shots:-1,0,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P02", TEAM_ID="A1", ATELIER="vitesse", RESULTAT=10.54, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P02", TEAM_ID="A1", ATELIER="agilite", RESULTAT=26.18, META="base:17.18,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P02", TEAM_ID="A1", ATELIER="tir", RESULTAT=-1, META="shots:-1,-1,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P03", TEAM_ID="A1", ATELIER="vitesse", RESULTAT=10.93, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P03", TEAM_ID="A1", ATELIER="agilite", RESULTAT=24.38, META="base:12.38,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P03", TEAM_ID="A1", ATELIER="tir", RESULTAT=3, META="shots:3,0,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P04", TEAM_ID="A1", ATELIER="vitesse", RESULTAT=16.41, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P04", TEAM_ID="A1", ATELIER="agilite", RESULTAT=18.08, META="base:12.08,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P04", TEAM_ID="A1", ATELIER="tir", RESULTAT=2, META="shots:0,1,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P05", TEAM_ID="A1", ATELIER="vitesse", RESULTAT=17.96, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P05", TEAM_ID="A1", ATELIER="agilite", RESULTAT=24.51, META="base:12.51,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P05", TEAM_ID="A1", ATELIER="tir", RESULTAT=1, META="shots:1,-1,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P06", TEAM_ID="A1", ATELIER="vitesse", RESULTAT=17.89, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P06", TEAM_ID="A1", ATELIER="agilite", RESULTAT=24.27, META="base:18.27,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P06", TEAM_ID="A1", ATELIER="tir", RESULTAT=1, META="shots:3,-1,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P07", TEAM_ID="A1", ATELIER="vitesse", RESULTAT=10.04, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P07", TEAM_ID="A1", ATELIER="agilite", RESULTAT=11.82, META="base:11.82,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P07", TEAM_ID="A1", ATELIER="tir", RESULTAT=0, META="shots:1,0,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P08", TEAM_ID="A1", ATELIER="vitesse", RESULTAT=12.17, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P08", TEAM_ID="A1", ATELIER="agilite", RESULTAT=17.33, META="base:17.33,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P08", TEAM_ID="A1", ATELIER="tir", RESULTAT=4, META="shots:0,1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P09", TEAM_ID="A1", ATELIER="vitesse", RESULTAT=17.81, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P09", TEAM_ID="A1", ATELIER="agilite", RESULTAT=28.98, META="base:16.98,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P09", TEAM_ID="A1", ATELIER="tir", RESULTAT=6, META="shots:3,3,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P10", TEAM_ID="A1", ATELIER="vitesse", RESULTAT=17.4, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P10", TEAM_ID="A1", ATELIER="agilite", RESULTAT=25.56, META="base:13.56,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P10", TEAM_ID="A1", ATELIER="tir", RESULTAT=5, META="shots:1,1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P11", TEAM_ID="A1", ATELIER="vitesse", RESULTAT=16.55, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P11", TEAM_ID="A1", ATELIER="agilite", RESULTAT=19.94, META="base:16.94,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P11", TEAM_ID="A1", ATELIER="tir", RESULTAT=-1, META="shots:-1,1,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P12", TEAM_ID="A1", ATELIER="vitesse", RESULTAT=10.41, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P12", TEAM_ID="A1", ATELIER="agilite", RESULTAT=20.78, META="base:20.78,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P12", TEAM_ID="A1", ATELIER="tir", RESULTAT=3, META="shots:-1,3,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P13", TEAM_ID="A1", ATELIER="vitesse", RESULTAT=15.32, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P13", TEAM_ID="A1", ATELIER="agilite", RESULTAT=18.64, META="base:18.64,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P13", TEAM_ID="A1", ATELIER="tir", RESULTAT=4, META="shots:0,3,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P14", TEAM_ID="A1", ATELIER="vitesse", RESULTAT=16.34, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P14", TEAM_ID="A1", ATELIER="agilite", RESULTAT=12.85, META="base:12.85,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P14", TEAM_ID="A1", ATELIER="tir", RESULTAT=-1, META="shots:0,-1,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P15", TEAM_ID="A1", ATELIER="vitesse", RESULTAT=14.28, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P15", TEAM_ID="A1", ATELIER="agilite", RESULTAT=26.5, META="base:14.5,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A1-P15", TEAM_ID="A1", ATELIER="tir", RESULTAT=0, META="shots:1,0,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P01", TEAM_ID="A2", ATELIER="vitesse", RESULTAT=17.03, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P01", TEAM_ID="A2", ATELIER="agilite", RESULTAT=26.39, META="base:14.39,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P01", TEAM_ID="A2", ATELIER="tir", RESULTAT=-3, META="shots:-1,-1,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P02", TEAM_ID="A2", ATELIER="vitesse", RESULTAT=17.94, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P02", TEAM_ID="A2", ATELIER="agilite", RESULTAT=26.47, META="base:14.47,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P02", TEAM_ID="A2", ATELIER="tir", RESULTAT=0, META="shots:0,0,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P03", TEAM_ID="A2", ATELIER="vitesse", RESULTAT=11.12, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P03", TEAM_ID="A2", ATELIER="agilite", RESULTAT=17.15, META="base:11.15,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P03", TEAM_ID="A2", ATELIER="tir", RESULTAT=3, META="shots:3,-1,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P04", TEAM_ID="A2", ATELIER="vitesse", RESULTAT=14.27, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P04", TEAM_ID="A2", ATELIER="agilite", RESULTAT=21.16, META="base:18.16,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P04", TEAM_ID="A2", ATELIER="tir", RESULTAT=3, META="shots:-1,3,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P05", TEAM_ID="A2", ATELIER="vitesse", RESULTAT=16.64, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P05", TEAM_ID="A2", ATELIER="agilite", RESULTAT=17.57, META="base:11.57,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P05", TEAM_ID="A2", ATELIER="tir", RESULTAT=0, META="shots:1,0,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P06", TEAM_ID="A2", ATELIER="vitesse", RESULTAT=15.52, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P06", TEAM_ID="A2", ATELIER="agilite", RESULTAT=21.05, META="base:15.05,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P06", TEAM_ID="A2", ATELIER="tir", RESULTAT=1, META="shots:-1,3,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P07", TEAM_ID="A2", ATELIER="vitesse", RESULTAT=17.09, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P07", TEAM_ID="A2", ATELIER="agilite", RESULTAT=16.86, META="base:13.86,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P07", TEAM_ID="A2", ATELIER="tir", RESULTAT=5, META="shots:3,1,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P08", TEAM_ID="A2", ATELIER="vitesse", RESULTAT=10.72, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P08", TEAM_ID="A2", ATELIER="agilite", RESULTAT=22.23, META="base:13.23,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P08", TEAM_ID="A2", ATELIER="tir", RESULTAT=4, META="shots:0,1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P09", TEAM_ID="A2", ATELIER="vitesse", RESULTAT=13.7, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P09", TEAM_ID="A2", ATELIER="agilite", RESULTAT=18.24, META="base:15.24,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P09", TEAM_ID="A2", ATELIER="tir", RESULTAT=-1, META="shots:-1,0,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P10", TEAM_ID="A2", ATELIER="vitesse", RESULTAT=17.54, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P10", TEAM_ID="A2", ATELIER="agilite", RESULTAT=22.59, META="base:19.59,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P10", TEAM_ID="A2", ATELIER="tir", RESULTAT=9, META="shots:3,3,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P11", TEAM_ID="A2", ATELIER="vitesse", RESULTAT=12.96, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P11", TEAM_ID="A2", ATELIER="agilite", RESULTAT=18.64, META="base:12.64,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P11", TEAM_ID="A2", ATELIER="tir", RESULTAT=2, META="shots:1,1,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P12", TEAM_ID="A2", ATELIER="vitesse", RESULTAT=15.57, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P12", TEAM_ID="A2", ATELIER="agilite", RESULTAT=29.05, META="base:17.05,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P12", TEAM_ID="A2", ATELIER="tir", RESULTAT=0, META="shots:1,-1,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P13", TEAM_ID="A2", ATELIER="vitesse", RESULTAT=12.1, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P13", TEAM_ID="A2", ATELIER="agilite", RESULTAT=16.47, META="base:16.47,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P13", TEAM_ID="A2", ATELIER="tir", RESULTAT=2, META="shots:1,0,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P14", TEAM_ID="A2", ATELIER="vitesse", RESULTAT=16.83, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P14", TEAM_ID="A2", ATELIER="agilite", RESULTAT=16.61, META="base:16.61,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P14", TEAM_ID="A2", ATELIER="tir", RESULTAT=-1, META="shots:0,-1,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P15", TEAM_ID="A2", ATELIER="vitesse", RESULTAT=15.59, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P15", TEAM_ID="A2", ATELIER="agilite", RESULTAT=14.83, META="base:11.83,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A2-P15", TEAM_ID="A2", ATELIER="tir", RESULTAT=7, META="shots:1,3,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P01", TEAM_ID="A3", ATELIER="vitesse", RESULTAT=11.38, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P01", TEAM_ID="A3", ATELIER="agilite", RESULTAT=20.95, META="base:14.95,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P01", TEAM_ID="A3", ATELIER="tir", RESULTAT=2, META="shots:0,1,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P02", TEAM_ID="A3", ATELIER="vitesse", RESULTAT=13.29, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P02", TEAM_ID="A3", ATELIER="agilite", RESULTAT=25.74, META="base:13.74,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P02", TEAM_ID="A3", ATELIER="tir", RESULTAT=2, META="shots:0,1,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P03", TEAM_ID="A3", ATELIER="vitesse", RESULTAT=15.84, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P03", TEAM_ID="A3", ATELIER="agilite", RESULTAT=32.26, META="base:20.26,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P03", TEAM_ID="A3", ATELIER="tir", RESULTAT=3, META="shots:0,0,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P04", TEAM_ID="A3", ATELIER="vitesse", RESULTAT=13.4, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P04", TEAM_ID="A3", ATELIER="agilite", RESULTAT=24.61, META="base:15.61,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P04", TEAM_ID="A3", ATELIER="tir", RESULTAT=5, META="shots:1,1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P05", TEAM_ID="A3", ATELIER="vitesse", RESULTAT=14.87, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P05", TEAM_ID="A3", ATELIER="agilite", RESULTAT=20.95, META="base:11.95,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P05", TEAM_ID="A3", ATELIER="tir", RESULTAT=-1, META="shots:-1,1,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P06", TEAM_ID="A3", ATELIER="vitesse", RESULTAT=16.87, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P06", TEAM_ID="A3", ATELIER="agilite", RESULTAT=21.87, META="base:12.87,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P06", TEAM_ID="A3", ATELIER="tir", RESULTAT=4, META="shots:0,3,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P07", TEAM_ID="A3", ATELIER="vitesse", RESULTAT=11.31, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P07", TEAM_ID="A3", ATELIER="agilite", RESULTAT=21.23, META="base:12.23,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P07", TEAM_ID="A3", ATELIER="tir", RESULTAT=3, META="shots:-1,1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P08", TEAM_ID="A3", ATELIER="vitesse", RESULTAT=14.23, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P08", TEAM_ID="A3", ATELIER="agilite", RESULTAT=18.66, META="base:15.66,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P08", TEAM_ID="A3", ATELIER="tir", RESULTAT=0, META="shots:1,-1,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P09", TEAM_ID="A3", ATELIER="vitesse", RESULTAT=10.92, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P09", TEAM_ID="A3", ATELIER="agilite", RESULTAT=25.9, META="base:19.9,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P09", TEAM_ID="A3", ATELIER="tir", RESULTAT=5, META="shots:3,3,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P10", TEAM_ID="A3", ATELIER="vitesse", RESULTAT=15.73, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P10", TEAM_ID="A3", ATELIER="agilite", RESULTAT=29.56, META="base:17.56,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P10", TEAM_ID="A3", ATELIER="tir", RESULTAT=1, META="shots:0,1,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P11", TEAM_ID="A3", ATELIER="vitesse", RESULTAT=17.6, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P11", TEAM_ID="A3", ATELIER="agilite", RESULTAT=22.37, META="base:19.37,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P11", TEAM_ID="A3", ATELIER="tir", RESULTAT=1, META="shots:1,-1,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P12", TEAM_ID="A3", ATELIER="vitesse", RESULTAT=15.66, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P12", TEAM_ID="A3", ATELIER="agilite", RESULTAT=31.49, META="base:19.49,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P12", TEAM_ID="A3", ATELIER="tir", RESULTAT=5, META="shots:-1,3,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P13", TEAM_ID="A3", ATELIER="vitesse", RESULTAT=13, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P13", TEAM_ID="A3", ATELIER="agilite", RESULTAT=32.45, META="base:20.45,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P13", TEAM_ID="A3", ATELIER="tir", RESULTAT=5, META="shots:3,1,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P14", TEAM_ID="A3", ATELIER="vitesse", RESULTAT=17.64, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P14", TEAM_ID="A3", ATELIER="agilite", RESULTAT=32.47, META="base:20.47,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P14", TEAM_ID="A3", ATELIER="tir", RESULTAT=3, META="shots:-1,3,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P15", TEAM_ID="A3", ATELIER="vitesse", RESULTAT=16.32, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P15", TEAM_ID="A3", ATELIER="agilite", RESULTAT=25.78, META="base:16.78,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A3-P15", TEAM_ID="A3", ATELIER="tir", RESULTAT=-3, META="shots:-1,-1,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P01", TEAM_ID="A4", ATELIER="vitesse", RESULTAT=17.9, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P01", TEAM_ID="A4", ATELIER="agilite", RESULTAT=28.47, META="base:19.47,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P01", TEAM_ID="A4", ATELIER="tir", RESULTAT=2, META="shots:0,-1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P02", TEAM_ID="A4", ATELIER="vitesse", RESULTAT=10.21, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P02", TEAM_ID="A4", ATELIER="agilite", RESULTAT=22.47, META="base:13.47,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P02", TEAM_ID="A4", ATELIER="tir", RESULTAT=5, META="shots:3,-1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P03", TEAM_ID="A4", ATELIER="vitesse", RESULTAT=13.34, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P03", TEAM_ID="A4", ATELIER="agilite", RESULTAT=21.1, META="base:15.1,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P03", TEAM_ID="A4", ATELIER="tir", RESULTAT=9, META="shots:3,3,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P04", TEAM_ID="A4", ATELIER="vitesse", RESULTAT=16.64, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P04", TEAM_ID="A4", ATELIER="agilite", RESULTAT=16.72, META="base:16.72,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P04", TEAM_ID="A4", ATELIER="tir", RESULTAT=2, META="shots:3,0,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P05", TEAM_ID="A4", ATELIER="vitesse", RESULTAT=15.16, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P05", TEAM_ID="A4", ATELIER="agilite", RESULTAT=15.36, META="base:12.36,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P05", TEAM_ID="A4", ATELIER="tir", RESULTAT=6, META="shots:3,3,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P06", TEAM_ID="A4", ATELIER="vitesse", RESULTAT=16.7, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P06", TEAM_ID="A4", ATELIER="agilite", RESULTAT=20.22, META="base:11.22,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P06", TEAM_ID="A4", ATELIER="tir", RESULTAT=3, META="shots:3,-1,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P07", TEAM_ID="A4", ATELIER="vitesse", RESULTAT=11.19, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P07", TEAM_ID="A4", ATELIER="agilite", RESULTAT=21.11, META="base:18.11,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P07", TEAM_ID="A4", ATELIER="tir", RESULTAT=1, META="shots:-1,1,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P08", TEAM_ID="A4", ATELIER="vitesse", RESULTAT=17.99, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P08", TEAM_ID="A4", ATELIER="agilite", RESULTAT=18.95, META="base:12.95,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P08", TEAM_ID="A4", ATELIER="tir", RESULTAT=5, META="shots:1,1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P09", TEAM_ID="A4", ATELIER="vitesse", RESULTAT=13.47, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P09", TEAM_ID="A4", ATELIER="agilite", RESULTAT=22.55, META="base:19.55,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P09", TEAM_ID="A4", ATELIER="tir", RESULTAT=5, META="shots:1,3,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P10", TEAM_ID="A4", ATELIER="vitesse", RESULTAT=15.74, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P10", TEAM_ID="A4", ATELIER="agilite", RESULTAT=30.09, META="base:18.09,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P10", TEAM_ID="A4", ATELIER="tir", RESULTAT=-2, META="shots:-1,-1,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P11", TEAM_ID="A4", ATELIER="vitesse", RESULTAT=10.25, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P11", TEAM_ID="A4", ATELIER="agilite", RESULTAT=21.37, META="base:12.37,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P11", TEAM_ID="A4", ATELIER="tir", RESULTAT=1, META="shots:0,1,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P12", TEAM_ID="A4", ATELIER="vitesse", RESULTAT=11.31, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P12", TEAM_ID="A4", ATELIER="agilite", RESULTAT=23.87, META="base:20.87,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P12", TEAM_ID="A4", ATELIER="tir", RESULTAT=3, META="shots:1,-1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P13", TEAM_ID="A4", ATELIER="vitesse", RESULTAT=11.07, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P13", TEAM_ID="A4", ATELIER="agilite", RESULTAT=20.87, META="base:17.87,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P13", TEAM_ID="A4", ATELIER="tir", RESULTAT=6, META="shots:3,3,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P14", TEAM_ID="A4", ATELIER="vitesse", RESULTAT=14.13, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P14", TEAM_ID="A4", ATELIER="agilite", RESULTAT=24.94, META="base:15.94,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P14", TEAM_ID="A4", ATELIER="tir", RESULTAT=3, META="shots:1,1,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P15", TEAM_ID="A4", ATELIER="vitesse", RESULTAT=15.91, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P15", TEAM_ID="A4", ATELIER="agilite", RESULTAT=20.64, META="base:20.64,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="A4-P15", TEAM_ID="A4", ATELIER="tir", RESULTAT=1, META="shots:1,0,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P01", TEAM_ID="B1", ATELIER="vitesse", RESULTAT=10.77, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P01", TEAM_ID="B1", ATELIER="agilite", RESULTAT=13.13, META="base:13.13,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P01", TEAM_ID="B1", ATELIER="tir", RESULTAT=5, META="shots:3,-1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P02", TEAM_ID="B1", ATELIER="vitesse", RESULTAT=13.27, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P02", TEAM_ID="B1", ATELIER="agilite", RESULTAT=17.13, META="base:11.13,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P02", TEAM_ID="B1", ATELIER="tir", RESULTAT=3, META="shots:3,1,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P03", TEAM_ID="B1", ATELIER="vitesse", RESULTAT=15.2, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P03", TEAM_ID="B1", ATELIER="agilite", RESULTAT=27.13, META="base:15.13,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P03", TEAM_ID="B1", ATELIER="tir", RESULTAT=5, META="shots:1,3,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P04", TEAM_ID="B1", ATELIER="vitesse", RESULTAT=17.98, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P04", TEAM_ID="B1", ATELIER="agilite", RESULTAT=31.81, META="base:19.81,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P04", TEAM_ID="B1", ATELIER="tir", RESULTAT=3, META="shots:-1,1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P05", TEAM_ID="B1", ATELIER="vitesse", RESULTAT=12, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P05", TEAM_ID="B1", ATELIER="agilite", RESULTAT=14, META="base:11,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P05", TEAM_ID="B1", ATELIER="tir", RESULTAT=6, META="shots:3,3,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P06", TEAM_ID="B1", ATELIER="vitesse", RESULTAT=17.78, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P06", TEAM_ID="B1", ATELIER="agilite", RESULTAT=21.11, META="base:12.11,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P06", TEAM_ID="B1", ATELIER="tir", RESULTAT=-1, META="shots:0,-1,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P07", TEAM_ID="B1", ATELIER="vitesse", RESULTAT=14.34, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P07", TEAM_ID="B1", ATELIER="agilite", RESULTAT=11.11, META="base:11.11,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P07", TEAM_ID="B1", ATELIER="tir", RESULTAT=0, META="shots:-1,0,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P08", TEAM_ID="B1", ATELIER="vitesse", RESULTAT=11.31, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P08", TEAM_ID="B1", ATELIER="agilite", RESULTAT=24.83, META="base:15.83,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P08", TEAM_ID="B1", ATELIER="tir", RESULTAT=2, META="shots:1,0,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P09", TEAM_ID="B1", ATELIER="vitesse", RESULTAT=12.85, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P09", TEAM_ID="B1", ATELIER="agilite", RESULTAT=23.27, META="base:11.27,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P09", TEAM_ID="B1", ATELIER="tir", RESULTAT=2, META="shots:0,1,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P10", TEAM_ID="B1", ATELIER="vitesse", RESULTAT=10.61, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P10", TEAM_ID="B1", ATELIER="agilite", RESULTAT=15.34, META="base:15.34,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P10", TEAM_ID="B1", ATELIER="tir", RESULTAT=-1, META="shots:1,-1,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P11", TEAM_ID="B1", ATELIER="vitesse", RESULTAT=16.93, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P11", TEAM_ID="B1", ATELIER="agilite", RESULTAT=19.72, META="base:16.72,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P11", TEAM_ID="B1", ATELIER="tir", RESULTAT=-1, META="shots:0,-1,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P12", TEAM_ID="B1", ATELIER="vitesse", RESULTAT=10.89, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P12", TEAM_ID="B1", ATELIER="agilite", RESULTAT=19.21, META="base:19.21,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P12", TEAM_ID="B1", ATELIER="tir", RESULTAT=3, META="shots:-1,1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P13", TEAM_ID="B1", ATELIER="vitesse", RESULTAT=16.62, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P13", TEAM_ID="B1", ATELIER="agilite", RESULTAT=24.82, META="base:18.82,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P13", TEAM_ID="B1", ATELIER="tir", RESULTAT=-3, META="shots:-1,-1,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P14", TEAM_ID="B1", ATELIER="vitesse", RESULTAT=12.4, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P14", TEAM_ID="B1", ATELIER="agilite", RESULTAT=32.44, META="base:20.44,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P14", TEAM_ID="B1", ATELIER="tir", RESULTAT=3, META="shots:-1,1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P15", TEAM_ID="B1", ATELIER="vitesse", RESULTAT=14.84, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P15", TEAM_ID="B1", ATELIER="agilite", RESULTAT=28.99, META="base:19.99,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B1-P15", TEAM_ID="B1", ATELIER="tir", RESULTAT=6, META="shots:3,0,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P01", TEAM_ID="B2", ATELIER="vitesse", RESULTAT=13.47, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P01", TEAM_ID="B2", ATELIER="agilite", RESULTAT=23.21, META="base:11.21,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P01", TEAM_ID="B2", ATELIER="tir", RESULTAT=9, META="shots:3,3,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P02", TEAM_ID="B2", ATELIER="vitesse", RESULTAT=17.76, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P02", TEAM_ID="B2", ATELIER="agilite", RESULTAT=17.79, META="base:14.79,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P02", TEAM_ID="B2", ATELIER="tir", RESULTAT=9, META="shots:3,3,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P03", TEAM_ID="B2", ATELIER="vitesse", RESULTAT=15.29, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P03", TEAM_ID="B2", ATELIER="agilite", RESULTAT=19.06, META="base:16.06,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P03", TEAM_ID="B2", ATELIER="tir", RESULTAT=1, META="shots:1,-1,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P04", TEAM_ID="B2", ATELIER="vitesse", RESULTAT=17.42, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P04", TEAM_ID="B2", ATELIER="agilite", RESULTAT=23.68, META="base:17.68,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P04", TEAM_ID="B2", ATELIER="tir", RESULTAT=9, META="shots:3,3,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P05", TEAM_ID="B2", ATELIER="vitesse", RESULTAT=17.67, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P05", TEAM_ID="B2", ATELIER="agilite", RESULTAT=32.57, META="base:20.57,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P05", TEAM_ID="B2", ATELIER="tir", RESULTAT=-1, META="shots:0,0,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P06", TEAM_ID="B2", ATELIER="vitesse", RESULTAT=10.15, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P06", TEAM_ID="B2", ATELIER="agilite", RESULTAT=32.4, META="base:20.4,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P06", TEAM_ID="B2", ATELIER="tir", RESULTAT=2, META="shots:0,-1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P07", TEAM_ID="B2", ATELIER="vitesse", RESULTAT=10.28, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P07", TEAM_ID="B2", ATELIER="agilite", RESULTAT=26.46, META="base:14.46,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P07", TEAM_ID="B2", ATELIER="tir", RESULTAT=7, META="shots:3,1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P08", TEAM_ID="B2", ATELIER="vitesse", RESULTAT=17, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P08", TEAM_ID="B2", ATELIER="agilite", RESULTAT=20.41, META="base:14.41,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P08", TEAM_ID="B2", ATELIER="tir", RESULTAT=-1, META="shots:0,0,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P09", TEAM_ID="B2", ATELIER="vitesse", RESULTAT=14.58, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P09", TEAM_ID="B2", ATELIER="agilite", RESULTAT=23.97, META="base:20.97,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P09", TEAM_ID="B2", ATELIER="tir", RESULTAT=1, META="shots:1,0,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P10", TEAM_ID="B2", ATELIER="vitesse", RESULTAT=17.8, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P10", TEAM_ID="B2", ATELIER="agilite", RESULTAT=16.4, META="base:16.4,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P10", TEAM_ID="B2", ATELIER="tir", RESULTAT=1, META="shots:-1,1,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P11", TEAM_ID="B2", ATELIER="vitesse", RESULTAT=17.08, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P11", TEAM_ID="B2", ATELIER="agilite", RESULTAT=25.76, META="base:16.76,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P11", TEAM_ID="B2", ATELIER="tir", RESULTAT=6, META="shots:3,0,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P12", TEAM_ID="B2", ATELIER="vitesse", RESULTAT=16.85, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P12", TEAM_ID="B2", ATELIER="agilite", RESULTAT=17.37, META="base:17.37,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P12", TEAM_ID="B2", ATELIER="tir", RESULTAT=0, META="shots:1,-1,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P13", TEAM_ID="B2", ATELIER="vitesse", RESULTAT=12.88, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P13", TEAM_ID="B2", ATELIER="agilite", RESULTAT=21.99, META="base:18.99,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P13", TEAM_ID="B2", ATELIER="tir", RESULTAT=-3, META="shots:-1,-1,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P14", TEAM_ID="B2", ATELIER="vitesse", RESULTAT=12.1, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P14", TEAM_ID="B2", ATELIER="agilite", RESULTAT=30.1, META="base:18.1,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P14", TEAM_ID="B2", ATELIER="tir", RESULTAT=5, META="shots:1,3,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P15", TEAM_ID="B2", ATELIER="vitesse", RESULTAT=12.48, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P15", TEAM_ID="B2", ATELIER="agilite", RESULTAT=21.77, META="base:18.77,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B2-P15", TEAM_ID="B2", ATELIER="tir", RESULTAT=4, META="shots:3,0,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P01", TEAM_ID="B3", ATELIER="vitesse", RESULTAT=17.65, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P01", TEAM_ID="B3", ATELIER="agilite", RESULTAT=16.7, META="base:16.7,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P01", TEAM_ID="B3", ATELIER="tir", RESULTAT=-1, META="shots:1,-1,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P02", TEAM_ID="B3", ATELIER="vitesse", RESULTAT=10.45, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P02", TEAM_ID="B3", ATELIER="agilite", RESULTAT=24.82, META="base:12.82,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P02", TEAM_ID="B3", ATELIER="tir", RESULTAT=4, META="shots:0,3,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P03", TEAM_ID="B3", ATELIER="vitesse", RESULTAT=11.54, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P03", TEAM_ID="B3", ATELIER="agilite", RESULTAT=16.04, META="base:16.04,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P03", TEAM_ID="B3", ATELIER="tir", RESULTAT=5, META="shots:3,3,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P04", TEAM_ID="B3", ATELIER="vitesse", RESULTAT=13.21, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P04", TEAM_ID="B3", ATELIER="agilite", RESULTAT=17.43, META="base:17.43,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P04", TEAM_ID="B3", ATELIER="tir", RESULTAT=4, META="shots:1,0,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P05", TEAM_ID="B3", ATELIER="vitesse", RESULTAT=10.54, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P05", TEAM_ID="B3", ATELIER="agilite", RESULTAT=23.54, META="base:11.54,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P05", TEAM_ID="B3", ATELIER="tir", RESULTAT=4, META="shots:0,1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P06", TEAM_ID="B3", ATELIER="vitesse", RESULTAT=16.45, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P06", TEAM_ID="B3", ATELIER="agilite", RESULTAT=23.51, META="base:11.51,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P06", TEAM_ID="B3", ATELIER="tir", RESULTAT=1, META="shots:-1,1,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P07", TEAM_ID="B3", ATELIER="vitesse", RESULTAT=11.99, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P07", TEAM_ID="B3", ATELIER="agilite", RESULTAT=18.38, META="base:12.38,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P07", TEAM_ID="B3", ATELIER="tir", RESULTAT=5, META="shots:1,1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P08", TEAM_ID="B3", ATELIER="vitesse", RESULTAT=17.29, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P08", TEAM_ID="B3", ATELIER="agilite", RESULTAT=26.94, META="base:17.94,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P08", TEAM_ID="B3", ATELIER="tir", RESULTAT=4, META="shots:3,0,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P09", TEAM_ID="B3", ATELIER="vitesse", RESULTAT=16.52, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P09", TEAM_ID="B3", ATELIER="agilite", RESULTAT=20.55, META="base:11.55,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P09", TEAM_ID="B3", ATELIER="tir", RESULTAT=-1, META="shots:0,-1,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P10", TEAM_ID="B3", ATELIER="vitesse", RESULTAT=11.97, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P10", TEAM_ID="B3", ATELIER="agilite", RESULTAT=17.88, META="base:14.88,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P10", TEAM_ID="B3", ATELIER="tir", RESULTAT=2, META="shots:-1,3,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P11", TEAM_ID="B3", ATELIER="vitesse", RESULTAT=11.37, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P11", TEAM_ID="B3", ATELIER="agilite", RESULTAT=12.71, META="base:12.71,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P11", TEAM_ID="B3", ATELIER="tir", RESULTAT=-2, META="shots:-1,-1,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P12", TEAM_ID="B3", ATELIER="vitesse", RESULTAT=11.91, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P12", TEAM_ID="B3", ATELIER="agilite", RESULTAT=20.42, META="base:11.42,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P12", TEAM_ID="B3", ATELIER="tir", RESULTAT=0, META="shots:0,1,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P13", TEAM_ID="B3", ATELIER="vitesse", RESULTAT=12.49, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P13", TEAM_ID="B3", ATELIER="agilite", RESULTAT=23.26, META="base:14.26,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P13", TEAM_ID="B3", ATELIER="tir", RESULTAT=-1, META="shots:0,0,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P14", TEAM_ID="B3", ATELIER="vitesse", RESULTAT=17.12, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P14", TEAM_ID="B3", ATELIER="agilite", RESULTAT=17.04, META="base:14.04,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P14", TEAM_ID="B3", ATELIER="tir", RESULTAT=-1, META="shots:0,0,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P15", TEAM_ID="B3", ATELIER="vitesse", RESULTAT=16.93, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P15", TEAM_ID="B3", ATELIER="agilite", RESULTAT=19.73, META="base:13.73,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B3-P15", TEAM_ID="B3", ATELIER="tir", RESULTAT=0, META="shots:-1,0,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P01", TEAM_ID="B4", ATELIER="vitesse", RESULTAT=15.75, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P01", TEAM_ID="B4", ATELIER="agilite", RESULTAT=19.32, META="base:13.32,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P01", TEAM_ID="B4", ATELIER="tir", RESULTAT=4, META="shots:3,1,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P02", TEAM_ID="B4", ATELIER="vitesse", RESULTAT=15.73, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P02", TEAM_ID="B4", ATELIER="agilite", RESULTAT=26.86, META="base:17.86,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P02", TEAM_ID="B4", ATELIER="tir", RESULTAT=3, META="shots:0,3,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P03", TEAM_ID="B4", ATELIER="vitesse", RESULTAT=16.64, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P03", TEAM_ID="B4", ATELIER="agilite", RESULTAT=18.54, META="base:12.54,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P03", TEAM_ID="B4", ATELIER="tir", RESULTAT=1, META="shots:-1,3,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P04", TEAM_ID="B4", ATELIER="vitesse", RESULTAT=10.96, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P04", TEAM_ID="B4", ATELIER="agilite", RESULTAT=25.35, META="base:16.35,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P04", TEAM_ID="B4", ATELIER="tir", RESULTAT=3, META="shots:1,-1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P05", TEAM_ID="B4", ATELIER="vitesse", RESULTAT=11.87, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P05", TEAM_ID="B4", ATELIER="agilite", RESULTAT=15.32, META="base:12.32,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P05", TEAM_ID="B4", ATELIER="tir", RESULTAT=4, META="shots:3,0,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P06", TEAM_ID="B4", ATELIER="vitesse", RESULTAT=14.86, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P06", TEAM_ID="B4", ATELIER="agilite", RESULTAT=19.75, META="base:19.75,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P06", TEAM_ID="B4", ATELIER="tir", RESULTAT=1, META="shots:3,-1,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P07", TEAM_ID="B4", ATELIER="vitesse", RESULTAT=16.01, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P07", TEAM_ID="B4", ATELIER="agilite", RESULTAT=21.17, META="base:18.17,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P07", TEAM_ID="B4", ATELIER="tir", RESULTAT=3, META="shots:1,-1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P08", TEAM_ID="B4", ATELIER="vitesse", RESULTAT=11.03, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P08", TEAM_ID="B4", ATELIER="agilite", RESULTAT=14.53, META="base:14.53,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P08", TEAM_ID="B4", ATELIER="tir", RESULTAT=2, META="shots:1,0,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P09", TEAM_ID="B4", ATELIER="vitesse", RESULTAT=11.09, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P09", TEAM_ID="B4", ATELIER="agilite", RESULTAT=22.97, META="base:19.97,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P09", TEAM_ID="B4", ATELIER="tir", RESULTAT=-1, META="shots:-1,0,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P10", TEAM_ID="B4", ATELIER="vitesse", RESULTAT=11.35, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P10", TEAM_ID="B4", ATELIER="agilite", RESULTAT=20.64, META="base:20.64,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P10", TEAM_ID="B4", ATELIER="tir", RESULTAT=2, META="shots:1,0,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P11", TEAM_ID="B4", ATELIER="vitesse", RESULTAT=12.07, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P11", TEAM_ID="B4", ATELIER="agilite", RESULTAT=15.33, META="base:15.33,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P11", TEAM_ID="B4", ATELIER="tir", RESULTAT=5, META="shots:-1,3,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P12", TEAM_ID="B4", ATELIER="vitesse", RESULTAT=16.74, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P12", TEAM_ID="B4", ATELIER="agilite", RESULTAT=31.72, META="base:19.72,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P12", TEAM_ID="B4", ATELIER="tir", RESULTAT=1, META="shots:-1,3,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P13", TEAM_ID="B4", ATELIER="vitesse", RESULTAT=13.78, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P13", TEAM_ID="B4", ATELIER="agilite", RESULTAT=26.85, META="base:20.85,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P13", TEAM_ID="B4", ATELIER="tir", RESULTAT=1, META="shots:0,0,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P14", TEAM_ID="B4", ATELIER="vitesse", RESULTAT=11.47, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P14", TEAM_ID="B4", ATELIER="agilite", RESULTAT=14.29, META="base:14.29,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P14", TEAM_ID="B4", ATELIER="tir", RESULTAT=1, META="shots:-1,-1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P15", TEAM_ID="B4", ATELIER="vitesse", RESULTAT=14.09, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P15", TEAM_ID="B4", ATELIER="agilite", RESULTAT=24.09, META="base:18.09,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="B4-P15", TEAM_ID="B4", ATELIER="tir", RESULTAT=2, META="shots:-1,3,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P01", TEAM_ID="C1", ATELIER="vitesse", RESULTAT=10.95, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P01", TEAM_ID="C1", ATELIER="agilite", RESULTAT=29.91, META="base:20.91,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P01", TEAM_ID="C1", ATELIER="tir", RESULTAT=3, META="shots:0,0,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P02", TEAM_ID="C1", ATELIER="vitesse", RESULTAT=14.29, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P02", TEAM_ID="C1", ATELIER="agilite", RESULTAT=19.48, META="base:13.48,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P02", TEAM_ID="C1", ATELIER="tir", RESULTAT=5, META="shots:1,3,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P03", TEAM_ID="C1", ATELIER="vitesse", RESULTAT=16.84, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P03", TEAM_ID="C1", ATELIER="agilite", RESULTAT=21.88, META="base:12.88,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P03", TEAM_ID="C1", ATELIER="tir", RESULTAT=2, META="shots:3,-1,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P04", TEAM_ID="C1", ATELIER="vitesse", RESULTAT=11.45, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P04", TEAM_ID="C1", ATELIER="agilite", RESULTAT=25.82, META="base:13.82,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P04", TEAM_ID="C1", ATELIER="tir", RESULTAT=6, META="shots:3,3,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P05", TEAM_ID="C1", ATELIER="vitesse", RESULTAT=15.47, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P05", TEAM_ID="C1", ATELIER="agilite", RESULTAT=20.3, META="base:20.3,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P05", TEAM_ID="C1", ATELIER="tir", RESULTAT=0, META="shots:1,-1,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P06", TEAM_ID="C1", ATELIER="vitesse", RESULTAT=15.77, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P06", TEAM_ID="C1", ATELIER="agilite", RESULTAT=23.71, META="base:11.71,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P06", TEAM_ID="C1", ATELIER="tir", RESULTAT=6, META="shots:3,0,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P07", TEAM_ID="C1", ATELIER="vitesse", RESULTAT=13.32, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P07", TEAM_ID="C1", ATELIER="agilite", RESULTAT=27.05, META="base:18.05,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P07", TEAM_ID="C1", ATELIER="tir", RESULTAT=7, META="shots:1,3,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P08", TEAM_ID="C1", ATELIER="vitesse", RESULTAT=15.68, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P08", TEAM_ID="C1", ATELIER="agilite", RESULTAT=29.47, META="base:17.47,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P08", TEAM_ID="C1", ATELIER="tir", RESULTAT=0, META="shots:1,0,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P09", TEAM_ID="C1", ATELIER="vitesse", RESULTAT=17.38, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P09", TEAM_ID="C1", ATELIER="agilite", RESULTAT=14.64, META="base:14.64,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P09", TEAM_ID="C1", ATELIER="tir", RESULTAT=-3, META="shots:-1,-1,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P10", TEAM_ID="C1", ATELIER="vitesse", RESULTAT=15.56, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P10", TEAM_ID="C1", ATELIER="agilite", RESULTAT=19.88, META="base:16.88,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P10", TEAM_ID="C1", ATELIER="tir", RESULTAT=2, META="shots:-1,3,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P11", TEAM_ID="C1", ATELIER="vitesse", RESULTAT=14.58, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P11", TEAM_ID="C1", ATELIER="agilite", RESULTAT=20.43, META="base:17.43,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P11", TEAM_ID="C1", ATELIER="tir", RESULTAT=1, META="shots:-1,-1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P12", TEAM_ID="C1", ATELIER="vitesse", RESULTAT=17.1, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P12", TEAM_ID="C1", ATELIER="agilite", RESULTAT=28.47, META="base:16.47,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P12", TEAM_ID="C1", ATELIER="tir", RESULTAT=4, META="shots:1,3,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P13", TEAM_ID="C1", ATELIER="vitesse", RESULTAT=13.69, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P13", TEAM_ID="C1", ATELIER="agilite", RESULTAT=21.12, META="base:12.12,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P13", TEAM_ID="C1", ATELIER="tir", RESULTAT=-1, META="shots:0,0,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P14", TEAM_ID="C1", ATELIER="vitesse", RESULTAT=16.99, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P14", TEAM_ID="C1", ATELIER="agilite", RESULTAT=20.48, META="base:20.48,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P14", TEAM_ID="C1", ATELIER="tir", RESULTAT=4, META="shots:1,3,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P15", TEAM_ID="C1", ATELIER="vitesse", RESULTAT=16.04, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P15", TEAM_ID="C1", ATELIER="agilite", RESULTAT=26, META="base:17,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C1-P15", TEAM_ID="C1", ATELIER="tir", RESULTAT=3, META="shots:0,0,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P01", TEAM_ID="C2", ATELIER="vitesse", RESULTAT=15.93, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P01", TEAM_ID="C2", ATELIER="agilite", RESULTAT=28.29, META="base:16.29,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P01", TEAM_ID="C2", ATELIER="tir", RESULTAT=5, META="shots:-1,3,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P02", TEAM_ID="C2", ATELIER="vitesse", RESULTAT=14.58, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P02", TEAM_ID="C2", ATELIER="agilite", RESULTAT=14.99, META="base:14.99,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P02", TEAM_ID="C2", ATELIER="tir", RESULTAT=-2, META="shots:0,-1,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P03", TEAM_ID="C2", ATELIER="vitesse", RESULTAT=11.81, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P03", TEAM_ID="C2", ATELIER="agilite", RESULTAT=23.52, META="base:17.52,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P03", TEAM_ID="C2", ATELIER="tir", RESULTAT=2, META="shots:0,3,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P04", TEAM_ID="C2", ATELIER="vitesse", RESULTAT=11.37, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P04", TEAM_ID="C2", ATELIER="agilite", RESULTAT=18.86, META="base:18.86,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P04", TEAM_ID="C2", ATELIER="tir", RESULTAT=6, META="shots:3,3,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P05", TEAM_ID="C2", ATELIER="vitesse", RESULTAT=15.91, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P05", TEAM_ID="C2", ATELIER="agilite", RESULTAT=22.53, META="base:16.53,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P05", TEAM_ID="C2", ATELIER="tir", RESULTAT=5, META="shots:1,3,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P06", TEAM_ID="C2", ATELIER="vitesse", RESULTAT=13.2, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P06", TEAM_ID="C2", ATELIER="agilite", RESULTAT=17.67, META="base:17.67,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P06", TEAM_ID="C2", ATELIER="tir", RESULTAT=0, META="shots:0,1,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P07", TEAM_ID="C2", ATELIER="vitesse", RESULTAT=13.02, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P07", TEAM_ID="C2", ATELIER="agilite", RESULTAT=29.48, META="base:20.48,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P07", TEAM_ID="C2", ATELIER="tir", RESULTAT=3, META="shots:1,3,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P08", TEAM_ID="C2", ATELIER="vitesse", RESULTAT=15.46, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P08", TEAM_ID="C2", ATELIER="agilite", RESULTAT=26.79, META="base:14.79,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P08", TEAM_ID="C2", ATELIER="tir", RESULTAT=0, META="shots:-1,1,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P09", TEAM_ID="C2", ATELIER="vitesse", RESULTAT=12.37, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P09", TEAM_ID="C2", ATELIER="agilite", RESULTAT=17.76, META="base:17.76,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P09", TEAM_ID="C2", ATELIER="tir", RESULTAT=3, META="shots:1,1,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P10", TEAM_ID="C2", ATELIER="vitesse", RESULTAT=17.82, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P10", TEAM_ID="C2", ATELIER="agilite", RESULTAT=26.62, META="base:20.62,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P10", TEAM_ID="C2", ATELIER="tir", RESULTAT=-1, META="shots:-1,0,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P11", TEAM_ID="C2", ATELIER="vitesse", RESULTAT=10.21, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P11", TEAM_ID="C2", ATELIER="agilite", RESULTAT=13.92, META="base:13.92,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P11", TEAM_ID="C2", ATELIER="tir", RESULTAT=3, META="shots:1,3,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P12", TEAM_ID="C2", ATELIER="vitesse", RESULTAT=13.92, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P12", TEAM_ID="C2", ATELIER="agilite", RESULTAT=27.34, META="base:15.34,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P12", TEAM_ID="C2", ATELIER="tir", RESULTAT=0, META="shots:1,-1,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P13", TEAM_ID="C2", ATELIER="vitesse", RESULTAT=14.89, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P13", TEAM_ID="C2", ATELIER="agilite", RESULTAT=18.88, META="base:18.88,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P13", TEAM_ID="C2", ATELIER="tir", RESULTAT=-1, META="shots:0,-1,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P14", TEAM_ID="C2", ATELIER="vitesse", RESULTAT=10.63, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P14", TEAM_ID="C2", ATELIER="agilite", RESULTAT=28.74, META="base:19.74,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P14", TEAM_ID="C2", ATELIER="tir", RESULTAT=0, META="shots:1,-1,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P15", TEAM_ID="C2", ATELIER="vitesse", RESULTAT=15.45, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P15", TEAM_ID="C2", ATELIER="agilite", RESULTAT=31.66, META="base:19.66,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C2-P15", TEAM_ID="C2", ATELIER="tir", RESULTAT=4, META="shots:0,1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P01", TEAM_ID="C3", ATELIER="vitesse", RESULTAT=15.05, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P01", TEAM_ID="C3", ATELIER="agilite", RESULTAT=23.59, META="base:14.59,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P01", TEAM_ID="C3", ATELIER="tir", RESULTAT=3, META="shots:1,3,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P02", TEAM_ID="C3", ATELIER="vitesse", RESULTAT=16.37, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P02", TEAM_ID="C3", ATELIER="agilite", RESULTAT=24.18, META="base:15.18,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P02", TEAM_ID="C3", ATELIER="tir", RESULTAT=5, META="shots:3,-1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P03", TEAM_ID="C3", ATELIER="vitesse", RESULTAT=16.92, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P03", TEAM_ID="C3", ATELIER="agilite", RESULTAT=14.46, META="base:11.46,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P03", TEAM_ID="C3", ATELIER="tir", RESULTAT=0, META="shots:0,-1,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P04", TEAM_ID="C3", ATELIER="vitesse", RESULTAT=15.63, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P04", TEAM_ID="C3", ATELIER="agilite", RESULTAT=15.65, META="base:12.65,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P04", TEAM_ID="C3", ATELIER="tir", RESULTAT=1, META="shots:0,0,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P05", TEAM_ID="C3", ATELIER="vitesse", RESULTAT=12.35, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P05", TEAM_ID="C3", ATELIER="agilite", RESULTAT=26.53, META="base:20.53,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P05", TEAM_ID="C3", ATELIER="tir", RESULTAT=1, META="shots:-1,1,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P06", TEAM_ID="C3", ATELIER="vitesse", RESULTAT=12.66, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P06", TEAM_ID="C3", ATELIER="agilite", RESULTAT=16.95, META="base:16.95,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P06", TEAM_ID="C3", ATELIER="tir", RESULTAT=-2, META="shots:0,-1,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P07", TEAM_ID="C3", ATELIER="vitesse", RESULTAT=12.86, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P07", TEAM_ID="C3", ATELIER="agilite", RESULTAT=13.36, META="base:13.36,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P07", TEAM_ID="C3", ATELIER="tir", RESULTAT=-2, META="shots:-1,0,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P08", TEAM_ID="C3", ATELIER="vitesse", RESULTAT=15.33, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P08", TEAM_ID="C3", ATELIER="agilite", RESULTAT=29.43, META="base:17.43,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P08", TEAM_ID="C3", ATELIER="tir", RESULTAT=3, META="shots:3,0,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P09", TEAM_ID="C3", ATELIER="vitesse", RESULTAT=17.46, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P09", TEAM_ID="C3", ATELIER="agilite", RESULTAT=20.01, META="base:11.01,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P09", TEAM_ID="C3", ATELIER="tir", RESULTAT=2, META="shots:-1,0,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P10", TEAM_ID="C3", ATELIER="vitesse", RESULTAT=16.66, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P10", TEAM_ID="C3", ATELIER="agilite", RESULTAT=30.8, META="base:18.8,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P10", TEAM_ID="C3", ATELIER="tir", RESULTAT=-1, META="shots:0,-1,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P11", TEAM_ID="C3", ATELIER="vitesse", RESULTAT=15.72, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P11", TEAM_ID="C3", ATELIER="agilite", RESULTAT=20.55, META="base:20.55,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P11", TEAM_ID="C3", ATELIER="tir", RESULTAT=2, META="shots:3,0,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P12", TEAM_ID="C3", ATELIER="vitesse", RESULTAT=10.19, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P12", TEAM_ID="C3", ATELIER="agilite", RESULTAT=27.22, META="base:15.22,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P12", TEAM_ID="C3", ATELIER="tir", RESULTAT=-2, META="shots:-1,0,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P13", TEAM_ID="C3", ATELIER="vitesse", RESULTAT=11.7, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P13", TEAM_ID="C3", ATELIER="agilite", RESULTAT=15.43, META="base:15.43,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P13", TEAM_ID="C3", ATELIER="tir", RESULTAT=2, META="shots:0,3,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P14", TEAM_ID="C3", ATELIER="vitesse", RESULTAT=10.93, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P14", TEAM_ID="C3", ATELIER="agilite", RESULTAT=19.54, META="base:19.54,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P14", TEAM_ID="C3", ATELIER="tir", RESULTAT=7, META="shots:3,3,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P15", TEAM_ID="C3", ATELIER="vitesse", RESULTAT=12.59, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P15", TEAM_ID="C3", ATELIER="agilite", RESULTAT=20.58, META="base:17.58,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C3-P15", TEAM_ID="C3", ATELIER="tir", RESULTAT=0, META="shots:0,1,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P01", TEAM_ID="C4", ATELIER="vitesse", RESULTAT=10.71, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P01", TEAM_ID="C4", ATELIER="agilite", RESULTAT=20.62, META="base:11.62,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P01", TEAM_ID="C4", ATELIER="tir", RESULTAT=2, META="shots:0,1,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P02", TEAM_ID="C4", ATELIER="vitesse", RESULTAT=16, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P02", TEAM_ID="C4", ATELIER="agilite", RESULTAT=14.92, META="base:11.92,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P02", TEAM_ID="C4", ATELIER="tir", RESULTAT=1, META="shots:0,0,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P03", TEAM_ID="C4", ATELIER="vitesse", RESULTAT=14.8, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P03", TEAM_ID="C4", ATELIER="agilite", RESULTAT=24.71, META="base:12.71,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P03", TEAM_ID="C4", ATELIER="tir", RESULTAT=-2, META="shots:0,-1,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P04", TEAM_ID="C4", ATELIER="vitesse", RESULTAT=15.64, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P04", TEAM_ID="C4", ATELIER="agilite", RESULTAT=15.98, META="base:15.98,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P04", TEAM_ID="C4", ATELIER="tir", RESULTAT=0, META="shots:0,1,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P05", TEAM_ID="C4", ATELIER="vitesse", RESULTAT=12.71, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P05", TEAM_ID="C4", ATELIER="agilite", RESULTAT=23.95, META="base:14.95,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P05", TEAM_ID="C4", ATELIER="tir", RESULTAT=2, META="shots:1,1,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P06", TEAM_ID="C4", ATELIER="vitesse", RESULTAT=15.42, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P06", TEAM_ID="C4", ATELIER="agilite", RESULTAT=29.28, META="base:20.28,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P06", TEAM_ID="C4", ATELIER="tir", RESULTAT=4, META="shots:3,0,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P07", TEAM_ID="C4", ATELIER="vitesse", RESULTAT=10, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P07", TEAM_ID="C4", ATELIER="agilite", RESULTAT=23.75, META="base:17.75,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P07", TEAM_ID="C4", ATELIER="tir", RESULTAT=0, META="shots:0,-1,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P08", TEAM_ID="C4", ATELIER="vitesse", RESULTAT=11.8, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P08", TEAM_ID="C4", ATELIER="agilite", RESULTAT=20.44, META="base:17.44,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P08", TEAM_ID="C4", ATELIER="tir", RESULTAT=1, META="shots:3,-1,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P09", TEAM_ID="C4", ATELIER="vitesse", RESULTAT=10.09, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P09", TEAM_ID="C4", ATELIER="agilite", RESULTAT=21.26, META="base:15.26,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P09", TEAM_ID="C4", ATELIER="tir", RESULTAT=3, META="shots:0,0,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P10", TEAM_ID="C4", ATELIER="vitesse", RESULTAT=10.14, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P10", TEAM_ID="C4", ATELIER="agilite", RESULTAT=32.39, META="base:20.39,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P10", TEAM_ID="C4", ATELIER="tir", RESULTAT=0, META="shots:0,-1,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P11", TEAM_ID="C4", ATELIER="vitesse", RESULTAT=12.73, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P11", TEAM_ID="C4", ATELIER="agilite", RESULTAT=17.73, META="base:11.73,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P11", TEAM_ID="C4", ATELIER="tir", RESULTAT=5, META="shots:1,3,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P12", TEAM_ID="C4", ATELIER="vitesse", RESULTAT=15.09, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P12", TEAM_ID="C4", ATELIER="agilite", RESULTAT=18.68, META="base:12.68,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P12", TEAM_ID="C4", ATELIER="tir", RESULTAT=0, META="shots:1,-1,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P13", TEAM_ID="C4", ATELIER="vitesse", RESULTAT=10.25, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P13", TEAM_ID="C4", ATELIER="agilite", RESULTAT=13.84, META="base:13.84,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P13", TEAM_ID="C4", ATELIER="tir", RESULTAT=-1, META="shots:0,-1,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P14", TEAM_ID="C4", ATELIER="vitesse", RESULTAT=16.89, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P14", TEAM_ID="C4", ATELIER="agilite", RESULTAT=25.42, META="base:16.42,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P14", TEAM_ID="C4", ATELIER="tir", RESULTAT=-1, META="shots:1,-1,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P15", TEAM_ID="C4", ATELIER="vitesse", RESULTAT=12.29, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P15", TEAM_ID="C4", ATELIER="agilite", RESULTAT=23.82, META="base:11.82,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="C4-P15", TEAM_ID="C4", ATELIER="tir", RESULTAT=4, META="shots:0,1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P01", TEAM_ID="D1", ATELIER="vitesse", RESULTAT=13.26, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P01", TEAM_ID="D1", ATELIER="agilite", RESULTAT=21.79, META="base:15.79,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P01", TEAM_ID="D1", ATELIER="tir", RESULTAT=7, META="shots:3,1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P02", TEAM_ID="D1", ATELIER="vitesse", RESULTAT=11.95, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P02", TEAM_ID="D1", ATELIER="agilite", RESULTAT=19.52, META="base:13.52,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P02", TEAM_ID="D1", ATELIER="tir", RESULTAT=0, META="shots:0,0,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P03", TEAM_ID="D1", ATELIER="vitesse", RESULTAT=13.01, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P03", TEAM_ID="D1", ATELIER="agilite", RESULTAT=19.51, META="base:16.51,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P03", TEAM_ID="D1", ATELIER="tir", RESULTAT=4, META="shots:0,1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P04", TEAM_ID="D1", ATELIER="vitesse", RESULTAT=16.21, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P04", TEAM_ID="D1", ATELIER="agilite", RESULTAT=18.25, META="base:18.25,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P04", TEAM_ID="D1", ATELIER="tir", RESULTAT=7, META="shots:3,1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P05", TEAM_ID="D1", ATELIER="vitesse", RESULTAT=17.06, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P05", TEAM_ID="D1", ATELIER="agilite", RESULTAT=14.37, META="base:14.37,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P05", TEAM_ID="D1", ATELIER="tir", RESULTAT=0, META="shots:1,0,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P06", TEAM_ID="D1", ATELIER="vitesse", RESULTAT=17.61, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P06", TEAM_ID="D1", ATELIER="agilite", RESULTAT=25.44, META="base:19.44,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P06", TEAM_ID="D1", ATELIER="tir", RESULTAT=2, META="shots:3,-1,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P07", TEAM_ID="D1", ATELIER="vitesse", RESULTAT=14.87, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P07", TEAM_ID="D1", ATELIER="agilite", RESULTAT=18.17, META="base:18.17,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P07", TEAM_ID="D1", ATELIER="tir", RESULTAT=3, META="shots:3,-1,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P08", TEAM_ID="D1", ATELIER="vitesse", RESULTAT=17.83, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P08", TEAM_ID="D1", ATELIER="agilite", RESULTAT=21.02, META="base:18.02,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P08", TEAM_ID="D1", ATELIER="tir", RESULTAT=2, META="shots:1,0,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P09", TEAM_ID="D1", ATELIER="vitesse", RESULTAT=12.01, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P09", TEAM_ID="D1", ATELIER="agilite", RESULTAT=24.16, META="base:15.16,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P09", TEAM_ID="D1", ATELIER="tir", RESULTAT=5, META="shots:3,1,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P10", TEAM_ID="D1", ATELIER="vitesse", RESULTAT=16.26, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P10", TEAM_ID="D1", ATELIER="agilite", RESULTAT=26.56, META="base:20.56,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P10", TEAM_ID="D1", ATELIER="tir", RESULTAT=5, META="shots:3,-1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P11", TEAM_ID="D1", ATELIER="vitesse", RESULTAT=10.91, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P11", TEAM_ID="D1", ATELIER="agilite", RESULTAT=22.28, META="base:19.28,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P11", TEAM_ID="D1", ATELIER="tir", RESULTAT=4, META="shots:1,3,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P12", TEAM_ID="D1", ATELIER="vitesse", RESULTAT=14.39, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P12", TEAM_ID="D1", ATELIER="agilite", RESULTAT=31.13, META="base:19.13,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P12", TEAM_ID="D1", ATELIER="tir", RESULTAT=3, META="shots:1,3,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P13", TEAM_ID="D1", ATELIER="vitesse", RESULTAT=12.56, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P13", TEAM_ID="D1", ATELIER="agilite", RESULTAT=27.39, META="base:15.39,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P13", TEAM_ID="D1", ATELIER="tir", RESULTAT=-2, META="shots:0,-1,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P14", TEAM_ID="D1", ATELIER="vitesse", RESULTAT=16.8, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P14", TEAM_ID="D1", ATELIER="agilite", RESULTAT=20.74, META="base:11.74,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P14", TEAM_ID="D1", ATELIER="tir", RESULTAT=4, META="shots:0,3,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P15", TEAM_ID="D1", ATELIER="vitesse", RESULTAT=13.07, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P15", TEAM_ID="D1", ATELIER="agilite", RESULTAT=23.7, META="base:14.7,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D1-P15", TEAM_ID="D1", ATELIER="tir", RESULTAT=1, META="shots:1,-1,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P01", TEAM_ID="D2", ATELIER="vitesse", RESULTAT=11.71, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P01", TEAM_ID="D2", ATELIER="agilite", RESULTAT=27.51, META="base:15.51,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P01", TEAM_ID="D2", ATELIER="tir", RESULTAT=3, META="shots:1,3,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P02", TEAM_ID="D2", ATELIER="vitesse", RESULTAT=10.9, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P02", TEAM_ID="D2", ATELIER="agilite", RESULTAT=25.67, META="base:19.67,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P02", TEAM_ID="D2", ATELIER="tir", RESULTAT=0, META="shots:0,1,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P03", TEAM_ID="D2", ATELIER="vitesse", RESULTAT=11.95, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P03", TEAM_ID="D2", ATELIER="agilite", RESULTAT=19.42, META="base:16.42,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P03", TEAM_ID="D2", ATELIER="tir", RESULTAT=6, META="shots:0,3,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P04", TEAM_ID="D2", ATELIER="vitesse", RESULTAT=10.81, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P04", TEAM_ID="D2", ATELIER="agilite", RESULTAT=18.52, META="base:18.52,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P04", TEAM_ID="D2", ATELIER="tir", RESULTAT=2, META="shots:3,0,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P05", TEAM_ID="D2", ATELIER="vitesse", RESULTAT=15.23, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P05", TEAM_ID="D2", ATELIER="agilite", RESULTAT=24.56, META="base:12.56,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P05", TEAM_ID="D2", ATELIER="tir", RESULTAT=3, META="shots:-1,3,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P06", TEAM_ID="D2", ATELIER="vitesse", RESULTAT=12.14, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P06", TEAM_ID="D2", ATELIER="agilite", RESULTAT=24.59, META="base:12.59,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P06", TEAM_ID="D2", ATELIER="tir", RESULTAT=-1, META="shots:-1,0,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P07", TEAM_ID="D2", ATELIER="vitesse", RESULTAT=16.55, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P07", TEAM_ID="D2", ATELIER="agilite", RESULTAT=23.02, META="base:20.02,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P07", TEAM_ID="D2", ATELIER="tir", RESULTAT=6, META="shots:3,3,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P08", TEAM_ID="D2", ATELIER="vitesse", RESULTAT=11.58, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P08", TEAM_ID="D2", ATELIER="agilite", RESULTAT=20.91, META="base:11.91,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P08", TEAM_ID="D2", ATELIER="tir", RESULTAT=-1, META="shots:-1,1,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P09", TEAM_ID="D2", ATELIER="vitesse", RESULTAT=15.67, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P09", TEAM_ID="D2", ATELIER="agilite", RESULTAT=16.25, META="base:13.25,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P09", TEAM_ID="D2", ATELIER="tir", RESULTAT=2, META="shots:0,-1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P10", TEAM_ID="D2", ATELIER="vitesse", RESULTAT=12.07, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P10", TEAM_ID="D2", ATELIER="agilite", RESULTAT=25.88, META="base:16.88,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P10", TEAM_ID="D2", ATELIER="tir", RESULTAT=-2, META="shots:-1,0,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P11", TEAM_ID="D2", ATELIER="vitesse", RESULTAT=12.45, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P11", TEAM_ID="D2", ATELIER="agilite", RESULTAT=16.86, META="base:13.86,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P11", TEAM_ID="D2", ATELIER="tir", RESULTAT=3, META="shots:3,-1,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P12", TEAM_ID="D2", ATELIER="vitesse", RESULTAT=15.83, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P12", TEAM_ID="D2", ATELIER="agilite", RESULTAT=19.68, META="base:16.68,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P12", TEAM_ID="D2", ATELIER="tir", RESULTAT=6, META="shots:3,3,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P13", TEAM_ID="D2", ATELIER="vitesse", RESULTAT=17.08, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P13", TEAM_ID="D2", ATELIER="agilite", RESULTAT=23.95, META="base:14.95,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P13", TEAM_ID="D2", ATELIER="tir", RESULTAT=1, META="shots:-1,-1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P14", TEAM_ID="D2", ATELIER="vitesse", RESULTAT=13.39, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P14", TEAM_ID="D2", ATELIER="agilite", RESULTAT=20.22, META="base:17.22,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P14", TEAM_ID="D2", ATELIER="tir", RESULTAT=4, META="shots:1,0,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P15", TEAM_ID="D2", ATELIER="vitesse", RESULTAT=15.84, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P15", TEAM_ID="D2", ATELIER="agilite", RESULTAT=25.77, META="base:19.77,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D2-P15", TEAM_ID="D2", ATELIER="tir", RESULTAT=2, META="shots:0,-1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P01", TEAM_ID="D3", ATELIER="vitesse", RESULTAT=14.44, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P01", TEAM_ID="D3", ATELIER="agilite", RESULTAT=23.31, META="base:14.31,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P01", TEAM_ID="D3", ATELIER="tir", RESULTAT=2, META="shots:1,0,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P02", TEAM_ID="D3", ATELIER="vitesse", RESULTAT=11.52, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P02", TEAM_ID="D3", ATELIER="agilite", RESULTAT=25.81, META="base:16.81,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P02", TEAM_ID="D3", ATELIER="tir", RESULTAT=0, META="shots:1,-1,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P03", TEAM_ID="D3", ATELIER="vitesse", RESULTAT=16.44, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P03", TEAM_ID="D3", ATELIER="agilite", RESULTAT=19.68, META="base:19.68,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P03", TEAM_ID="D3", ATELIER="tir", RESULTAT=3, META="shots:0,0,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P04", TEAM_ID="D3", ATELIER="vitesse", RESULTAT=11.15, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P04", TEAM_ID="D3", ATELIER="agilite", RESULTAT=24.28, META="base:15.28,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P04", TEAM_ID="D3", ATELIER="tir", RESULTAT=1, META="shots:-1,1,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P05", TEAM_ID="D3", ATELIER="vitesse", RESULTAT=16.77, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P05", TEAM_ID="D3", ATELIER="agilite", RESULTAT=23.77, META="base:20.77,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P05", TEAM_ID="D3", ATELIER="tir", RESULTAT=5, META="shots:3,3,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P06", TEAM_ID="D3", ATELIER="vitesse", RESULTAT=12.11, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P06", TEAM_ID="D3", ATELIER="agilite", RESULTAT=26.8, META="base:17.8,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P06", TEAM_ID="D3", ATELIER="tir", RESULTAT=-3, META="shots:-1,-1,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P07", TEAM_ID="D3", ATELIER="vitesse", RESULTAT=16.44, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P07", TEAM_ID="D3", ATELIER="agilite", RESULTAT=28.78, META="base:16.78,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P07", TEAM_ID="D3", ATELIER="tir", RESULTAT=1, META="shots:-1,1,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P08", TEAM_ID="D3", ATELIER="vitesse", RESULTAT=15.36, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P08", TEAM_ID="D3", ATELIER="agilite", RESULTAT=25.51, META="base:19.51,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P08", TEAM_ID="D3", ATELIER="tir", RESULTAT=1, META="shots:-1,3,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P09", TEAM_ID="D3", ATELIER="vitesse", RESULTAT=13.09, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P09", TEAM_ID="D3", ATELIER="agilite", RESULTAT=22.87, META="base:16.87,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P09", TEAM_ID="D3", ATELIER="tir", RESULTAT=3, META="shots:1,-1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P10", TEAM_ID="D3", ATELIER="vitesse", RESULTAT=16.68, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P10", TEAM_ID="D3", ATELIER="agilite", RESULTAT=15.33, META="base:15.33,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P10", TEAM_ID="D3", ATELIER="tir", RESULTAT=5, META="shots:3,-1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P11", TEAM_ID="D3", ATELIER="vitesse", RESULTAT=15.22, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P11", TEAM_ID="D3", ATELIER="agilite", RESULTAT=24.16, META="base:18.16,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P11", TEAM_ID="D3", ATELIER="tir", RESULTAT=6, META="shots:3,3,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P12", TEAM_ID="D3", ATELIER="vitesse", RESULTAT=16.91, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P12", TEAM_ID="D3", ATELIER="agilite", RESULTAT=22.57, META="base:19.57,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P12", TEAM_ID="D3", ATELIER="tir", RESULTAT=2, META="shots:0,3,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P13", TEAM_ID="D3", ATELIER="vitesse", RESULTAT=15.58, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P13", TEAM_ID="D3", ATELIER="agilite", RESULTAT=14.23, META="base:14.23,errors:0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P13", TEAM_ID="D3", ATELIER="tir", RESULTAT=0, META="shots:1,0,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P14", TEAM_ID="D3", ATELIER="vitesse", RESULTAT=13.86, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P14", TEAM_ID="D3", ATELIER="agilite", RESULTAT=20.57, META="base:14.57,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P14", TEAM_ID="D3", ATELIER="tir", RESULTAT=0, META="shots:0,0,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P15", TEAM_ID="D3", ATELIER="vitesse", RESULTAT=15.46, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P15", TEAM_ID="D3", ATELIER="agilite", RESULTAT=19.9, META="base:16.9,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D3-P15", TEAM_ID="D3", ATELIER="tir", RESULTAT=5, META="shots:3,1,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P01", TEAM_ID="D4", ATELIER="vitesse", RESULTAT=13.02, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P01", TEAM_ID="D4", ATELIER="agilite", RESULTAT=26.71, META="base:17.71,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P01", TEAM_ID="D4", ATELIER="tir", RESULTAT=3, META="shots:0,0,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P02", TEAM_ID="D4", ATELIER="vitesse", RESULTAT=17.86, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P02", TEAM_ID="D4", ATELIER="agilite", RESULTAT=25.93, META="base:16.93,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P02", TEAM_ID="D4", ATELIER="tir", RESULTAT=0, META="shots:0,0,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P03", TEAM_ID="D4", ATELIER="vitesse", RESULTAT=15.68, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P03", TEAM_ID="D4", ATELIER="agilite", RESULTAT=21.33, META="base:18.33,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P03", TEAM_ID="D4", ATELIER="tir", RESULTAT=4, META="shots:0,1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P04", TEAM_ID="D4", ATELIER="vitesse", RESULTAT=13.41, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P04", TEAM_ID="D4", ATELIER="agilite", RESULTAT=14.46, META="base:11.46,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P04", TEAM_ID="D4", ATELIER="tir", RESULTAT=1, META="shots:3,-1,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P05", TEAM_ID="D4", ATELIER="vitesse", RESULTAT=17.58, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P05", TEAM_ID="D4", ATELIER="agilite", RESULTAT=21.98, META="base:18.98,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P05", TEAM_ID="D4", ATELIER="tir", RESULTAT=3, META="shots:3,0,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P06", TEAM_ID="D4", ATELIER="vitesse", RESULTAT=16.89, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P06", TEAM_ID="D4", ATELIER="agilite", RESULTAT=21.76, META="base:18.76,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P06", TEAM_ID="D4", ATELIER="tir", RESULTAT=4, META="shots:0,3,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P07", TEAM_ID="D4", ATELIER="vitesse", RESULTAT=12.72, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P07", TEAM_ID="D4", ATELIER="agilite", RESULTAT=26.56, META="base:17.56,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P07", TEAM_ID="D4", ATELIER="tir", RESULTAT=4, META="shots:0,1,3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P08", TEAM_ID="D4", ATELIER="vitesse", RESULTAT=14.15, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P08", TEAM_ID="D4", ATELIER="agilite", RESULTAT=25.22, META="base:13.22,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P08", TEAM_ID="D4", ATELIER="tir", RESULTAT=4, META="shots:0,3,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P09", TEAM_ID="D4", ATELIER="vitesse", RESULTAT=15.47, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P09", TEAM_ID="D4", ATELIER="agilite", RESULTAT=31.63, META="base:19.63,errors:4";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P09", TEAM_ID="D4", ATELIER="tir", RESULTAT=2, META="shots:3,-1,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P10", TEAM_ID="D4", ATELIER="vitesse", RESULTAT=17.52, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P10", TEAM_ID="D4", ATELIER="agilite", RESULTAT=22.06, META="base:16.06,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P10", TEAM_ID="D4", ATELIER="tir", RESULTAT=-1, META="shots:0,0,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P11", TEAM_ID="D4", ATELIER="vitesse", RESULTAT=11.65, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P11", TEAM_ID="D4", ATELIER="agilite", RESULTAT=18.59, META="base:12.59,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P11", TEAM_ID="D4", ATELIER="tir", RESULTAT=3, META="shots:1,3,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P12", TEAM_ID="D4", ATELIER="vitesse", RESULTAT=13.31, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P12", TEAM_ID="D4", ATELIER="agilite", RESULTAT=22.68, META="base:19.68,errors:1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P12", TEAM_ID="D4", ATELIER="tir", RESULTAT=2, META="shots:0,3,-1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P13", TEAM_ID="D4", ATELIER="vitesse", RESULTAT=15.48, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P13", TEAM_ID="D4", ATELIER="agilite", RESULTAT=22.01, META="base:16.01,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P13", TEAM_ID="D4", ATELIER="tir", RESULTAT=2, META="shots:-1,3,0";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P14", TEAM_ID="D4", ATELIER="vitesse", RESULTAT=11.47, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P14", TEAM_ID="D4", ATELIER="agilite", RESULTAT=22.24, META="base:16.24,errors:2";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P14", TEAM_ID="D4", ATELIER="tir", RESULTAT=2, META="shots:0,1,1";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P15", TEAM_ID="D4", ATELIER="vitesse", RESULTAT=11.42, META=null;
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P15", TEAM_ID="D4", ATELIER="agilite", RESULTAT=23.78, META="base:14.78,errors:3";
+-- INSERT ta_challenge_attempts 
+INSERT ta_challenge_attempts SET PLAYER_ID="D4-P15", TEAM_ID="D4", ATELIER="tir", RESULTAT=3, META="shots:1,1,1";
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='A' AND EQUIPE_ID='A1'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="A", EQUIPE_ID="A1", POINTS=5, MATCHS_JOUES=3, VICTOIRES=2, NULS=1, DEFAITES=0, BUTS_POUR=8, BUTS_CONTRE=1;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='A' AND EQUIPE_ID='A2'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="A", EQUIPE_ID="A2", POINTS=5, MATCHS_JOUES=3, VICTOIRES=2, NULS=1, DEFAITES=0, BUTS_POUR=3, BUTS_CONTRE=0;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='A' AND EQUIPE_ID='A4'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="A", EQUIPE_ID="A4", POINTS=2, MATCHS_JOUES=3, VICTOIRES=1, NULS=0, DEFAITES=2, BUTS_POUR=4, BUTS_CONTRE=7;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='A' AND EQUIPE_ID='A3'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="A", EQUIPE_ID="A3", POINTS=0, MATCHS_JOUES=3, VICTOIRES=0, NULS=0, DEFAITES=3, BUTS_POUR=1, BUTS_CONTRE=8;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='B' AND EQUIPE_ID='B4'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="B", EQUIPE_ID="B4", POINTS=4, MATCHS_JOUES=3, VICTOIRES=2, NULS=0, DEFAITES=1, BUTS_POUR=9, BUTS_CONTRE=3;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='B' AND EQUIPE_ID='B1'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="B", EQUIPE_ID="B1", POINTS=4, MATCHS_JOUES=3, VICTOIRES=2, NULS=0, DEFAITES=1, BUTS_POUR=7, BUTS_CONTRE=8;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='B' AND EQUIPE_ID='B3'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="B", EQUIPE_ID="B3", POINTS=3, MATCHS_JOUES=3, VICTOIRES=1, NULS=1, DEFAITES=1, BUTS_POUR=6, BUTS_CONTRE=6;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='B' AND EQUIPE_ID='B2'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="B", EQUIPE_ID="B2", POINTS=1, MATCHS_JOUES=3, VICTOIRES=0, NULS=1, DEFAITES=2, BUTS_POUR=6, BUTS_CONTRE=11;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='C' AND EQUIPE_ID='C4'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="C", EQUIPE_ID="C4", POINTS=4, MATCHS_JOUES=3, VICTOIRES=2, NULS=0, DEFAITES=1, BUTS_POUR=10, BUTS_CONTRE=5;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='C' AND EQUIPE_ID='C3'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="C", EQUIPE_ID="C3", POINTS=3, MATCHS_JOUES=3, VICTOIRES=1, NULS=1, DEFAITES=1, BUTS_POUR=7, BUTS_CONTRE=5;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='C' AND EQUIPE_ID='C2'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="C", EQUIPE_ID="C2", POINTS=3, MATCHS_JOUES=3, VICTOIRES=1, NULS=1, DEFAITES=1, BUTS_POUR=7, BUTS_CONTRE=8;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='C' AND EQUIPE_ID='C1'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="C", EQUIPE_ID="C1", POINTS=2, MATCHS_JOUES=3, VICTOIRES=0, NULS=2, DEFAITES=1, BUTS_POUR=4, BUTS_CONTRE=10;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='D' AND EQUIPE_ID='D1'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="D", EQUIPE_ID="D1", POINTS=5, MATCHS_JOUES=3, VICTOIRES=2, NULS=1, DEFAITES=0, BUTS_POUR=3, BUTS_CONTRE=0;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='D' AND EQUIPE_ID='D3'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="D", EQUIPE_ID="D3", POINTS=4, MATCHS_JOUES=3, VICTOIRES=2, NULS=0, DEFAITES=1, BUTS_POUR=8, BUTS_CONTRE=4;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='D' AND EQUIPE_ID='D2'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="D", EQUIPE_ID="D2", POINTS=2, MATCHS_JOUES=3, VICTOIRES=0, NULS=2, DEFAITES=1, BUTS_POUR=2, BUTS_CONTRE=4;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='D' AND EQUIPE_ID='D4'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="D", EQUIPE_ID="D4", POINTS=1, MATCHS_JOUES=3, VICTOIRES=0, NULS=1, DEFAITES=2, BUTS_POUR=0, BUTS_CONTRE=5;
+-- UPDATE ta_matchs ID='J2-OrA-1'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J2-OrA-1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J2-OrA-1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J2-OrA-1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J2-OrA-1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=3, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J2-OrA-1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=3, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J2-OrA-1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=4, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J2-OrA-1'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=4, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J2-OrA-2'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J2-OrA-2'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=0, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J2-OrA-3'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J2-OrA-3'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=0, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J2-OrA-4'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J2-OrA-4'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J2-OrA-4'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J2-OrA-4'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J2-OrA-4'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=4;
+-- UPDATE ta_matchs ID='J2-OrA-4'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=4;
+-- UPDATE ta_matchs ID='J2-OrA-4'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=5;
+-- UPDATE ta_matchs ID='J2-OrA-4'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=1, SCORE_EQUIPE2=5;
+-- UPDATE ta_matchs ID='J2-OrA-5'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J2-OrA-5'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J2-OrA-5'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J2-OrA-5'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=0, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J2-OrA-6'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J2-OrA-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J2-OrA-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J2-OrA-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J2-OrA-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J2-OrA-6'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=1, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J2-OrB-1'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J2-OrB-1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J2-OrB-1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J2-OrB-1'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=0, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J2-OrB-2'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J2-OrB-2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J2-OrB-2'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=0, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J2-OrB-3'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J2-OrB-3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J2-OrB-3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J2-OrB-3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J2-OrB-3'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=1, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J2-OrB-4'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J2-OrB-4'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J2-OrB-4'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J2-OrB-5'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J2-OrB-5'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J2-OrB-5'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J2-OrB-5'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J2-OrB-5'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=0, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J2-OrB-6'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J2-OrB-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J2-OrB-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J2-OrB-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J2-OrB-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=4;
+-- UPDATE ta_matchs ID='J2-OrB-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=5;
+-- UPDATE ta_matchs ID='J2-OrB-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=5;
+-- UPDATE ta_matchs ID='J2-OrB-6'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=1, SCORE_EQUIPE2=5;
+-- UPDATE ta_matchs ID='J2-ArgentC-1'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J2-ArgentC-1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J2-ArgentC-1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J2-ArgentC-1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J2-ArgentC-1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J2-ArgentC-1'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=1, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J2-ArgentC-2'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J2-ArgentC-2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J2-ArgentC-2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J2-ArgentC-2'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=1, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J2-ArgentC-3'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J2-ArgentC-3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J2-ArgentC-3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J2-ArgentC-3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J2-ArgentC-3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J2-ArgentC-3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=3, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J2-ArgentC-3'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=3, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J2-ArgentC-4'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J2-ArgentC-4'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J2-ArgentC-4'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J2-ArgentC-4'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J2-ArgentC-4'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=4;
+-- UPDATE ta_matchs ID='J2-ArgentC-4'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=4;
+-- UPDATE ta_matchs ID='J2-ArgentC-4'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=1, SCORE_EQUIPE2=4;
+-- UPDATE ta_matchs ID='J2-ArgentC-5'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J2-ArgentC-5'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J2-ArgentC-5'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J2-ArgentC-5'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J2-ArgentC-5'
+UPDATE ta_matchs SET SCORE_EQUIPE1=3, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J2-ArgentC-5'
+UPDATE ta_matchs SET SCORE_EQUIPE1=4, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J2-ArgentC-5'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=4, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J2-ArgentC-6'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J2-ArgentC-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J2-ArgentC-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J2-ArgentC-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J2-ArgentC-6'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=1, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J2-ArgentD-1'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J2-ArgentD-1'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=0, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J2-ArgentD-2'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J2-ArgentD-2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J2-ArgentD-2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J2-ArgentD-2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=3, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J2-ArgentD-2'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=3, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J2-ArgentD-3'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J2-ArgentD-3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J2-ArgentD-3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J2-ArgentD-3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J2-ArgentD-3'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=2, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J2-ArgentD-4'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J2-ArgentD-4'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J2-ArgentD-4'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J2-ArgentD-4'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J2-ArgentD-4'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J2-ArgentD-4'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J2-ArgentD-4'
+UPDATE ta_matchs SET SCORE_EQUIPE1=3, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J2-ArgentD-4'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=3, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J2-ArgentD-5'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J2-ArgentD-5'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=0, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J2-ArgentD-6'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J2-ArgentD-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J2-ArgentD-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J2-ArgentD-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=3, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J2-ArgentD-6'
+UPDATE ta_matchs SET SCORE_EQUIPE1=4, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J2-ArgentD-6'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=4, SCORE_EQUIPE2=0;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='A' AND EQUIPE_ID='A1'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="A", EQUIPE_ID="A1", POINTS=5, MATCHS_JOUES=3, VICTOIRES=2, NULS=1, DEFAITES=0, BUTS_POUR=8, BUTS_CONTRE=1;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='A' AND EQUIPE_ID='A2'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="A", EQUIPE_ID="A2", POINTS=5, MATCHS_JOUES=3, VICTOIRES=2, NULS=1, DEFAITES=0, BUTS_POUR=3, BUTS_CONTRE=0;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='A' AND EQUIPE_ID='A4'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="A", EQUIPE_ID="A4", POINTS=2, MATCHS_JOUES=3, VICTOIRES=1, NULS=0, DEFAITES=2, BUTS_POUR=4, BUTS_CONTRE=7;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='A' AND EQUIPE_ID='A3'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="A", EQUIPE_ID="A3", POINTS=0, MATCHS_JOUES=3, VICTOIRES=0, NULS=0, DEFAITES=3, BUTS_POUR=1, BUTS_CONTRE=8;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='B' AND EQUIPE_ID='B4'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="B", EQUIPE_ID="B4", POINTS=4, MATCHS_JOUES=3, VICTOIRES=2, NULS=0, DEFAITES=1, BUTS_POUR=9, BUTS_CONTRE=3;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='B' AND EQUIPE_ID='B1'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="B", EQUIPE_ID="B1", POINTS=4, MATCHS_JOUES=3, VICTOIRES=2, NULS=0, DEFAITES=1, BUTS_POUR=7, BUTS_CONTRE=8;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='B' AND EQUIPE_ID='B3'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="B", EQUIPE_ID="B3", POINTS=3, MATCHS_JOUES=3, VICTOIRES=1, NULS=1, DEFAITES=1, BUTS_POUR=6, BUTS_CONTRE=6;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='B' AND EQUIPE_ID='B2'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="B", EQUIPE_ID="B2", POINTS=1, MATCHS_JOUES=3, VICTOIRES=0, NULS=1, DEFAITES=2, BUTS_POUR=6, BUTS_CONTRE=11;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='C' AND EQUIPE_ID='C4'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="C", EQUIPE_ID="C4", POINTS=4, MATCHS_JOUES=3, VICTOIRES=2, NULS=0, DEFAITES=1, BUTS_POUR=10, BUTS_CONTRE=5;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='C' AND EQUIPE_ID='C3'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="C", EQUIPE_ID="C3", POINTS=3, MATCHS_JOUES=3, VICTOIRES=1, NULS=1, DEFAITES=1, BUTS_POUR=7, BUTS_CONTRE=5;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='C' AND EQUIPE_ID='C2'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="C", EQUIPE_ID="C2", POINTS=3, MATCHS_JOUES=3, VICTOIRES=1, NULS=1, DEFAITES=1, BUTS_POUR=7, BUTS_CONTRE=8;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='C' AND EQUIPE_ID='C1'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="C", EQUIPE_ID="C1", POINTS=2, MATCHS_JOUES=3, VICTOIRES=0, NULS=2, DEFAITES=1, BUTS_POUR=4, BUTS_CONTRE=10;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='D' AND EQUIPE_ID='D1'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="D", EQUIPE_ID="D1", POINTS=5, MATCHS_JOUES=3, VICTOIRES=2, NULS=1, DEFAITES=0, BUTS_POUR=3, BUTS_CONTRE=0;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='D' AND EQUIPE_ID='D3'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="D", EQUIPE_ID="D3", POINTS=4, MATCHS_JOUES=3, VICTOIRES=2, NULS=0, DEFAITES=1, BUTS_POUR=8, BUTS_CONTRE=4;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='D' AND EQUIPE_ID='D2'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="D", EQUIPE_ID="D2", POINTS=2, MATCHS_JOUES=3, VICTOIRES=0, NULS=2, DEFAITES=1, BUTS_POUR=2, BUTS_CONTRE=4;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='D' AND EQUIPE_ID='D4'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="D", EQUIPE_ID="D4", POINTS=1, MATCHS_JOUES=3, VICTOIRES=0, NULS=1, DEFAITES=2, BUTS_POUR=0, BUTS_CONTRE=5;
+-- UPDATE ta_classement JOUR='J2' AND GROUPE_NOM='Or A' AND EQUIPE_ID='D3'
+UPDATE ta_classement SET JOUR="J2", GROUPE_NOM="Or A", EQUIPE_ID="D3", POINTS=5, MATCHS_JOUES=3, VICTOIRES=2, NULS=1, DEFAITES=0, BUTS_POUR=7, BUTS_CONTRE=1;
+-- UPDATE ta_classement JOUR='J2' AND GROUPE_NOM='Or A' AND EQUIPE_ID='D1'
+UPDATE ta_classement SET JOUR="J2", GROUPE_NOM="Or A", EQUIPE_ID="D1", POINTS=4, MATCHS_JOUES=3, VICTOIRES=1, NULS=2, DEFAITES=0, BUTS_POUR=3, BUTS_CONTRE=1;
+-- UPDATE ta_classement JOUR='J2' AND GROUPE_NOM='Or A' AND EQUIPE_ID='A1'
+UPDATE ta_classement SET JOUR="J2", GROUPE_NOM="Or A", EQUIPE_ID="A1", POINTS=3, MATCHS_JOUES=3, VICTOIRES=1, NULS=1, DEFAITES=1, BUTS_POUR=4, BUTS_CONTRE=4;
+-- UPDATE ta_classement JOUR='J2' AND GROUPE_NOM='Or A' AND EQUIPE_ID='A2'
+UPDATE ta_classement SET JOUR="J2", GROUPE_NOM="Or A", EQUIPE_ID="A2", POINTS=0, MATCHS_JOUES=3, VICTOIRES=0, NULS=0, DEFAITES=3, BUTS_POUR=4, BUTS_CONTRE=12;
+-- UPDATE ta_classement JOUR='J2' AND GROUPE_NOM='Or B' AND EQUIPE_ID='C4'
+UPDATE ta_classement SET JOUR="J2", GROUPE_NOM="Or B", EQUIPE_ID="C4", POINTS=4, MATCHS_JOUES=3, VICTOIRES=2, NULS=0, DEFAITES=1, BUTS_POUR=7, BUTS_CONTRE=3;
+-- UPDATE ta_classement JOUR='J2' AND GROUPE_NOM='Or B' AND EQUIPE_ID='C3'
+UPDATE ta_classement SET JOUR="J2", GROUPE_NOM="Or B", EQUIPE_ID="C3", POINTS=4, MATCHS_JOUES=3, VICTOIRES=2, NULS=0, DEFAITES=1, BUTS_POUR=4, BUTS_CONTRE=1;
+-- UPDATE ta_classement JOUR='J2' AND GROUPE_NOM='Or B' AND EQUIPE_ID='B1'
+UPDATE ta_classement SET JOUR="J2", GROUPE_NOM="Or B", EQUIPE_ID="B1", POINTS=4, MATCHS_JOUES=3, VICTOIRES=2, NULS=0, DEFAITES=1, BUTS_POUR=4, BUTS_CONTRE=5;
+-- UPDATE ta_classement JOUR='J2' AND GROUPE_NOM='Or B' AND EQUIPE_ID='B4'
+UPDATE ta_classement SET JOUR="J2", GROUPE_NOM="Or B", EQUIPE_ID="B4", POINTS=0, MATCHS_JOUES=3, VICTOIRES=0, NULS=0, DEFAITES=3, BUTS_POUR=1, BUTS_CONTRE=7;
+-- UPDATE ta_classement JOUR='J2' AND GROUPE_NOM='Argent C' AND EQUIPE_ID='A4'
+UPDATE ta_classement SET JOUR="J2", GROUPE_NOM="Argent C", EQUIPE_ID="A4", POINTS=4, MATCHS_JOUES=3, VICTOIRES=2, NULS=0, DEFAITES=1, BUTS_POUR=8, BUTS_CONTRE=6;
+-- UPDATE ta_classement JOUR='J2' AND GROUPE_NOM='Argent C' AND EQUIPE_ID='D4'
+UPDATE ta_classement SET JOUR="J2", GROUPE_NOM="Argent C", EQUIPE_ID="D4", POINTS=3, MATCHS_JOUES=3, VICTOIRES=1, NULS=1, DEFAITES=1, BUTS_POUR=6, BUTS_CONTRE=6;
+-- UPDATE ta_classement JOUR='J2' AND GROUPE_NOM='Argent C' AND EQUIPE_ID='D2'
+UPDATE ta_classement SET JOUR="J2", GROUPE_NOM="Argent C", EQUIPE_ID="D2", POINTS=3, MATCHS_JOUES=3, VICTOIRES=1, NULS=1, DEFAITES=1, BUTS_POUR=5, BUTS_CONTRE=5;
+-- UPDATE ta_classement JOUR='J2' AND GROUPE_NOM='Argent C' AND EQUIPE_ID='A3'
+UPDATE ta_classement SET JOUR="J2", GROUPE_NOM="Argent C", EQUIPE_ID="A3", POINTS=2, MATCHS_JOUES=3, VICTOIRES=1, NULS=0, DEFAITES=2, BUTS_POUR=5, BUTS_CONTRE=7;
+-- UPDATE ta_classement JOUR='J2' AND GROUPE_NOM='Argent D' AND EQUIPE_ID='B2'
+UPDATE ta_classement SET JOUR="J2", GROUPE_NOM="Argent D", EQUIPE_ID="B2", POINTS=4, MATCHS_JOUES=3, VICTOIRES=1, NULS=2, DEFAITES=0, BUTS_POUR=7, BUTS_CONTRE=3;
+-- UPDATE ta_classement JOUR='J2' AND GROUPE_NOM='Argent D' AND EQUIPE_ID='B3'
+UPDATE ta_classement SET JOUR="J2", GROUPE_NOM="Argent D", EQUIPE_ID="B3", POINTS=4, MATCHS_JOUES=3, VICTOIRES=1, NULS=2, DEFAITES=0, BUTS_POUR=2, BUTS_CONTRE=1;
+-- UPDATE ta_classement JOUR='J2' AND GROUPE_NOM='Argent D' AND EQUIPE_ID='C2'
+UPDATE ta_classement SET JOUR="J2", GROUPE_NOM="Argent D", EQUIPE_ID="C2", POINTS=2, MATCHS_JOUES=3, VICTOIRES=1, NULS=0, DEFAITES=2, BUTS_POUR=4, BUTS_CONTRE=6;
+-- UPDATE ta_classement JOUR='J2' AND GROUPE_NOM='Argent D' AND EQUIPE_ID='C1'
+UPDATE ta_classement SET JOUR="J2", GROUPE_NOM="Argent D", EQUIPE_ID="C1", POINTS=2, MATCHS_JOUES=3, VICTOIRES=0, NULS=2, DEFAITES=1, BUTS_POUR=3, BUTS_CONTRE=6;
+-- UPDATE ta_matchs ID='J3-DF-A1'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J3-DF-A1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J3-DF-A1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J3-DF-A1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J3-DF-A1'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=1, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J3-DF-A2'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J3-DF-A2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J3-DF-A2'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J3-DF-A3'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J3-DF-A3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J3-DF-A3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J3-DF-A3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J3-DF-A3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=4;
+-- UPDATE ta_matchs ID='J3-DF-A3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=5;
+-- UPDATE ta_matchs ID='J3-DF-A3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=5;
+-- UPDATE ta_matchs ID='J3-DF-A3'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=1, SCORE_EQUIPE2=5;
+-- UPDATE ta_matchs ID='J3-DF-A4'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J3-DF-A4'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J3-DF-A4'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J3-DF-A4'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=2, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J3-DF-O1'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J3-DF-O1'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J3-DF-O2'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J3-DF-O2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J3-DF-O2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J3-DF-O2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=3, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J3-DF-O2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=3, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J3-DF-O2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=3, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J3-DF-O2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=3, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J3-DF-O2'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=4, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J3-DF-O3'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J3-DF-O3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J3-DF-O3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J3-DF-O3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J3-DF-O3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=3, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J3-DF-O3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=3, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J3-DF-O3'
+UPDATE ta_matchs SET SCORE_EQUIPE1=4, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J3-DF-O3'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=4, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J3-DF-O4'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J3-DF-O4'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J3-DF-O4'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J3-DF-O4'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=2, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J3-P-A1'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J3-P-A1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J3-P-A1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J3-P-A1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J3-P-A1'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=2, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J3-P-A2'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J3-P-A2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J3-P-A2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J3-P-A2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J3-P-A2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=3, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J3-P-A2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=4, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J3-P-A2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=4, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J3-P-A2'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=4, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J3-P-O1'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J3-P-O1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J3-P-O1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J3-P-O1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J3-P-O1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J3-P-O1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=3, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J3-P-O1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=4, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J3-P-O1'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=4, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J3-P-O2'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J3-P-O2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J3-P-O2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J3-P-O2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=3, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J3-P-O2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=3, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J3-P-O2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=3, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J3-P-O2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=4, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J3-P-O2'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=4, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J3-V-A1'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J3-V-A1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J3-V-A1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J3-V-A1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J3-V-A1'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=1, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J3-V-A2'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J3-V-A2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J3-V-A2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J3-V-A2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J3-V-A2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J3-V-A2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J3-V-A2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=3, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J3-V-A2'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=4, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J3-V-O1'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J3-V-O1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=0;
+-- UPDATE ta_matchs ID='J3-V-O1'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J3-V-O1'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=2, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J3-V-O2'
+UPDATE ta_matchs SET ETAT="c";
+-- UPDATE ta_matchs ID='J3-V-O2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=0, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J3-V-O2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=1, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J3-V-O2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=1;
+-- UPDATE ta_matchs ID='J3-V-O2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=2;
+-- UPDATE ta_matchs ID='J3-V-O2'
+UPDATE ta_matchs SET SCORE_EQUIPE1=2, SCORE_EQUIPE2=3;
+-- UPDATE ta_matchs ID='J3-V-O2'
+UPDATE ta_matchs SET ETAT="x", SCORE_EQUIPE1=2, SCORE_EQUIPE2=3;
+-- UPDATE ta_joueurs ID='C4-P07'
+UPDATE ta_joueurs SET QF="QF1";
+-- UPDATE ta_joueurs ID='B2-P06'
+UPDATE ta_joueurs SET QF="QF1";
+-- UPDATE ta_joueurs ID='A4-P11'
+UPDATE ta_joueurs SET QF="QF1";
+-- UPDATE ta_joueurs ID='B3-P02'
+UPDATE ta_joueurs SET QF="QF1";
+-- UPDATE ta_joueurs ID='A1-P07'
+UPDATE ta_joueurs SET QF="QF2";
+-- UPDATE ta_joueurs ID='C3-P12'
+UPDATE ta_joueurs SET QF="QF2";
+-- UPDATE ta_joueurs ID='C4-P13'
+UPDATE ta_joueurs SET QF="QF2";
+-- UPDATE ta_joueurs ID='A1-P02'
+UPDATE ta_joueurs SET QF="QF2";
+-- UPDATE ta_joueurs ID='C4-P09'
+UPDATE ta_joueurs SET QF="QF3";
+-- UPDATE ta_joueurs ID='A4-P02'
+UPDATE ta_joueurs SET QF="QF3";
+-- UPDATE ta_joueurs ID='B2-P07'
+UPDATE ta_joueurs SET QF="QF3";
+-- UPDATE ta_joueurs ID='B3-P05'
+UPDATE ta_joueurs SET QF="QF3";
+-- UPDATE ta_joueurs ID='C4-P10'
+UPDATE ta_joueurs SET QF="QF4";
+-- UPDATE ta_joueurs ID='C2-P11'
+UPDATE ta_joueurs SET QF="QF4";
+-- UPDATE ta_joueurs ID='A1-P12'
+UPDATE ta_joueurs SET QF="QF4";
+-- UPDATE ta_joueurs ID='B1-P10'
+UPDATE ta_joueurs SET QF="QF4";
+-- UPDATE ta_joueurs ID='C4-P07'
+UPDATE ta_joueurs SET DF="DF1";
+-- UPDATE ta_joueurs ID='A1-P07'
+UPDATE ta_joueurs SET DF="DF1";
+-- UPDATE ta_joueurs ID='C4-P09'
+UPDATE ta_joueurs SET DF="DF2";
+-- UPDATE ta_joueurs ID='C4-P10'
+UPDATE ta_joueurs SET DF="DF2";
+-- UPDATE ta_joueurs ID='C4-P07'
+UPDATE ta_joueurs SET F="F";
+-- UPDATE ta_joueurs ID='C4-P09'
+UPDATE ta_joueurs SET F="F";
+-- UPDATE ta_joueurs ID='C4-P07'
+UPDATE ta_joueurs SET V=1;
+-- UPDATE ta_joueurs ID='C4-P09'
+UPDATE ta_joueurs SET V=0;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='A' AND EQUIPE_ID='A1'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="A", EQUIPE_ID="A1", POINTS=5, MATCHS_JOUES=3, VICTOIRES=2, NULS=1, DEFAITES=0, BUTS_POUR=8, BUTS_CONTRE=1;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='A' AND EQUIPE_ID='A2'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="A", EQUIPE_ID="A2", POINTS=5, MATCHS_JOUES=3, VICTOIRES=2, NULS=1, DEFAITES=0, BUTS_POUR=3, BUTS_CONTRE=0;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='A' AND EQUIPE_ID='A4'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="A", EQUIPE_ID="A4", POINTS=2, MATCHS_JOUES=3, VICTOIRES=1, NULS=0, DEFAITES=2, BUTS_POUR=4, BUTS_CONTRE=7;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='A' AND EQUIPE_ID='A3'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="A", EQUIPE_ID="A3", POINTS=0, MATCHS_JOUES=3, VICTOIRES=0, NULS=0, DEFAITES=3, BUTS_POUR=1, BUTS_CONTRE=8;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='B' AND EQUIPE_ID='B4'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="B", EQUIPE_ID="B4", POINTS=4, MATCHS_JOUES=3, VICTOIRES=2, NULS=0, DEFAITES=1, BUTS_POUR=9, BUTS_CONTRE=3;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='B' AND EQUIPE_ID='B1'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="B", EQUIPE_ID="B1", POINTS=4, MATCHS_JOUES=3, VICTOIRES=2, NULS=0, DEFAITES=1, BUTS_POUR=7, BUTS_CONTRE=8;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='B' AND EQUIPE_ID='B3'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="B", EQUIPE_ID="B3", POINTS=3, MATCHS_JOUES=3, VICTOIRES=1, NULS=1, DEFAITES=1, BUTS_POUR=6, BUTS_CONTRE=6;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='B' AND EQUIPE_ID='B2'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="B", EQUIPE_ID="B2", POINTS=1, MATCHS_JOUES=3, VICTOIRES=0, NULS=1, DEFAITES=2, BUTS_POUR=6, BUTS_CONTRE=11;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='C' AND EQUIPE_ID='C4'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="C", EQUIPE_ID="C4", POINTS=4, MATCHS_JOUES=3, VICTOIRES=2, NULS=0, DEFAITES=1, BUTS_POUR=10, BUTS_CONTRE=5;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='C' AND EQUIPE_ID='C3'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="C", EQUIPE_ID="C3", POINTS=3, MATCHS_JOUES=3, VICTOIRES=1, NULS=1, DEFAITES=1, BUTS_POUR=7, BUTS_CONTRE=5;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='C' AND EQUIPE_ID='C2'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="C", EQUIPE_ID="C2", POINTS=3, MATCHS_JOUES=3, VICTOIRES=1, NULS=1, DEFAITES=1, BUTS_POUR=7, BUTS_CONTRE=8;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='C' AND EQUIPE_ID='C1'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="C", EQUIPE_ID="C1", POINTS=2, MATCHS_JOUES=3, VICTOIRES=0, NULS=2, DEFAITES=1, BUTS_POUR=4, BUTS_CONTRE=10;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='D' AND EQUIPE_ID='D1'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="D", EQUIPE_ID="D1", POINTS=5, MATCHS_JOUES=3, VICTOIRES=2, NULS=1, DEFAITES=0, BUTS_POUR=3, BUTS_CONTRE=0;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='D' AND EQUIPE_ID='D3'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="D", EQUIPE_ID="D3", POINTS=4, MATCHS_JOUES=3, VICTOIRES=2, NULS=0, DEFAITES=1, BUTS_POUR=8, BUTS_CONTRE=4;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='D' AND EQUIPE_ID='D2'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="D", EQUIPE_ID="D2", POINTS=2, MATCHS_JOUES=3, VICTOIRES=0, NULS=2, DEFAITES=1, BUTS_POUR=2, BUTS_CONTRE=4;
+-- UPDATE ta_classement JOUR='J1' AND GROUPE_NOM='D' AND EQUIPE_ID='D4'
+UPDATE ta_classement SET JOUR="J1", GROUPE_NOM="D", EQUIPE_ID="D4", POINTS=1, MATCHS_JOUES=3, VICTOIRES=0, NULS=1, DEFAITES=2, BUTS_POUR=0, BUTS_CONTRE=5;
+-- UPDATE ta_classement JOUR='J2' AND GROUPE_NOM='Or A' AND EQUIPE_ID='D3'
+UPDATE ta_classement SET JOUR="J2", GROUPE_NOM="Or A", EQUIPE_ID="D3", POINTS=5, MATCHS_JOUES=3, VICTOIRES=2, NULS=1, DEFAITES=0, BUTS_POUR=7, BUTS_CONTRE=1;
+-- UPDATE ta_classement JOUR='J2' AND GROUPE_NOM='Or A' AND EQUIPE_ID='D1'
+UPDATE ta_classement SET JOUR="J2", GROUPE_NOM="Or A", EQUIPE_ID="D1", POINTS=4, MATCHS_JOUES=3, VICTOIRES=1, NULS=2, DEFAITES=0, BUTS_POUR=3, BUTS_CONTRE=1;
+-- UPDATE ta_classement JOUR='J2' AND GROUPE_NOM='Or A' AND EQUIPE_ID='A1'
+UPDATE ta_classement SET JOUR="J2", GROUPE_NOM="Or A", EQUIPE_ID="A1", POINTS=3, MATCHS_JOUES=3, VICTOIRES=1, NULS=1, DEFAITES=1, BUTS_POUR=4, BUTS_CONTRE=4;
+-- UPDATE ta_classement JOUR='J2' AND GROUPE_NOM='Or A' AND EQUIPE_ID='A2'
+UPDATE ta_classement SET JOUR="J2", GROUPE_NOM="Or A", EQUIPE_ID="A2", POINTS=0, MATCHS_JOUES=3, VICTOIRES=0, NULS=0, DEFAITES=3, BUTS_POUR=4, BUTS_CONTRE=12;
+-- UPDATE ta_classement JOUR='J2' AND GROUPE_NOM='Or B' AND EQUIPE_ID='C4'
+UPDATE ta_classement SET JOUR="J2", GROUPE_NOM="Or B", EQUIPE_ID="C4", POINTS=4, MATCHS_JOUES=3, VICTOIRES=2, NULS=0, DEFAITES=1, BUTS_POUR=7, BUTS_CONTRE=3;
+-- UPDATE ta_classement JOUR='J2' AND GROUPE_NOM='Or B' AND EQUIPE_ID='C3'
+UPDATE ta_classement SET JOUR="J2", GROUPE_NOM="Or B", EQUIPE_ID="C3", POINTS=4, MATCHS_JOUES=3, VICTOIRES=2, NULS=0, DEFAITES=1, BUTS_POUR=4, BUTS_CONTRE=1;
+-- UPDATE ta_classement JOUR='J2' AND GROUPE_NOM='Or B' AND EQUIPE_ID='B1'
+UPDATE ta_classement SET JOUR="J2", GROUPE_NOM="Or B", EQUIPE_ID="B1", POINTS=4, MATCHS_JOUES=3, VICTOIRES=2, NULS=0, DEFAITES=1, BUTS_POUR=4, BUTS_CONTRE=5;
+-- UPDATE ta_classement JOUR='J2' AND GROUPE_NOM='Or B' AND EQUIPE_ID='B4'
+UPDATE ta_classement SET JOUR="J2", GROUPE_NOM="Or B", EQUIPE_ID="B4", POINTS=0, MATCHS_JOUES=3, VICTOIRES=0, NULS=0, DEFAITES=3, BUTS_POUR=1, BUTS_CONTRE=7;
+-- UPDATE ta_classement JOUR='J2' AND GROUPE_NOM='Argent C' AND EQUIPE_ID='A4'
+UPDATE ta_classement SET JOUR="J2", GROUPE_NOM="Argent C", EQUIPE_ID="A4", POINTS=4, MATCHS_JOUES=3, VICTOIRES=2, NULS=0, DEFAITES=1, BUTS_POUR=8, BUTS_CONTRE=6;
+-- UPDATE ta_classement JOUR='J2' AND GROUPE_NOM='Argent C' AND EQUIPE_ID='D4'
+UPDATE ta_classement SET JOUR="J2", GROUPE_NOM="Argent C", EQUIPE_ID="D4", POINTS=3, MATCHS_JOUES=3, VICTOIRES=1, NULS=1, DEFAITES=1, BUTS_POUR=6, BUTS_CONTRE=6;
+-- UPDATE ta_classement JOUR='J2' AND GROUPE_NOM='Argent C' AND EQUIPE_ID='D2'
+UPDATE ta_classement SET JOUR="J2", GROUPE_NOM="Argent C", EQUIPE_ID="D2", POINTS=3, MATCHS_JOUES=3, VICTOIRES=1, NULS=1, DEFAITES=1, BUTS_POUR=5, BUTS_CONTRE=5;
+-- UPDATE ta_classement JOUR='J2' AND GROUPE_NOM='Argent C' AND EQUIPE_ID='A3'
+UPDATE ta_classement SET JOUR="J2", GROUPE_NOM="Argent C", EQUIPE_ID="A3", POINTS=2, MATCHS_JOUES=3, VICTOIRES=1, NULS=0, DEFAITES=2, BUTS_POUR=5, BUTS_CONTRE=7;
+-- UPDATE ta_classement JOUR='J2' AND GROUPE_NOM='Argent D' AND EQUIPE_ID='B2'
+UPDATE ta_classement SET JOUR="J2", GROUPE_NOM="Argent D", EQUIPE_ID="B2", POINTS=4, MATCHS_JOUES=3, VICTOIRES=1, NULS=2, DEFAITES=0, BUTS_POUR=7, BUTS_CONTRE=3;
+-- UPDATE ta_classement JOUR='J2' AND GROUPE_NOM='Argent D' AND EQUIPE_ID='B3'
+UPDATE ta_classement SET JOUR="J2", GROUPE_NOM="Argent D", EQUIPE_ID="B3", POINTS=4, MATCHS_JOUES=3, VICTOIRES=1, NULS=2, DEFAITES=0, BUTS_POUR=2, BUTS_CONTRE=1;
+-- UPDATE ta_classement JOUR='J2' AND GROUPE_NOM='Argent D' AND EQUIPE_ID='C2'
+UPDATE ta_classement SET JOUR="J2", GROUPE_NOM="Argent D", EQUIPE_ID="C2", POINTS=2, MATCHS_JOUES=3, VICTOIRES=1, NULS=0, DEFAITES=2, BUTS_POUR=4, BUTS_CONTRE=6;
+-- UPDATE ta_classement JOUR='J2' AND GROUPE_NOM='Argent D' AND EQUIPE_ID='C1'
+UPDATE ta_classement SET JOUR="J2", GROUPE_NOM="Argent D", EQUIPE_ID="C1", POINTS=2, MATCHS_JOUES=3, VICTOIRES=0, NULS=2, DEFAITES=1, BUTS_POUR=3, BUTS_CONTRE=6;
+-- UPDATE ta_classement JOUR='J3' AND GROUPE_NOM='DemiArgent' AND EQUIPE_ID='B3'
+UPDATE ta_classement SET JOUR="J3", GROUPE_NOM="DemiArgent", EQUIPE_ID="B3", POINTS=2, MATCHS_JOUES=1, VICTOIRES=1, NULS=0, DEFAITES=0, BUTS_POUR=5, BUTS_CONTRE=1;
+-- UPDATE ta_classement JOUR='J3' AND GROUPE_NOM='DemiArgent' AND EQUIPE_ID='B2'
+UPDATE ta_classement SET JOUR="J3", GROUPE_NOM="DemiArgent", EQUIPE_ID="B2", POINTS=2, MATCHS_JOUES=1, VICTOIRES=1, NULS=0, DEFAITES=0, BUTS_POUR=2, BUTS_CONTRE=1;
+-- UPDATE ta_classement JOUR='J3' AND GROUPE_NOM='DemiArgent' AND EQUIPE_ID='C1'
+UPDATE ta_classement SET JOUR="J3", GROUPE_NOM="DemiArgent", EQUIPE_ID="C1", POINTS=2, MATCHS_JOUES=1, VICTOIRES=1, NULS=0, DEFAITES=0, BUTS_POUR=2, BUTS_CONTRE=1;
+-- UPDATE ta_classement JOUR='J3' AND GROUPE_NOM='DemiArgent' AND EQUIPE_ID='C2'
+UPDATE ta_classement SET JOUR="J3", GROUPE_NOM="DemiArgent", EQUIPE_ID="C2", POINTS=2, MATCHS_JOUES=1, VICTOIRES=1, NULS=0, DEFAITES=0, BUTS_POUR=1, BUTS_CONTRE=0;
+-- UPDATE ta_classement JOUR='J3' AND GROUPE_NOM='DemiArgent' AND EQUIPE_ID='D2'
+UPDATE ta_classement SET JOUR="J3", GROUPE_NOM="DemiArgent", EQUIPE_ID="D2", POINTS=0, MATCHS_JOUES=1, VICTOIRES=0, NULS=0, DEFAITES=1, BUTS_POUR=1, BUTS_CONTRE=2;
+-- UPDATE ta_classement JOUR='J3' AND GROUPE_NOM='DemiArgent' AND EQUIPE_ID='D4'
+UPDATE ta_classement SET JOUR="J3", GROUPE_NOM="DemiArgent", EQUIPE_ID="D4", POINTS=0, MATCHS_JOUES=1, VICTOIRES=0, NULS=0, DEFAITES=1, BUTS_POUR=1, BUTS_CONTRE=2;
+-- UPDATE ta_classement JOUR='J3' AND GROUPE_NOM='DemiArgent' AND EQUIPE_ID='A3'
+UPDATE ta_classement SET JOUR="J3", GROUPE_NOM="DemiArgent", EQUIPE_ID="A3", POINTS=0, MATCHS_JOUES=1, VICTOIRES=0, NULS=0, DEFAITES=1, BUTS_POUR=0, BUTS_CONTRE=1;
+-- UPDATE ta_classement JOUR='J3' AND GROUPE_NOM='DemiArgent' AND EQUIPE_ID='A4'
+UPDATE ta_classement SET JOUR="J3", GROUPE_NOM="DemiArgent", EQUIPE_ID="A4", POINTS=0, MATCHS_JOUES=1, VICTOIRES=0, NULS=0, DEFAITES=1, BUTS_POUR=1, BUTS_CONTRE=5;
+-- UPDATE ta_classement JOUR='J3' AND GROUPE_NOM='DemiOr' AND EQUIPE_ID='D3'
+UPDATE ta_classement SET JOUR="J3", GROUPE_NOM="DemiOr", EQUIPE_ID="D3", POINTS=2, MATCHS_JOUES=1, VICTOIRES=1, NULS=0, DEFAITES=0, BUTS_POUR=4, BUTS_CONTRE=2;
+-- UPDATE ta_classement JOUR='J3' AND GROUPE_NOM='DemiOr' AND EQUIPE_ID='B1'
+UPDATE ta_classement SET JOUR="J3", GROUPE_NOM="DemiOr", EQUIPE_ID="B1", POINTS=2, MATCHS_JOUES=1, VICTOIRES=1, NULS=0, DEFAITES=0, BUTS_POUR=4, BUTS_CONTRE=3;
+-- UPDATE ta_classement JOUR='J3' AND GROUPE_NOM='DemiOr' AND EQUIPE_ID='C4'
+UPDATE ta_classement SET JOUR="J3", GROUPE_NOM="DemiOr", EQUIPE_ID="C4", POINTS=2, MATCHS_JOUES=1, VICTOIRES=1, NULS=0, DEFAITES=0, BUTS_POUR=2, BUTS_CONTRE=1;
+-- UPDATE ta_classement JOUR='J3' AND GROUPE_NOM='DemiOr' AND EQUIPE_ID='A1'
+UPDATE ta_classement SET JOUR="J3", GROUPE_NOM="DemiOr", EQUIPE_ID="A1", POINTS=2, MATCHS_JOUES=1, VICTOIRES=1, NULS=0, DEFAITES=0, BUTS_POUR=1, BUTS_CONTRE=0;
+-- UPDATE ta_classement JOUR='J3' AND GROUPE_NOM='DemiOr' AND EQUIPE_ID='A2'
+UPDATE ta_classement SET JOUR="J3", GROUPE_NOM="DemiOr", EQUIPE_ID="A2", POINTS=0, MATCHS_JOUES=1, VICTOIRES=0, NULS=0, DEFAITES=1, BUTS_POUR=3, BUTS_CONTRE=4;
+-- UPDATE ta_classement JOUR='J3' AND GROUPE_NOM='DemiOr' AND EQUIPE_ID='D1'
+UPDATE ta_classement SET JOUR="J3", GROUPE_NOM="DemiOr", EQUIPE_ID="D1", POINTS=0, MATCHS_JOUES=1, VICTOIRES=0, NULS=0, DEFAITES=1, BUTS_POUR=1, BUTS_CONTRE=2;
+-- UPDATE ta_classement JOUR='J3' AND GROUPE_NOM='DemiOr' AND EQUIPE_ID='B4'
+UPDATE ta_classement SET JOUR="J3", GROUPE_NOM="DemiOr", EQUIPE_ID="B4", POINTS=0, MATCHS_JOUES=1, VICTOIRES=0, NULS=0, DEFAITES=1, BUTS_POUR=0, BUTS_CONTRE=1;
+-- UPDATE ta_classement JOUR='J3' AND GROUPE_NOM='DemiOr' AND EQUIPE_ID='C3'
+UPDATE ta_classement SET JOUR="J3", GROUPE_NOM="DemiOr", EQUIPE_ID="C3", POINTS=0, MATCHS_JOUES=1, VICTOIRES=0, NULS=0, DEFAITES=1, BUTS_POUR=2, BUTS_CONTRE=4;
+-- UPDATE ta_classement JOUR='J3' AND GROUPE_NOM='Perdants' AND EQUIPE_ID='pArgent C1Argent D2'
+UPDATE ta_classement SET JOUR="J3", GROUPE_NOM="Perdants", EQUIPE_ID="pArgent C1Argent D2", POINTS=2, MATCHS_JOUES=1, VICTOIRES=1, NULS=0, DEFAITES=0, BUTS_POUR=4, BUTS_CONTRE=2;
+-- UPDATE ta_classement JOUR='J3' AND GROUPE_NOM='Perdants' AND EQUIPE_ID='pOr A1Or B2'
+UPDATE ta_classement SET JOUR="J3", GROUPE_NOM="Perdants", EQUIPE_ID="pOr A1Or B2", POINTS=2, MATCHS_JOUES=1, VICTOIRES=1, NULS=0, DEFAITES=0, BUTS_POUR=4, BUTS_CONTRE=2;
+-- UPDATE ta_classement JOUR='J3' AND GROUPE_NOM='Perdants' AND EQUIPE_ID='pOr A3Or B4'
+UPDATE ta_classement SET JOUR="J3", GROUPE_NOM="Perdants", EQUIPE_ID="pOr A3Or B4", POINTS=2, MATCHS_JOUES=1, VICTOIRES=1, NULS=0, DEFAITES=0, BUTS_POUR=4, BUTS_CONTRE=2;
+-- UPDATE ta_classement JOUR='J3' AND GROUPE_NOM='Perdants' AND EQUIPE_ID='pArgent C3Argent D4'
+UPDATE ta_classement SET JOUR="J3", GROUPE_NOM="Perdants", EQUIPE_ID="pArgent C3Argent D4", POINTS=2, MATCHS_JOUES=1, VICTOIRES=1, NULS=0, DEFAITES=0, BUTS_POUR=2, BUTS_CONTRE=1;
+-- UPDATE ta_classement JOUR='J3' AND GROUPE_NOM='Perdants' AND EQUIPE_ID='pArgent D3Argent C4'
+UPDATE ta_classement SET JOUR="J3", GROUPE_NOM="Perdants", EQUIPE_ID="pArgent D3Argent C4", POINTS=0, MATCHS_JOUES=1, VICTOIRES=0, NULS=0, DEFAITES=1, BUTS_POUR=1, BUTS_CONTRE=2;
+-- UPDATE ta_classement JOUR='J3' AND GROUPE_NOM='Perdants' AND EQUIPE_ID='pArgent D1Argent C2'
+UPDATE ta_classement SET JOUR="J3", GROUPE_NOM="Perdants", EQUIPE_ID="pArgent D1Argent C2", POINTS=0, MATCHS_JOUES=1, VICTOIRES=0, NULS=0, DEFAITES=1, BUTS_POUR=2, BUTS_CONTRE=4;
+-- UPDATE ta_classement JOUR='J3' AND GROUPE_NOM='Perdants' AND EQUIPE_ID='pOr B1Or A2'
+UPDATE ta_classement SET JOUR="J3", GROUPE_NOM="Perdants", EQUIPE_ID="pOr B1Or A2", POINTS=0, MATCHS_JOUES=1, VICTOIRES=0, NULS=0, DEFAITES=1, BUTS_POUR=2, BUTS_CONTRE=4;
+-- UPDATE ta_classement JOUR='J3' AND GROUPE_NOM='Perdants' AND EQUIPE_ID='pOr B3Or A4'
+UPDATE ta_classement SET JOUR="J3", GROUPE_NOM="Perdants", EQUIPE_ID="pOr B3Or A4", POINTS=0, MATCHS_JOUES=1, VICTOIRES=0, NULS=0, DEFAITES=1, BUTS_POUR=2, BUTS_CONTRE=4;
+-- UPDATE ta_classement JOUR='J3' AND GROUPE_NOM='Vainqueurs' AND EQUIPE_ID='vArgent C1Argent D2'
+UPDATE ta_classement SET JOUR="J3", GROUPE_NOM="Vainqueurs", EQUIPE_ID="vArgent C1Argent D2", POINTS=2, MATCHS_JOUES=1, VICTOIRES=1, NULS=0, DEFAITES=0, BUTS_POUR=4, BUTS_CONTRE=3;
+-- UPDATE ta_classement JOUR='J3' AND GROUPE_NOM='Vainqueurs' AND EQUIPE_ID='vOr B1Or A2'
+UPDATE ta_classement SET JOUR="J3", GROUPE_NOM="Vainqueurs", EQUIPE_ID="vOr B1Or A2", POINTS=2, MATCHS_JOUES=1, VICTOIRES=1, NULS=0, DEFAITES=0, BUTS_POUR=3, BUTS_CONTRE=2;
+-- UPDATE ta_classement JOUR='J3' AND GROUPE_NOM='Vainqueurs' AND EQUIPE_ID='vArgent D3Argent C4'
+UPDATE ta_classement SET JOUR="J3", GROUPE_NOM="Vainqueurs", EQUIPE_ID="vArgent D3Argent C4", POINTS=2, MATCHS_JOUES=1, VICTOIRES=1, NULS=0, DEFAITES=0, BUTS_POUR=2, BUTS_CONTRE=1;
+-- UPDATE ta_classement JOUR='J3' AND GROUPE_NOM='Vainqueurs' AND EQUIPE_ID='vOr A3Or B4'
+UPDATE ta_classement SET JOUR="J3", GROUPE_NOM="Vainqueurs", EQUIPE_ID="vOr A3Or B4", POINTS=2, MATCHS_JOUES=1, VICTOIRES=1, NULS=0, DEFAITES=0, BUTS_POUR=2, BUTS_CONTRE=1;
+-- UPDATE ta_classement JOUR='J3' AND GROUPE_NOM='Vainqueurs' AND EQUIPE_ID='vArgent D1Argent C2'
+UPDATE ta_classement SET JOUR="J3", GROUPE_NOM="Vainqueurs", EQUIPE_ID="vArgent D1Argent C2", POINTS=0, MATCHS_JOUES=1, VICTOIRES=0, NULS=0, DEFAITES=1, BUTS_POUR=3, BUTS_CONTRE=4;
+-- UPDATE ta_classement JOUR='J3' AND GROUPE_NOM='Vainqueurs' AND EQUIPE_ID='vOr A1Or B2'
+UPDATE ta_classement SET JOUR="J3", GROUPE_NOM="Vainqueurs", EQUIPE_ID="vOr A1Or B2", POINTS=0, MATCHS_JOUES=1, VICTOIRES=0, NULS=0, DEFAITES=1, BUTS_POUR=2, BUTS_CONTRE=3;
+-- UPDATE ta_classement JOUR='J3' AND GROUPE_NOM='Vainqueurs' AND EQUIPE_ID='vArgent C3Argent D4'
+UPDATE ta_classement SET JOUR="J3", GROUPE_NOM="Vainqueurs", EQUIPE_ID="vArgent C3Argent D4", POINTS=0, MATCHS_JOUES=1, VICTOIRES=0, NULS=0, DEFAITES=1, BUTS_POUR=1, BUTS_CONTRE=2;
+-- UPDATE ta_classement JOUR='J3' AND GROUPE_NOM='Vainqueurs' AND EQUIPE_ID='vOr B3Or A4'
+UPDATE ta_classement SET JOUR="J3", GROUPE_NOM="Vainqueurs", EQUIPE_ID="vOr B3Or A4", POINTS=0, MATCHS_JOUES=1, VICTOIRES=0, NULS=0, DEFAITES=1, BUTS_POUR=1, BUTS_CONTRE=2;
