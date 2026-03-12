@@ -243,11 +243,31 @@ export class MatchEnrichmentService {
   }
 
   inferJ3PouleCode(row: TaMatchRow): string | null {
+    // Legacy naming: "Or 1", "Or 5", "Argent 1", "Argent 5" in team name text
     const text = `${row.EQUIPE1} ${row.EQUIPE2}`.toLowerCase();
     if (/\bor\s*1\b/.test(text)) return 'Or 1';
     if (/\bor\s*5\b/.test(text)) return 'Or 5';
     if (/\bargent\s*1\b/.test(text)) return 'Argent 1';
     if (/\bargent\s*5\b/.test(text)) return 'Argent 5';
+
+    // New bracket naming — Phase 2: vA1B2 / pC3D4 (winner/loser of Phase 1 match XnYm)
+    const bracketRe = /^[vp]([A-D])[1-4][A-D][1-4]$/;
+    const bm1 = row.EQUIPE1.match(bracketRe);
+    const bm2 = row.EQUIPE2.match(bracketRe);
+    if (bm1 && bm2) {
+      const pool = bm1[1];
+      return pool === 'A' || pool === 'B' ? 'Or 1' : 'Argent 1';
+    }
+
+    // New bracket naming — Phase 1: A1, B2, C3, D4 (J2 team slot labels)
+    const phase1Re = /^([A-D])[1-4]$/;
+    const pm1 = row.EQUIPE1.match(phase1Re);
+    const pm2 = row.EQUIPE2.match(phase1Re);
+    if (pm1 && pm2) {
+      const pool = pm1[1];
+      return pool === 'A' || pool === 'B' ? 'Or 1' : 'Argent 1';
+    }
+
     return null;
   }
 

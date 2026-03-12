@@ -18,6 +18,8 @@ type TaEquipeRow = {
   ID: number;
   EQUIPE: string;
   IMAGE: string | null;
+  REPAS_SAMEDI: string | null;
+  REPAS_DIMANCHE: string | null;
 };
 
 type TaClassementRow = {
@@ -55,7 +57,10 @@ export class MySqlEquipeRepository implements EquipeRepository {
         ORDER BY PTS DESC, DIFF DESC, BP DESC, EQUIPE_ID ASC
       `,
       this.prisma.$queryRaw<TaEquipeRow[]>`
-        SELECT ID, EQUIPE, IMAGE FROM ta_equipes
+        SELECT ID, EQUIPE, IMAGE,
+          DATE_FORMAT(REPAS_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS REPAS_SAMEDI,
+          DATE_FORMAT(REPAS_DIMANCHE, '%Y-%m-%dT%H:%i:%s') AS REPAS_DIMANCHE
+        FROM ta_equipes
       `,
     ]);
 
@@ -109,12 +114,20 @@ export class MySqlEquipeRepository implements EquipeRepository {
       this.prisma.$queryRaw<TaClassementRow[]>`
         SELECT GROUPE_NOM, ORDRE, EQUIPE, EQUIPE_ID, J, V, N, D, PTS, BP, BC, DIFF
         FROM ta_classement
+        WHERE GROUPE_NOM IN ('A', 'B', 'C', 'D')
         ORDER BY GROUPE_NOM ASC, PTS DESC, DIFF DESC, BP DESC, EQUIPE_ID ASC
       `,
       this.prisma.$queryRaw<TaEquipeRow[]>`
-        SELECT ID, EQUIPE, IMAGE FROM ta_equipes
+        SELECT ID, EQUIPE, IMAGE,
+          DATE_FORMAT(REPAS_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS REPAS_SAMEDI,
+          DATE_FORMAT(REPAS_DIMANCHE, '%Y-%m-%dT%H:%i:%s') AS REPAS_DIMANCHE
+        FROM ta_equipes
       `,
     ]);
+
+    const equipeByName = new Map(
+      equipeRows.map((r) => [normalizeKey(r.EQUIPE), r]),
+    );
 
     const sortedRows = [...classementRows].sort((a, b) => {
       const groupCmp = String(a.GROUPE_NOM).localeCompare(String(b.GROUPE_NOM), 'fr-FR');
@@ -128,6 +141,7 @@ export class MySqlEquipeRepository implements EquipeRepository {
     const mapped = sortedRows.map((row) => {
       const uiCode = toUiPouleCode(row.GROUPE_NOM) ?? row.GROUPE_NOM;
       const pouleName = pouleDisplayName(uiCode) ?? uiCode;
+      const eq = equipeByName.get(normalizeKey(row.EQUIPE));
       return new Equipe(
         row.EQUIPE,
         row.EQUIPE,
@@ -143,6 +157,8 @@ export class MySqlEquipeRepository implements EquipeRepository {
         row.BP,
         row.BC,
         row.DIFF,
+        eq?.REPAS_SAMEDI ?? null,
+        eq?.REPAS_DIMANCHE ?? null,
       );
     });
 
