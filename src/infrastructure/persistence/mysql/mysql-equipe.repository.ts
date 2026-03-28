@@ -8,6 +8,7 @@ import { EquipeRepository } from '@/domain/equipe/repositories/equipe.repository
 import { PrismaService } from './prisma.service';
 import {
   buildTeamLogoUrl,
+  buildTeamPhotoUrl,
   normalizeKey,
   pouleDisplayName,
   toClassementDbGroupCode,
@@ -20,6 +21,7 @@ type TaEquipeRow = {
   IMAGE: string | null;
   REPAS_SAMEDI: string | null;
   REPAS_DIMANCHE: string | null;
+  PHOTO: string | null;
 };
 
 type TaClassementRow = {
@@ -57,7 +59,7 @@ export class MySqlEquipeRepository implements EquipeRepository {
         ORDER BY PTS DESC, DIFF DESC, BP DESC, EQUIPE_ID ASC
       `,
       this.prisma.$queryRaw<TaEquipeRow[]>`
-        SELECT ID, EQUIPE, IMAGE,
+        SELECT ID, EQUIPE, IMAGE, PHOTO,
           DATE_FORMAT(REPAS_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS REPAS_SAMEDI,
           DATE_FORMAT(REPAS_DIMANCHE, '%Y-%m-%dT%H:%i:%s') AS REPAS_DIMANCHE
         FROM ta_equipes
@@ -72,10 +74,15 @@ export class MySqlEquipeRepository implements EquipeRepository {
       return a.EQUIPE_ID - b.EQUIPE_ID;
     });
 
+    const equipeByName = new Map(
+      equipeRows.map((r) => [normalizeKey(r.EQUIPE), r]),
+    );
+
     const pouleName = pouleDisplayName(uiCode) ?? uiCode;
     const equipes = sortedRows.map(
-      (row, index) =>
-        new Equipe(
+      (row, index) => {
+        const eq = equipeByName.get(normalizeKey(row.EQUIPE));
+        return new Equipe(
           row.EQUIPE,
           row.EQUIPE,
           buildTeamLogoUrl(row.EQUIPE),
@@ -90,7 +97,11 @@ export class MySqlEquipeRepository implements EquipeRepository {
           row.BP,
           row.BC,
           row.DIFF,
-        ),
+          null,
+          null,
+          buildTeamPhotoUrl(eq?.PHOTO ?? null),
+        );
+      },
     );
 
     return { pouleCode: uiCode, pouleName, equipes };
@@ -118,7 +129,7 @@ export class MySqlEquipeRepository implements EquipeRepository {
         ORDER BY GROUPE_NOM ASC, PTS DESC, DIFF DESC, BP DESC, EQUIPE_ID ASC
       `,
       this.prisma.$queryRaw<TaEquipeRow[]>`
-        SELECT ID, EQUIPE, IMAGE,
+        SELECT ID, EQUIPE, IMAGE, PHOTO,
           DATE_FORMAT(REPAS_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS REPAS_SAMEDI,
           DATE_FORMAT(REPAS_DIMANCHE, '%Y-%m-%dT%H:%i:%s') AS REPAS_DIMANCHE
         FROM ta_equipes
@@ -159,6 +170,7 @@ export class MySqlEquipeRepository implements EquipeRepository {
         row.DIFF,
         eq?.REPAS_SAMEDI ?? null,
         eq?.REPAS_DIMANCHE ?? null,
+        buildTeamPhotoUrl(eq?.PHOTO ?? null),
       );
     });
 

@@ -86,6 +86,15 @@ export class MatchEnrichmentService {
     return 'planned';
   }
 
+  mapStatusFromSchedule(date: Date, durationMinutes: number): Match['status'] {
+    const nowMs = Date.now();
+    const startMs = date.getTime();
+    const endMs = startMs + durationMinutes * 60 * 1000;
+    if (nowMs < startMs) return 'planned';
+    if (nowMs < endMs) return 'ongoing';
+    return 'finished';
+  }
+
   buildJourMapping(rows: TaMatchRow[]): Map<string, JourKey> {
     const uniqueDates = Array.from(
       new Set(rows.map((row) => this.toDateKey(this.toMatchDate(row)))),
@@ -268,6 +277,22 @@ export class MatchEnrichmentService {
       return pool === 'A' || pool === 'B' ? 'Or 1' : 'Argent 1';
     }
 
+    const squareCode = this.inferJ3SquareCode(row);
+    if (squareCode) return squareCode;
+
+    return null;
+  }
+
+  inferJ3SquareCode(row: TaMatchRow): 'E' | 'F' | 'G' | 'H' | null {
+    const matchNum = row.NUM_MATCH;
+    if (matchNum >= 49 && matchNum <= 56) {
+      const bySemiPair: Array<'G' | 'H' | 'E' | 'F'> = ['G', 'H', 'E', 'F'];
+      return bySemiPair[Math.floor((matchNum - 49) / 2)] ?? null;
+    }
+    if (matchNum >= 57 && matchNum <= 64) {
+      const byPhase2Slot: Array<'G' | 'H' | 'E' | 'F'> = ['G', 'H', 'E', 'F'];
+      return byPhase2Slot[(matchNum - 57) % 4] ?? null;
+    }
     return null;
   }
 

@@ -22,6 +22,7 @@ import { AccepterCandidatureUseCase } from '../../application/candidature/accept
 import { MettreListeAttenteUseCase } from '../../application/candidature/mettre-liste-attente.usecase';
 import { RefuserCandidatureUseCase } from '../../application/candidature/refuser-candidature.usecase';
 import { ValiderPaiementUseCase } from '../../application/candidature/valider-paiement.usecase';
+import { PromouvoCandidatureUseCase } from '../../application/candidature/promouvoir-candidature.usecase';
 import { SoumettreCanditatureDto } from '../../application/candidature/dto/soumettre-candidature.dto';
 import { ValiderPaiementDto } from '../../application/candidature/dto/valider-paiement.dto';
 
@@ -35,6 +36,7 @@ export class CandidatureController {
     private readonly listeAttenteUseCase: MettreListeAttenteUseCase,
     private readonly refuserUseCase: RefuserCandidatureUseCase,
     private readonly validerPaiementUseCase: ValiderPaiementUseCase,
+    private readonly promouvoirUseCase: PromouvoCandidatureUseCase,
   ) {}
 
   // US-002 — Responsable : soumettre candidature
@@ -77,6 +79,14 @@ export class CandidatureController {
   @Roles('ORGANISATEUR')
   async listeAttente(@Param('id', ParseIntPipe) id: number) {
     return this.listeAttenteUseCase.execute(id);
+  }
+
+  // US-003 — Organisateur : promouvoir liste d'attente → PAIEMENT_ATTENDU
+  @Patch(':id/promouvoir')
+  @UseGuards(FirebaseAuthGuard, InscriptionRoleGuard)
+  @Roles('ORGANISATEUR')
+  async promouvoir(@Param('id', ParseIntPipe) id: number) {
+    return this.promouvoirUseCase.execute(id);
   }
 
   // US-003 — Organisateur : refuser

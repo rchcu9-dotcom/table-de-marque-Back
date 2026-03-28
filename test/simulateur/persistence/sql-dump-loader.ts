@@ -1,10 +1,11 @@
-import fs from 'node:fs';
+﻿import fs from 'node:fs';
 import type { SimulatorConfig } from '../config';
-import type { SimMatch, SimPlayer, SimTeam } from '../types';
+import type { SimMatch, SimPlayer, SimTeam, SqlScheduleSlot } from '../types';
 import { parseSqlDateTimeToTournamentIso, sqlDatePart, withSqlDate } from '../utils/tournament-datetime';
 
 type RawValue = string | number | null;
 type RawRow = Record<string, RawValue>;
+type LightweightMatchRow = Pick<SimMatch, 'id' | 'dateTime'>;
 
 function splitSqlFields(tuple: string): string[] {
   const fields: string[] = [];
@@ -101,7 +102,8 @@ function parseInsertRows(sql: string, tableName: string): RawRow[] {
   if (!match) return [];
 
   const columns = match[1].split(',').map((c) => c.replace(/`/g, '').trim());
-  const tuples = parseTuples(match[2]);
+  const sanitizedValuesBlock = match[2].replace(/^\s*--.*$/gm, '');
+  const tuples = parseTuples(sanitizedValuesBlock);
   return tuples.map((cells) => {
     const row: RawRow = {};
     for (let i = 0; i < columns.length; i += 1) {
@@ -141,58 +143,6 @@ function isRealMatch(row: RawRow): boolean {
   return true;
 }
 
-function isFiveVFiveRow(row: RawRow): boolean {
-  const numMatch = num(row, 'NUM_MATCH');
-  if (!isRealMatch(row)) return false;
-  if (numMatch == null) return false;
-  return numMatch <= 100;
-}
-
-function buildMatchDayBuckets(
-  matches: SimMatch[],
-  config: SimulatorConfig,
-  teamIdToJ1Group: Map<string, string>,
-): { j1: SimMatch[]; j2: SimMatch[]; j3: SimMatch[] } {
-  const sortByDate = (a: SimMatch, b: SimMatch) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime();
-  const j1 = matches.filter((m) => m.day === 'J1').sort(sortByDate);
-  const j2 = matches.filter((m) => m.day === 'J2').sort(sortByDate);
-  const j3 = matches.filter((m) => m.day === 'J3').sort(sortByDate);
-
-  j1.forEach((m) => {
-    const groupA = teamIdToJ1Group.get(m.teamAId);
-    const groupB = teamIdToJ1Group.get(m.teamBId);
-    if (!groupA || !groupB || groupA !== groupB) {
-      throw new Error(
-        `J1 grouping mismatch for match ${m.id}: teamA=${m.teamAId}(${groupA ?? 'n/a'}) teamB=${m.teamBId}(${groupB ?? 'n/a'})`,
-      );
-    }
-    m.phase = 'Brassage';
-    m.group = groupA;
-  });
-
-  const j2Groups = ['Or A', 'Or B', 'Argent C', 'Argent D'];
-  j2.forEach((m, idx) => {
-    m.phase = 'Qualification';
-    m.group = j2Groups[Math.floor(idx / 6)] ?? 'Or A';
-  });
-
-  j3.forEach((m, idx) => {
-    m.phase = 'Finales';
-    m.group = `Finales-${Math.floor(idx / 4) + 1}`;
-  });
-
-  if (j1.length !== 24) throw new Error(`Dataset mismatch: expected 24 J1 matches from SQL, got ${j1.length}`);
-  if (j2.length !== 24) throw new Error(`Dataset mismatch: expected 24 J2 matches from SQL, got ${j2.length}`);
-  const j1GroupCounts = ['A', 'B', 'C', 'D'].map((g) => j1.filter((m) => m.group === g).length);
-  if (j1GroupCounts.some((count) => count !== 6)) {
-    throw new Error(
-      `Dataset mismatch: expected J1 groups A-D with 6 matches each, got A=${j1GroupCounts[0]}, B=${j1GroupCounts[1]}, C=${j1GroupCounts[2]}, D=${j1GroupCounts[3]}`,
-    );
-  }
-
-  return { j1, j2, j3 };
-}
-
 function buildTournamentDateMap(
   matchRows: RawRow[],
   config: SimulatorConfig,
@@ -201,10 +151,10 @@ function buildTournamentDateMap(
   targetDates: [string, string, string];
   map: Record<string, string>;
 } {
-  const sourceDates = [...new Set(matchRows.filter(isFiveVFiveRow).map((row) => sqlDatePart(text(row, 'DATEHEURE'))))].sort();
+  const sourceDates = [...new Set(matchRows.filter((row) => isRealMatch(row) && text(row, 'DATEHEURE').trim().length > 0).map((row) => sqlDatePart(text(row, 'DATEHEURE'))))].sort();
   if (sourceDates.length !== 3) {
     throw new Error(
-      `SQL date mapping error: expected exactly 3 distinct 5v5 match dates in dump, got ${sourceDates.length}`,
+      `SQL date mapping error: expected exactly 3 distinct match dates in dump, got ${sourceDates.length}`,
     );
   }
 
@@ -238,10 +188,14 @@ export type SqlDumpDataset = {
   teams: SimTeam[];
   players: SimPlayer[];
   warnings: string[];
-  allMatches: SimMatch[];
+  allMatches: LightweightMatchRow[];
   j1Matches: SimMatch[];
   j2Matches: SimMatch[];
+  j2FiveVFiveMatches: SimMatch[];
+  j2ThreeVThreeMatches: SimMatch[];
   j3Matches: SimMatch[];
+  j3Phase1Matches: SimMatch[];
+  j3Phase2Matches: SimMatch[];
   j2ChallengeMatches: Array<{
     id: string;
     placeholderA: string;
@@ -273,51 +227,113 @@ function normalizeTeamName(value: string): string {
   return value.trim();
 }
 
-function teamLookupKey(value: string): string {
-  return normalizeTeamName(value)
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/[^a-z0-9]/g, '');
-}
-
-function classifyMatchStage(label: string): 'J1' | 'J2' | 'J3' | null {
-  const key = teamLookupKey(label);
-  if (key.length === 0) return null;
-  if (/^[abcd][1-4]$/.test(key)) return 'J2';
-  if (/^or[ab][1-4]$/.test(key)) return 'J3';
-  if (/^argent[cd][1-4]$/.test(key)) return 'J3';
-  if (/^(vor|vargent|por|pargent)/.test(key)) return 'J3';
+function classifySqlScheduleSlot(matchNum: number): SqlScheduleSlot | null {
+  if (matchNum >= 1 && matchNum <= 24) return 'J1_5V5';
+  if (matchNum >= 25 && matchNum <= 48) return 'J2_5V5';
+  if (matchNum >= 49 && matchNum <= 56) return 'J3_PHASE_1';
+  if (matchNum >= 57 && matchNum <= 64) return 'J3_PHASE_2';
+  if (matchNum >= 101 && matchNum <= 116) return 'J2_3V3';
   return null;
 }
 
-function increment(map: Record<string, number>, key: string): void {
-  map[key] = (map[key] ?? 0) + 1;
+function normalizeRankingPlaceholder(value: string): string {
+  return value.trim().toUpperCase();
 }
 
-function resolveTeamIdFromText(params: {
-  label: string;
-  teamByNameNormalized: Map<string, SimTeam>;
-  teamTokenLookup: Map<string, string>;
-}): { teamId: string | null; reason?: string } {
-  const key = teamLookupKey(params.label);
-  if (!key) return { teamId: null, reason: 'missing_team_label' };
+function resolveJ2GroupFromPlaceholders(
+  placeholderA: string,
+  placeholderB: string,
+): 'Or A' | 'Or B' | 'Argent C' | 'Argent D' {
+  const tokens = [normalizeRankingPlaceholder(placeholderA), normalizeRankingPlaceholder(placeholderB)];
+  const groups: Array<{ group: 'Or A' | 'Or B' | 'Argent C' | 'Argent D'; tokens: string[] }> = [
+    { group: 'Or A', tokens: ['A1', 'A2', 'B1', 'B2'] },
+    { group: 'Or B', tokens: ['C1', 'C2', 'D1', 'D2'] },
+    { group: 'Argent C', tokens: ['A3', 'A4', 'B3', 'B4'] },
+    { group: 'Argent D', tokens: ['C3', 'C4', 'D3', 'D4'] },
+  ];
 
-  const directByName = params.teamByNameNormalized.get(key);
-  if (directByName) return { teamId: directByName.id };
+  const matchingGroup = groups.find((candidate) => tokens.every((token) => candidate.tokens.includes(token)));
+  if (!matchingGroup) {
+    throw new Error(`Unable to resolve J2 group from placeholders "${placeholderA}" vs "${placeholderB}"`);
+  }
+  return matchingGroup.group;
+}
 
-  const directToken = params.teamTokenLookup.get(key);
-  if (directToken) return { teamId: directToken };
+function buildMappedDateTime(rawDateTime: string, tournamentDateMap: { map: Record<string, string> }): string {
+  const sourceDay = sqlDatePart(rawDateTime);
+  const mapped = withSqlDate(rawDateTime, tournamentDateMap.map[sourceDay] ?? sourceDay);
+  return parseSqlDateTimeToTournamentIso(mapped);
+}
 
-  const tokenEntries = [...params.teamTokenLookup.keys()].sort((a, b) => b.length - a.length);
-  const compositeCandidates = tokenEntries.filter((token) => key.includes(token));
-  if ((key.startsWith('p') || key.startsWith('v')) && compositeCandidates.length > 0) {
-    // For placeholders like pArgent C3Argent D4 / vOr A1Or B2, pick deterministic first token.
-    const first = compositeCandidates[0];
-    return { teamId: params.teamTokenLookup.get(first) ?? null, reason: `resolved_from_composite:${first}` };
+function buildPlaceholderMatch(params: {
+  row: RawRow;
+  slot: Exclude<SqlScheduleSlot, 'J1_5V5'>;
+  dateTime: string;
+}): SimMatch {
+  const { row, slot, dateTime } = params;
+  const matchNum = num(row, 'NUM_MATCH');
+  if (matchNum == null) {
+    throw new Error('Match row without NUM_MATCH');
   }
 
-  return { teamId: null, reason: 'unresolvable_team_label' };
+  const placeholderA = normalizeTeamName(text(row, 'EQUIPE1'));
+  const placeholderB = normalizeTeamName(text(row, 'EQUIPE2'));
+
+  let day: 'J1' | 'J2' | 'J3';
+  let competition: '5v5' | '3v3';
+  let phase: string;
+  let group: string;
+  let forcedWinnerAIfDraw = false;
+
+  switch (slot) {
+    case 'J2_5V5':
+      day = 'J2';
+      competition = '5v5';
+      phase = 'Qualification';
+      group = resolveJ2GroupFromPlaceholders(placeholderA, placeholderB);
+      break;
+    case 'J2_3V3':
+      day = 'J2';
+      competition = '3v3';
+      phase = '3v3';
+      group = '3v3';
+      break;
+    case 'J3_PHASE_1':
+      day = 'J3';
+      competition = '5v5';
+      phase = 'Phase 1';
+      group = /^[AB]/i.test(placeholderA) ? 'Or' : 'Argent';
+      forcedWinnerAIfDraw = true;
+      break;
+    case 'J3_PHASE_2':
+      day = 'J3';
+      competition = '5v5';
+      phase = 'Phase 2';
+      group = /^p/i.test(placeholderA) ? 'Perdants' : 'Vainqueurs';
+      forcedWinnerAIfDraw = true;
+      break;
+  }
+
+  return {
+    id: `M-${matchNum}`,
+    teamAId: placeholderA,
+    teamBId: placeholderB,
+    day,
+    dateTime,
+    competition,
+    phase,
+    group,
+    teamA: placeholderA,
+    teamB: placeholderB,
+    status: normalizeStatus(text(row, 'ETAT')),
+    scoreA: 0,
+    scoreB: 0,
+    forcedWinnerAIfDraw,
+    slot,
+    placeholderA,
+    placeholderB,
+    lineupResolved: false,
+  };
 }
 
 export function loadSqlDumpDataset(sqlPath: string, config: SimulatorConfig): SqlDumpDataset {
@@ -345,64 +361,26 @@ export function loadSqlDumpDataset(sqlPath: string, config: SimulatorConfig): Sq
   }
 
   const teamById = new Map<string, SimTeam>();
-  const teamByNameNormalized = new Map<string, SimTeam>();
   for (const team of teams) {
     if (teamById.has(team.id)) {
       throw new Error(`Duplicate team ID in ta_equipes: ${team.id}`);
     }
     teamById.set(team.id, team);
-    const key = teamLookupKey(team.name);
-    if (!teamByNameNormalized.has(key)) {
-      teamByNameNormalized.set(key, team);
-    }
   }
-  const tournamentDateMap = buildTournamentDateMap(matchesRows, config);
 
+  const tournamentDateMap = buildTournamentDateMap(matchesRows, config);
   const warnings: string[] = [];
   const droppedByReason: Record<string, number> = {};
   const keptByDay: Record<'J1' | 'J2' | 'J3', number> = { J1: 0, J2: 0, J3: 0 };
-  const fiveVFiveSourceRows = matchesRows.filter(isFiveVFiveRow).length;
-  const teamTokenLookup = new Map<string, string>();
-  const baseGroupRankToTeamId = new Map<string, string>();
   const teamIdToJ1Group = new Map<string, string>();
+
   for (const row of classementRows) {
-    const groupeNom = normalizeTeamName(text(row, 'GROUPE_NOM'));
-    const ordre = num(row, 'ORDRE');
+    const groupeNom = normalizeTeamName(text(row, 'GROUPE_NOM')).toUpperCase();
     const equipeId = String(num(row, 'EQUIPE_ID') ?? '').trim();
-    if (!groupeNom || ordre == null || !equipeId || !teamById.has(equipeId)) continue;
-
-    if (/^[ABCD]$/i.test(groupeNom)) {
-      const baseToken = `${groupeNom.toUpperCase()}${ordre}`;
-      teamTokenLookup.set(teamLookupKey(baseToken), equipeId);
-      baseGroupRankToTeamId.set(baseToken, equipeId);
-      teamIdToJ1Group.set(equipeId, groupeNom.toUpperCase());
+    if (/^[ABCD]$/.test(groupeNom) && equipeId && teamById.has(equipeId)) {
+      teamIdToJ1Group.set(equipeId, groupeNom);
     }
-    teamTokenLookup.set(teamLookupKey(`${groupeNom}${ordre}`), equipeId);
   }
-
-  const mapDerived = (targetToken: string, sourceToken: string): void => {
-    const sourceId = baseGroupRankToTeamId.get(sourceToken);
-    if (!sourceId) return;
-    teamTokenLookup.set(teamLookupKey(targetToken), sourceId);
-  };
-
-  // J2/J3 nomenclature derived from J1 ranking tokens.
-  mapDerived('Or A1', 'A1');
-  mapDerived('Or A2', 'A2');
-  mapDerived('Or A3', 'D1');
-  mapDerived('Or A4', 'D2');
-  mapDerived('Or B1', 'B1');
-  mapDerived('Or B2', 'B2');
-  mapDerived('Or B3', 'C1');
-  mapDerived('Or B4', 'C2');
-  mapDerived('Argent C1', 'A3');
-  mapDerived('Argent C2', 'A4');
-  mapDerived('Argent C3', 'D3');
-  mapDerived('Argent C4', 'D4');
-  mapDerived('Argent D1', 'B3');
-  mapDerived('Argent D2', 'B4');
-  mapDerived('Argent D3', 'C3');
-  mapDerived('Argent D4', 'C4');
 
   const players: SimPlayer[] = playersRows.map((row) => {
     const teamId = String(num(row, 'EQUIPE_ID') ?? '').trim();
@@ -433,122 +411,133 @@ export function loadSqlDumpDataset(sqlPath: string, config: SimulatorConfig): Sq
     }
   }
 
-  const allMatches: SimMatch[] = matchesRows
-    .filter(isFiveVFiveRow)
-    .map((row): SimMatch | null => {
-      const teamAFromText = normalizeTeamName(text(row, 'EQUIPE1'));
-      const teamBFromText = normalizeTeamName(text(row, 'EQUIPE2'));
-      let teamAId = String(num(row, 'EQUIPE_ID1') ?? '').trim();
-      let teamBId = String(num(row, 'EQUIPE_ID2') ?? '').trim();
-      const matchNum = String(num(row, 'NUM_MATCH') ?? '');
-      if (teamAId && !teamById.has(teamAId)) {
-        throw new Error(`Match ${matchNum} references unknown EQUIPE_ID1=${teamAId}`);
+  const j1Matches: SimMatch[] = [];
+  const j2FiveVFiveMatches: SimMatch[] = [];
+  const j2ThreeVThreeMatches: SimMatch[] = [];
+  const j3Phase1Matches: SimMatch[] = [];
+  const j3Phase2Matches: SimMatch[] = [];
+  const allMatches: LightweightMatchRow[] = [];
+
+  for (const row of matchesRows) {
+    if (!isRealMatch(row)) continue;
+
+    const matchNum = num(row, 'NUM_MATCH');
+    if (matchNum == null) {
+      droppedByReason.missing_num_match = (droppedByReason.missing_num_match ?? 0) + 1;
+      continue;
+    }
+
+    const slot = classifySqlScheduleSlot(matchNum);
+    if (!slot) {
+      droppedByReason.unsupported_slot = (droppedByReason.unsupported_slot ?? 0) + 1;
+      continue;
+    }
+
+    const rawDateTime = text(row, 'DATEHEURE').trim();
+    if (rawDateTime.length === 0) {
+      droppedByReason.missing_datetime = (droppedByReason.missing_datetime ?? 0) + 1;
+      continue;
+    }
+
+    const dateTime = buildMappedDateTime(rawDateTime, tournamentDateMap);
+    allMatches.push({ id: `M-${matchNum}`, dateTime });
+
+    if (slot === 'J1_5V5') {
+      const teamAId = String(num(row, 'EQUIPE_ID1') ?? '').trim();
+      const teamBId = String(num(row, 'EQUIPE_ID2') ?? '').trim();
+      if (!teamById.has(teamAId) || !teamById.has(teamBId)) {
+        throw new Error(`J1 match ${matchNum} references unknown team ids (${teamAId}, ${teamBId})`);
       }
-      if (teamBId && !teamById.has(teamBId)) {
-        throw new Error(`Match ${matchNum} references unknown EQUIPE_ID2=${teamBId}`);
+      const groupA = teamIdToJ1Group.get(teamAId);
+      const groupB = teamIdToJ1Group.get(teamBId);
+      if (!groupA || groupA !== groupB) {
+        throw new Error(`J1 grouping mismatch for match ${matchNum}: ${teamAId}/${teamBId}`);
       }
-      if (!teamAId) {
-        const resolved = resolveTeamIdFromText({
-          label: teamAFromText,
-          teamByNameNormalized,
-          teamTokenLookup,
-        });
-        if (resolved.teamId) {
-          teamAId = resolved.teamId;
-          if (resolved.reason?.startsWith('resolved_from_composite:')) {
-            warnings.push(`Match ${matchNum}: team A placeholder "${teamAFromText}" resolved via ${resolved.reason}.`);
-          }
-        } else {
-          increment(droppedByReason, `team_a_${resolved.reason ?? 'unresolved'}`);
-        }
-      }
-      if (!teamBId) {
-        const resolved = resolveTeamIdFromText({
-          label: teamBFromText,
-          teamByNameNormalized,
-          teamTokenLookup,
-        });
-        if (resolved.teamId) {
-          teamBId = resolved.teamId;
-          if (resolved.reason?.startsWith('resolved_from_composite:')) {
-            warnings.push(`Match ${matchNum}: team B placeholder "${teamBFromText}" resolved via ${resolved.reason}.`);
-          }
-        } else {
-          increment(droppedByReason, `team_b_${resolved.reason ?? 'unresolved'}`);
-        }
-      }
-      if (!teamAId) {
-        warnings.push(`Match ${matchNum} ignored: team A not resolvable from ta_equipes.`);
-        increment(droppedByReason, 'dropped_unresolved_team_a');
-        return null;
-      }
-      if (!teamBId) {
-        warnings.push(`Match ${matchNum} ignored: team B not resolvable from ta_equipes.`);
-        increment(droppedByReason, 'dropped_unresolved_team_b');
-        return null;
-      }
-      const rawDateTime = text(row, 'DATEHEURE');
-      const sourceDay = sqlDatePart(rawDateTime);
-      const mapped = withSqlDate(rawDateTime, tournamentDateMap.map[sourceDay] ?? sourceDay);
-      const at = parseSqlDateTimeToTournamentIso(mapped);
-      const explicitStage = classifyMatchStage(teamAFromText) ?? classifyMatchStage(teamBFromText);
-      const dayKey = at.slice(0, 10);
-      const inferredByDate: 'J1' | 'J2' | 'J3' =
-        dayKey === config.day1Date ? 'J1' : dayKey === config.day2Date ? 'J2' : 'J3';
-      const day: 'J1' | 'J2' | 'J3' = explicitStage ?? inferredByDate;
-      keptByDay[day] += 1;
-      return {
+      j1Matches.push({
         id: `M-${matchNum}`,
         teamAId,
         teamBId,
-        day,
-        dateTime: at,
+        day: 'J1',
+        dateTime,
         competition: '5v5',
-        phase: day === 'J1' ? 'Brassage' : day === 'J2' ? 'Qualification' : 'Finales',
-        group: '',
+        phase: 'Brassage',
+        group: groupA,
         teamA: teamById.get(teamAId)!.name,
         teamB: teamById.get(teamBId)!.name,
         status: normalizeStatus(text(row, 'ETAT')),
         scoreA: 0,
         scoreB: 0,
-        forcedWinnerAIfDraw: day === 'J3',
-      } satisfies SimMatch;
-    })
-    .filter((match): match is SimMatch => match !== null);
+        forcedWinnerAIfDraw: false,
+        slot,
+        lineupResolved: true,
+      });
+      keptByDay.J1 += 1;
+      continue;
+    }
 
-  const { j1, j2, j3 } = buildMatchDayBuckets(allMatches, config, teamIdToJ1Group);
-  if (config.remapSqlDates && (j1.length !== 24 || j2.length !== 24)) {
-    throw new Error(`SQL remap invariant failed: expected J1=24 and J2=24 after remap, got J1=${j1.length}, J2=${j2.length}`);
+    const placeholderMatch = buildPlaceholderMatch({
+      row,
+      slot,
+      dateTime,
+    });
+
+    if (slot === 'J2_5V5') {
+      j2FiveVFiveMatches.push(placeholderMatch);
+      keptByDay.J2 += 1;
+    } else if (slot === 'J2_3V3') {
+      j2ThreeVThreeMatches.push(placeholderMatch);
+    } else if (slot === 'J3_PHASE_1') {
+      j3Phase1Matches.push(placeholderMatch);
+      keptByDay.J3 += 1;
+    } else {
+      j3Phase2Matches.push(placeholderMatch);
+      keptByDay.J3 += 1;
+    }
   }
-  if (j3.length === 0) {
+
+  if (j1Matches.length !== 24) {
+    throw new Error(`Dataset mismatch: expected 24 J1 matches from SQL, got ${j1Matches.length}`);
+  }
+  if (j2FiveVFiveMatches.length !== 24) {
+    throw new Error(`Dataset mismatch: expected 24 J2 5v5 matches from SQL, got ${j2FiveVFiveMatches.length}`);
+  }
+  if (j2ThreeVThreeMatches.length !== 16) {
+    throw new Error(`Dataset mismatch: expected 16 J2 3v3 matches from SQL, got ${j2ThreeVThreeMatches.length}`);
+  }
+  if (j3Phase1Matches.length !== 8 || j3Phase2Matches.length !== 8) {
     throw new Error(
-      `Dataset mismatch: expected J3 matches from SQL, got 0 (sourceRows=${fiveVFiveSourceRows}, keptJ1=${keptByDay.J1}, keptJ2=${keptByDay.J2}, keptJ3=${keptByDay.J3}, dropped=${JSON.stringify(droppedByReason)})`,
+      `Dataset mismatch: expected J3 phase1=8 and phase2=8 from SQL, got phase1=${j3Phase1Matches.length}, phase2=${j3Phase2Matches.length}`,
     );
   }
 
-  const j2ChallengeMatches: SqlDumpDataset['j2ChallengeMatches'] = matchesRows
-    .filter((row) => isRealMatch(row) && !isFiveVFiveRow(row))
-    .map((row) => {
-      const matchNum = String(num(row, 'NUM_MATCH') ?? '');
-      const rawDateTime = text(row, 'DATEHEURE');
-      const sourceDay = sqlDatePart(rawDateTime);
-      const mapped = withSqlDate(rawDateTime, tournamentDateMap.map[sourceDay] ?? sourceDay);
-      return {
-        id: `M-${matchNum}`,
-        placeholderA: normalizeTeamName(text(row, 'EQUIPE1')),
-        placeholderB: normalizeTeamName(text(row, 'EQUIPE2')),
-        dateTime: parseSqlDateTimeToTournamentIso(mapped),
-      };
-    });
+  const j1GroupCounts = ['A', 'B', 'C', 'D'].map((group) => j1Matches.filter((match) => match.group === group).length);
+  if (j1GroupCounts.some((count) => count !== 6)) {
+    throw new Error(
+      `Dataset mismatch: expected J1 groups A-D with 6 matches each, got A=${j1GroupCounts[0]}, B=${j1GroupCounts[1]}, C=${j1GroupCounts[2]}, D=${j1GroupCounts[3]}`,
+    );
+  }
+
+  const j2ChallengeMatches: SqlDumpDataset['j2ChallengeMatches'] = j2ThreeVThreeMatches.map((match) => ({
+    id: match.id,
+    placeholderA: match.placeholderA ?? match.teamA,
+    placeholderB: match.placeholderB ?? match.teamB,
+    dateTime: match.dateTime,
+  }));
 
   return {
     teams,
     players,
     warnings,
-    allMatches: [...j1, ...j2, ...j3],
-    j1Matches: j1,
-    j2Matches: j2,
-    j3Matches: j3,
+    allMatches,
+    j1Matches,
+    j2Matches: j2FiveVFiveMatches,
+    j2FiveVFiveMatches,
+    j2ThreeVThreeMatches,
+    j3Matches: [...j3Phase1Matches, ...j3Phase2Matches].sort(
+      (a, b) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime(),
+    ),
+    j3Phase1Matches,
+    j3Phase2Matches,
     j2ChallengeMatches,
     challengeJ1StartByTeamId,
     challengeRawSqlByTeamId,
@@ -565,7 +554,7 @@ export function loadSqlDumpDataset(sqlPath: string, config: SimulatorConfig): Sq
       taJoueurs: ['ID', 'EQUIPE_ID', 'PRENOM', 'NOM', 'QF', 'DF', 'F', 'V'],
     },
     loadDiagnostics: {
-      fiveVFiveSourceRows,
+      fiveVFiveSourceRows: j1Matches.length + j2FiveVFiveMatches.length + j3Phase1Matches.length + j3Phase2Matches.length,
       droppedByReason,
       keptByDay,
     },

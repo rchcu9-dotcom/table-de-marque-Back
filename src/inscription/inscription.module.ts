@@ -15,6 +15,7 @@ import { AccepterCandidatureUseCase } from './application/candidature/accepter-c
 import { MettreListeAttenteUseCase } from './application/candidature/mettre-liste-attente.usecase';
 import { RefuserCandidatureUseCase } from './application/candidature/refuser-candidature.usecase';
 import { ValiderPaiementUseCase } from './application/candidature/valider-paiement.usecase';
+import { PromouvoCandidatureUseCase } from './application/candidature/promouvoir-candidature.usecase';
 import { EditionController } from './infrastructure/http/edition.controller';
 import { EquipeReferentielController } from './infrastructure/http/equipe-referentiel.controller';
 import { AuthInscriptionController } from './infrastructure/http/auth-inscription.controller';
@@ -45,6 +46,7 @@ import { InscriptionRoleGuard } from './infrastructure/http/inscription-role.gua
     MettreListeAttenteUseCase,
     RefuserCandidatureUseCase,
     ValiderPaiementUseCase,
+    PromouvoCandidatureUseCase,
     InscriptionRoleGuard,
   ],
 })

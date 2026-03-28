@@ -13,6 +13,7 @@ import { MockEquipeSeeder } from './hooks/mock-equipe.seeder';
 import { CacheModule } from './infrastructure/cache/cache.module';
 import { LiveModule } from './infrastructure/http/live/live.module';
 import { HealthModule } from './health/health.module';
+import { PartenaireModule } from './infrastructure/http/partenaire/partenaire.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { HealthModule } from './health/health.module';
     MealsModule,
     LiveModule,
     HealthModule,
+    PartenaireModule,
   ],
   providers: [ChallengeMockSeeder, MockScheduleSeeder, MockEquipeSeeder],
 })

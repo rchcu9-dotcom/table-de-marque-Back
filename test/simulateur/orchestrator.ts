@@ -1,4 +1,4 @@
-import fs from 'node:fs';
+﻿import fs from 'node:fs';
 import path from 'node:path';
 import { PrismaClient } from '@prisma/client';
 import type { SimulatorConfig } from './config';
@@ -17,6 +17,7 @@ import { buildJ3FinalPairingsFromSemis, buildJ3InitialPairings } from './domain/
 import { toClassementGroupCode } from './domain/classement-group-code';
 import { ensurePlayers, planChallengeDayActions } from './domain/challenge-engine';
 import { planChallengeVitesseJ3Actions } from './domain/challenge-vitesse-j3-engine';
+import { resolveMatchLineup } from './domain/sql-placeholder-resolver';
 import { writeReport } from './report/report-builder';
 import type { PlannedAction, SimulationData, SimPlayer, SimTeam } from './types';
 import { loadSqlDumpDataset, type SqlDumpDataset } from './persistence/sql-dump-loader';
@@ -153,30 +154,74 @@ function normalizeScoreForWrite(score: unknown): number {
   return Number.isFinite(parsed) && parsed >= 0 ? parsed : 0;
 }
 
-function emitDynamicMatchLineupWrites(matches: SimulationData['matches'], writer: DryRunWriter, at: string): void {
+function emitResolvedMatchLineupWrites(
+  matches: SimulationData['matches'],
+  writer: DryRunWriter,
+  at: string,
+  options?: { includeMatchState?: boolean },
+): void {
+  const includeMatchState = options?.includeMatchState !== false;
+
   for (const match of matches) {
-    const scoreA = normalizeScoreForWrite(match.scoreA);
-    const scoreB = normalizeScoreForWrite(match.scoreB);
+    const values: Record<string, unknown> = {
+      EQUIPE1: match.teamA,
+      EQUIPE2: match.teamB,
+      EQUIPE_ID1: Number(match.teamAId),
+      EQUIPE_ID2: Number(match.teamBId),
+      __IS_DYNAMIC_LINEUP: true,
+      __MATCH_ID: match.id,
+      __DAY: match.day,
+      __GROUP: match.group,
+    };
+
+    if (includeMatchState) {
+      values.ETAT = statusToDbEtat(match.status);
+      values.SCORE_EQUIPE1 = normalizeScoreForWrite(match.scoreA);
+      values.SCORE_EQUIPE2 = normalizeScoreForWrite(match.scoreB);
+    }
+
     writer.push({
       table: 'ta_matchs',
       action: 'update',
       at,
       where: `ID='${match.id}'`,
-      values: {
-        EQUIPE1: match.teamA,
-        EQUIPE2: match.teamB,
-        EQUIPE_ID1: Number(match.teamAId),
-        EQUIPE_ID2: Number(match.teamBId),
-        ETAT: statusToDbEtat(match.status),
-        SCORE_EQUIPE1: scoreA,
-        SCORE_EQUIPE2: scoreB,
-        __IS_DYNAMIC_LINEUP: true,
-        __MATCH_ID: match.id,
-        __DAY: match.day,
-        __GROUP: match.group,
-      },
+      values,
     });
   }
+}
+
+function emitDynamicMatchLineupWrites(matches: SimulationData['matches'], writer: DryRunWriter, at: string): void {
+  emitResolvedMatchLineupWrites(matches, writer, at);
+}
+
+function materializeResolvedMatches(params: {
+  templates: SimulationData['matches'];
+  standings: SimulationData['standings'];
+  stateMatches: SimulationData['matches'];
+  teams: SimTeam[];
+}): SimulationData['matches'] {
+  const teamNames = teamNameById(params.teams);
+
+  return params.templates.map((template) => {
+    const lineup = resolveMatchLineup({
+      match: template,
+      standings: params.standings,
+      matches: params.stateMatches,
+      teamNameById: teamNames,
+    });
+
+    return {
+      ...template,
+      teamAId: lineup.teamA.teamId,
+      teamBId: lineup.teamB.teamId,
+      teamA: lineup.teamA.teamName,
+      teamB: lineup.teamB.teamName,
+      status: 'planned',
+      scoreA: 0,
+      scoreB: 0,
+      lineupResolved: true,
+    };
+  });
 }
 
 function earliestTournamentSyncAt(dataset: SqlDumpDataset, config: SimulatorConfig): string {
@@ -296,10 +341,10 @@ type J3SquareDef = {
 };
 
 const J3_SQUARES: J3SquareDef[] = [
-  { code: 'E', label: 'Carré Or A', semis: ['DF-O1', 'DF-O2'], final: 'V-O1', third: 'P-O1' },
-  { code: 'F', label: 'Carré Or B', semis: ['DF-O3', 'DF-O4'], final: 'V-O2', third: 'P-O2' },
-  { code: 'G', label: 'Carré Argent C', semis: ['DF-A1', 'DF-A2'], final: 'V-A1', third: 'P-A1' },
-  { code: 'H', label: 'Carré Argent D', semis: ['DF-A3', 'DF-A4'], final: 'V-A2', third: 'P-A2' },
+  { code: 'E', label: 'CarrÃ© Or A', semis: ['DF-O1', 'DF-O2'], final: 'V-O1', third: 'P-O1' },
+  { code: 'F', label: 'CarrÃ© Or B', semis: ['DF-O3', 'DF-O4'], final: 'V-O2', third: 'P-O2' },
+  { code: 'G', label: 'CarrÃ© Argent C', semis: ['DF-A1', 'DF-A2'], final: 'V-A1', third: 'P-A1' },
+  { code: 'H', label: 'CarrÃ© Argent D', semis: ['DF-A3', 'DF-A4'], final: 'V-A2', third: 'P-A2' },
 ];
 
 function sortedJ3Matches(matches: SimulationData['matches']): SimulationData['matches'] {
@@ -384,7 +429,7 @@ function isTournamentStandingsGroup(day: string, group: string): boolean {
   const d = day.trim().toUpperCase();
   if (d === 'J1') return ['A', 'B', 'C', 'D'].includes(group);
   if (d === 'J2') return ['Or A', 'Or B', 'Argent C', 'Argent D'].includes(group);
-  if (d === 'J3') return ['Carré Or A', 'Carré Or B', 'Carré Argent C', 'Carré Argent D'].includes(group);
+  if (d === 'J3') return ['CarrÃ© Or A', 'CarrÃ© Or B', 'CarrÃ© Argent C', 'CarrÃ© Argent D'].includes(group);
   return false;
 }
 
@@ -845,12 +890,7 @@ function buildPlannedActions(params: {
   state.sqlLoadDiagnostics = dataset.loadDiagnostics;
 
   if (state.matches.length === 0) {
-    if (config.scheduleMode === 'sql') {
-      state.matches.push(...dataset.allMatches);
-      assertRoundRobinCardinality(state.matches);
-    } else {
-      state.matches.push(...dataset.j1Matches);
-    }
+    state.matches.push(...dataset.j1Matches);
   }
 
   const actions: PlannedAction[] = [];
@@ -879,25 +919,6 @@ function buildPlannedActions(params: {
   });
   actions.push(...challengeDayActions);
 
-  if (config.scheduleMode === 'sql') {
-    actions.push(...planFiveVFiveActions({
-      matches: dataset.j2Matches,
-      config,
-      random,
-      events: state.events,
-      journal,
-      writer: dryWriter,
-    }));
-
-    actions.push(...planFiveVFiveActions({
-      matches: dataset.j3Matches,
-      config,
-      random,
-      events: state.events,
-      journal,
-      writer: dryWriter,
-    }));
-  }
 
   actions.push(...planChallengeVitesseJ3Actions({
     players: state.players,
@@ -927,8 +948,10 @@ function buildPlannedActions(params: {
           scheduleMode: config.scheduleMode,
           matchCounts: {
             j1: dataset.j1Matches.length,
-            j2: dataset.j2Matches.length,
-            j3: dataset.j3Matches.length,
+            j2FiveVFive: dataset.j2FiveVFiveMatches.length,
+            j2ThreeVThree: dataset.j2ThreeVThreeMatches.length,
+            j3Phase1: dataset.j3Phase1Matches.length,
+            j3Phase2: dataset.j3Phase2Matches.length,
           },
         },
       });
@@ -1060,18 +1083,15 @@ export async function runSimulation(
   };
 
   const dynamicMode = config.scheduleMode === 'dynamic';
-  let j2Generated = checkpoint.data.matches.some((m) => m.day === 'J2' && m.competition === '5v5');
+  let j2Generated = checkpoint.data.matches.some((m) => m.day === 'J2' && m.competition === '5v5' && !m.slot);
   let j3InitialGenerated = checkpoint.data.matches.some((m) => m.day === 'J3' && m.group.startsWith('Demi'));
-  let j3FinalGenerated = checkpoint.data.matches.some((m) => m.day === 'J3' && (m.group === 'Perdants' || m.group === 'Vainqueurs'));
-  let j2ChallengeLineupEmitted = checkpoint.data.events.some(
-    (e) => e.type === 'SIM_J2_CHALLENGE_LINEUP_EMITTED',
+  let j3FinalGenerated = checkpoint.data.matches.some((m) => m.day === 'J3' && (m.group === 'Perdants' || m.group === 'Vainqueurs') && !m.slot);
+  let j2ThreeVThreeSqlLineupEmitted = checkpoint.data.events.some(
+    (e) => e.type === 'SIM_J2_3V3_LINEUP_EMITTED',
   );
-  let j3Phase1SqlLineupEmitted = checkpoint.data.events.some(
-    (e) => e.type === 'SIM_J3_PHASE1_SQL_LINEUP_EMITTED',
-  );
-  let j3Phase2SqlLineupEmitted = checkpoint.data.events.some(
-    (e) => e.type === 'SIM_J3_PHASE2_SQL_LINEUP_EMITTED',
-  );
+  let j2FiveVFiveSqlLineupEmitted = checkpoint.data.matches.some((m) => m.slot === 'J2_5V5');
+  let j3Phase1SqlLineupEmitted = checkpoint.data.matches.some((m) => m.slot === 'J3_PHASE_1');
+  let j3Phase2SqlLineupEmitted = checkpoint.data.matches.some((m) => m.slot === 'J3_PHASE_2');
   let j3LogicalToMatchId: Record<string, string> = {};
 
   let backupCreated = checkpoint.data.runMetrics?.backupFile ?? config.backupFile;
@@ -1343,6 +1363,22 @@ export async function runSimulation(
               groups: j2Groups,
             },
           });
+
+          if (!j2ThreeVThreeSqlLineupEmitted) {
+            emitJ2ChallengeLineupWrites({
+              j2ChallengeMatches: dataset.j2ChallengeMatches,
+              standings: checkpoint.data.standings,
+              nameById: teamNameById(checkpoint.data.teams),
+              writer: dryWriter,
+              at: action.at,
+            });
+            j2ThreeVThreeSqlLineupEmitted = true;
+            journal.push(checkpoint.data.events, {
+              type: 'SIM_J2_3V3_LINEUP_EMITTED',
+              at: action.at,
+              payload: { matchCount: dataset.j2ChallengeMatches.length },
+            });
+          }
         }
 
         const j2Finished = checkpoint.data.matches.filter((m) => m.day === 'J2' && m.competition === '5v5' && m.status === 'finished').length;
@@ -1426,97 +1462,116 @@ export async function runSimulation(
         }
       }
 
-      // J2 challenge (3v3) lineup resolution — both modes
-      {
+      if (!dynamicMode) {
         const j1DoneCount = checkpoint.data.matches.filter(
           (m) => m.day === 'J1' && m.competition === '5v5' && m.status === 'finished',
         ).length;
-        if (!j2ChallengeLineupEmitted && j1DoneCount === 24 && dataset.j2ChallengeMatches.length > 0) {
-          const nameById = teamNameById(checkpoint.data.teams);
-          emitJ2ChallengeLineupWrites({
-            j2ChallengeMatches: dataset.j2ChallengeMatches,
-            standings: checkpoint.data.standings,
-            nameById,
-            writer: dryWriter,
-            at: action.at,
-          });
-          j2ChallengeLineupEmitted = true;
-          journal.push(checkpoint.data.events, {
-            type: 'SIM_J2_CHALLENGE_LINEUP_EMITTED',
-            at: action.at,
-            payload: { matchCount: dataset.j2ChallengeMatches.length },
-          });
-        }
-      }
-
-      // J3 Phase 1 + Phase 2 lineup resolution — sql mode only
-      if (!dynamicMode) {
-        const j2DoneCount = checkpoint.data.matches.filter(
-          (m) => m.day === 'J2' && m.competition === '5v5' && m.status === 'finished',
-        ).length;
-        if (!j3Phase1SqlLineupEmitted && j2DoneCount === 24) {
+        if (!j2FiveVFiveSqlLineupEmitted && j1DoneCount === 24) {
           checkpoint.data.standings = computeStandings(checkpoint.data.matches);
-          const newLogical = emitSqlJ3Phase1LineupWrites({
-            dataset,
+
+          const resolvedJ2Matches = materializeResolvedMatches({
+            templates: dataset.j2FiveVFiveMatches,
             standings: checkpoint.data.standings,
             stateMatches: checkpoint.data.matches,
             teams: checkpoint.data.teams,
-            writer: dryWriter,
-            at: action.at,
           });
-          j3LogicalToMatchId = newLogical;
+          checkpoint.data.matches.push(...resolvedJ2Matches);
+          emitResolvedMatchLineupWrites(resolvedJ2Matches, dryWriter, action.at);
+          appendActions(
+            planFiveVFiveActions({
+              matches: resolvedJ2Matches,
+              config,
+              random,
+              events: checkpoint.data.events,
+              journal,
+              writer: dryWriter,
+            }),
+          );
+          j2FiveVFiveSqlLineupEmitted = true;
+          journal.push(checkpoint.data.events, {
+            type: 'SIM_J2_5V5_SQL_LINEUP_EMITTED',
+            at: action.at,
+            payload: { matchCount: resolvedJ2Matches.length },
+          });
+
+          if (!j2ThreeVThreeSqlLineupEmitted) {
+            const resolved3v3Matches = materializeResolvedMatches({
+              templates: dataset.j2ThreeVThreeMatches,
+              standings: checkpoint.data.standings,
+              stateMatches: checkpoint.data.matches,
+              teams: checkpoint.data.teams,
+            });
+            emitResolvedMatchLineupWrites(resolved3v3Matches, dryWriter, action.at, {
+              includeMatchState: false,
+            });
+            j2ThreeVThreeSqlLineupEmitted = true;
+            journal.push(checkpoint.data.events, {
+              type: 'SIM_J2_3V3_LINEUP_EMITTED',
+              at: action.at,
+              payload: { matchCount: resolved3v3Matches.length },
+            });
+          }
+        }
+
+        const j2DoneCount = checkpoint.data.matches.filter(
+          (m) => m.slot === 'J2_5V5' && m.status === 'finished',
+        ).length;
+        if (!j3Phase1SqlLineupEmitted && j2DoneCount === dataset.j2FiveVFiveMatches.length) {
+          checkpoint.data.standings = computeStandings(checkpoint.data.matches);
+          const resolvedJ3Phase1Matches = materializeResolvedMatches({
+            templates: dataset.j3Phase1Matches,
+            standings: checkpoint.data.standings,
+            stateMatches: checkpoint.data.matches,
+            teams: checkpoint.data.teams,
+          });
+          checkpoint.data.matches.push(...resolvedJ3Phase1Matches);
+          emitResolvedMatchLineupWrites(resolvedJ3Phase1Matches, dryWriter, action.at);
+          appendActions(
+            planFiveVFiveActions({
+              matches: resolvedJ3Phase1Matches,
+              config,
+              random,
+              events: checkpoint.data.events,
+              journal,
+              writer: dryWriter,
+            }),
+          );
           j3Phase1SqlLineupEmitted = true;
           journal.push(checkpoint.data.events, {
             type: 'SIM_J3_PHASE1_SQL_LINEUP_EMITTED',
             at: action.at,
-            payload: {
-              logicalToMatchId: newLogical,
-              matchCount: Object.keys(newLogical).length,
-            },
+            payload: { matchCount: resolvedJ3Phase1Matches.length },
           });
         }
 
-        if (j3Phase1SqlLineupEmitted && !j3Phase2SqlLineupEmitted) {
-          // Rebuild j3LogicalToMatchId if empty (e.g. after checkpoint resume)
-          if (Object.keys(j3LogicalToMatchId).length === 0) {
-            try {
-              const pairings = buildJ3InitialPairings(checkpoint.data.standings);
-              const templates = [...dataset.j3Matches]
-                .sort((a, b) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime())
-                .slice(0, 8);
-              pairings.forEach((pairing, idx) => {
-                const template = templates[idx];
-                if (template) j3LogicalToMatchId[pairing.id] = template.id;
-              });
-            } catch {
-              // standings not yet available for rebuild
-            }
-          }
-
-          const j3SemiCount =
-            Object.keys(j3LogicalToMatchId).length === 8
-              ? Object.values(j3LogicalToMatchId)
-                  .map((id) => checkpoint.data.matches.find((m) => m.id === id))
-                  .filter((m): m is NonNullable<typeof m> => Boolean(m))
-                  .filter((m) => m.status === 'finished').length
-              : 0;
-
-          if (j3SemiCount === 8) {
-            emitSqlJ3Phase2LineupWrites({
-              dataset,
-              stateMatches: checkpoint.data.matches,
-              teams: checkpoint.data.teams,
-              j3LogicalToMatchId,
+        const j3Phase1DoneCount = checkpoint.data.matches.filter(
+          (m) => m.slot === 'J3_PHASE_1' && m.status === 'finished',
+        ).length;
+        if (!j3Phase2SqlLineupEmitted && j3Phase1DoneCount === dataset.j3Phase1Matches.length) {
+          const resolvedJ3Phase2Matches = materializeResolvedMatches({
+            templates: dataset.j3Phase2Matches,
+            standings: checkpoint.data.standings,
+            stateMatches: checkpoint.data.matches,
+            teams: checkpoint.data.teams,
+          });
+          checkpoint.data.matches.push(...resolvedJ3Phase2Matches);
+          emitResolvedMatchLineupWrites(resolvedJ3Phase2Matches, dryWriter, action.at);
+          appendActions(
+            planFiveVFiveActions({
+              matches: resolvedJ3Phase2Matches,
+              config,
+              random,
+              events: checkpoint.data.events,
+              journal,
               writer: dryWriter,
-              at: action.at,
-            });
-            j3Phase2SqlLineupEmitted = true;
-            journal.push(checkpoint.data.events, {
-              type: 'SIM_J3_PHASE2_SQL_LINEUP_EMITTED',
-              at: action.at,
-              payload: { matchCount: 8 },
-            });
-          }
+            }),
+          );
+          j3Phase2SqlLineupEmitted = true;
+          journal.push(checkpoint.data.events, {
+            type: 'SIM_J3_PHASE2_SQL_LINEUP_EMITTED',
+            at: action.at,
+            payload: { matchCount: resolvedJ3Phase2Matches.length },
+          });
         }
       }
 
@@ -1864,4 +1919,9 @@ export async function runSimulation(
     ],
   };
 }
+
+
+
+
+
 

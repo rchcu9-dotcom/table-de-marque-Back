@@ -49,6 +49,13 @@ export function slugifyTeamName(value: string): string {
     .replace(/^-+|-+$/g, '');
 }
 
+export function buildTeamPhotoUrl(raw: string | null | undefined): string | null {
+  if (!raw) return null;
+  const match = raw.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if (!match) return null;
+  return `https://lh3.googleusercontent.com/d/${match[1]}`;
+}
+
 export function buildTeamLogoUrl(teamName?: string | null): string | null {
   const base = (process.env.TEAM_LOGO_BASE_URL ?? '').trim();
   const slug = slugifyTeamName(teamName ?? '');
@@ -65,6 +72,10 @@ export function pouleDisplayName(code?: string | null): string | null {
   if (uiCode === 'Beta') return 'Tournoi Or - Beta';
   if (uiCode === 'Gamma') return 'Tournoi Argent - Gamma';
   if (uiCode === 'Delta') return 'Tournoi Argent - Delta';
+  if (uiCode === 'E') return 'Carré Or A';
+  if (uiCode === 'F') return 'Carré Or B';
+  if (uiCode === 'G') return 'Carré Argent C';
+  if (uiCode === 'H') return 'Carré Argent D';
   if (uiCode.length === 1) return `Poule ${uiCode}`;
   return uiCode;
 }

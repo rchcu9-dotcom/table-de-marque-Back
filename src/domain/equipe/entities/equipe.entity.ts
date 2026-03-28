@@ -18,6 +18,7 @@ export class Equipe {
     public diff: number,
     public repasSamedi: string | null = null,
     public repasDimanche: string | null = null,
+    public photoUrl: string | null = null,
   ) {}
 }
 

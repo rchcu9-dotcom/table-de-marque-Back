@@ -7,6 +7,8 @@
   if (type === 'CHALLENGE_PLAYER_PASSED') return 5;
   if (type === 'CHALLENGE_TEAM_WINDOW_FINISHED') return 6;
   if (type === 'CHALLENGE_VITESSE_QF_QUALIFIED') return 7;
+  if (type === 'CHALLENGE_VITESSE_QF_FINISHED') return 7;
+  if (type === 'CHALLENGE_VITESSE_DF_FINISHED') return 7;
   if (type === 'SIM_SQL_APPLIED') return 8;
   if (type.startsWith('SIM')) return 9;
   return 10;

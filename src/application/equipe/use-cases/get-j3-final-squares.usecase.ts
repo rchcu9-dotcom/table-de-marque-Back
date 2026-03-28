@@ -33,6 +33,12 @@ type RankingEntry = {
   placeholder: string | null;
 };
 
+type SquareCode = 'E' | 'F' | 'G' | 'H';
+type J3SquareHint = {
+  squareCode: SquareCode;
+  stage: 'semi' | 'postSemi';
+};
+
 export type FinalSquare = {
   dbCode: 'E' | 'F' | 'G' | 'H';
   label: string;
@@ -96,13 +102,14 @@ export class GetJ3FinalSquaresUseCase {
         .map((team) => team.name)
         .filter((value): value is string => Boolean(value?.trim()));
       const teamNameSet = new Set(teamNames.map((name) => this.norm(name)));
-
-      const squareMatches = j3Matches.filter((match) => {
-        return (
-          teamNameSet.has(this.norm(match.teamA)) &&
-          teamNameSet.has(this.norm(match.teamB))
-        );
-      });
+      const squareMatchesFromPersistence = j3Matches.filter(
+        (match) =>
+          match.pouleCode === square.dbCode || match.pouleName === square.label,
+      );
+      const squareMatches =
+        squareMatchesFromPersistence.length > 0
+          ? squareMatchesFromPersistence
+          : this.fallbackSquareMatches(j3Matches, square.dbCode, teamNameSet);
 
       const semis = squareMatches.slice(0, 2);
       const postSemis = squareMatches.slice(2);
@@ -140,6 +147,36 @@ export class GetJ3FinalSquaresUseCase {
       carres,
       computedAt: new Date().toISOString(),
     };
+  }
+
+  private fallbackSquareMatches(
+    allMatches: Match[],
+    squareCode: SquareCode,
+    teamNameSet: Set<string>,
+  ): Match[] {
+    const hintedMatches = allMatches.filter(
+      (match) => this.resolveJ3SquareHint(match)?.squareCode === squareCode,
+    );
+
+    if (hintedMatches.length > 0) {
+      return hintedMatches.sort(
+        (a, b) =>
+          a.date.getTime() - b.date.getTime() ||
+          a.id.localeCompare(b.id, 'fr-FR'),
+      );
+    }
+
+    return allMatches
+      .filter(
+        (match) =>
+          teamNameSet.has(this.norm(match.teamA)) &&
+          teamNameSet.has(this.norm(match.teamB)),
+      )
+      .sort(
+        (a, b) =>
+          a.date.getTime() - b.date.getTime() ||
+          a.id.localeCompare(b.id, 'fr-FR'),
+      );
   }
 
   private norm(value: string): string {
@@ -185,6 +222,78 @@ export class GetJ3FinalSquaresUseCase {
       return match.teamA;
     }
     return scoreA > scoreB ? match.teamA : match.teamB;
+  }
+
+  private resolveJ3SquareHint(match: Match): J3SquareHint | null {
+    const phase1A = this.parsePhase1Seed(match.teamA);
+    const phase1B = this.parsePhase1Seed(match.teamB);
+    if (phase1A && phase1B) {
+      const squareCode = this.squareCodeFromSeedPair(phase1A, phase1B);
+      return squareCode ? { squareCode, stage: 'semi' } : null;
+    }
+
+    const phase2A = this.parsePhase2Source(match.teamA);
+    const phase2B = this.parsePhase2Source(match.teamB);
+    if (phase2A && phase2B) {
+      const squareA = this.squareCodeFromSeedPair(phase2A.left, phase2A.right);
+      const squareB = this.squareCodeFromSeedPair(phase2B.left, phase2B.right);
+      if (squareA && squareA === squareB) {
+        return { squareCode: squareA, stage: 'postSemi' };
+      }
+    }
+
+    return null;
+  }
+
+  private parsePhase1Seed(
+    value: string,
+  ): { pool: 'A' | 'B' | 'C' | 'D'; rank: 1 | 2 | 3 | 4 } | null {
+    const match = value.trim().toUpperCase().match(/^([A-D])([1-4])$/);
+    if (!match) return null;
+    return {
+      pool: match[1] as 'A' | 'B' | 'C' | 'D',
+      rank: Number(match[2]) as 1 | 2 | 3 | 4,
+    };
+  }
+
+  private parsePhase2Source(value: string): {
+    left: { pool: 'A' | 'B' | 'C' | 'D'; rank: 1 | 2 | 3 | 4 };
+    right: { pool: 'A' | 'B' | 'C' | 'D'; rank: 1 | 2 | 3 | 4 };
+  } | null {
+    const match = value.trim().toUpperCase().match(/^[VP]([A-D])([1-4])([A-D])([1-4])$/);
+    if (!match) return null;
+    return {
+      left: {
+        pool: match[1] as 'A' | 'B' | 'C' | 'D',
+        rank: Number(match[2]) as 1 | 2 | 3 | 4,
+      },
+      right: {
+        pool: match[3] as 'A' | 'B' | 'C' | 'D',
+        rank: Number(match[4]) as 1 | 2 | 3 | 4,
+      },
+    };
+  }
+
+  private squareCodeFromSeedPair(
+    left: { pool: 'A' | 'B' | 'C' | 'D'; rank: 1 | 2 | 3 | 4 },
+    right: { pool: 'A' | 'B' | 'C' | 'D'; rank: 1 | 2 | 3 | 4 },
+  ): SquareCode | null {
+    const pools = new Set([left.pool, right.pool]);
+    const rankBucket =
+      left.rank <= 2 && right.rank <= 2
+        ? 'top'
+        : left.rank >= 3 && right.rank >= 3
+          ? 'bottom'
+          : null;
+
+    if (!rankBucket) return null;
+    if (this.sameSet(pools, new Set(['A', 'B']))) {
+      return rankBucket === 'top' ? 'E' : 'F';
+    }
+    if (this.sameSet(pools, new Set(['C', 'D']))) {
+      return rankBucket === 'top' ? 'G' : 'H';
+    }
+    return null;
   }
 
   private pickFinalAndThird(

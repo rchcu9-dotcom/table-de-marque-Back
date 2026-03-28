@@ -20,6 +20,10 @@ export const PHASE_BY_JOUR_POULE: Record<
     'Or 5': 'Finales',
     'Argent 1': 'Finales',
     'Argent 5': 'Finales',
+    E: 'Finales',
+    F: 'Finales',
+    G: 'Finales',
+    H: 'Finales',
   },
 };
 

@@ -1,4 +1,6 @@
 ﻿export type MatchStatus = 'planned' | 'ongoing' | 'finished';
+export type MatchCompetition = '5v5' | '3v3' | 'challenge';
+export type SqlScheduleSlot = 'J1_5V5' | 'J2_5V5' | 'J2_3V3' | 'J3_PHASE_1' | 'J3_PHASE_2';
 
 export type SimTeam = {
   id: string;
@@ -22,7 +24,7 @@ export type SimMatch = {
   teamBId: string;
   day: 'J1' | 'J2' | 'J3';
   dateTime: string;
-  competition: '5v5' | 'challenge';
+  competition: MatchCompetition;
   phase: string;
   group: string;
   teamA: string;
@@ -31,6 +33,10 @@ export type SimMatch = {
   scoreA: number;
   scoreB: number;
   forcedWinnerAIfDraw?: boolean;
+  slot?: SqlScheduleSlot;
+  placeholderA?: string;
+  placeholderB?: string;
+  lineupResolved?: boolean;
 };
 
 export type StandingRow = {
@@ -123,7 +129,6 @@ export type SimulationData = {
     j3ClassementInitFailures: number;
     j3ClassementUpdateAttempts: number;
     j3ClassementUpdateFailures: number;
-    // Legacy compatibility
     executedWrites: number;
     failedWrites: number;
     retries: number;
@@ -142,4 +147,3 @@ export type PlannedAction = {
   payload: Record<string, unknown>;
   execute: () => void;
 };
-

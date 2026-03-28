@@ -55,6 +55,35 @@ const match5v5J3 = (
     'J3',
   );
 
+const match5v5J3InSquare = (
+  id: string,
+  dateIso: string,
+  teamA: string,
+  teamB: string,
+  squareCode: 'E' | 'F' | 'G' | 'H',
+  squareName: string,
+  status: Match['status'],
+  scoreA: number | null,
+  scoreB: number | null,
+) =>
+  new Match(
+    id,
+    new Date(dateIso),
+    teamA,
+    teamB,
+    status,
+    scoreA,
+    scoreB,
+    null,
+    null,
+    squareCode,
+    squareName,
+    '5v5',
+    'GG',
+    'finales',
+    'J3',
+  );
+
 describe('GetJ3FinalSquaresUseCase', () => {
   const equipeRepository: jest.Mocked<EquipeRepository> = {
     findClassementByPoule: jest.fn(),
@@ -181,5 +210,61 @@ describe('GetJ3FinalSquaresUseCase', () => {
     expect(squareE?.finalMatch?.id).toBe('post-only');
     expect(squareE?.thirdPlaceMatch).toBeNull();
     expect(squareE?.ranking.every((r) => r.team === null)).toBe(true);
+  });
+
+  it('rattache un match J3 phase 2 placeholder a son carre source via les demi-finales', async () => {
+    equipeRepository.findClassementByPoule
+      .mockResolvedValueOnce(classementFor('E', ['A', 'B', 'C', 'D']))
+      .mockResolvedValueOnce(classementFor('F', []))
+      .mockResolvedValueOnce(classementFor('G', []))
+      .mockResolvedValueOnce(classementFor('H', []));
+    matchRepository.findAll.mockResolvedValue([
+      match5v5J3('semi-1', '2026-05-25T09:00:00.000Z', 'A1', 'B2', 'planned', null, null),
+      match5v5J3('semi-2', '2026-05-25T10:00:00.000Z', 'B1', 'A2', 'planned', null, null),
+      match5v5J3('final', '2026-05-25T11:00:00.000Z', 'vA1B2', 'vB1A2', 'planned', null, null),
+      match5v5J3('third', '2026-05-25T12:00:00.000Z', 'pA1B2', 'pB1A2', 'planned', null, null),
+    ]);
+
+    const useCase = new GetJ3FinalSquaresUseCase(
+      equipeRepository,
+      matchRepository,
+    );
+    const result = await useCase.execute();
+    const squareE = result.carres.find((c) => c.dbCode === 'E');
+
+    expect(squareE?.semiFinals.map((match) => match.id)).toEqual([
+      'semi-1',
+      'semi-2',
+    ]);
+    expect(squareE?.finalMatch?.id).toBe('final');
+    expect(squareE?.thirdPlaceMatch?.id).toBe('third');
+  });
+
+  it('reconstruit nominalement un carre depuis les matchs J3 enrichis E/F/G/H avec equipes resolues', async () => {
+    equipeRepository.findClassementByPoule
+      .mockResolvedValueOnce(classementFor('E', []))
+      .mockResolvedValueOnce(classementFor('F', []))
+      .mockResolvedValueOnce(classementFor('G', []))
+      .mockResolvedValueOnce(classementFor('H', []));
+    matchRepository.findAll.mockResolvedValue([
+      match5v5J3InSquare('semi-1', '2026-05-25T09:00:00.000Z', 'Champigny', 'Tours', 'E', 'Carré Or A', 'finished', 2, 1),
+      match5v5J3InSquare('semi-2', '2026-05-25T10:00:00.000Z', 'Meyrin', 'Aulnay', 'E', 'Carré Or A', 'finished', 3, 1),
+      match5v5J3InSquare('third', '2026-05-25T11:00:00.000Z', 'Tours', 'Aulnay', 'E', 'Carré Or A', 'planned', null, null),
+      match5v5J3InSquare('final', '2026-05-25T12:00:00.000Z', 'Champigny', 'Meyrin', 'E', 'Carré Or A', 'planned', null, null),
+    ]);
+
+    const useCase = new GetJ3FinalSquaresUseCase(
+      equipeRepository,
+      matchRepository,
+    );
+    const result = await useCase.execute();
+    const squareE = result.carres.find((c) => c.dbCode === 'E');
+
+    expect(squareE?.semiFinals.map((match) => match.id)).toEqual([
+      'semi-1',
+      'semi-2',
+    ]);
+    expect(squareE?.thirdPlaceMatch?.id).toBe('third');
+    expect(squareE?.finalMatch?.id).toBe('final');
   });
 });

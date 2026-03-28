@@ -35,6 +35,8 @@ import { MySqlAtelierRepository } from './mysql/mysql-atelier.repository';
 import { MySqlTentativeAtelierRepository } from './mysql/mysql-tentative-atelier.repository';
 import { MySqlChallengeVitesseJ3Repository } from './mysql/mysql-challenge-vitesse-j3.repository';
 import { MySqlChallengeJ1MomentumRepository } from './mysql/mysql-challenge-j1-momentum.repository';
+import { MySqlPartenaireRepository } from './mysql/mysql-partenaire.repository';
+import { PARTENAIRE_REPOSITORY } from '@/domain/partenaire/repositories/partenaire.repository';
 
 type MatchRepoDriver =
   | 'google-sheets-public'
@@ -173,6 +175,12 @@ const challengeVitesseJ3PersistenceProvider = {
   inject: [PrismaService],
 };
 
+const partenairePersistenceProvider = {
+  provide: PARTENAIRE_REPOSITORY,
+  useFactory: (prisma: PrismaService) => new MySqlPartenaireRepository(prisma),
+  inject: [PrismaService],
+};
+
 const challengeJ1MomentumPersistenceProvider = {
   provide: CHALLENGE_J1_MOMENTUM_REPOSITORY,
   useFactory: (prisma: PrismaService) => {
@@ -206,6 +214,7 @@ const challengeJ1MomentumPersistenceProvider = {
     tentativeAtelierPersistenceProvider,
     challengeVitesseJ3PersistenceProvider,
     challengeJ1MomentumPersistenceProvider,
+    partenairePersistenceProvider,
   ],
   exports: [
     MATCH_REPOSITORY,
@@ -216,6 +225,7 @@ const challengeJ1MomentumPersistenceProvider = {
     TENTATIVE_ATELIER_REPOSITORY,
     CHALLENGE_VITESSE_J3_REPOSITORY,
     CHALLENGE_J1_MOMENTUM_REPOSITORY,
+    PARTENAIRE_REPOSITORY,
     MatchStreamService,
   ],
 })

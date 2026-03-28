@@ -1,7 +1,11 @@
 import { MatchEnrichmentService } from './match-enrichment.service';
-import { TaMatchRow } from './match-enrichment.service';
+import type { TaMatchRow } from './match-enrichment.service';
 
-function makeRow(equipe1: string, equipe2: string): TaMatchRow {
+function makeRow(
+  equipe1: string,
+  equipe2: string,
+  overrides?: Partial<TaMatchRow>,
+): TaMatchRow {
   return {
     NUM_MATCH: 50,
     MATCH_CASE: 1,
@@ -14,6 +18,7 @@ function makeRow(equipe1: string, equipe2: string): TaMatchRow {
     ETAT: '',
     DATEHEURE_SQL: '2026-05-25 09:00:00',
     SURFACAGE: 0,
+    ...overrides,
   };
 }
 
@@ -24,16 +29,16 @@ describe('MatchEnrichmentService.inferJ3PouleCode', () => {
     svc = new MatchEnrichmentService();
   });
 
-  // ── Legacy naming ────────────────────────────────────────────────────────────
   it('returns Or 1 for legacy "Or 1" team name', () => {
     expect(svc.inferJ3PouleCode(makeRow('Or 1 A', 'Or 1 B'))).toBe('Or 1');
   });
 
   it('returns Argent 1 for legacy "Argent 1" team name', () => {
-    expect(svc.inferJ3PouleCode(makeRow('Argent 1 A', 'Argent 1 B'))).toBe('Argent 1');
+    expect(svc.inferJ3PouleCode(makeRow('Argent 1 A', 'Argent 1 B'))).toBe(
+      'Argent 1',
+    );
   });
 
-  // ── Phase 1 — simple slot labels A1/B2/C3/D4 ────────────────────────────────
   it('returns Or 1 for Phase 1 Or match (A vs B)', () => {
     expect(svc.inferJ3PouleCode(makeRow('A1', 'B2'))).toBe('Or 1');
     expect(svc.inferJ3PouleCode(makeRow('B1', 'A2'))).toBe('Or 1');
@@ -48,7 +53,6 @@ describe('MatchEnrichmentService.inferJ3PouleCode', () => {
     expect(svc.inferJ3PouleCode(makeRow('D3', 'C4'))).toBe('Argent 1');
   });
 
-  // ── Phase 2 — bracket entities vXnYm / pXnYm ────────────────────────────────
   it('returns Or 1 for Phase 2 Or winner match (vA / vB)', () => {
     expect(svc.inferJ3PouleCode(makeRow('vA1B2', 'vB1A2'))).toBe('Or 1');
     expect(svc.inferJ3PouleCode(makeRow('vA3B4', 'vB3A4'))).toBe('Or 1');
@@ -69,9 +73,27 @@ describe('MatchEnrichmentService.inferJ3PouleCode', () => {
     expect(svc.inferJ3PouleCode(makeRow('pC3D4', 'pD3C4'))).toBe('Argent 1');
   });
 
-  // ── Non-J3 / unrecognized ────────────────────────────────────────────────────
-  it('returns null for unrecognized team names', () => {
-    expect(svc.inferJ3PouleCode(makeRow('Meyrin', 'Champigny'))).toBeNull();
-    expect(svc.inferJ3PouleCode(makeRow('équipe or', 'autre'))).toBeNull();
+  it('returns null for unrecognized team names outside the J3 bracket', () => {
+    expect(
+      svc.inferJ3PouleCode(makeRow('Meyrin', 'Champigny', { NUM_MATCH: 10 })),
+    ).toBeNull();
+    expect(
+      svc.inferJ3PouleCode(makeRow('Equipe or', 'autre', { NUM_MATCH: 10 })),
+    ).toBeNull();
+  });
+
+  it('returns E/F/G/H from J3 match numbers even when team names are resolved', () => {
+    expect(
+      svc.inferJ3PouleCode(makeRow('Champigny', 'Tours', { NUM_MATCH: 53 })),
+    ).toBe('E');
+    expect(
+      svc.inferJ3PouleCode(makeRow('Meyrin', 'Aulnay', { NUM_MATCH: 56 })),
+    ).toBe('F');
+    expect(
+      svc.inferJ3PouleCode(makeRow('Bordeaux', 'Rouen', { NUM_MATCH: 61 })),
+    ).toBe('G');
+    expect(
+      svc.inferJ3PouleCode(makeRow('Caen', 'Nantes', { NUM_MATCH: 64 })),
+    ).toBe('F');
   });
 });
