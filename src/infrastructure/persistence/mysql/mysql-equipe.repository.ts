@@ -21,6 +21,7 @@ type TaEquipeRow = {
   IMAGE: string | null;
   REPAS_SAMEDI: string | null;
   REPAS_DIMANCHE: string | null;
+  CHALLENGE_SAMEDI: string | null;
   PHOTO: string | null;
 };
 
@@ -37,6 +38,7 @@ type TaClassementRow = {
   BP: number;
   BC: number;
   DIFF: number;
+  REPAS_SAMEDI: string | null;
 };
 
 @Injectable()
@@ -61,7 +63,8 @@ export class MySqlEquipeRepository implements EquipeRepository {
       this.prisma.$queryRaw<TaEquipeRow[]>`
         SELECT ID, EQUIPE, IMAGE, PHOTO,
           DATE_FORMAT(REPAS_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS REPAS_SAMEDI,
-          DATE_FORMAT(REPAS_DIMANCHE, '%Y-%m-%dT%H:%i:%s') AS REPAS_DIMANCHE
+          DATE_FORMAT(REPAS_DIMANCHE, '%Y-%m-%dT%H:%i:%s') AS REPAS_DIMANCHE,
+          DATE_FORMAT(CHALLENGE_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS CHALLENGE_SAMEDI
         FROM ta_equipes
       `,
     ]);
@@ -99,6 +102,7 @@ export class MySqlEquipeRepository implements EquipeRepository {
           row.DIFF,
           null,
           null,
+          null,
           buildTeamPhotoUrl(eq?.PHOTO ?? null),
         );
       },
@@ -123,7 +127,8 @@ export class MySqlEquipeRepository implements EquipeRepository {
   async findAllEquipes(): Promise<Equipe[]> {
     const [classementRows, equipeRows] = await Promise.all([
       this.prisma.$queryRaw<TaClassementRow[]>`
-        SELECT GROUPE_NOM, ORDRE, EQUIPE, EQUIPE_ID, J, V, N, D, PTS, BP, BC, DIFF
+        SELECT GROUPE_NOM, ORDRE, EQUIPE, EQUIPE_ID, J, V, N, D, PTS, BP, BC, DIFF,
+          DATE_FORMAT(REPAS_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS REPAS_SAMEDI
         FROM ta_classement
         WHERE GROUPE_NOM IN ('A', 'B', 'C', 'D')
         ORDER BY GROUPE_NOM ASC, PTS DESC, DIFF DESC, BP DESC, EQUIPE_ID ASC
@@ -131,7 +136,8 @@ export class MySqlEquipeRepository implements EquipeRepository {
       this.prisma.$queryRaw<TaEquipeRow[]>`
         SELECT ID, EQUIPE, IMAGE, PHOTO,
           DATE_FORMAT(REPAS_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS REPAS_SAMEDI,
-          DATE_FORMAT(REPAS_DIMANCHE, '%Y-%m-%dT%H:%i:%s') AS REPAS_DIMANCHE
+          DATE_FORMAT(REPAS_DIMANCHE, '%Y-%m-%dT%H:%i:%s') AS REPAS_DIMANCHE,
+          DATE_FORMAT(CHALLENGE_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS CHALLENGE_SAMEDI
         FROM ta_equipes
       `,
     ]);
@@ -168,8 +174,9 @@ export class MySqlEquipeRepository implements EquipeRepository {
         row.BP,
         row.BC,
         row.DIFF,
-        eq?.REPAS_SAMEDI ?? null,
+        row.REPAS_SAMEDI ?? null,
         eq?.REPAS_DIMANCHE ?? null,
+        eq?.CHALLENGE_SAMEDI ?? null,
         buildTeamPhotoUrl(eq?.PHOTO ?? null),
       );
     });
