@@ -9,7 +9,7 @@ import { eventTypePriority } from './log/event-priority';
 import { DryRunWriter } from './persistence/dryrun-writer';
 import { SqlWriter } from './persistence/sql-writer';
 import { createBackup, restoreBackup } from './persistence/backup-restore';
-import { resetPreTournament } from './persistence/reset-pre-tournoi';
+import { resetPreTournament, resetMatchPlaceholders } from './persistence/reset-pre-tournoi';
 import { planFiveVFiveActions } from './domain/fivevfive-engine';
 import { computeStandings } from './domain/ranking-engine';
 import { buildJ2Groups } from './domain/j2-assignment-engine';
@@ -1149,7 +1149,18 @@ export async function runSimulation(
         payload: backup,
       });
       if (config.reset === 'pre-tournament') {
-        const reset = await resetPreTournament();
+        const j1TeamsWithGroup = dataset.j1Matches.reduce<Array<{ team: import('./types').SimTeam; group: string }>>((acc, m) => {
+          const group = m.group;
+          for (const [teamId, teamName] of [[m.teamAId, m.teamA], [m.teamBId, m.teamB]] as [string, string][]) {
+            if (!acc.some((e) => e.team.id === teamId)) {
+              acc.push({ team: { id: teamId, name: teamName, group }, group });
+            }
+          }
+          return acc;
+        }, []);
+        const groupOrder: Record<string, number> = { A: 0, B: 1, C: 2, D: 3 };
+        j1TeamsWithGroup.sort((a, b) => (groupOrder[a.group] ?? 99) - (groupOrder[b.group] ?? 99));
+        const reset = await resetPreTournament(j1TeamsWithGroup);
         teamsMissingPlayersDetected = reset.teamsMissingPlayersDetected;
         playersInsertedForMissingTeams = reset.playersInsertedForMissingTeams;
         joueursResetRowsAffected = reset.joueursResetRowsAffected;
@@ -1172,6 +1183,19 @@ export async function runSimulation(
           type: 'RESET_PRE_TOURNOI',
           at: new Date().toISOString(),
           payload: reset,
+        });
+
+        const placeholderMatches = [
+          ...dataset.j2FiveVFiveMatches,
+          ...dataset.j2ThreeVThreeMatches,
+          ...dataset.j3Phase1Matches,
+          ...dataset.j3Phase2Matches,
+        ];
+        const placeholderReset = await resetMatchPlaceholders(placeholderMatches);
+        journal.push(checkpoint.data.events, {
+          type: 'SIM_PLACEHOLDER_RESET_APPLIED',
+          at: new Date().toISOString(),
+          payload: { matchCount: placeholderMatches.length, rowsAffected: placeholderReset.rowsAffected },
         });
       }
 
@@ -1301,7 +1325,8 @@ export async function runSimulation(
           }
         }
         emitStandingsWrites(checkpoint.data.standings, dryWriter, action.at, triggerMatchId);
-        if (dynamicMode && j3InitialGenerated && finishedMatch?.day === 'J3') {
+        const j3StandingsActive = dynamicMode ? j3InitialGenerated : j3Phase1SqlLineupEmitted;
+        if (j3StandingsActive && finishedMatch?.day === 'J3') {
           emitJ3StandingsWrites(checkpoint.data.standings, dryWriter, action.at, 'update', triggerMatchId);
           journal.push(checkpoint.data.events, {
             type: 'SIM_DYNAMIC_J3_CLASSEMENT_UPDATED',

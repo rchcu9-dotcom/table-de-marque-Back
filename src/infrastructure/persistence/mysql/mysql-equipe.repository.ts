@@ -55,7 +55,8 @@ export class MySqlEquipeRepository implements EquipeRepository {
     const uiCode = toUiPouleCode(normalized) ?? normalized;
     const [classementRows, equipeRows] = await Promise.all([
       this.prisma.$queryRaw<TaClassementRow[]>`
-        SELECT GROUPE_NOM, ORDRE, EQUIPE, EQUIPE_ID, J, V, N, D, PTS, BP, BC, DIFF
+        SELECT GROUPE_NOM, ORDRE, EQUIPE, EQUIPE_ID, J, V, N, D, PTS, BP, BC, DIFF,
+          DATE_FORMAT(REPAS_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS REPAS_SAMEDI
         FROM ta_classement
         WHERE GROUPE_NOM = ${dbCode}
         ORDER BY PTS DESC, DIFF DESC, BP DESC, EQUIPE_ID ASC
@@ -100,7 +101,7 @@ export class MySqlEquipeRepository implements EquipeRepository {
           row.BP,
           row.BC,
           row.DIFF,
-          null,
+          row.REPAS_SAMEDI ?? null,
           null,
           null,
           buildTeamPhotoUrl(eq?.PHOTO ?? null),
@@ -175,7 +176,7 @@ export class MySqlEquipeRepository implements EquipeRepository {
         row.BC,
         row.DIFF,
         row.REPAS_SAMEDI ?? null,
-        eq?.REPAS_DIMANCHE ?? null,
+        null,
         eq?.CHALLENGE_SAMEDI ?? null,
         buildTeamPhotoUrl(eq?.PHOTO ?? null),
       );

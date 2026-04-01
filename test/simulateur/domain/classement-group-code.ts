@@ -16,10 +16,12 @@ export function toClassementGroupCode(day: string, group: string): string | null
   }
 
   if (d === 'J3') {
-    if (g === 'Carré Or A' || g === 'Or A' || g === 'E') return 'E';
-    if (g === 'Carré Or B' || g === 'Or B' || g === 'F') return 'F';
-    if (g === 'Carré Argent C' || g === 'Argent C' || g === 'G') return 'G';
-    if (g === 'Carré Argent D' || g === 'Argent D' || g === 'H') return 'H';
+    // Phase1 standings: Or-side teams → E, Argent-side teams → F
+    if (g === 'Carré Or A' || g === 'Or A' || g === 'E' || g === 'DemiOr' || g === 'Or') return 'E';
+    if (g === 'Carré Or B' || g === 'Or B' || g === 'F' || g === 'DemiArgent' || g === 'Argent') return 'F';
+    // Phase2 standings: losers → G, winners → J
+    if (g === 'Carré Argent C' || g === 'Argent C' || g === 'G' || g === 'Perdants') return 'G';
+    if (g === 'Carré Argent D' || g === 'Argent D' || g === 'H' || g === 'Vainqueurs') return 'J';
     return null;
   }
 
