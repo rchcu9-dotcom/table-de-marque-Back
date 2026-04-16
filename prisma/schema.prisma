@@ -121,3 +121,161 @@ model TaConfiguration {
 
   @@map("ta_configuration")
 }
+
+// ===== MODULE INSCRIPTIONS =====
+
+enum InscriptionStatut {
+  CANDIDATE
+  RESERVEE
+  LISTE_ATTENTE
+  PAIEMENT_ATTENDU
+  VALIDEE
+  DOSSIER_EN_COURS
+  DOSSIER_COMPLET
+  REFUSEE
+
+  @@map("insc_inscription_statut")
+}
+
+enum UtilisateurRole {
+  RESPONSABLE_EQUIPE
+  ORGANISATEUR
+
+  @@map("insc_utilisateur_role")
+}
+
+model InscUtilisateur {
+  id          Int      @id @default(autoincrement())
+  firebaseUid String   @unique @map("firebase_uid") @db.VarChar(128)
+  email       String   @db.VarChar(255)
+  displayName String?  @map("display_name") @db.VarChar(255)
+  pseudo      String?  @db.VarChar(50)
+  role        UtilisateurRole @default(RESPONSABLE_EQUIPE)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  inscriptions InscInscription[]
+
+  @@map("insc_utilisateurs")
+}
+
+model InscEdition {
+  id                      Int      @id @default(autoincrement())
+  nom                     String   @db.VarChar(100)
+  categorie               String   @db.VarChar(20)
+  annee                   Int
+  etape                   String   @default("CREEE") @db.VarChar(30)
+  dateDebut               DateTime @map("date_debut")
+  dateFinDebut            DateTime @map("date_fin_debut")
+  dateFinFin              DateTime @map("date_fin_fin")
+  dateDbutRepas           DateTime? @map("date_debut_repas")
+  fraisInscription        Decimal  @map("frais_inscription") @db.Decimal(8,2)
+  prixRepas               Decimal  @map("prix_repas") @db.Decimal(8,2)
+  nbPlacesMax             Int      @default(16) @map("nb_places_max")
+  imageUrl                String?  @map("image_url") @db.VarChar(500)
+  imageDossierUrl         String?  @map("image_dossier_url") @db.VarChar(500)
+  imageRibUrl             String?  @map("image_rib_url") @db.VarChar(500)
+  contactEmail            String?  @map("contact_email") @db.VarChar(255)
+  contactPhone            String?  @map("contact_phone") @db.VarChar(30)
+  dureeSurfacageMin       Int      @default(20) @map("duree_surfacage_min")
+  dureeMatchPouleMin      Int      @default(27) @map("duree_match_poule_min")
+  dureeMatchFinalMin      Int      @default(33) @map("duree_match_final_min")
+  affichagePlanningPublic Boolean  @default(false) @map("affichage_planning_public")
+  msgBienvenue            String?  @map("msg_bienvenue") @db.Text
+  msgFaisonsConnaissance  String?  @map("msg_faisons_connaissance") @db.Text
+  msgSelectionEquipe      String?  @map("msg_selection_equipe") @db.Text
+  msgAjoutEquipe          String?  @map("msg_ajout_equipe") @db.Text
+  msgInscriptionEnCours   String?  @map("msg_inscription_en_cours") @db.Text
+  msgInscriptionValidee   String?  @map("msg_inscription_validee_autre") @db.Text
+  msgLancerDemande        String?  @map("msg_lancer_demande") @db.Text
+  msgDemandeSoumise       String?  @map("msg_demande_soumise") @db.Text
+  msgListeAttente         String?  @map("msg_liste_attente") @db.Text
+  msgPaiementAttendu      String?  @map("msg_paiement_attendu") @db.Text
+  msgChequeInfo1          String?  @map("msg_cheque_info_1") @db.Text
+  msgChequeInfo2          String?  @map("msg_cheque_info_2") @db.Text
+  msgInscriptionConfirmee String?  @map("msg_inscription_confirmee") @db.Text
+  msgRenseigneJoueurs     String?  @map("msg_renseigne_joueurs") @db.Text
+  createdAt               DateTime @default(now()) @map("created_at")
+  updatedAt               DateTime @updatedAt @map("updated_at")
+  inscriptions            InscInscription[]
+
+  @@map("insc_editions")
+}
+
+model InscEquipeReferentiel {
+  id         Int      @id @default(autoincrement())
+  nom        String   @unique @db.VarChar(100)
+  logoUrl    String?  @map("logo_url") @db.VarChar(500)
+  active     Boolean  @default(false)
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  inscriptions InscInscription[]
+
+  @@map("insc_equipes_referentiel")
+}
+
+model InscInscription {
+  id              Int      @id @default(autoincrement())
+  editionId       Int      @map("edition_id")
+  utilisateurId   Int      @map("utilisateur_id")
+  equipeRefId     Int?     @map("equipe_ref_id")
+  equipeNom       String   @map("equipe_nom") @db.VarChar(100)
+  statut          InscriptionStatut @default(CANDIDATE)
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+  edition         InscEdition @relation(fields: [editionId], references: [id])
+  utilisateur     InscUtilisateur @relation(fields: [utilisateurId], references: [id])
+  equipeRef       InscEquipeReferentiel? @relation(fields: [equipeRefId], references: [id])
+  dossier         InscDossier?
+
+  @@unique([editionId, equipeRefId])
+  @@map("insc_inscriptions")
+}
+
+model InscDossier {
+  id                        Int      @id @default(autoincrement())
+  inscriptionId             Int      @unique @map("inscription_id")
+  dateVirementInscription   DateTime? @map("date_virement_inscription")
+  dateReceptionInscription  DateTime? @map("date_reception_inscription")
+  datePaiementRepas         DateTime? @map("date_paiement_repas")
+  dateReceptionRepas        DateTime? @map("date_reception_repas")
+  repasPaiementRecu         Boolean  @default(false) @map("repas_paiement_recu")
+  droitsImageAcceptes       Boolean  @default(false) @map("droits_image_acceptes")
+  droitsImageHorodatage     DateTime? @map("droits_image_horodatage")
+  createdAt                 DateTime @default(now()) @map("created_at")
+  updatedAt                 DateTime @updatedAt @map("updated_at")
+  inscription               InscInscription @relation(fields: [inscriptionId], references: [id])
+  joueurs                   InscJoueurDossier[]
+  coachs                    InscCoachDossier[]
+
+  @@map("insc_dossiers")
+}
+
+model InscJoueurDossier {
+  id                    Int      @id @default(autoincrement())
+  dossierId             Int      @map("dossier_id")
+  nom                   String   @db.VarChar(100)
+  prenom                String   @db.VarChar(100)
+  numero                Int
+  poste                 String   @db.VarChar(10)
+  licenceFFH            String?  @map("licence_ffh") @db.VarChar(50)
+  anneeNaissance        Int?     @map("annee_naissance")
+  particularitesAlim    String?  @map("particularites_alim") @db.VarChar(255)
+  createdAt             DateTime @default(now()) @map("created_at")
+  updatedAt             DateTime @updatedAt @map("updated_at")
+  dossier               InscDossier @relation(fields: [dossierId], references: [id])
+
+  @@map("insc_joueurs_dossier")
+}
+
+model InscCoachDossier {
+  id              Int      @id @default(autoincrement())
+  dossierId       Int      @map("dossier_id")
+  nom             String   @db.VarChar(100)
+  prenom          String   @db.VarChar(100)
+  presenceRepas   Boolean  @default(false) @map("presence_repas")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+  dossier         InscDossier @relation(fields: [dossierId], references: [id])
+
+  @@map("insc_coachs_dossier")
+}

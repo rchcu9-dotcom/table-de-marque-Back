@@ -16,6 +16,10 @@ export class Equipe {
     public bp: number,
     public bc: number,
     public diff: number,
+    public repasSamedi: string | null = null,
+    public repasDimanche: string | null = null,
+    public challengeSamedi: string | null = null,
+    public photoUrl: string | null = null,
   ) {}
 }
 

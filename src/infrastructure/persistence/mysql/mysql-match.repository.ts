@@ -82,7 +82,10 @@ export class MySqlMatchRepository implements MatchRepository {
       const surface =
         SURFACE_BY_COMPETITION[competitionType] ??
         SURFACE_BY_COMPETITION['5v5'];
-      const status = this.enrichment.mapStatus(row.ETAT);
+      const status =
+        competitionType === '3v3'
+          ? this.enrichment.mapStatusFromSchedule(matchDate, 30)
+          : this.enrichment.mapStatus(row.ETAT);
       const scoreA = status === 'planned' ? null : (row.SCORE1 ?? null);
       const scoreB = status === 'planned' ? null : (row.SCORE2 ?? null);
 

@@ -18,9 +18,15 @@ export class MySqlMealRepository implements MealRepository {
   async findMeals(): Promise<MealSource> {
     const rows = await this.prisma.$queryRaw<MealRow[]>`
       SELECT
-        DATE_FORMAT(MIN(REPAS_SAMEDI), '%Y-%m-%d %H:%i:%s') as repasSamediSql,
-        DATE_FORMAT(MIN(REPAS_DIMANCHE), '%Y-%m-%d %H:%i:%s') as repasDimancheSql
-      FROM ta_equipes
+        DATE_FORMAT(
+          MIN(CASE WHEN GROUPE_NOM IN ('A', 'B', 'C', 'D') THEN REPAS_SAMEDI END),
+          '%Y-%m-%d %H:%i:%s'
+        ) as repasSamediSql,
+        DATE_FORMAT(
+          MIN(CASE WHEN GROUPE_NOM IN ('1', '2', '3', '4') THEN REPAS_SAMEDI END),
+          '%Y-%m-%d %H:%i:%s'
+        ) as repasDimancheSql
+      FROM ta_classement
     `;
     const row = rows[0];
     return {

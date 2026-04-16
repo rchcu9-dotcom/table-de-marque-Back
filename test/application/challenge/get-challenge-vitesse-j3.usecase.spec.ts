@@ -87,8 +87,8 @@ describe('GetChallengeVitesseJ3UseCase', () => {
     });
   });
 
-  it('marque QF ongoing entre 09:48 et 11:56 quand seules les donnees QF sont visibles', async () => {
-    jest.useFakeTimers().setSystemTime(new Date('2026-03-02T09:30:00Z'));
+  it('marque QF ongoing pendant les 20 minutes suivant le debut officiel', async () => {
+    jest.useFakeTimers().setSystemTime(new Date('2026-03-02T08:55:00Z'));
 
     const useCase = new GetChallengeVitesseJ3UseCase(
       new InMemoryChallengeVitesseJ3Repository([
@@ -103,6 +103,40 @@ describe('GetChallengeVitesseJ3UseCase', () => {
     expect(result.phases?.QF?.homeVisible).toBe(true);
     expect(result.phases?.DF?.status).toBe('planned');
     expect(result.phases?.F?.status).toBe('planned');
+  });
+
+  it('ferme automatiquement les phases 20 minutes apres leur debut meme sans progression publiee', async () => {
+    jest.useFakeTimers().setSystemTime(new Date('2026-03-02T09:30:00Z'));
+
+    const useCase = new GetChallengeVitesseJ3UseCase(
+      new InMemoryChallengeVitesseJ3Repository([
+        { id: 'qf-1', name: 'Joueur QF', teamId: 'rennes', teamName: 'Rennes', qf: 'QF1' },
+      ]),
+      new InMemoryMatchRepository(buildTournamentMatches()),
+    );
+
+    const result = await useCase.execute();
+
+    expect(result.phases?.QF?.status).toBe('finished');
+    expect(result.phases?.DF?.status).toBe('planned');
+    expect(result.phases?.F?.status).toBe('planned');
+  });
+
+  it('ferme automatiquement DF et F 20 minutes apres leur debut', async () => {
+    jest.useFakeTimers().setSystemTime(new Date('2026-03-02T13:30:00Z'));
+
+    const useCase = new GetChallengeVitesseJ3UseCase(
+      new InMemoryChallengeVitesseJ3Repository([
+        { id: 'df-1', name: 'Joueur DF', teamId: 'paris', teamName: 'Paris', df: 'DF1' },
+        { id: 'f-1', name: 'Joueur F', teamId: 'lyon', teamName: 'Lyon', f: 'F' },
+      ]),
+      new InMemoryMatchRepository(buildTournamentMatches()),
+    );
+
+    const result = await useCase.execute();
+
+    expect(result.phases?.DF?.status).toBe('finished');
+    expect(result.phases?.F?.status).toBe('finished');
   });
 
   it('fait progresser les statuts de phase quand la phase suivante est publiee', async () => {

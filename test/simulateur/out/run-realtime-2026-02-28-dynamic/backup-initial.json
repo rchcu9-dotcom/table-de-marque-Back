@@ -1,0 +1,3396 @@
+{
+  "createdAt": "2026-03-06T10:12:52.915Z",
+  "database": "rchcu11_tournoi_test",
+  "tables": {
+    "TA_MATCHS": [
+      {
+        "NUM_MATCH": 1,
+        "ETAT": "x",
+        "SCORE1": 1,
+        "SCORE2": 1
+      },
+      {
+        "NUM_MATCH": 2,
+        "ETAT": "x",
+        "SCORE1": 0,
+        "SCORE2": 1
+      },
+      {
+        "NUM_MATCH": 3,
+        "ETAT": "x",
+        "SCORE1": 0,
+        "SCORE2": 0
+      },
+      {
+        "NUM_MATCH": 4,
+        "ETAT": "x",
+        "SCORE1": 2,
+        "SCORE2": 1
+      },
+      {
+        "NUM_MATCH": 5,
+        "ETAT": "",
+        "SCORE1": null,
+        "SCORE2": null
+      },
+      {
+        "NUM_MATCH": 6,
+        "ETAT": "x",
+        "SCORE1": 3,
+        "SCORE2": 2
+      },
+      {
+        "NUM_MATCH": 7,
+        "ETAT": "x",
+        "SCORE1": 2,
+        "SCORE2": 1
+      },
+      {
+        "NUM_MATCH": 8,
+        "ETAT": "x",
+        "SCORE1": 1,
+        "SCORE2": 2
+      },
+      {
+        "NUM_MATCH": 9,
+        "ETAT": "x",
+        "SCORE1": 3,
+        "SCORE2": 2
+      },
+      {
+        "NUM_MATCH": 10,
+        "ETAT": "",
+        "SCORE1": null,
+        "SCORE2": null
+      },
+      {
+        "NUM_MATCH": 11,
+        "ETAT": "x",
+        "SCORE1": 1,
+        "SCORE2": 4
+      },
+      {
+        "NUM_MATCH": 12,
+        "ETAT": "x",
+        "SCORE1": 4,
+        "SCORE2": 2
+      },
+      {
+        "NUM_MATCH": 13,
+        "ETAT": "x",
+        "SCORE1": 2,
+        "SCORE2": 1
+      },
+      {
+        "NUM_MATCH": 14,
+        "ETAT": "x",
+        "SCORE1": 0,
+        "SCORE2": 0
+      },
+      {
+        "NUM_MATCH": 15,
+        "ETAT": "",
+        "SCORE1": null,
+        "SCORE2": null
+      },
+      {
+        "NUM_MATCH": 16,
+        "ETAT": "x",
+        "SCORE1": 2,
+        "SCORE2": 4
+      },
+      {
+        "NUM_MATCH": 17,
+        "ETAT": "x",
+        "SCORE1": 1,
+        "SCORE2": 3
+      },
+      {
+        "NUM_MATCH": 18,
+        "ETAT": "x",
+        "SCORE1": 0,
+        "SCORE2": 0
+      },
+      {
+        "NUM_MATCH": 19,
+        "ETAT": "x",
+        "SCORE1": 3,
+        "SCORE2": 1
+      },
+      {
+        "NUM_MATCH": 20,
+        "ETAT": "",
+        "SCORE1": null,
+        "SCORE2": null
+      },
+      {
+        "NUM_MATCH": 21,
+        "ETAT": "x",
+        "SCORE1": 3,
+        "SCORE2": 0
+      },
+      {
+        "NUM_MATCH": 22,
+        "ETAT": "x",
+        "SCORE1": 0,
+        "SCORE2": 1
+      },
+      {
+        "NUM_MATCH": 23,
+        "ETAT": "x",
+        "SCORE1": 3,
+        "SCORE2": 3
+      },
+      {
+        "NUM_MATCH": 24,
+        "ETAT": "x",
+        "SCORE1": 3,
+        "SCORE2": 3
+      },
+      {
+        "NUM_MATCH": 25,
+        "ETAT": "",
+        "SCORE1": null,
+        "SCORE2": null
+      },
+      {
+        "NUM_MATCH": 26,
+        "ETAT": "x",
+        "SCORE1": 2,
+        "SCORE2": 1
+      },
+      {
+        "NUM_MATCH": 27,
+        "ETAT": "x",
+        "SCORE1": 1,
+        "SCORE2": 5
+      },
+      {
+        "NUM_MATCH": 28,
+        "ETAT": "x",
+        "SCORE1": 3,
+        "SCORE2": 1
+      },
+      {
+        "NUM_MATCH": 29,
+        "ETAT": "x",
+        "SCORE1": 0,
+        "SCORE2": 0
+      },
+      {
+        "NUM_MATCH": 30,
+        "ETAT": "",
+        "SCORE1": null,
+        "SCORE2": null
+      },
+      {
+        "NUM_MATCH": 31,
+        "ETAT": "x",
+        "SCORE1": 1,
+        "SCORE2": 1
+      },
+      {
+        "NUM_MATCH": 32,
+        "ETAT": "x",
+        "SCORE1": 2,
+        "SCORE2": 2
+      },
+      {
+        "NUM_MATCH": 33,
+        "ETAT": "x",
+        "SCORE1": 2,
+        "SCORE2": 1
+      },
+      {
+        "NUM_MATCH": 34,
+        "ETAT": "x",
+        "SCORE1": 0,
+        "SCORE2": 0
+      },
+      {
+        "NUM_MATCH": 35,
+        "ETAT": "",
+        "SCORE1": null,
+        "SCORE2": null
+      },
+      {
+        "NUM_MATCH": 36,
+        "ETAT": "x",
+        "SCORE1": 2,
+        "SCORE2": 4
+      },
+      {
+        "NUM_MATCH": 37,
+        "ETAT": "x",
+        "SCORE1": 2,
+        "SCORE2": 0
+      },
+      {
+        "NUM_MATCH": 38,
+        "ETAT": "x",
+        "SCORE1": 0,
+        "SCORE2": 0
+      },
+      {
+        "NUM_MATCH": 39,
+        "ETAT": "x",
+        "SCORE1": 2,
+        "SCORE2": 1
+      },
+      {
+        "NUM_MATCH": 40,
+        "ETAT": "",
+        "SCORE1": null,
+        "SCORE2": null
+      },
+      {
+        "NUM_MATCH": 41,
+        "ETAT": "x",
+        "SCORE1": 0,
+        "SCORE2": 0
+      },
+      {
+        "NUM_MATCH": 42,
+        "ETAT": "x",
+        "SCORE1": 0,
+        "SCORE2": 1
+      },
+      {
+        "NUM_MATCH": 43,
+        "ETAT": "x",
+        "SCORE1": 2,
+        "SCORE2": 4
+      },
+      {
+        "NUM_MATCH": 44,
+        "ETAT": "x",
+        "SCORE1": 0,
+        "SCORE2": 0
+      },
+      {
+        "NUM_MATCH": 45,
+        "ETAT": "",
+        "SCORE1": null,
+        "SCORE2": null
+      },
+      {
+        "NUM_MATCH": 46,
+        "ETAT": "x",
+        "SCORE1": 1,
+        "SCORE2": 1
+      },
+      {
+        "NUM_MATCH": 47,
+        "ETAT": "x",
+        "SCORE1": 0,
+        "SCORE2": 0
+      },
+      {
+        "NUM_MATCH": 48,
+        "ETAT": "x",
+        "SCORE1": 0,
+        "SCORE2": 1
+      },
+      {
+        "NUM_MATCH": 49,
+        "ETAT": "x",
+        "SCORE1": 1,
+        "SCORE2": 4
+      },
+      {
+        "NUM_MATCH": 50,
+        "ETAT": "",
+        "SCORE1": null,
+        "SCORE2": null
+      },
+      {
+        "NUM_MATCH": 51,
+        "ETAT": "x",
+        "SCORE1": 0,
+        "SCORE2": 0
+      },
+      {
+        "NUM_MATCH": 52,
+        "ETAT": "x",
+        "SCORE1": 0,
+        "SCORE2": 0
+      },
+      {
+        "NUM_MATCH": 53,
+        "ETAT": "x",
+        "SCORE1": 1,
+        "SCORE2": 2
+      },
+      {
+        "NUM_MATCH": 54,
+        "ETAT": "x",
+        "SCORE1": 3,
+        "SCORE2": 3
+      },
+      {
+        "NUM_MATCH": 55,
+        "ETAT": "",
+        "SCORE1": null,
+        "SCORE2": null
+      },
+      {
+        "NUM_MATCH": 56,
+        "ETAT": "x",
+        "SCORE1": 3,
+        "SCORE2": 3
+      },
+      {
+        "NUM_MATCH": 57,
+        "ETAT": "x",
+        "SCORE1": 3,
+        "SCORE2": 3
+      },
+      {
+        "NUM_MATCH": 58,
+        "ETAT": "x",
+        "SCORE1": 2,
+        "SCORE2": 4
+      },
+      {
+        "NUM_MATCH": 59,
+        "ETAT": "x",
+        "SCORE1": 4,
+        "SCORE2": 0
+      },
+      {
+        "NUM_MATCH": 60,
+        "ETAT": "",
+        "SCORE1": null,
+        "SCORE2": null
+      },
+      {
+        "NUM_MATCH": 61,
+        "ETAT": "x",
+        "SCORE1": 0,
+        "SCORE2": 1
+      },
+      {
+        "NUM_MATCH": 62,
+        "ETAT": "x",
+        "SCORE1": 0,
+        "SCORE2": 2
+      },
+      {
+        "NUM_MATCH": 63,
+        "ETAT": "x",
+        "SCORE1": 3,
+        "SCORE2": 0
+      },
+      {
+        "NUM_MATCH": 64,
+        "ETAT": "x",
+        "SCORE1": 3,
+        "SCORE2": 2
+      },
+      {
+        "NUM_MATCH": 65,
+        "ETAT": "",
+        "SCORE1": null,
+        "SCORE2": null
+      },
+      {
+        "NUM_MATCH": 66,
+        "ETAT": "c",
+        "SCORE1": 3,
+        "SCORE2": 2
+      },
+      {
+        "NUM_MATCH": 67,
+        "ETAT": "",
+        "SCORE1": 0,
+        "SCORE2": 0
+      },
+      {
+        "NUM_MATCH": 68,
+        "ETAT": "",
+        "SCORE1": 0,
+        "SCORE2": 0
+      },
+      {
+        "NUM_MATCH": 69,
+        "ETAT": "",
+        "SCORE1": 0,
+        "SCORE2": 0
+      },
+      {
+        "NUM_MATCH": 70,
+        "ETAT": "",
+        "SCORE1": null,
+        "SCORE2": null
+      },
+      {
+        "NUM_MATCH": 71,
+        "ETAT": "",
+        "SCORE1": 0,
+        "SCORE2": 0
+      },
+      {
+        "NUM_MATCH": 72,
+        "ETAT": "",
+        "SCORE1": 0,
+        "SCORE2": 0
+      },
+      {
+        "NUM_MATCH": 73,
+        "ETAT": "",
+        "SCORE1": 0,
+        "SCORE2": 0
+      },
+      {
+        "NUM_MATCH": 74,
+        "ETAT": "",
+        "SCORE1": 0,
+        "SCORE2": 0
+      },
+      {
+        "NUM_MATCH": 75,
+        "ETAT": "",
+        "SCORE1": null,
+        "SCORE2": null
+      },
+      {
+        "NUM_MATCH": 76,
+        "ETAT": "",
+        "SCORE1": 0,
+        "SCORE2": 0
+      },
+      {
+        "NUM_MATCH": 77,
+        "ETAT": "",
+        "SCORE1": 0,
+        "SCORE2": 0
+      },
+      {
+        "NUM_MATCH": 78,
+        "ETAT": "",
+        "SCORE1": 0,
+        "SCORE2": 0
+      },
+      {
+        "NUM_MATCH": 79,
+        "ETAT": "",
+        "SCORE1": null,
+        "SCORE2": null
+      },
+      {
+        "NUM_MATCH": 80,
+        "ETAT": "",
+        "SCORE1": 0,
+        "SCORE2": 0
+      },
+      {
+        "NUM_MATCH": 101,
+        "ETAT": "x",
+        "SCORE1": 1,
+        "SCORE2": 0
+      },
+      {
+        "NUM_MATCH": 102,
+        "ETAT": "x",
+        "SCORE1": 0,
+        "SCORE2": 1
+      },
+      {
+        "NUM_MATCH": 103,
+        "ETAT": "x",
+        "SCORE1": 0,
+        "SCORE2": 0
+      }
+    ],
+    "ta_classement": [
+      {
+        "GROUPE_NOM": "1",
+        "EQUIPE_ID": 13,
+        "J": 3,
+        "V": 1,
+        "N": 1,
+        "D": 1,
+        "PTS": 3,
+        "BP": 5,
+        "BC": 4,
+        "DIFF": 1
+      },
+      {
+        "GROUPE_NOM": "1",
+        "EQUIPE_ID": 2,
+        "J": 3,
+        "V": 1,
+        "N": 2,
+        "D": 0,
+        "PTS": 4,
+        "BP": 6,
+        "BC": 4,
+        "DIFF": 2
+      },
+      {
+        "GROUPE_NOM": "1",
+        "EQUIPE_ID": 16,
+        "J": 3,
+        "V": 0,
+        "N": 2,
+        "D": 1,
+        "PTS": 2,
+        "BP": 1,
+        "BC": 3,
+        "DIFF": -2
+      },
+      {
+        "GROUPE_NOM": "1",
+        "EQUIPE_ID": 3,
+        "J": 3,
+        "V": 1,
+        "N": 1,
+        "D": 1,
+        "PTS": 3,
+        "BP": 5,
+        "BC": 6,
+        "DIFF": -1
+      },
+      {
+        "GROUPE_NOM": "2",
+        "EQUIPE_ID": 6,
+        "J": 3,
+        "V": 0,
+        "N": 2,
+        "D": 1,
+        "PTS": 2,
+        "BP": 2,
+        "BC": 4,
+        "DIFF": -2
+      },
+      {
+        "GROUPE_NOM": "2",
+        "EQUIPE_ID": 8,
+        "J": 3,
+        "V": 3,
+        "N": 0,
+        "D": 0,
+        "PTS": 6,
+        "BP": 7,
+        "BC": 3,
+        "DIFF": 4
+      },
+      {
+        "GROUPE_NOM": "2",
+        "EQUIPE_ID": 9,
+        "J": 3,
+        "V": 0,
+        "N": 2,
+        "D": 1,
+        "PTS": 2,
+        "BP": 0,
+        "BC": 1,
+        "DIFF": -1
+      },
+      {
+        "GROUPE_NOM": "2",
+        "EQUIPE_ID": 11,
+        "J": 3,
+        "V": 0,
+        "N": 2,
+        "D": 1,
+        "PTS": 2,
+        "BP": 1,
+        "BC": 2,
+        "DIFF": -1
+      },
+      {
+        "GROUPE_NOM": "3",
+        "EQUIPE_ID": 1,
+        "J": 3,
+        "V": 0,
+        "N": 2,
+        "D": 1,
+        "PTS": 2,
+        "BP": 1,
+        "BC": 2,
+        "DIFF": -1
+      },
+      {
+        "GROUPE_NOM": "3",
+        "EQUIPE_ID": 15,
+        "J": 3,
+        "V": 0,
+        "N": 2,
+        "D": 1,
+        "PTS": 2,
+        "BP": 2,
+        "BC": 5,
+        "DIFF": -3
+      },
+      {
+        "GROUPE_NOM": "3",
+        "EQUIPE_ID": 14,
+        "J": 3,
+        "V": 1,
+        "N": 2,
+        "D": 0,
+        "PTS": 4,
+        "BP": 1,
+        "BC": 0,
+        "DIFF": 1
+      },
+      {
+        "GROUPE_NOM": "3",
+        "EQUIPE_ID": 4,
+        "J": 3,
+        "V": 1,
+        "N": 2,
+        "D": 0,
+        "PTS": 4,
+        "BP": 4,
+        "BC": 1,
+        "DIFF": 3
+      },
+      {
+        "GROUPE_NOM": "4",
+        "EQUIPE_ID": 12,
+        "J": 3,
+        "V": 1,
+        "N": 1,
+        "D": 1,
+        "PTS": 3,
+        "BP": 5,
+        "BC": 8,
+        "DIFF": -3
+      },
+      {
+        "GROUPE_NOM": "4",
+        "EQUIPE_ID": 10,
+        "J": 3,
+        "V": 1,
+        "N": 2,
+        "D": 0,
+        "PTS": 4,
+        "BP": 10,
+        "BC": 6,
+        "DIFF": 4
+      },
+      {
+        "GROUPE_NOM": "4",
+        "EQUIPE_ID": 7,
+        "J": 3,
+        "V": 1,
+        "N": 2,
+        "D": 0,
+        "PTS": 4,
+        "BP": 10,
+        "BC": 8,
+        "DIFF": 2
+      },
+      {
+        "GROUPE_NOM": "4",
+        "EQUIPE_ID": 5,
+        "J": 3,
+        "V": 0,
+        "N": 1,
+        "D": 2,
+        "PTS": 1,
+        "BP": 6,
+        "BC": 9,
+        "DIFF": -3
+      },
+      {
+        "GROUPE_NOM": "A",
+        "EQUIPE_ID": 2,
+        "J": 3,
+        "V": 2,
+        "N": 0,
+        "D": 1,
+        "PTS": 4,
+        "BP": 7,
+        "BC": 7,
+        "DIFF": 0
+      },
+      {
+        "GROUPE_NOM": "A",
+        "EQUIPE_ID": 1,
+        "J": 3,
+        "V": 1,
+        "N": 1,
+        "D": 1,
+        "PTS": 3,
+        "BP": 5,
+        "BC": 5,
+        "DIFF": 0
+      },
+      {
+        "GROUPE_NOM": "A",
+        "EQUIPE_ID": 4,
+        "J": 3,
+        "V": 0,
+        "N": 1,
+        "D": 2,
+        "PTS": 1,
+        "BP": 4,
+        "BC": 7,
+        "DIFF": -3
+      },
+      {
+        "GROUPE_NOM": "A",
+        "EQUIPE_ID": 3,
+        "J": 3,
+        "V": 2,
+        "N": 0,
+        "D": 1,
+        "PTS": 4,
+        "BP": 8,
+        "BC": 5,
+        "DIFF": 3
+      },
+      {
+        "GROUPE_NOM": "B",
+        "EQUIPE_ID": 6,
+        "J": 3,
+        "V": 3,
+        "N": 0,
+        "D": 0,
+        "PTS": 6,
+        "BP": 6,
+        "BC": 2,
+        "DIFF": 4
+      },
+      {
+        "GROUPE_NOM": "B",
+        "EQUIPE_ID": 8,
+        "J": 3,
+        "V": 2,
+        "N": 0,
+        "D": 1,
+        "PTS": 4,
+        "BP": 7,
+        "BC": 4,
+        "DIFF": 3
+      },
+      {
+        "GROUPE_NOM": "B",
+        "EQUIPE_ID": 7,
+        "J": 3,
+        "V": 0,
+        "N": 0,
+        "D": 3,
+        "PTS": 0,
+        "BP": 4,
+        "BC": 11,
+        "DIFF": -7
+      },
+      {
+        "GROUPE_NOM": "B",
+        "EQUIPE_ID": 5,
+        "J": 3,
+        "V": 1,
+        "N": 0,
+        "D": 2,
+        "PTS": 2,
+        "BP": 4,
+        "BC": 4,
+        "DIFF": 0
+      },
+      {
+        "GROUPE_NOM": "C",
+        "EQUIPE_ID": 11,
+        "J": 3,
+        "V": 2,
+        "N": 0,
+        "D": 1,
+        "PTS": 4,
+        "BP": 6,
+        "BC": 4,
+        "DIFF": 2
+      },
+      {
+        "GROUPE_NOM": "C",
+        "EQUIPE_ID": 12,
+        "J": 3,
+        "V": 0,
+        "N": 2,
+        "D": 1,
+        "PTS": 2,
+        "BP": 1,
+        "BC": 3,
+        "DIFF": -2
+      },
+      {
+        "GROUPE_NOM": "C",
+        "EQUIPE_ID": 9,
+        "J": 3,
+        "V": 1,
+        "N": 2,
+        "D": 0,
+        "PTS": 4,
+        "BP": 5,
+        "BC": 4,
+        "DIFF": 1
+      },
+      {
+        "GROUPE_NOM": "C",
+        "EQUIPE_ID": 10,
+        "J": 3,
+        "V": 0,
+        "N": 2,
+        "D": 1,
+        "PTS": 2,
+        "BP": 4,
+        "BC": 5,
+        "DIFF": -1
+      },
+      {
+        "GROUPE_NOM": "D",
+        "EQUIPE_ID": 14,
+        "J": 3,
+        "V": 1,
+        "N": 1,
+        "D": 1,
+        "PTS": 3,
+        "BP": 7,
+        "BC": 8,
+        "DIFF": -1
+      },
+      {
+        "GROUPE_NOM": "D",
+        "EQUIPE_ID": 13,
+        "J": 3,
+        "V": 1,
+        "N": 2,
+        "D": 0,
+        "PTS": 4,
+        "BP": 5,
+        "BC": 4,
+        "DIFF": 1
+      },
+      {
+        "GROUPE_NOM": "D",
+        "EQUIPE_ID": 15,
+        "J": 3,
+        "V": 0,
+        "N": 2,
+        "D": 1,
+        "PTS": 2,
+        "BP": 2,
+        "BC": 3,
+        "DIFF": -1
+      },
+      {
+        "GROUPE_NOM": "D",
+        "EQUIPE_ID": 16,
+        "J": 3,
+        "V": 1,
+        "N": 1,
+        "D": 1,
+        "PTS": 3,
+        "BP": 4,
+        "BC": 3,
+        "DIFF": 1
+      },
+      {
+        "GROUPE_NOM": "E",
+        "EQUIPE_ID": 3,
+        "J": 0,
+        "V": 0,
+        "N": 0,
+        "D": 0,
+        "PTS": 0,
+        "BP": 0,
+        "BC": 0,
+        "DIFF": 0
+      },
+      {
+        "GROUPE_NOM": "E",
+        "EQUIPE_ID": 6,
+        "J": 0,
+        "V": 0,
+        "N": 0,
+        "D": 0,
+        "PTS": 0,
+        "BP": 0,
+        "BC": 0,
+        "DIFF": 0
+      },
+      {
+        "GROUPE_NOM": "E",
+        "EQUIPE_ID": 9,
+        "J": 0,
+        "V": 0,
+        "N": 0,
+        "D": 0,
+        "PTS": 0,
+        "BP": 0,
+        "BC": 0,
+        "DIFF": 0
+      },
+      {
+        "GROUPE_NOM": "E",
+        "EQUIPE_ID": 16,
+        "J": 0,
+        "V": 0,
+        "N": 0,
+        "D": 0,
+        "PTS": 0,
+        "BP": 0,
+        "BC": 0,
+        "DIFF": 0
+      },
+      {
+        "GROUPE_NOM": "F",
+        "EQUIPE_ID": 2,
+        "J": 0,
+        "V": 0,
+        "N": 0,
+        "D": 0,
+        "PTS": 0,
+        "BP": 0,
+        "BC": 0,
+        "DIFF": 0
+      },
+      {
+        "GROUPE_NOM": "F",
+        "EQUIPE_ID": 11,
+        "J": 0,
+        "V": 0,
+        "N": 0,
+        "D": 0,
+        "PTS": 0,
+        "BP": 0,
+        "BC": 0,
+        "DIFF": 0
+      },
+      {
+        "GROUPE_NOM": "F",
+        "EQUIPE_ID": 8,
+        "J": 0,
+        "V": 0,
+        "N": 0,
+        "D": 0,
+        "PTS": 0,
+        "BP": 0,
+        "BC": 0,
+        "DIFF": 0
+      },
+      {
+        "GROUPE_NOM": "F",
+        "EQUIPE_ID": 13,
+        "J": 0,
+        "V": 0,
+        "N": 0,
+        "D": 0,
+        "PTS": 0,
+        "BP": 0,
+        "BC": 0,
+        "DIFF": 0
+      },
+      {
+        "GROUPE_NOM": "G",
+        "EQUIPE_ID": 1,
+        "J": 0,
+        "V": 0,
+        "N": 0,
+        "D": 0,
+        "PTS": 0,
+        "BP": 0,
+        "BC": 0,
+        "DIFF": 0
+      },
+      {
+        "GROUPE_NOM": "G",
+        "EQUIPE_ID": 5,
+        "J": 0,
+        "V": 0,
+        "N": 0,
+        "D": 0,
+        "PTS": 0,
+        "BP": 0,
+        "BC": 0,
+        "DIFF": 0
+      },
+      {
+        "GROUPE_NOM": "G",
+        "EQUIPE_ID": 12,
+        "J": 0,
+        "V": 0,
+        "N": 0,
+        "D": 0,
+        "PTS": 0,
+        "BP": 0,
+        "BC": 0,
+        "DIFF": 0
+      },
+      {
+        "GROUPE_NOM": "G",
+        "EQUIPE_ID": 15,
+        "J": 0,
+        "V": 0,
+        "N": 0,
+        "D": 0,
+        "PTS": 0,
+        "BP": 0,
+        "BC": 0,
+        "DIFF": 0
+      },
+      {
+        "GROUPE_NOM": "H",
+        "EQUIPE_ID": 4,
+        "J": 0,
+        "V": 0,
+        "N": 0,
+        "D": 0,
+        "PTS": 0,
+        "BP": 0,
+        "BC": 0,
+        "DIFF": 0
+      },
+      {
+        "GROUPE_NOM": "H",
+        "EQUIPE_ID": 7,
+        "J": 0,
+        "V": 0,
+        "N": 0,
+        "D": 0,
+        "PTS": 0,
+        "BP": 0,
+        "BC": 0,
+        "DIFF": 0
+      },
+      {
+        "GROUPE_NOM": "H",
+        "EQUIPE_ID": 10,
+        "J": 0,
+        "V": 0,
+        "N": 0,
+        "D": 0,
+        "PTS": 0,
+        "BP": 0,
+        "BC": 0,
+        "DIFF": 0
+      },
+      {
+        "GROUPE_NOM": "H",
+        "EQUIPE_ID": 14,
+        "J": 0,
+        "V": 0,
+        "N": 0,
+        "D": 0,
+        "PTS": 0,
+        "BP": 0,
+        "BC": 0,
+        "DIFF": 0
+      }
+    ],
+    "ta_joueurs": [
+      {
+        "ID": 1,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 2,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 3,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 4,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 5,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 6,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 7,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 8,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 9,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 10,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 11,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 12,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 13,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 14,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 15,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 16,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 17,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 18,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 19,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 20,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 21,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 22,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 23,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 24,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 25,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 26,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 27,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 28,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 29,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 30,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 31,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 32,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 33,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 34,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 35,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 36,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 37,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 38,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 39,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 40,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 41,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 42,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 43,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 44,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 45,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 46,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 47,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 48,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 49,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 50,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 51,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 52,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 53,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 54,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 55,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 56,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 57,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 58,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 59,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 60,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 61,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 62,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 63,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 64,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 65,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 66,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 67,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 68,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 69,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 70,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 71,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 72,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 73,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 74,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 75,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 76,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 77,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 78,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 79,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 80,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 81,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 82,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 83,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 84,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 85,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 86,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 87,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 88,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 89,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 90,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 91,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 92,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 94,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 95,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 96,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 98,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 99,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 100,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 101,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 102,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 103,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 104,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 105,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 106,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 107,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 108,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 109,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 110,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 111,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 112,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 113,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 114,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 115,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 116,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 117,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 118,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 119,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 120,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 121,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 122,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 123,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 124,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 125,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 126,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 127,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 128,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 129,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 130,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 131,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 132,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 133,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 134,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 135,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 136,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 137,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 138,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 139,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 140,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 141,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 142,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 143,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 144,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 145,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 146,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 147,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 148,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 149,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 150,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 151,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 152,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 153,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 154,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 155,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 156,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 157,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 158,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 159,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 160,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 161,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 162,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 163,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 164,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 165,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 166,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 167,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 168,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 169,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 170,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 171,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 172,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 173,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 174,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 175,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 176,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 177,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 178,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 179,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 180,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 181,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 182,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 183,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 184,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 185,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 186,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 187,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 188,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 189,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 190,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 191,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 192,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 193,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 194,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 195,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 196,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 197,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 198,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 199,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 200,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 201,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 202,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 203,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 204,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 205,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 206,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 207,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 208,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 209,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 210,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 211,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 212,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 213,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 214,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 215,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 216,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 217,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 218,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 219,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 220,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 221,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 222,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 223,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 224,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 225,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 226,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 227,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 228,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 229,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 230,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 231,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 232,
+        "QF": null,
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      },
+      {
+        "ID": 233,
+        "QF": "QF1",
+        "DF": null,
+        "F": null,
+        "V": null,
+        "GARDIEN_DF": null,
+        "GARDIEN_F": null,
+        "GARDIEN_V": null
+      }
+    ]
+  }
+}

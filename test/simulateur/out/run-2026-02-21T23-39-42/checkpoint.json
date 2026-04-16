@@ -1,0 +1,2847 @@
+{
+  "step": "done",
+  "data": {
+    "teams": [
+      {
+        "id": "1",
+        "name": "Meyrin",
+        "group": ""
+      },
+      {
+        "id": "2",
+        "name": "Champigny",
+        "group": ""
+      },
+      {
+        "id": "3",
+        "name": "Dammarie",
+        "group": ""
+      },
+      {
+        "id": "4",
+        "name": "Angers",
+        "group": ""
+      },
+      {
+        "id": "5",
+        "name": "Rennes",
+        "group": ""
+      },
+      {
+        "id": "6",
+        "name": "Meudon",
+        "group": ""
+      },
+      {
+        "id": "7",
+        "name": "Compiègne",
+        "group": ""
+      },
+      {
+        "id": "8",
+        "name": "Neuilly",
+        "group": ""
+      },
+      {
+        "id": "9",
+        "name": "Cholet",
+        "group": ""
+      },
+      {
+        "id": "10",
+        "name": "Le Havre",
+        "group": ""
+      },
+      {
+        "id": "11",
+        "name": "Evry-Viry",
+        "group": ""
+      },
+      {
+        "id": "12",
+        "name": "Courbevoie",
+        "group": ""
+      },
+      {
+        "id": "13",
+        "name": "Tours",
+        "group": ""
+      },
+      {
+        "id": "14",
+        "name": "Valenciennes",
+        "group": ""
+      },
+      {
+        "id": "15",
+        "name": "Rouen",
+        "group": ""
+      },
+      {
+        "id": "16",
+        "name": "Les Volants",
+        "group": ""
+      }
+    ],
+    "players": [
+      {
+        "id": "1",
+        "teamId": "7",
+        "name": "Robin GILBERT",
+        "v": 0
+      },
+      {
+        "id": "2",
+        "teamId": "7",
+        "name": "Martin BOUILLOUX",
+        "v": 0
+      },
+      {
+        "id": "3",
+        "teamId": "7",
+        "name": "Oscar MALANDAIN",
+        "v": 0
+      },
+      {
+        "id": "4",
+        "teamId": "7",
+        "name": "Julien BODIN",
+        "v": 0
+      },
+      {
+        "id": "5",
+        "teamId": "7",
+        "name": "Evan CARPENTIER",
+        "v": 0
+      },
+      {
+        "id": "6",
+        "teamId": "7",
+        "name": "Mathys RAS",
+        "v": 0
+      },
+      {
+        "id": "7",
+        "teamId": "7",
+        "name": "Tom TALBOT",
+        "v": 0
+      },
+      {
+        "id": "8",
+        "teamId": "7",
+        "name": "Nathanaël HOUDINET",
+        "v": 0
+      },
+      {
+        "id": "9",
+        "teamId": "7",
+        "name": "Lillah NOËL-VILLENEUVE",
+        "v": 0
+      },
+      {
+        "id": "10",
+        "teamId": "7",
+        "name": "Amjad BELGACEM",
+        "qf": "QF4",
+        "v": 0
+      },
+      {
+        "id": "11",
+        "teamId": "7",
+        "name": "Jules VAUGHAN",
+        "qf": "QF2",
+        "df": "DF4",
+        "f": "F",
+        "v": 0
+      },
+      {
+        "id": "12",
+        "teamId": "7",
+        "name": "Raphaël LECROQ",
+        "v": 0
+      },
+      {
+        "id": "13",
+        "teamId": "7",
+        "name": "Teddy POULAIN",
+        "v": 0
+      },
+      {
+        "id": "14",
+        "teamId": "7",
+        "name": "Ethan GRENIER",
+        "v": 0
+      },
+      {
+        "id": "15",
+        "teamId": "7",
+        "name": "Clément L HERMITE",
+        "v": 0
+      },
+      {
+        "id": "16",
+        "teamId": "7",
+        "name": "Elijaah HERVÉ",
+        "v": 0
+      },
+      {
+        "id": "17",
+        "teamId": "11",
+        "name": "Tom AUBRY",
+        "v": 0
+      },
+      {
+        "id": "18",
+        "teamId": "11",
+        "name": "Ryan BEAUMIAN",
+        "v": 0
+      },
+      {
+        "id": "19",
+        "teamId": "11",
+        "name": "Néo XIE",
+        "v": 0
+      },
+      {
+        "id": "20",
+        "teamId": "11",
+        "name": "Owen TANESIE DEMARSY",
+        "qf": "QF6",
+        "v": 0
+      },
+      {
+        "id": "21",
+        "teamId": "11",
+        "name": "Sébastien BERTAUX TERRADE",
+        "v": 0
+      },
+      {
+        "id": "22",
+        "teamId": "11",
+        "name": "Milan RONCONI",
+        "qf": "QF1",
+        "df": "DF2",
+        "v": 0
+      },
+      {
+        "id": "23",
+        "teamId": "11",
+        "name": "Matteo KSIONKOWSKI",
+        "v": 0
+      },
+      {
+        "id": "24",
+        "teamId": "11",
+        "name": "Naïmane BOUSSAHA",
+        "v": 0
+      },
+      {
+        "id": "25",
+        "teamId": "5",
+        "name": "Aris BACHOUCHE",
+        "v": 0
+      },
+      {
+        "id": "26",
+        "teamId": "5",
+        "name": "Sidi-Mohammed BAH",
+        "v": 0
+      },
+      {
+        "id": "27",
+        "teamId": "5",
+        "name": "Nathan BALAZUC",
+        "v": 0
+      },
+      {
+        "id": "28",
+        "teamId": "5",
+        "name": "Marie BLANC",
+        "v": 0
+      },
+      {
+        "id": "29",
+        "teamId": "5",
+        "name": "Melvil BONAC",
+        "v": 0
+      },
+      {
+        "id": "30",
+        "teamId": "5",
+        "name": "Hélio BOURDOULOUS",
+        "v": 0
+      },
+      {
+        "id": "31",
+        "teamId": "5",
+        "name": "Jules COUVELARD",
+        "v": 0
+      },
+      {
+        "id": "32",
+        "teamId": "5",
+        "name": "Oskar JOLY",
+        "v": 0
+      },
+      {
+        "id": "33",
+        "teamId": "5",
+        "name": "Aïden KACIMI",
+        "v": 0
+      },
+      {
+        "id": "34",
+        "teamId": "5",
+        "name": "Sasha KHEMAÏS",
+        "qf": "QF5",
+        "df": "DF2",
+        "v": 0
+      },
+      {
+        "id": "35",
+        "teamId": "5",
+        "name": "Cyan LIEUTIER",
+        "v": 0
+      },
+      {
+        "id": "36",
+        "teamId": "5",
+        "name": "Nahela MADHKKOUR",
+        "v": 0
+      },
+      {
+        "id": "37",
+        "teamId": "5",
+        "name": "Adrien MAGNIER",
+        "v": 0
+      },
+      {
+        "id": "38",
+        "teamId": "5",
+        "name": "Ludovic PACZEK",
+        "v": 0
+      },
+      {
+        "id": "39",
+        "teamId": "5",
+        "name": "Alexandre VILAIN",
+        "v": 0
+      },
+      {
+        "id": "40",
+        "teamId": "11",
+        "name": "Antoine BORMANN",
+        "v": 0
+      },
+      {
+        "id": "41",
+        "teamId": "11",
+        "name": "Gabriel PIFFARD",
+        "v": 0
+      },
+      {
+        "id": "42",
+        "teamId": "11",
+        "name": "Alexiane TOURNOIS",
+        "v": 0
+      },
+      {
+        "id": "43",
+        "teamId": "9",
+        "name": "Vincent GOGUILLOT",
+        "qf": "QF4",
+        "v": 0
+      },
+      {
+        "id": "44",
+        "teamId": "9",
+        "name": "Evan ESTEFFE",
+        "v": 0
+      },
+      {
+        "id": "45",
+        "teamId": "9",
+        "name": "Eden OUAAZ",
+        "v": 0
+      },
+      {
+        "id": "46",
+        "teamId": "9",
+        "name": "Thomas LAHMER",
+        "v": 0
+      },
+      {
+        "id": "47",
+        "teamId": "9",
+        "name": "Mathieu FRESSON",
+        "v": 0
+      },
+      {
+        "id": "48",
+        "teamId": "9",
+        "name": "Mathias VINOT SUAREZ LOPEZ",
+        "v": 0
+      },
+      {
+        "id": "49",
+        "teamId": "9",
+        "name": "Daniel BURAGA",
+        "v": 0
+      },
+      {
+        "id": "50",
+        "teamId": "9",
+        "name": "Matteo SEÏTE-BAGLIONI",
+        "v": 0
+      },
+      {
+        "id": "51",
+        "teamId": "9",
+        "name": "Noah TARNAUD",
+        "qf": "QF4",
+        "df": "DF1",
+        "v": 0
+      },
+      {
+        "id": "52",
+        "teamId": "9",
+        "name": "Sasha ROUILLER",
+        "v": 0
+      },
+      {
+        "id": "53",
+        "teamId": "9",
+        "name": "Victor ROUVELIN",
+        "v": 0
+      },
+      {
+        "id": "54",
+        "teamId": "8",
+        "name": "Lucas WOLOSZYN",
+        "v": 0
+      },
+      {
+        "id": "55",
+        "teamId": "8",
+        "name": "Ilyas BENAMAR",
+        "v": 0
+      },
+      {
+        "id": "56",
+        "teamId": "8",
+        "name": "Lenny BOGUS",
+        "v": 0
+      },
+      {
+        "id": "57",
+        "teamId": "8",
+        "name": "Robinson LIONNE",
+        "v": 0
+      },
+      {
+        "id": "58",
+        "teamId": "8",
+        "name": "Alexandre TRIBOUILLARD",
+        "v": 0
+      },
+      {
+        "id": "59",
+        "teamId": "8",
+        "name": "Joseph TRIBOUILLARD",
+        "qf": "QF3",
+        "df": "DF3",
+        "f": "F",
+        "v": 0
+      },
+      {
+        "id": "60",
+        "teamId": "8",
+        "name": "Gabriel BLIN",
+        "v": 0
+      },
+      {
+        "id": "61",
+        "teamId": "8",
+        "name": "Levy DURAY",
+        "qf": "QF5",
+        "df": "DF1",
+        "f": "F",
+        "v": 0
+      },
+      {
+        "id": "62",
+        "teamId": "8",
+        "name": "Lucka KOUYATE",
+        "v": 0
+      },
+      {
+        "id": "63",
+        "teamId": "8",
+        "name": "Simon MARESSE",
+        "v": 0
+      },
+      {
+        "id": "64",
+        "teamId": "8",
+        "name": "Tim GROSSEMY",
+        "v": 0
+      },
+      {
+        "id": "65",
+        "teamId": "8",
+        "name": "Simon GROSSEMY",
+        "v": 0
+      },
+      {
+        "id": "66",
+        "teamId": "8",
+        "name": "Bjorn VUILLY",
+        "v": 0
+      },
+      {
+        "id": "67",
+        "teamId": "8",
+        "name": "Lyam LAROCHE",
+        "v": 0
+      },
+      {
+        "id": "68",
+        "teamId": "8",
+        "name": "Mathéo FERON",
+        "v": 0
+      },
+      {
+        "id": "69",
+        "teamId": "3",
+        "name": "Asaël DA CRUZ",
+        "v": 0
+      },
+      {
+        "id": "70",
+        "teamId": "3",
+        "name": "Kim CHENG",
+        "v": 0
+      },
+      {
+        "id": "71",
+        "teamId": "3",
+        "name": "Charlotte HACKETT",
+        "v": 0
+      },
+      {
+        "id": "72",
+        "teamId": "3",
+        "name": "Tom CHENG",
+        "v": 0
+      },
+      {
+        "id": "73",
+        "teamId": "3",
+        "name": "Ryan ROLLAND",
+        "v": 0
+      },
+      {
+        "id": "74",
+        "teamId": "3",
+        "name": "Corentin MULLER",
+        "v": 0
+      },
+      {
+        "id": "75",
+        "teamId": "3",
+        "name": "Enoha BOURGUOIN",
+        "v": 0
+      },
+      {
+        "id": "76",
+        "teamId": "3",
+        "name": "Haytam GOUMANE",
+        "v": 0
+      },
+      {
+        "id": "77",
+        "teamId": "3",
+        "name": "Elouan MERLIN",
+        "v": 0
+      },
+      {
+        "id": "78",
+        "teamId": "3",
+        "name": "Ewenn JOURDREN BANHCHEUD",
+        "qf": "QF6",
+        "v": 0
+      },
+      {
+        "id": "79",
+        "teamId": "3",
+        "name": "Apaulyne LODE",
+        "v": 0
+      },
+      {
+        "id": "80",
+        "teamId": "3",
+        "name": "Fares LESTAT",
+        "v": 0
+      },
+      {
+        "id": "81",
+        "teamId": "10",
+        "name": "Cléophée PETITJEAN",
+        "v": 0
+      },
+      {
+        "id": "82",
+        "teamId": "10",
+        "name": "Markus CADORET BROQUAIRE",
+        "qf": "QF1",
+        "v": 0
+      },
+      {
+        "id": "83",
+        "teamId": "10",
+        "name": "Maxime AUGEREAU",
+        "v": 0
+      },
+      {
+        "id": "84",
+        "teamId": "10",
+        "name": "Maé MOLLY",
+        "v": 0
+      },
+      {
+        "id": "85",
+        "teamId": "10",
+        "name": "Marius LANG",
+        "v": 0
+      },
+      {
+        "id": "86",
+        "teamId": "10",
+        "name": "Jules SIMONUTTI",
+        "v": 0
+      },
+      {
+        "id": "87",
+        "teamId": "10",
+        "name": "Pierre CAIVEAU",
+        "v": 0
+      },
+      {
+        "id": "88",
+        "teamId": "10",
+        "name": "Ethan BLAIS",
+        "v": 0
+      },
+      {
+        "id": "89",
+        "teamId": "10",
+        "name": "Tom BERNIER-HUTEAU",
+        "v": 0
+      },
+      {
+        "id": "90",
+        "teamId": "10",
+        "name": "Paul BOURSEREAU",
+        "v": 0
+      },
+      {
+        "id": "91",
+        "teamId": "10",
+        "name": "Lilian GEOFFROY",
+        "qf": "QF6",
+        "df": "DF3",
+        "v": 0
+      },
+      {
+        "id": "92",
+        "teamId": "10",
+        "name": "Loric GAVAUD",
+        "v": 0
+      },
+      {
+        "id": "94",
+        "teamId": "10",
+        "name": "Elie POHARDY",
+        "v": 0
+      },
+      {
+        "id": "95",
+        "teamId": "10",
+        "name": "Ruben BREBION",
+        "v": 0
+      },
+      {
+        "id": "96",
+        "teamId": "12",
+        "name": "Clément GRUSON",
+        "v": 0
+      },
+      {
+        "id": "98",
+        "teamId": "12",
+        "name": "Harry ACKET",
+        "v": 0
+      },
+      {
+        "id": "99",
+        "teamId": "12",
+        "name": "Ennio BARETI",
+        "v": 0
+      },
+      {
+        "id": "100",
+        "teamId": "12",
+        "name": "Ethan BENAIM",
+        "v": 0
+      },
+      {
+        "id": "101",
+        "teamId": "12",
+        "name": "Noam BENNATAN",
+        "v": 0
+      },
+      {
+        "id": "102",
+        "teamId": "12",
+        "name": "Arthur CAO",
+        "v": 0
+      },
+      {
+        "id": "103",
+        "teamId": "12",
+        "name": "Aleksander KUCHTA",
+        "qf": "QF1",
+        "v": 0
+      },
+      {
+        "id": "104",
+        "teamId": "12",
+        "name": "Célien MIESZALY",
+        "qf": "QF2",
+        "v": 0
+      },
+      {
+        "id": "105",
+        "teamId": "12",
+        "name": "Sacha LE MOUILLOUR",
+        "v": 0
+      },
+      {
+        "id": "106",
+        "teamId": "12",
+        "name": "Georges PITCHER",
+        "v": 0
+      },
+      {
+        "id": "107",
+        "teamId": "12",
+        "name": "Marius RADONDY TENA",
+        "v": 0
+      },
+      {
+        "id": "108",
+        "teamId": "12",
+        "name": "Owen TERAN",
+        "v": 0
+      },
+      {
+        "id": "109",
+        "teamId": "9",
+        "name": "David HERASIMAU",
+        "v": 0
+      },
+      {
+        "id": "110",
+        "teamId": "2",
+        "name": "Elio FLEUTOT WANG",
+        "v": 0
+      },
+      {
+        "id": "111",
+        "teamId": "2",
+        "name": "Matteo FLEUTOT WANG",
+        "v": 0
+      },
+      {
+        "id": "112",
+        "teamId": "2",
+        "name": "Viktor BOUSQUET",
+        "v": 0
+      },
+      {
+        "id": "113",
+        "teamId": "2",
+        "name": "Raphaël GOUJON FAURE",
+        "v": 0
+      },
+      {
+        "id": "114",
+        "teamId": "2",
+        "name": "Pierre CHVEIKINE",
+        "v": 0
+      },
+      {
+        "id": "115",
+        "teamId": "2",
+        "name": "Soan RIDEL",
+        "v": 0
+      },
+      {
+        "id": "116",
+        "teamId": "2",
+        "name": "Iskander BENCHERIF",
+        "v": 0
+      },
+      {
+        "id": "117",
+        "teamId": "2",
+        "name": "Tom OLLIER MANGON",
+        "v": 0
+      },
+      {
+        "id": "118",
+        "teamId": "2",
+        "name": "Yanis SMAILI",
+        "v": 0
+      },
+      {
+        "id": "119",
+        "teamId": "2",
+        "name": "Ivan KAZYMYRENKO",
+        "qf": "QF2",
+        "v": 0
+      },
+      {
+        "id": "120",
+        "teamId": "2",
+        "name": "André BOURSIER",
+        "qf": "QF3",
+        "v": 0
+      },
+      {
+        "id": "121",
+        "teamId": "2",
+        "name": "Elio WEI",
+        "v": 0
+      },
+      {
+        "id": "122",
+        "teamId": "2",
+        "name": "Louis DEMAY",
+        "v": 0
+      },
+      {
+        "id": "123",
+        "teamId": "2",
+        "name": "Samuel SELLEZ",
+        "v": 0
+      },
+      {
+        "id": "124",
+        "teamId": "2",
+        "name": "Louis GAYRAUD",
+        "v": 0
+      },
+      {
+        "id": "125",
+        "teamId": "2",
+        "name": "Elias BEN MAHMOUD",
+        "v": 0
+      },
+      {
+        "id": "126",
+        "teamId": "2",
+        "name": "Benoit CHAUVIN",
+        "v": 0
+      },
+      {
+        "id": "127",
+        "teamId": "4",
+        "name": "Hermione NEVEU-GAUTHIER",
+        "v": 0
+      },
+      {
+        "id": "128",
+        "teamId": "4",
+        "name": "LYA JURET",
+        "v": 0
+      },
+      {
+        "id": "129",
+        "teamId": "4",
+        "name": "Yoann MORAN",
+        "v": 0
+      },
+      {
+        "id": "130",
+        "teamId": "4",
+        "name": "Gabriel GUILLOU",
+        "v": 0
+      },
+      {
+        "id": "131",
+        "teamId": "4",
+        "name": "Gaspard SAULOU",
+        "qf": "QF5",
+        "v": 0
+      },
+      {
+        "id": "132",
+        "teamId": "4",
+        "name": "Nehuen GAL MARENGO",
+        "v": 0
+      },
+      {
+        "id": "133",
+        "teamId": "4",
+        "name": "Manoé BLOND",
+        "v": 0
+      },
+      {
+        "id": "134",
+        "teamId": "4",
+        "name": "Gabriel HERMANT",
+        "qf": "QF4",
+        "df": "DF4",
+        "v": 0
+      },
+      {
+        "id": "135",
+        "teamId": "4",
+        "name": "Aristote MOREAU",
+        "v": 0
+      },
+      {
+        "id": "136",
+        "teamId": "4",
+        "name": "Alban ILINCA",
+        "v": 0
+      },
+      {
+        "id": "137",
+        "teamId": "4",
+        "name": "Sofiane LARBI-MANSOUR",
+        "v": 0
+      },
+      {
+        "id": "138",
+        "teamId": "4",
+        "name": "Nyls MARTIN",
+        "v": 0
+      },
+      {
+        "id": "139",
+        "teamId": "4",
+        "name": "Tino ROUGE",
+        "v": 0
+      },
+      {
+        "id": "140",
+        "teamId": "4",
+        "name": "Henri POITRAL",
+        "v": 0
+      },
+      {
+        "id": "141",
+        "teamId": "4",
+        "name": "Léontine BRUNA",
+        "v": 0
+      },
+      {
+        "id": "142",
+        "teamId": "4",
+        "name": "Aloïs FROMENTIN",
+        "v": 0
+      },
+      {
+        "id": "143",
+        "teamId": "4",
+        "name": "Noé PAGE",
+        "v": 0
+      },
+      {
+        "id": "144",
+        "teamId": "1",
+        "name": "Matéo GALVEZ",
+        "v": 0
+      },
+      {
+        "id": "145",
+        "teamId": "1",
+        "name": "Timothée ORHANT-HAIDAR",
+        "v": 0
+      },
+      {
+        "id": "146",
+        "teamId": "1",
+        "name": "Mathys MELLIN",
+        "qf": "QF6",
+        "df": "DF4",
+        "v": 0
+      },
+      {
+        "id": "147",
+        "teamId": "1",
+        "name": "Malo GUICHARD",
+        "qf": "QF5",
+        "v": 0
+      },
+      {
+        "id": "148",
+        "teamId": "1",
+        "name": "Geraud KLOTZ",
+        "v": 0
+      },
+      {
+        "id": "149",
+        "teamId": "1",
+        "name": "Glenn GUILLOUX",
+        "v": 0
+      },
+      {
+        "id": "150",
+        "teamId": "1",
+        "name": "Antoine LE GUERN",
+        "v": 0
+      },
+      {
+        "id": "151",
+        "teamId": "1",
+        "name": "Nilo SIMAO",
+        "v": 0
+      },
+      {
+        "id": "152",
+        "teamId": "1",
+        "name": "Robin CHAPON",
+        "v": 0
+      },
+      {
+        "id": "153",
+        "teamId": "1",
+        "name": "Gaspard TIZON",
+        "v": 0
+      },
+      {
+        "id": "154",
+        "teamId": "1",
+        "name": "Samuel GALVEZ",
+        "v": 0
+      },
+      {
+        "id": "155",
+        "teamId": "1",
+        "name": "Maxence ORHANT-HAIDAR",
+        "v": 0
+      },
+      {
+        "id": "156",
+        "teamId": "6",
+        "name": "Guillaume BONDAZ",
+        "v": 0
+      },
+      {
+        "id": "157",
+        "teamId": "6",
+        "name": "Jeff ACOCELLA",
+        "qf": "QF3",
+        "df": "DF2",
+        "f": "F",
+        "v": 0
+      },
+      {
+        "id": "158",
+        "teamId": "6",
+        "name": "Lorenzo CADOUX",
+        "v": 0
+      },
+      {
+        "id": "159",
+        "teamId": "6",
+        "name": "Giuliano CADOUX",
+        "v": 0
+      },
+      {
+        "id": "160",
+        "teamId": "6",
+        "name": "Oscar DAHER",
+        "v": 0
+      },
+      {
+        "id": "161",
+        "teamId": "6",
+        "name": "Samuel FONTAINE",
+        "v": 0
+      },
+      {
+        "id": "162",
+        "teamId": "6",
+        "name": "Tamsine GRUSLIN",
+        "v": 0
+      },
+      {
+        "id": "163",
+        "teamId": "6",
+        "name": "Alphonse LACROIX",
+        "v": 0
+      },
+      {
+        "id": "164",
+        "teamId": "6",
+        "name": "Gregorio MICACEO",
+        "v": 0
+      },
+      {
+        "id": "165",
+        "teamId": "6",
+        "name": "Leela SUTER",
+        "v": 0
+      },
+      {
+        "id": "166",
+        "teamId": "6",
+        "name": "Sacha TUAL",
+        "v": 0
+      },
+      {
+        "id": "167",
+        "teamId": "6",
+        "name": "Davon WALTHER",
+        "qf": "QF2",
+        "df": "DF3",
+        "v": 0
+      },
+      {
+        "id": "168",
+        "teamId": "6",
+        "name": "Tobias WIEBE",
+        "v": 0
+      },
+      {
+        "id": "169",
+        "teamId": "8",
+        "name": "Maël LE NEPVOU",
+        "v": 0
+      },
+      {
+        "id": "170",
+        "teamId": "8",
+        "name": "Antonin CAPEL",
+        "v": 0
+      },
+      {
+        "id": "171",
+        "teamId": "6",
+        "name": "Thibault GIROUD",
+        "v": 0
+      },
+      {
+        "id": "172",
+        "teamId": "5",
+        "name": "Loic CHERANCE",
+        "qf": "QF1",
+        "df": "DF1",
+        "v": 0
+      },
+      {
+        "id": "173",
+        "teamId": "3",
+        "name": "Grégoire BERHAULT",
+        "qf": "QF3",
+        "v": 0
+      },
+      {
+        "id": "13-P01",
+        "teamId": "13",
+        "name": "Mathys Tribo"
+      },
+      {
+        "id": "13-P02",
+        "teamId": "13",
+        "name": "Axel Gourin"
+      },
+      {
+        "id": "13-P03",
+        "teamId": "13",
+        "name": "Mathys Leclerc"
+      },
+      {
+        "id": "13-P04",
+        "teamId": "13",
+        "name": "Noah Arnaud"
+      },
+      {
+        "id": "13-P05",
+        "teamId": "13",
+        "name": "Sasha Ronconi"
+      },
+      {
+        "id": "13-P06",
+        "teamId": "13",
+        "name": "Luca Ridel"
+      },
+      {
+        "id": "13-P07",
+        "teamId": "13",
+        "name": "Sasha Arnaud"
+      },
+      {
+        "id": "13-P08",
+        "teamId": "13",
+        "name": "Louis Vaughan"
+      },
+      {
+        "id": "13-P09",
+        "teamId": "13",
+        "name": "Milan Vaughan"
+      },
+      {
+        "id": "13-P10",
+        "teamId": "13",
+        "name": "Luca Tribo"
+      },
+      {
+        "id": "13-P11",
+        "teamId": "13",
+        "name": "Mathys Ronconi"
+      },
+      {
+        "id": "13-P12",
+        "teamId": "13",
+        "name": "Mathys Vaughan"
+      },
+      {
+        "id": "13-P13",
+        "teamId": "13",
+        "name": "Sasha Tribo"
+      },
+      {
+        "id": "13-P14",
+        "teamId": "13",
+        "name": "Leo Leclerc"
+      },
+      {
+        "id": "13-P15",
+        "teamId": "13",
+        "name": "Evan Ronconi"
+      },
+      {
+        "id": "14-P01",
+        "teamId": "14",
+        "name": "Louis Ronconi"
+      },
+      {
+        "id": "14-P02",
+        "teamId": "14",
+        "name": "Tao Gourin"
+      },
+      {
+        "id": "14-P03",
+        "teamId": "14",
+        "name": "Nolan Tribo"
+      },
+      {
+        "id": "14-P04",
+        "teamId": "14",
+        "name": "Nolan Gourin"
+      },
+      {
+        "id": "14-P05",
+        "teamId": "14",
+        "name": "Jules Tribo"
+      },
+      {
+        "id": "14-P06",
+        "teamId": "14",
+        "name": "Nolan Leclerc"
+      },
+      {
+        "id": "14-P07",
+        "teamId": "14",
+        "name": "Mathys Leclerc"
+      },
+      {
+        "id": "14-P08",
+        "teamId": "14",
+        "name": "Mathys Leclerc"
+      },
+      {
+        "id": "14-P09",
+        "teamId": "14",
+        "name": "Evan Khemais"
+      },
+      {
+        "id": "14-P10",
+        "teamId": "14",
+        "name": "Tao Arnaud"
+      },
+      {
+        "id": "14-P11",
+        "teamId": "14",
+        "name": "Louis Arnaud"
+      },
+      {
+        "id": "14-P12",
+        "teamId": "14",
+        "name": "Sasha Vaughan"
+      },
+      {
+        "id": "14-P13",
+        "teamId": "14",
+        "name": "Noah Ridel"
+      },
+      {
+        "id": "14-P14",
+        "teamId": "14",
+        "name": "Leo Ronconi"
+      },
+      {
+        "id": "14-P15",
+        "teamId": "14",
+        "name": "Jules Khemais"
+      },
+      {
+        "id": "15-P01",
+        "teamId": "15",
+        "name": "Evan Leclerc"
+      },
+      {
+        "id": "15-P02",
+        "teamId": "15",
+        "name": "Luca Vaughan"
+      },
+      {
+        "id": "15-P03",
+        "teamId": "15",
+        "name": "Noah Arnaud"
+      },
+      {
+        "id": "15-P04",
+        "teamId": "15",
+        "name": "Leo Vaughan"
+      },
+      {
+        "id": "15-P05",
+        "teamId": "15",
+        "name": "Milan Duray"
+      },
+      {
+        "id": "15-P06",
+        "teamId": "15",
+        "name": "Evan Arnaud"
+      },
+      {
+        "id": "15-P07",
+        "teamId": "15",
+        "name": "Sasha Ridel"
+      },
+      {
+        "id": "15-P08",
+        "teamId": "15",
+        "name": "Evan Ronconi"
+      },
+      {
+        "id": "15-P09",
+        "teamId": "15",
+        "name": "Jules Ridel"
+      },
+      {
+        "id": "15-P10",
+        "teamId": "15",
+        "name": "Milan Tribo"
+      },
+      {
+        "id": "15-P11",
+        "teamId": "15",
+        "name": "Axel Ronconi"
+      },
+      {
+        "id": "15-P12",
+        "teamId": "15",
+        "name": "Evan Duray"
+      },
+      {
+        "id": "15-P13",
+        "teamId": "15",
+        "name": "Jules Ronconi"
+      },
+      {
+        "id": "15-P14",
+        "teamId": "15",
+        "name": "Axel Gourin"
+      },
+      {
+        "id": "15-P15",
+        "teamId": "15",
+        "name": "Evan Ridel"
+      },
+      {
+        "id": "16-P01",
+        "teamId": "16",
+        "name": "Axel Tribo"
+      },
+      {
+        "id": "16-P02",
+        "teamId": "16",
+        "name": "Axel Tribo"
+      },
+      {
+        "id": "16-P03",
+        "teamId": "16",
+        "name": "Mathys Vaughan"
+      },
+      {
+        "id": "16-P04",
+        "teamId": "16",
+        "name": "Leo Gourin"
+      },
+      {
+        "id": "16-P05",
+        "teamId": "16",
+        "name": "Mathys Ridel"
+      },
+      {
+        "id": "16-P06",
+        "teamId": "16",
+        "name": "Jules Duray"
+      },
+      {
+        "id": "16-P07",
+        "teamId": "16",
+        "name": "Tao Ridel"
+      },
+      {
+        "id": "16-P08",
+        "teamId": "16",
+        "name": "Jules Mellin"
+      },
+      {
+        "id": "16-P09",
+        "teamId": "16",
+        "name": "Sasha Ronconi"
+      },
+      {
+        "id": "16-P10",
+        "teamId": "16",
+        "name": "Nolan Ronconi"
+      },
+      {
+        "id": "16-P11",
+        "teamId": "16",
+        "name": "Noah Ronconi"
+      },
+      {
+        "id": "16-P12",
+        "teamId": "16",
+        "name": "Leo Leclerc"
+      },
+      {
+        "id": "16-P13",
+        "teamId": "16",
+        "name": "Leo Ronconi"
+      },
+      {
+        "id": "16-P14",
+        "teamId": "16",
+        "name": "Axel Tribo"
+      },
+      {
+        "id": "16-P15",
+        "teamId": "16",
+        "name": "Louis Duray"
+      }
+    ],
+    "matches": [
+      {
+        "id": "M-1",
+        "day": "J1",
+        "dateTime": "2026-05-23T07:00:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "A",
+        "teamA": "Meyrin",
+        "teamB": "Angers",
+        "status": "finished",
+        "scoreA": 1,
+        "scoreB": 1,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-2",
+        "day": "J1",
+        "dateTime": "2026-05-23T07:27:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "A",
+        "teamA": "Rennes",
+        "teamB": "Neuilly",
+        "status": "ongoing",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-3",
+        "day": "J1",
+        "dateTime": "2026-05-23T07:54:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "A",
+        "teamA": "Cholet",
+        "teamB": "Courbevoie",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-4",
+        "day": "J1",
+        "dateTime": "2026-05-23T08:21:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "A",
+        "teamA": "Tours",
+        "teamB": "Les Volants",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-6",
+        "day": "J1",
+        "dateTime": "2026-05-23T09:08:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "A",
+        "teamA": "Champigny",
+        "teamB": "Dammarie",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-7",
+        "day": "J1",
+        "dateTime": "2026-05-23T09:35:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "A",
+        "teamA": "Meudon",
+        "teamB": "Compiègne",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-8",
+        "day": "J1",
+        "dateTime": "2026-05-23T10:02:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "B",
+        "teamA": "Le Havre",
+        "teamB": "Evry-Viry",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-9",
+        "day": "J1",
+        "dateTime": "2026-05-23T10:29:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "B",
+        "teamA": "Valenciennes",
+        "teamB": "Rouen",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-11",
+        "day": "J1",
+        "dateTime": "2026-05-23T11:16:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "B",
+        "teamA": "Meyrin",
+        "teamB": "Dammarie",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-12",
+        "day": "J1",
+        "dateTime": "2026-05-23T11:43:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "B",
+        "teamA": "Rennes",
+        "teamB": "Compiègne",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-13",
+        "day": "J1",
+        "dateTime": "2026-05-23T12:10:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "B",
+        "teamA": "Cholet",
+        "teamB": "Evry-Viry",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-14",
+        "day": "J1",
+        "dateTime": "2026-05-23T12:37:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "B",
+        "teamA": "Tours",
+        "teamB": "Rouen",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-16",
+        "day": "J1",
+        "dateTime": "2026-05-23T13:24:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "C",
+        "teamA": "Angers",
+        "teamB": "Champigny",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-17",
+        "day": "J1",
+        "dateTime": "2026-05-23T13:51:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "C",
+        "teamA": "Neuilly",
+        "teamB": "Meudon",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-18",
+        "day": "J1",
+        "dateTime": "2026-05-23T14:18:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "C",
+        "teamA": "Courbevoie",
+        "teamB": "Le Havre",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-19",
+        "day": "J1",
+        "dateTime": "2026-05-23T14:45:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "C",
+        "teamA": "Les Volants",
+        "teamB": "Valenciennes",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-21",
+        "day": "J1",
+        "dateTime": "2026-05-23T15:32:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "C",
+        "teamA": "Meyrin",
+        "teamB": "Champigny",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-22",
+        "day": "J1",
+        "dateTime": "2026-05-23T15:59:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "C",
+        "teamA": "Rennes",
+        "teamB": "Meudon",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-23",
+        "day": "J1",
+        "dateTime": "2026-05-23T16:26:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "D",
+        "teamA": "Cholet",
+        "teamB": "Le Havre",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-24",
+        "day": "J1",
+        "dateTime": "2026-05-23T16:53:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "D",
+        "teamA": "Tours",
+        "teamB": "Valenciennes",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-26",
+        "day": "J1",
+        "dateTime": "2026-05-23T17:40:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "D",
+        "teamA": "Dammarie",
+        "teamB": "Angers",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-27",
+        "day": "J1",
+        "dateTime": "2026-05-23T18:07:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "D",
+        "teamA": "Compiègne",
+        "teamB": "Neuilly",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-28",
+        "day": "J1",
+        "dateTime": "2026-05-23T18:34:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "D",
+        "teamA": "Evry-Viry",
+        "teamB": "Courbevoie",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-29",
+        "day": "J1",
+        "dateTime": "2026-05-23T19:01:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "D",
+        "teamA": "Rouen",
+        "teamB": "Les Volants",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-31",
+        "day": "J2",
+        "dateTime": "2026-05-24T07:00:00.000Z",
+        "competition": "5v5",
+        "phase": "Qualification",
+        "group": "Or A",
+        "teamA": "A1",
+        "teamB": "D2",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-32",
+        "day": "J2",
+        "dateTime": "2026-05-24T07:27:00.000Z",
+        "competition": "5v5",
+        "phase": "Qualification",
+        "group": "Or A",
+        "teamA": "A2",
+        "teamB": "D1",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-33",
+        "day": "J2",
+        "dateTime": "2026-05-24T07:54:00.000Z",
+        "competition": "5v5",
+        "phase": "Qualification",
+        "group": "Or A",
+        "teamA": "A3",
+        "teamB": "D4",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-34",
+        "day": "J2",
+        "dateTime": "2026-05-24T08:21:00.000Z",
+        "competition": "5v5",
+        "phase": "Qualification",
+        "group": "Or A",
+        "teamA": "A4",
+        "teamB": "D3",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-36",
+        "day": "J2",
+        "dateTime": "2026-05-24T09:08:00.000Z",
+        "competition": "5v5",
+        "phase": "Qualification",
+        "group": "Or A",
+        "teamA": "B1",
+        "teamB": "C2",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-37",
+        "day": "J2",
+        "dateTime": "2026-05-24T09:35:00.000Z",
+        "competition": "5v5",
+        "phase": "Qualification",
+        "group": "Or A",
+        "teamA": "B2",
+        "teamB": "C1",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-38",
+        "day": "J2",
+        "dateTime": "2026-05-24T10:02:00.000Z",
+        "competition": "5v5",
+        "phase": "Qualification",
+        "group": "Or B",
+        "teamA": "B3",
+        "teamB": "C4",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-39",
+        "day": "J2",
+        "dateTime": "2026-05-24T10:29:00.000Z",
+        "competition": "5v5",
+        "phase": "Qualification",
+        "group": "Or B",
+        "teamA": "B4",
+        "teamB": "C3",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-41",
+        "day": "J2",
+        "dateTime": "2026-05-24T11:16:00.000Z",
+        "competition": "5v5",
+        "phase": "Qualification",
+        "group": "Or B",
+        "teamA": "A1",
+        "teamB": "C2",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-42",
+        "day": "J2",
+        "dateTime": "2026-05-24T11:43:00.000Z",
+        "competition": "5v5",
+        "phase": "Qualification",
+        "group": "Or B",
+        "teamA": "A2",
+        "teamB": "C1",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-43",
+        "day": "J2",
+        "dateTime": "2026-05-24T12:10:00.000Z",
+        "competition": "5v5",
+        "phase": "Qualification",
+        "group": "Or B",
+        "teamA": "A3",
+        "teamB": "C4",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-44",
+        "day": "J2",
+        "dateTime": "2026-05-24T12:37:00.000Z",
+        "competition": "5v5",
+        "phase": "Qualification",
+        "group": "Or B",
+        "teamA": "A4",
+        "teamB": "C3",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-46",
+        "day": "J2",
+        "dateTime": "2026-05-24T13:24:00.000Z",
+        "competition": "5v5",
+        "phase": "Qualification",
+        "group": "Argent C",
+        "teamA": "D2",
+        "teamB": "B1",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-47",
+        "day": "J2",
+        "dateTime": "2026-05-24T13:51:00.000Z",
+        "competition": "5v5",
+        "phase": "Qualification",
+        "group": "Argent C",
+        "teamA": "D1",
+        "teamB": "B2",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-48",
+        "day": "J2",
+        "dateTime": "2026-05-24T14:18:00.000Z",
+        "competition": "5v5",
+        "phase": "Qualification",
+        "group": "Argent C",
+        "teamA": "D4",
+        "teamB": "B3",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-49",
+        "day": "J2",
+        "dateTime": "2026-05-24T14:45:00.000Z",
+        "competition": "5v5",
+        "phase": "Qualification",
+        "group": "Argent C",
+        "teamA": "D3",
+        "teamB": "B4",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-51",
+        "day": "J2",
+        "dateTime": "2026-05-24T15:32:00.000Z",
+        "competition": "5v5",
+        "phase": "Qualification",
+        "group": "Argent C",
+        "teamA": "A1",
+        "teamB": "B1",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-52",
+        "day": "J2",
+        "dateTime": "2026-05-24T15:59:00.000Z",
+        "competition": "5v5",
+        "phase": "Qualification",
+        "group": "Argent C",
+        "teamA": "A2",
+        "teamB": "B2",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-53",
+        "day": "J2",
+        "dateTime": "2026-05-24T16:26:00.000Z",
+        "competition": "5v5",
+        "phase": "Qualification",
+        "group": "Argent D",
+        "teamA": "A3",
+        "teamB": "B3",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-54",
+        "day": "J2",
+        "dateTime": "2026-05-24T16:53:00.000Z",
+        "competition": "5v5",
+        "phase": "Qualification",
+        "group": "Argent D",
+        "teamA": "A4",
+        "teamB": "B4",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-56",
+        "day": "J2",
+        "dateTime": "2026-05-24T17:40:00.000Z",
+        "competition": "5v5",
+        "phase": "Qualification",
+        "group": "Argent D",
+        "teamA": "C2",
+        "teamB": "D2",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-57",
+        "day": "J2",
+        "dateTime": "2026-05-24T18:07:00.000Z",
+        "competition": "5v5",
+        "phase": "Qualification",
+        "group": "Argent D",
+        "teamA": "C1",
+        "teamB": "D1",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-58",
+        "day": "J2",
+        "dateTime": "2026-05-24T18:34:00.000Z",
+        "competition": "5v5",
+        "phase": "Qualification",
+        "group": "Argent D",
+        "teamA": "C4",
+        "teamB": "D4",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-59",
+        "day": "J2",
+        "dateTime": "2026-05-24T19:01:00.000Z",
+        "competition": "5v5",
+        "phase": "Qualification",
+        "group": "Argent D",
+        "teamA": "C3",
+        "teamB": "D3",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-61",
+        "day": "J3",
+        "dateTime": "2026-05-25T06:00:00.000Z",
+        "competition": "5v5",
+        "phase": "Finales",
+        "group": "Finales-1",
+        "teamA": "Argent C3",
+        "teamB": "Argent D4",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": true
+      },
+      {
+        "id": "M-62",
+        "day": "J3",
+        "dateTime": "2026-05-25T06:27:00.000Z",
+        "competition": "5v5",
+        "phase": "Finales",
+        "group": "Finales-1",
+        "teamA": "Argent D3",
+        "teamB": "Argent C4",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": true
+      },
+      {
+        "id": "M-63",
+        "day": "J3",
+        "dateTime": "2026-05-25T06:54:00.000Z",
+        "competition": "5v5",
+        "phase": "Finales",
+        "group": "Finales-1",
+        "teamA": "Argent C1",
+        "teamB": "Argent D2",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": true
+      },
+      {
+        "id": "M-64",
+        "day": "J3",
+        "dateTime": "2026-05-25T07:21:00.000Z",
+        "competition": "5v5",
+        "phase": "Finales",
+        "group": "Finales-1",
+        "teamA": "Argent D1",
+        "teamB": "Argent C2",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": true
+      },
+      {
+        "id": "M-66",
+        "day": "J3",
+        "dateTime": "2026-05-25T08:08:00.000Z",
+        "competition": "5v5",
+        "phase": "Finales",
+        "group": "Finales-2",
+        "teamA": "Or A3",
+        "teamB": "Or B4",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": true
+      },
+      {
+        "id": "M-67",
+        "day": "J3",
+        "dateTime": "2026-05-25T08:35:00.000Z",
+        "competition": "5v5",
+        "phase": "Finales",
+        "group": "Finales-2",
+        "teamA": "Or B3",
+        "teamB": "Or A4",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": true
+      },
+      {
+        "id": "M-68",
+        "day": "J3",
+        "dateTime": "2026-05-25T09:02:00.000Z",
+        "competition": "5v5",
+        "phase": "Finales",
+        "group": "Finales-2",
+        "teamA": "Or A1",
+        "teamB": "Or B2",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": true
+      },
+      {
+        "id": "M-69",
+        "day": "J3",
+        "dateTime": "2026-05-25T09:29:00.000Z",
+        "competition": "5v5",
+        "phase": "Finales",
+        "group": "Finales-2",
+        "teamA": "Or B1",
+        "teamB": "Or A2",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": true
+      },
+      {
+        "id": "M-71",
+        "day": "J3",
+        "dateTime": "2026-05-25T10:16:00.000Z",
+        "competition": "5v5",
+        "phase": "Finales",
+        "group": "Finales-3",
+        "teamA": "pArgent C3Argent D4",
+        "teamB": "pArgent D3Argent C4",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": true
+      },
+      {
+        "id": "M-72",
+        "day": "J3",
+        "dateTime": "2026-05-25T10:43:00.000Z",
+        "competition": "5v5",
+        "phase": "Finales",
+        "group": "Finales-3",
+        "teamA": "pArgent C1Argent D2",
+        "teamB": "pArgent D1Argent C2",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": true
+      },
+      {
+        "id": "M-73",
+        "day": "J3",
+        "dateTime": "2026-05-25T11:10:00.000Z",
+        "competition": "5v5",
+        "phase": "Finales",
+        "group": "Finales-3",
+        "teamA": "pOr A3Or B4",
+        "teamB": "pOr B3Or A4",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": true
+      },
+      {
+        "id": "M-74",
+        "day": "J3",
+        "dateTime": "2026-05-25T11:37:00.000Z",
+        "competition": "5v5",
+        "phase": "Finales",
+        "group": "Finales-3",
+        "teamA": "pOr A1Or B2",
+        "teamB": "pOr B1Or A2",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": true
+      },
+      {
+        "id": "M-76",
+        "day": "J3",
+        "dateTime": "2026-05-25T12:24:00.000Z",
+        "competition": "5v5",
+        "phase": "Finales",
+        "group": "Finales-4",
+        "teamA": "vArgent C3Argent D4",
+        "teamB": "vArgent D3Argent C4",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": true
+      },
+      {
+        "id": "M-77",
+        "day": "J3",
+        "dateTime": "2026-05-25T12:51:00.000Z",
+        "competition": "5v5",
+        "phase": "Finales",
+        "group": "Finales-4",
+        "teamA": "vArgent C1Argent D2",
+        "teamB": "vArgent D1Argent C2",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": true
+      },
+      {
+        "id": "M-78",
+        "day": "J3",
+        "dateTime": "2026-05-25T13:18:00.000Z",
+        "competition": "5v5",
+        "phase": "Finales",
+        "group": "Finales-4",
+        "teamA": "vOr A3Or B4",
+        "teamB": "vOr B3Or A4",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": true
+      },
+      {
+        "id": "M-80",
+        "day": "J3",
+        "dateTime": "2026-05-25T14:05:00.000Z",
+        "competition": "5v5",
+        "phase": "Finales",
+        "group": "Finales-4",
+        "teamA": "vOr A1Or B2",
+        "teamB": "vOr B1Or A2",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": true
+      }
+    ],
+    "standings": {},
+    "challengeAttempts": [
+      {
+        "playerId": "144",
+        "teamId": "1",
+        "atelier": "vitesse",
+        "value": 10.89,
+        "at": "2026-05-23T07:30:00.000Z"
+      },
+      {
+        "playerId": "144",
+        "teamId": "1",
+        "atelier": "agilite",
+        "value": 20.88,
+        "raw": "base:17.88,errors:1",
+        "at": "2026-05-23T07:30:00.000Z"
+      },
+      {
+        "playerId": "144",
+        "teamId": "1",
+        "atelier": "tir",
+        "value": 7,
+        "raw": "shots:3,1,3",
+        "at": "2026-05-23T07:30:00.000Z"
+      }
+    ],
+    "events": [
+      {
+        "type": "SIM_BACKUP_CREATED",
+        "at": "2026-02-21T22:39:43.822Z",
+        "payload": {
+          "filePath": "test/simulateur/out/run-2026-02-21T23-39-42/backup-initial.json",
+          "tableCounts": {
+            "TA_MATCHS": 80,
+            "ta_classement": 32,
+            "ta_joueurs": 171
+          }
+        },
+        "id": "SIM_BACKUP_CREATED-000001",
+        "sequence": 1
+      },
+      {
+        "type": "RESET_PRE_TOURNOI",
+        "at": "2026-02-21T22:39:44.000Z",
+        "payload": {
+          "reset": true,
+          "note": "Pre-tournament reset applied on DB target.",
+          "tables": [
+            "TA_MATCHS",
+            "ta_classement",
+            "ta_joueurs"
+          ]
+        },
+        "id": "RESET_PRE_TOURNOI-000002",
+        "sequence": 2
+      },
+      {
+        "type": "MATCH_STARTED",
+        "at": "2026-05-23T07:00:00.000Z",
+        "payload": {
+          "matchId": "M-1",
+          "day": "J1",
+          "phase": "Brassage",
+          "group": "A",
+          "teamA": "Meyrin",
+          "teamB": "Angers"
+        },
+        "id": "MATCH_STARTED-000003",
+        "sequence": 3
+      },
+      {
+        "type": "SIM_SQL_APPLIED",
+        "at": "2026-05-23T07:00:00.000Z",
+        "payload": {
+          "actionId": "M-1-start",
+          "attempted": 1,
+          "succeeded": 1,
+          "failed": 0
+        },
+        "id": "SIM_SQL_APPLIED-000004",
+        "sequence": 4
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T07:00:00.000Z",
+        "payload": {
+          "actionId": "M-1-start",
+          "actionType": "MATCH_STARTED",
+          "writes": 1
+        },
+        "id": "SIM_ACTION_EXECUTED-000005",
+        "sequence": 5
+      },
+      {
+        "type": "SIMULATOR_DATASET_LOADED",
+        "at": "2026-05-23T07:00:00.000Z",
+        "payload": {
+          "sqlDumpPath": "C:\\\\Users\\\\fabli\\\\Downloads\\\\rchcu11_tournoi_test.sql",
+          "sqlColumns": {
+            "taMatchs": [
+              "NUM_MATCH",
+              "EQUIPE1",
+              "EQUIPE2",
+              "EQUIPE_ID1",
+              "EQUIPE_ID2",
+              "ETAT",
+              "DATEHEURE",
+              "SURFACAGE"
+            ],
+            "taEquipes": [
+              "ID",
+              "EQUIPE",
+              "CHALLENGE_SAMEDI"
+            ],
+            "taJoueurs": [
+              "ID",
+              "EQUIPE_ID",
+              "PRENOM",
+              "NOM",
+              "QF",
+              "DF",
+              "F",
+              "V"
+            ]
+          },
+          "matchCounts": {
+            "j1": 24,
+            "j2": 24,
+            "j3": 16
+          }
+        },
+        "id": "SIMULATOR_DATASET_LOADED-000006",
+        "sequence": 6
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T07:00:00.000Z",
+        "payload": {
+          "actionId": "dataset-loaded",
+          "actionType": "SIMULATOR_DATASET_LOADED",
+          "writes": 0
+        },
+        "id": "SIM_ACTION_EXECUTED-000007",
+        "sequence": 7
+      },
+      {
+        "type": "GOAL",
+        "at": "2026-05-23T07:11:00.000Z",
+        "payload": {
+          "matchId": "M-1",
+          "scorerTeam": "Meyrin",
+          "scoreA": 1,
+          "scoreB": 0
+        },
+        "id": "GOAL-000008",
+        "sequence": 8
+      },
+      {
+        "type": "SIM_SQL_APPLIED",
+        "at": "2026-05-23T07:11:00.000Z",
+        "payload": {
+          "actionId": "M-1-goal-1",
+          "attempted": 1,
+          "succeeded": 1,
+          "failed": 0
+        },
+        "id": "SIM_SQL_APPLIED-000009",
+        "sequence": 9
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T07:11:00.000Z",
+        "payload": {
+          "actionId": "M-1-goal-1",
+          "actionType": "GOAL",
+          "writes": 1
+        },
+        "id": "SIM_ACTION_EXECUTED-000010",
+        "sequence": 10
+      },
+      {
+        "type": "GOAL",
+        "at": "2026-05-23T07:11:00.000Z",
+        "payload": {
+          "matchId": "M-1",
+          "scorerTeam": "Angers",
+          "scoreA": 1,
+          "scoreB": 1
+        },
+        "id": "GOAL-000011",
+        "sequence": 11
+      },
+      {
+        "type": "SIM_SQL_APPLIED",
+        "at": "2026-05-23T07:11:00.000Z",
+        "payload": {
+          "actionId": "M-1-goal-2",
+          "attempted": 1,
+          "succeeded": 1,
+          "failed": 0
+        },
+        "id": "SIM_SQL_APPLIED-000012",
+        "sequence": 12
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T07:11:00.000Z",
+        "payload": {
+          "actionId": "M-1-goal-2",
+          "actionType": "GOAL",
+          "writes": 1
+        },
+        "id": "SIM_ACTION_EXECUTED-000013",
+        "sequence": 13
+      },
+      {
+        "type": "MATCH_FINISHED",
+        "at": "2026-05-23T07:22:00.000Z",
+        "payload": {
+          "matchId": "M-1",
+          "scoreA": 1,
+          "scoreB": 1
+        },
+        "id": "MATCH_FINISHED-000014",
+        "sequence": 14
+      },
+      {
+        "type": "SIM_SQL_APPLIED",
+        "at": "2026-05-23T07:22:00.000Z",
+        "payload": {
+          "actionId": "M-1-finished",
+          "attempted": 1,
+          "succeeded": 1,
+          "failed": 0
+        },
+        "id": "SIM_SQL_APPLIED-000015",
+        "sequence": 15
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T07:22:00.000Z",
+        "payload": {
+          "actionId": "M-1-finished",
+          "actionType": "MATCH_FINISHED",
+          "writes": 1
+        },
+        "id": "SIM_ACTION_EXECUTED-000016",
+        "sequence": 16
+      },
+      {
+        "type": "INTER_MATCH_BREAK_STARTED",
+        "at": "2026-05-23T07:22:00.000Z",
+        "payload": {
+          "matchId": "M-1",
+          "breakMinutes": 5
+        },
+        "id": "INTER_MATCH_BREAK_STARTED-000017",
+        "sequence": 17
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T07:22:00.000Z",
+        "payload": {
+          "actionId": "M-1-break-start",
+          "actionType": "INTER_MATCH_BREAK_STARTED",
+          "writes": 0
+        },
+        "id": "SIM_ACTION_EXECUTED-000018",
+        "sequence": 18
+      },
+      {
+        "type": "MATCH_STARTED",
+        "at": "2026-05-23T07:27:00.000Z",
+        "payload": {
+          "matchId": "M-2",
+          "day": "J1",
+          "phase": "Brassage",
+          "group": "A",
+          "teamA": "Rennes",
+          "teamB": "Neuilly"
+        },
+        "id": "MATCH_STARTED-000019",
+        "sequence": 19
+      },
+      {
+        "type": "SIM_SQL_APPLIED",
+        "at": "2026-05-23T07:27:00.000Z",
+        "payload": {
+          "actionId": "M-2-start",
+          "attempted": 1,
+          "succeeded": 1,
+          "failed": 0
+        },
+        "id": "SIM_SQL_APPLIED-000020",
+        "sequence": 20
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T07:27:00.000Z",
+        "payload": {
+          "actionId": "M-2-start",
+          "actionType": "MATCH_STARTED",
+          "writes": 1
+        },
+        "id": "SIM_ACTION_EXECUTED-000021",
+        "sequence": 21
+      },
+      {
+        "type": "INTER_MATCH_BREAK_FINISHED",
+        "at": "2026-05-23T07:27:00.000Z",
+        "payload": {
+          "matchId": "M-1"
+        },
+        "id": "INTER_MATCH_BREAK_FINISHED-000022",
+        "sequence": 22
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T07:27:00.000Z",
+        "payload": {
+          "actionId": "M-1-break-end",
+          "actionType": "INTER_MATCH_BREAK_FINISHED",
+          "writes": 0
+        },
+        "id": "SIM_ACTION_EXECUTED-000023",
+        "sequence": 23
+      },
+      {
+        "type": "CHALLENGE_TEAM_WINDOW_STARTED",
+        "at": "2026-05-23T07:30:00.000Z",
+        "payload": {
+          "teamId": "1",
+          "windowMinutes": 35,
+          "startSource": "sql",
+          "configuredStart": "2026-05-23T07:30:00.000Z",
+          "rawSqlValue": "2026-05-23 09:30:00"
+        },
+        "id": "CHALLENGE_TEAM_WINDOW_STARTED-000024",
+        "sequence": 24
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T07:30:00.000Z",
+        "payload": {
+          "actionId": "challenge-1-start",
+          "actionType": "CHALLENGE_TEAM_WINDOW_STARTED",
+          "writes": 0
+        },
+        "id": "SIM_ACTION_EXECUTED-000025",
+        "sequence": 25
+      },
+      {
+        "type": "CHALLENGE_PLAYER_PASSED",
+        "at": "2026-05-23T07:30:00.000Z",
+        "payload": {
+          "teamId": "1",
+          "playerId": "144",
+          "vitesse": 10.89,
+          "agilite": 20.88,
+          "tir": 7
+        },
+        "id": "CHALLENGE_PLAYER_PASSED-000026",
+        "sequence": 26
+      },
+      {
+        "type": "SIM_BACKUP_RESTORED",
+        "at": "2026-02-21T22:39:46.343Z",
+        "payload": {
+          "backupFile": "test/simulateur/out/run-2026-02-21T23-39-42/backup-initial.json"
+        },
+        "id": "SIM_BACKUP_RESTORED-000027",
+        "sequence": 27
+      }
+    ],
+    "writes": [
+      {
+        "table": "ta_matchs",
+        "action": "update",
+        "at": "2026-05-23T07:00:00.000Z",
+        "where": "ID='M-1'",
+        "values": {
+          "ETAT": "c"
+        }
+      },
+      {
+        "table": "ta_matchs",
+        "action": "update",
+        "at": "2026-05-23T07:11:00.000Z",
+        "where": "ID='M-1'",
+        "values": {
+          "SCORE_EQUIPE1": 1,
+          "SCORE_EQUIPE2": 0
+        }
+      },
+      {
+        "table": "ta_matchs",
+        "action": "update",
+        "at": "2026-05-23T07:11:00.000Z",
+        "where": "ID='M-1'",
+        "values": {
+          "SCORE_EQUIPE1": 1,
+          "SCORE_EQUIPE2": 1
+        }
+      },
+      {
+        "table": "ta_matchs",
+        "action": "update",
+        "at": "2026-05-23T07:22:00.000Z",
+        "where": "ID='M-1'",
+        "values": {
+          "ETAT": "x",
+          "SCORE_EQUIPE1": 1,
+          "SCORE_EQUIPE2": 1
+        }
+      },
+      {
+        "table": "ta_matchs",
+        "action": "update",
+        "at": "2026-05-23T07:27:00.000Z",
+        "where": "ID='M-2'",
+        "values": {
+          "ETAT": "c"
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:30:00.000Z",
+        "values": {
+          "PLAYER_ID": "144",
+          "TEAM_ID": "1",
+          "ATELIER": "vitesse",
+          "RESULTAT": 10.89,
+          "META": null
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:30:00.000Z",
+        "values": {
+          "PLAYER_ID": "144",
+          "TEAM_ID": "1",
+          "ATELIER": "agilite",
+          "RESULTAT": 20.88,
+          "META": "base:17.88,errors:1"
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:30:00.000Z",
+        "values": {
+          "PLAYER_ID": "144",
+          "TEAM_ID": "1",
+          "ATELIER": "tir",
+          "RESULTAT": 7,
+          "META": "shots:3,1,3"
+        }
+      }
+    ],
+    "challengeStartAudit": [
+      {
+        "teamId": "1",
+        "startAt": "2026-05-23T07:30:00.000Z",
+        "startSource": "sql",
+        "rawSqlValue": "2026-05-23 09:30:00"
+      }
+    ],
+    "runMetrics": {
+      "executedWrites": 5,
+      "failedWrites": 0,
+      "retries": 1,
+      "runDurationMs": 2343,
+      "dbTarget": "rchcu11_tournoi_test",
+      "backupFile": "test/simulateur/out/run-2026-02-21T23-39-42/backup-initial.json",
+      "checkpointUsed": false,
+      "rowsAffectedByTable": {
+        "ta_matchs": 5
+      }
+    }
+  },
+  "executedActionIds": [
+    "M-1-start",
+    "dataset-loaded",
+    "M-1-goal-1",
+    "M-1-goal-2",
+    "M-1-finished",
+    "M-1-break-start",
+    "M-2-start",
+    "M-1-break-end",
+    "challenge-1-start"
+  ],
+  "processedActions": 9,
+  "runStartedAt": "2026-02-21T22:39:43.598Z"
+}

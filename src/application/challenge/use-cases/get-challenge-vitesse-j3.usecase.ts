@@ -10,7 +10,6 @@ import {
 import {
   buildTournamentDateTimeIso,
   buildTournamentDateTimeMs,
-  getCurrentTournamentDay,
   getTournamentDayDateKey,
 } from '@/application/shared/tournament-time.utils';
 
@@ -47,10 +46,26 @@ const OFFICIAL_PHASE_TIMES = {
   DF: '11:56',
   F: '14:04',
 } as const;
+const PHASE_DURATION_MS = 20 * 60 * 1000;
 
 function parseSlot(value: string, regex: RegExp): string | null {
   const match = value.match(regex);
   return match ? match[0] : null;
+}
+
+function resolvePhaseStatus(params: {
+  hasPlayers: boolean;
+  observedFinished: boolean;
+  nowMs: number;
+  startMs: number;
+}): PhaseStatus {
+  const { hasPlayers, observedFinished, nowMs, startMs } = params;
+
+  if (observedFinished) return 'finished';
+  if (!hasPlayers) return 'planned';
+  if (nowMs < startMs) return 'planned';
+  if (nowMs < startMs + PHASE_DURATION_MS) return 'ongoing';
+  return 'finished';
 }
 
 @Injectable()
@@ -137,7 +152,6 @@ export class GetChallengeVitesseJ3UseCase {
     }
 
     const now = new Date();
-    const currentTournamentDay = getCurrentTournamentDay(matches, now);
     const day3DateKey = getTournamentDayDateKey(matches, 'J3');
     const hasQf = Object.entries(slots).some(
       ([slotId, slotPlayers]) =>
@@ -170,7 +184,13 @@ export class GetChallengeVitesseJ3UseCase {
       day3DateKey,
       OFFICIAL_PHASE_TIMES.F,
     );
-    const homeVisible = currentTournamentDay === 'J3';
+    const threeVThreeMatches = matches.filter((m) => m.competitionType === '3v3');
+    const lastThreeVThreeEndMs =
+      threeVThreeMatches.length > 0
+        ? Math.max(...threeVThreeMatches.map((m) => new Date(m.date).getTime())) +
+          30 * 60 * 1000
+        : Number.POSITIVE_INFINITY;
+    const homeVisible = nowMs >= lastThreeVThreeEndMs;
 
     const phases: ChallengeVitesseJ3Response['phases'] = {
       QF: {
@@ -179,15 +199,12 @@ export class GetChallengeVitesseJ3UseCase {
           day3DateKey,
           OFFICIAL_PHASE_TIMES.QF,
         ),
-        status: !hasQf
-          ? 'planned'
-          : hasDf || hasF || hasWinner
-            ? 'finished'
-            : nowMs < qfStartMs
-              ? 'planned'
-              : nowMs < dfStartMs
-                ? 'ongoing'
-                : 'finished',
+        status: resolvePhaseStatus({
+          hasPlayers: hasQf,
+          observedFinished: hasDf || hasF || hasWinner,
+          nowMs,
+          startMs: qfStartMs,
+        }),
         visible: hasQf,
         homeVisible: homeVisible && hasQf,
       },
@@ -197,15 +214,12 @@ export class GetChallengeVitesseJ3UseCase {
           day3DateKey,
           OFFICIAL_PHASE_TIMES.DF,
         ),
-        status: !hasDf
-          ? 'planned'
-          : hasF || hasWinner
-            ? 'finished'
-            : nowMs < dfStartMs
-              ? 'planned'
-              : nowMs < fStartMs
-                ? 'ongoing'
-                : 'finished',
+        status: resolvePhaseStatus({
+          hasPlayers: hasDf,
+          observedFinished: hasF || hasWinner,
+          nowMs,
+          startMs: dfStartMs,
+        }),
         visible: hasDf,
         homeVisible: homeVisible && hasDf,
       },
@@ -215,13 +229,12 @@ export class GetChallengeVitesseJ3UseCase {
           day3DateKey,
           OFFICIAL_PHASE_TIMES.F,
         ),
-        status: !hasF
-          ? 'planned'
-          : hasWinner
-            ? 'finished'
-            : nowMs < fStartMs
-              ? 'planned'
-              : 'ongoing',
+        status: resolvePhaseStatus({
+          hasPlayers: hasF,
+          observedFinished: hasWinner,
+          nowMs,
+          startMs: fStartMs,
+        }),
         visible: hasF,
         homeVisible: homeVisible && hasF,
       },

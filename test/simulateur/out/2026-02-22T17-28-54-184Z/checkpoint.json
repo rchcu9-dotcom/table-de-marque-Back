@@ -1,0 +1,4440 @@
+{
+  "step": "done",
+  "data": {
+    "teams": [
+      {
+        "id": "1",
+        "name": "Meyrin",
+        "group": ""
+      },
+      {
+        "id": "2",
+        "name": "Champigny",
+        "group": ""
+      },
+      {
+        "id": "3",
+        "name": "Dammarie",
+        "group": ""
+      },
+      {
+        "id": "4",
+        "name": "Angers",
+        "group": ""
+      },
+      {
+        "id": "5",
+        "name": "Rennes",
+        "group": ""
+      },
+      {
+        "id": "6",
+        "name": "Meudon",
+        "group": ""
+      },
+      {
+        "id": "7",
+        "name": "Compiègne",
+        "group": ""
+      },
+      {
+        "id": "8",
+        "name": "Neuilly",
+        "group": ""
+      },
+      {
+        "id": "9",
+        "name": "Cholet",
+        "group": ""
+      },
+      {
+        "id": "10",
+        "name": "Le Havre",
+        "group": ""
+      },
+      {
+        "id": "11",
+        "name": "Evry-Viry",
+        "group": ""
+      },
+      {
+        "id": "12",
+        "name": "Courbevoie",
+        "group": ""
+      },
+      {
+        "id": "13",
+        "name": "Tours",
+        "group": ""
+      },
+      {
+        "id": "14",
+        "name": "Valenciennes",
+        "group": ""
+      },
+      {
+        "id": "15",
+        "name": "Rouen",
+        "group": ""
+      },
+      {
+        "id": "16",
+        "name": "Les Volants",
+        "group": ""
+      }
+    ],
+    "dataWarnings": [
+      "Match 71: team A placeholder \"pArgent C3Argent D4\" resolved via resolved_from_composite:argentc3.",
+      "Match 71: team B placeholder \"pArgent D3Argent C4\" resolved via resolved_from_composite:argentc4.",
+      "Match 72: team A placeholder \"pArgent C1Argent D2\" resolved via resolved_from_composite:argentc1.",
+      "Match 72: team B placeholder \"pArgent D1Argent C2\" resolved via resolved_from_composite:argentc2.",
+      "Match 73: team A placeholder \"pOr A3Or B4\" resolved via resolved_from_composite:ora3.",
+      "Match 73: team B placeholder \"pOr B3Or A4\" resolved via resolved_from_composite:ora4.",
+      "Match 74: team A placeholder \"pOr A1Or B2\" resolved via resolved_from_composite:ora1.",
+      "Match 74: team B placeholder \"pOr B1Or A2\" resolved via resolved_from_composite:ora2.",
+      "Match 76: team A placeholder \"vArgent C3Argent D4\" resolved via resolved_from_composite:argentc3.",
+      "Match 76: team B placeholder \"vArgent D3Argent C4\" resolved via resolved_from_composite:argentc4.",
+      "Match 77: team A placeholder \"vArgent C1Argent D2\" resolved via resolved_from_composite:argentc1.",
+      "Match 77: team B placeholder \"vArgent D1Argent C2\" resolved via resolved_from_composite:argentc2.",
+      "Match 78: team A placeholder \"vOr A3Or B4\" resolved via resolved_from_composite:ora3.",
+      "Match 78: team B placeholder \"vOr B3Or A4\" resolved via resolved_from_composite:ora4.",
+      "Match 80: team A placeholder \"vOr A1Or B2\" resolved via resolved_from_composite:ora1.",
+      "Match 80: team B placeholder \"vOr B1Or A2\" resolved via resolved_from_composite:ora2."
+    ],
+    "sqlLoadDiagnostics": {
+      "fiveVFiveSourceRows": 64,
+      "droppedByReason": {},
+      "keptByDay": {
+        "J1": 24,
+        "J2": 24,
+        "J3": 16
+      }
+    },
+    "players": [
+      {
+        "id": "1",
+        "teamId": "7",
+        "name": "Robin GILBERT",
+        "v": 0
+      },
+      {
+        "id": "2",
+        "teamId": "7",
+        "name": "Martin BOUILLOUX",
+        "v": 0
+      },
+      {
+        "id": "3",
+        "teamId": "7",
+        "name": "Oscar MALANDAIN",
+        "v": 0
+      },
+      {
+        "id": "4",
+        "teamId": "7",
+        "name": "Julien BODIN",
+        "v": 0
+      },
+      {
+        "id": "5",
+        "teamId": "7",
+        "name": "Evan CARPENTIER",
+        "v": 0
+      },
+      {
+        "id": "6",
+        "teamId": "7",
+        "name": "Mathys RAS",
+        "v": 0
+      },
+      {
+        "id": "7",
+        "teamId": "7",
+        "name": "Tom TALBOT",
+        "v": 0
+      },
+      {
+        "id": "8",
+        "teamId": "7",
+        "name": "Nathanaël HOUDINET",
+        "v": 0
+      },
+      {
+        "id": "9",
+        "teamId": "7",
+        "name": "Lillah NOËL-VILLENEUVE",
+        "v": 0
+      },
+      {
+        "id": "10",
+        "teamId": "7",
+        "name": "Amjad BELGACEM",
+        "qf": "QF4",
+        "v": 0
+      },
+      {
+        "id": "11",
+        "teamId": "7",
+        "name": "Jules VAUGHAN",
+        "qf": "QF2",
+        "df": "DF4",
+        "f": "F",
+        "v": 0
+      },
+      {
+        "id": "12",
+        "teamId": "7",
+        "name": "Raphaël LECROQ",
+        "v": 0
+      },
+      {
+        "id": "13",
+        "teamId": "7",
+        "name": "Teddy POULAIN",
+        "v": 0
+      },
+      {
+        "id": "14",
+        "teamId": "7",
+        "name": "Ethan GRENIER",
+        "v": 0
+      },
+      {
+        "id": "15",
+        "teamId": "7",
+        "name": "Clément L HERMITE",
+        "v": 0
+      },
+      {
+        "id": "16",
+        "teamId": "7",
+        "name": "Elijaah HERVÉ",
+        "v": 0
+      },
+      {
+        "id": "17",
+        "teamId": "11",
+        "name": "Tom AUBRY",
+        "v": 0
+      },
+      {
+        "id": "18",
+        "teamId": "11",
+        "name": "Ryan BEAUMIAN",
+        "v": 0
+      },
+      {
+        "id": "19",
+        "teamId": "11",
+        "name": "Néo XIE",
+        "v": 0
+      },
+      {
+        "id": "20",
+        "teamId": "11",
+        "name": "Owen TANESIE DEMARSY",
+        "qf": "QF6",
+        "v": 0
+      },
+      {
+        "id": "21",
+        "teamId": "11",
+        "name": "Sébastien BERTAUX TERRADE",
+        "v": 0
+      },
+      {
+        "id": "22",
+        "teamId": "11",
+        "name": "Milan RONCONI",
+        "qf": "QF1",
+        "df": "DF2",
+        "v": 0
+      },
+      {
+        "id": "23",
+        "teamId": "11",
+        "name": "Matteo KSIONKOWSKI",
+        "v": 0
+      },
+      {
+        "id": "24",
+        "teamId": "11",
+        "name": "Naïmane BOUSSAHA",
+        "v": 0
+      },
+      {
+        "id": "25",
+        "teamId": "5",
+        "name": "Aris BACHOUCHE",
+        "v": 0
+      },
+      {
+        "id": "26",
+        "teamId": "5",
+        "name": "Sidi-Mohammed BAH",
+        "v": 0
+      },
+      {
+        "id": "27",
+        "teamId": "5",
+        "name": "Nathan BALAZUC",
+        "v": 0
+      },
+      {
+        "id": "28",
+        "teamId": "5",
+        "name": "Marie BLANC",
+        "v": 0
+      },
+      {
+        "id": "29",
+        "teamId": "5",
+        "name": "Melvil BONAC",
+        "v": 0
+      },
+      {
+        "id": "30",
+        "teamId": "5",
+        "name": "Hélio BOURDOULOUS",
+        "v": 0
+      },
+      {
+        "id": "31",
+        "teamId": "5",
+        "name": "Jules COUVELARD",
+        "v": 0
+      },
+      {
+        "id": "32",
+        "teamId": "5",
+        "name": "Oskar JOLY",
+        "v": 0
+      },
+      {
+        "id": "33",
+        "teamId": "5",
+        "name": "Aïden KACIMI",
+        "v": 0
+      },
+      {
+        "id": "34",
+        "teamId": "5",
+        "name": "Sasha KHEMAÏS",
+        "qf": "QF5",
+        "df": "DF2",
+        "v": 0
+      },
+      {
+        "id": "35",
+        "teamId": "5",
+        "name": "Cyan LIEUTIER",
+        "v": 0
+      },
+      {
+        "id": "36",
+        "teamId": "5",
+        "name": "Nahela MADHKKOUR",
+        "v": 0
+      },
+      {
+        "id": "37",
+        "teamId": "5",
+        "name": "Adrien MAGNIER",
+        "v": 0
+      },
+      {
+        "id": "38",
+        "teamId": "5",
+        "name": "Ludovic PACZEK",
+        "v": 0
+      },
+      {
+        "id": "39",
+        "teamId": "5",
+        "name": "Alexandre VILAIN",
+        "v": 0
+      },
+      {
+        "id": "40",
+        "teamId": "11",
+        "name": "Antoine BORMANN",
+        "v": 0
+      },
+      {
+        "id": "41",
+        "teamId": "11",
+        "name": "Gabriel PIFFARD",
+        "v": 0
+      },
+      {
+        "id": "42",
+        "teamId": "11",
+        "name": "Alexiane TOURNOIS",
+        "v": 0
+      },
+      {
+        "id": "43",
+        "teamId": "9",
+        "name": "Vincent GOGUILLOT",
+        "qf": "QF4",
+        "v": 0
+      },
+      {
+        "id": "44",
+        "teamId": "9",
+        "name": "Evan ESTEFFE",
+        "v": 0
+      },
+      {
+        "id": "45",
+        "teamId": "9",
+        "name": "Eden OUAAZ",
+        "v": 0
+      },
+      {
+        "id": "46",
+        "teamId": "9",
+        "name": "Thomas LAHMER",
+        "v": 0
+      },
+      {
+        "id": "47",
+        "teamId": "9",
+        "name": "Mathieu FRESSON",
+        "v": 0
+      },
+      {
+        "id": "48",
+        "teamId": "9",
+        "name": "Mathias VINOT SUAREZ LOPEZ",
+        "v": 0
+      },
+      {
+        "id": "49",
+        "teamId": "9",
+        "name": "Daniel BURAGA",
+        "v": 0
+      },
+      {
+        "id": "50",
+        "teamId": "9",
+        "name": "Matteo SEÏTE-BAGLIONI",
+        "v": 0
+      },
+      {
+        "id": "51",
+        "teamId": "9",
+        "name": "Noah TARNAUD",
+        "qf": "QF4",
+        "df": "DF1",
+        "v": 0
+      },
+      {
+        "id": "52",
+        "teamId": "9",
+        "name": "Sasha ROUILLER",
+        "v": 0
+      },
+      {
+        "id": "53",
+        "teamId": "9",
+        "name": "Victor ROUVELIN",
+        "v": 0
+      },
+      {
+        "id": "54",
+        "teamId": "8",
+        "name": "Lucas WOLOSZYN",
+        "v": 0
+      },
+      {
+        "id": "55",
+        "teamId": "8",
+        "name": "Ilyas BENAMAR",
+        "v": 0
+      },
+      {
+        "id": "56",
+        "teamId": "8",
+        "name": "Lenny BOGUS",
+        "v": 0
+      },
+      {
+        "id": "57",
+        "teamId": "8",
+        "name": "Robinson LIONNE",
+        "v": 0
+      },
+      {
+        "id": "58",
+        "teamId": "8",
+        "name": "Alexandre TRIBOUILLARD",
+        "v": 0
+      },
+      {
+        "id": "59",
+        "teamId": "8",
+        "name": "Joseph TRIBOUILLARD",
+        "qf": "QF3",
+        "df": "DF3",
+        "f": "F",
+        "v": 0
+      },
+      {
+        "id": "60",
+        "teamId": "8",
+        "name": "Gabriel BLIN",
+        "v": 0
+      },
+      {
+        "id": "61",
+        "teamId": "8",
+        "name": "Levy DURAY",
+        "qf": "QF5",
+        "df": "DF1",
+        "f": "F",
+        "v": 0
+      },
+      {
+        "id": "62",
+        "teamId": "8",
+        "name": "Lucka KOUYATE",
+        "v": 0
+      },
+      {
+        "id": "63",
+        "teamId": "8",
+        "name": "Simon MARESSE",
+        "v": 0
+      },
+      {
+        "id": "64",
+        "teamId": "8",
+        "name": "Tim GROSSEMY",
+        "v": 0
+      },
+      {
+        "id": "65",
+        "teamId": "8",
+        "name": "Simon GROSSEMY",
+        "v": 0
+      },
+      {
+        "id": "66",
+        "teamId": "8",
+        "name": "Bjorn VUILLY",
+        "v": 0
+      },
+      {
+        "id": "67",
+        "teamId": "8",
+        "name": "Lyam LAROCHE",
+        "v": 0
+      },
+      {
+        "id": "68",
+        "teamId": "8",
+        "name": "Mathéo FERON",
+        "v": 0
+      },
+      {
+        "id": "69",
+        "teamId": "3",
+        "name": "Asaël DA CRUZ",
+        "v": 0
+      },
+      {
+        "id": "70",
+        "teamId": "3",
+        "name": "Kim CHENG",
+        "v": 0
+      },
+      {
+        "id": "71",
+        "teamId": "3",
+        "name": "Charlotte HACKETT",
+        "v": 0
+      },
+      {
+        "id": "72",
+        "teamId": "3",
+        "name": "Tom CHENG",
+        "v": 0
+      },
+      {
+        "id": "73",
+        "teamId": "3",
+        "name": "Ryan ROLLAND",
+        "v": 0
+      },
+      {
+        "id": "74",
+        "teamId": "3",
+        "name": "Corentin MULLER",
+        "v": 0
+      },
+      {
+        "id": "75",
+        "teamId": "3",
+        "name": "Enoha BOURGUOIN",
+        "v": 0
+      },
+      {
+        "id": "76",
+        "teamId": "3",
+        "name": "Haytam GOUMANE",
+        "v": 0
+      },
+      {
+        "id": "77",
+        "teamId": "3",
+        "name": "Elouan MERLIN",
+        "v": 0
+      },
+      {
+        "id": "78",
+        "teamId": "3",
+        "name": "Ewenn JOURDREN BANHCHEUD",
+        "qf": "QF6",
+        "v": 0
+      },
+      {
+        "id": "79",
+        "teamId": "3",
+        "name": "Apaulyne LODE",
+        "v": 0
+      },
+      {
+        "id": "80",
+        "teamId": "3",
+        "name": "Fares LESTAT",
+        "v": 0
+      },
+      {
+        "id": "81",
+        "teamId": "10",
+        "name": "Cléophée PETITJEAN",
+        "v": 0
+      },
+      {
+        "id": "82",
+        "teamId": "10",
+        "name": "Markus CADORET BROQUAIRE",
+        "qf": "QF1",
+        "v": 0
+      },
+      {
+        "id": "83",
+        "teamId": "10",
+        "name": "Maxime AUGEREAU",
+        "v": 0
+      },
+      {
+        "id": "84",
+        "teamId": "10",
+        "name": "Maé MOLLY",
+        "v": 0
+      },
+      {
+        "id": "85",
+        "teamId": "10",
+        "name": "Marius LANG",
+        "v": 0
+      },
+      {
+        "id": "86",
+        "teamId": "10",
+        "name": "Jules SIMONUTTI",
+        "v": 0
+      },
+      {
+        "id": "87",
+        "teamId": "10",
+        "name": "Pierre CAIVEAU",
+        "v": 0
+      },
+      {
+        "id": "88",
+        "teamId": "10",
+        "name": "Ethan BLAIS",
+        "v": 0
+      },
+      {
+        "id": "89",
+        "teamId": "10",
+        "name": "Tom BERNIER-HUTEAU",
+        "v": 0
+      },
+      {
+        "id": "90",
+        "teamId": "10",
+        "name": "Paul BOURSEREAU",
+        "v": 0
+      },
+      {
+        "id": "91",
+        "teamId": "10",
+        "name": "Lilian GEOFFROY",
+        "qf": "QF6",
+        "df": "DF3",
+        "v": 0
+      },
+      {
+        "id": "92",
+        "teamId": "10",
+        "name": "Loric GAVAUD",
+        "v": 0
+      },
+      {
+        "id": "94",
+        "teamId": "10",
+        "name": "Elie POHARDY",
+        "v": 0
+      },
+      {
+        "id": "95",
+        "teamId": "10",
+        "name": "Ruben BREBION",
+        "v": 0
+      },
+      {
+        "id": "96",
+        "teamId": "12",
+        "name": "Clément GRUSON",
+        "v": 0
+      },
+      {
+        "id": "98",
+        "teamId": "12",
+        "name": "Harry ACKET",
+        "v": 0
+      },
+      {
+        "id": "99",
+        "teamId": "12",
+        "name": "Ennio BARETI",
+        "v": 0
+      },
+      {
+        "id": "100",
+        "teamId": "12",
+        "name": "Ethan BENAIM",
+        "v": 0
+      },
+      {
+        "id": "101",
+        "teamId": "12",
+        "name": "Noam BENNATAN",
+        "v": 0
+      },
+      {
+        "id": "102",
+        "teamId": "12",
+        "name": "Arthur CAO",
+        "v": 0
+      },
+      {
+        "id": "103",
+        "teamId": "12",
+        "name": "Aleksander KUCHTA",
+        "qf": "QF1",
+        "v": 0
+      },
+      {
+        "id": "104",
+        "teamId": "12",
+        "name": "Célien MIESZALY",
+        "qf": "QF2",
+        "v": 0
+      },
+      {
+        "id": "105",
+        "teamId": "12",
+        "name": "Sacha LE MOUILLOUR",
+        "v": 0
+      },
+      {
+        "id": "106",
+        "teamId": "12",
+        "name": "Georges PITCHER",
+        "v": 0
+      },
+      {
+        "id": "107",
+        "teamId": "12",
+        "name": "Marius RADONDY TENA",
+        "v": 0
+      },
+      {
+        "id": "108",
+        "teamId": "12",
+        "name": "Owen TERAN",
+        "v": 0
+      },
+      {
+        "id": "109",
+        "teamId": "9",
+        "name": "David HERASIMAU",
+        "v": 0
+      },
+      {
+        "id": "110",
+        "teamId": "2",
+        "name": "Elio FLEUTOT WANG",
+        "v": 0
+      },
+      {
+        "id": "111",
+        "teamId": "2",
+        "name": "Matteo FLEUTOT WANG",
+        "v": 0
+      },
+      {
+        "id": "112",
+        "teamId": "2",
+        "name": "Viktor BOUSQUET",
+        "v": 0
+      },
+      {
+        "id": "113",
+        "teamId": "2",
+        "name": "Raphaël GOUJON FAURE",
+        "v": 0
+      },
+      {
+        "id": "114",
+        "teamId": "2",
+        "name": "Pierre CHVEIKINE",
+        "v": 0
+      },
+      {
+        "id": "115",
+        "teamId": "2",
+        "name": "Soan RIDEL",
+        "v": 0
+      },
+      {
+        "id": "116",
+        "teamId": "2",
+        "name": "Iskander BENCHERIF",
+        "v": 0
+      },
+      {
+        "id": "117",
+        "teamId": "2",
+        "name": "Tom OLLIER MANGON",
+        "v": 0
+      },
+      {
+        "id": "118",
+        "teamId": "2",
+        "name": "Yanis SMAILI",
+        "v": 0
+      },
+      {
+        "id": "119",
+        "teamId": "2",
+        "name": "Ivan KAZYMYRENKO",
+        "qf": "QF2",
+        "v": 0
+      },
+      {
+        "id": "120",
+        "teamId": "2",
+        "name": "André BOURSIER",
+        "qf": "QF3",
+        "v": 0
+      },
+      {
+        "id": "121",
+        "teamId": "2",
+        "name": "Elio WEI",
+        "v": 0
+      },
+      {
+        "id": "122",
+        "teamId": "2",
+        "name": "Louis DEMAY",
+        "v": 0
+      },
+      {
+        "id": "123",
+        "teamId": "2",
+        "name": "Samuel SELLEZ",
+        "v": 0
+      },
+      {
+        "id": "124",
+        "teamId": "2",
+        "name": "Louis GAYRAUD",
+        "v": 0
+      },
+      {
+        "id": "125",
+        "teamId": "2",
+        "name": "Elias BEN MAHMOUD",
+        "v": 0
+      },
+      {
+        "id": "126",
+        "teamId": "2",
+        "name": "Benoit CHAUVIN",
+        "v": 0
+      },
+      {
+        "id": "127",
+        "teamId": "4",
+        "name": "Hermione NEVEU-GAUTHIER",
+        "v": 0
+      },
+      {
+        "id": "128",
+        "teamId": "4",
+        "name": "LYA JURET",
+        "v": 0
+      },
+      {
+        "id": "129",
+        "teamId": "4",
+        "name": "Yoann MORAN",
+        "v": 0
+      },
+      {
+        "id": "130",
+        "teamId": "4",
+        "name": "Gabriel GUILLOU",
+        "v": 0
+      },
+      {
+        "id": "131",
+        "teamId": "4",
+        "name": "Gaspard SAULOU",
+        "qf": "QF5",
+        "v": 0
+      },
+      {
+        "id": "132",
+        "teamId": "4",
+        "name": "Nehuen GAL MARENGO",
+        "v": 0
+      },
+      {
+        "id": "133",
+        "teamId": "4",
+        "name": "Manoé BLOND",
+        "v": 0
+      },
+      {
+        "id": "134",
+        "teamId": "4",
+        "name": "Gabriel HERMANT",
+        "qf": "QF4",
+        "df": "DF4",
+        "v": 0
+      },
+      {
+        "id": "135",
+        "teamId": "4",
+        "name": "Aristote MOREAU",
+        "v": 0
+      },
+      {
+        "id": "136",
+        "teamId": "4",
+        "name": "Alban ILINCA",
+        "v": 0
+      },
+      {
+        "id": "137",
+        "teamId": "4",
+        "name": "Sofiane LARBI-MANSOUR",
+        "v": 0
+      },
+      {
+        "id": "138",
+        "teamId": "4",
+        "name": "Nyls MARTIN",
+        "v": 0
+      },
+      {
+        "id": "139",
+        "teamId": "4",
+        "name": "Tino ROUGE",
+        "v": 0
+      },
+      {
+        "id": "140",
+        "teamId": "4",
+        "name": "Henri POITRAL",
+        "v": 0
+      },
+      {
+        "id": "141",
+        "teamId": "4",
+        "name": "Léontine BRUNA",
+        "v": 0
+      },
+      {
+        "id": "142",
+        "teamId": "4",
+        "name": "Aloïs FROMENTIN",
+        "v": 0
+      },
+      {
+        "id": "143",
+        "teamId": "4",
+        "name": "Noé PAGE",
+        "v": 0
+      },
+      {
+        "id": "144",
+        "teamId": "1",
+        "name": "Matéo GALVEZ",
+        "v": 0
+      },
+      {
+        "id": "145",
+        "teamId": "1",
+        "name": "Timothée ORHANT-HAIDAR",
+        "v": 0
+      },
+      {
+        "id": "146",
+        "teamId": "1",
+        "name": "Mathys MELLIN",
+        "qf": "QF6",
+        "df": "DF4",
+        "v": 0
+      },
+      {
+        "id": "147",
+        "teamId": "1",
+        "name": "Malo GUICHARD",
+        "qf": "QF5",
+        "v": 0
+      },
+      {
+        "id": "148",
+        "teamId": "1",
+        "name": "Geraud KLOTZ",
+        "v": 0
+      },
+      {
+        "id": "149",
+        "teamId": "1",
+        "name": "Glenn GUILLOUX",
+        "v": 0
+      },
+      {
+        "id": "150",
+        "teamId": "1",
+        "name": "Antoine LE GUERN",
+        "v": 0
+      },
+      {
+        "id": "151",
+        "teamId": "1",
+        "name": "Nilo SIMAO",
+        "v": 0
+      },
+      {
+        "id": "152",
+        "teamId": "1",
+        "name": "Robin CHAPON",
+        "v": 0
+      },
+      {
+        "id": "153",
+        "teamId": "1",
+        "name": "Gaspard TIZON",
+        "v": 0
+      },
+      {
+        "id": "154",
+        "teamId": "1",
+        "name": "Samuel GALVEZ",
+        "v": 0
+      },
+      {
+        "id": "155",
+        "teamId": "1",
+        "name": "Maxence ORHANT-HAIDAR",
+        "v": 0
+      },
+      {
+        "id": "156",
+        "teamId": "6",
+        "name": "Guillaume BONDAZ",
+        "v": 0
+      },
+      {
+        "id": "157",
+        "teamId": "6",
+        "name": "Jeff ACOCELLA",
+        "qf": "QF3",
+        "df": "DF2",
+        "f": "F",
+        "v": 0
+      },
+      {
+        "id": "158",
+        "teamId": "6",
+        "name": "Lorenzo CADOUX",
+        "v": 0
+      },
+      {
+        "id": "159",
+        "teamId": "6",
+        "name": "Giuliano CADOUX",
+        "v": 0
+      },
+      {
+        "id": "160",
+        "teamId": "6",
+        "name": "Oscar DAHER",
+        "v": 0
+      },
+      {
+        "id": "161",
+        "teamId": "6",
+        "name": "Samuel FONTAINE",
+        "v": 0
+      },
+      {
+        "id": "162",
+        "teamId": "6",
+        "name": "Tamsine GRUSLIN",
+        "v": 0
+      },
+      {
+        "id": "163",
+        "teamId": "6",
+        "name": "Alphonse LACROIX",
+        "v": 0
+      },
+      {
+        "id": "164",
+        "teamId": "6",
+        "name": "Gregorio MICACEO",
+        "v": 0
+      },
+      {
+        "id": "165",
+        "teamId": "6",
+        "name": "Leela SUTER",
+        "v": 0
+      },
+      {
+        "id": "166",
+        "teamId": "6",
+        "name": "Sacha TUAL",
+        "v": 0
+      },
+      {
+        "id": "167",
+        "teamId": "6",
+        "name": "Davon WALTHER",
+        "qf": "QF2",
+        "df": "DF3",
+        "v": 0
+      },
+      {
+        "id": "168",
+        "teamId": "6",
+        "name": "Tobias WIEBE",
+        "v": 0
+      },
+      {
+        "id": "169",
+        "teamId": "8",
+        "name": "Maël LE NEPVOU",
+        "v": 0
+      },
+      {
+        "id": "170",
+        "teamId": "8",
+        "name": "Antonin CAPEL",
+        "v": 0
+      },
+      {
+        "id": "171",
+        "teamId": "6",
+        "name": "Thibault GIROUD",
+        "v": 0
+      },
+      {
+        "id": "172",
+        "teamId": "5",
+        "name": "Loic CHERANCE",
+        "qf": "QF1",
+        "df": "DF1",
+        "v": 0
+      },
+      {
+        "id": "173",
+        "teamId": "3",
+        "name": "Grégoire BERHAULT",
+        "qf": "QF3",
+        "v": 0
+      },
+      {
+        "id": "13-P01",
+        "teamId": "13",
+        "name": "Mathys Tribo"
+      },
+      {
+        "id": "13-P02",
+        "teamId": "13",
+        "name": "Axel Gourin"
+      },
+      {
+        "id": "13-P03",
+        "teamId": "13",
+        "name": "Mathys Leclerc"
+      },
+      {
+        "id": "13-P04",
+        "teamId": "13",
+        "name": "Noah Arnaud"
+      },
+      {
+        "id": "13-P05",
+        "teamId": "13",
+        "name": "Sasha Ronconi"
+      },
+      {
+        "id": "13-P06",
+        "teamId": "13",
+        "name": "Luca Ridel"
+      },
+      {
+        "id": "13-P07",
+        "teamId": "13",
+        "name": "Sasha Arnaud"
+      },
+      {
+        "id": "13-P08",
+        "teamId": "13",
+        "name": "Louis Vaughan"
+      },
+      {
+        "id": "13-P09",
+        "teamId": "13",
+        "name": "Milan Vaughan"
+      },
+      {
+        "id": "13-P10",
+        "teamId": "13",
+        "name": "Luca Tribo"
+      },
+      {
+        "id": "13-P11",
+        "teamId": "13",
+        "name": "Mathys Ronconi"
+      },
+      {
+        "id": "13-P12",
+        "teamId": "13",
+        "name": "Mathys Vaughan"
+      },
+      {
+        "id": "13-P13",
+        "teamId": "13",
+        "name": "Sasha Tribo"
+      },
+      {
+        "id": "13-P14",
+        "teamId": "13",
+        "name": "Leo Leclerc"
+      },
+      {
+        "id": "13-P15",
+        "teamId": "13",
+        "name": "Evan Ronconi"
+      },
+      {
+        "id": "14-P01",
+        "teamId": "14",
+        "name": "Louis Ronconi"
+      },
+      {
+        "id": "14-P02",
+        "teamId": "14",
+        "name": "Tao Gourin"
+      },
+      {
+        "id": "14-P03",
+        "teamId": "14",
+        "name": "Nolan Tribo"
+      },
+      {
+        "id": "14-P04",
+        "teamId": "14",
+        "name": "Nolan Gourin"
+      },
+      {
+        "id": "14-P05",
+        "teamId": "14",
+        "name": "Jules Tribo"
+      },
+      {
+        "id": "14-P06",
+        "teamId": "14",
+        "name": "Nolan Leclerc"
+      },
+      {
+        "id": "14-P07",
+        "teamId": "14",
+        "name": "Mathys Leclerc"
+      },
+      {
+        "id": "14-P08",
+        "teamId": "14",
+        "name": "Mathys Leclerc"
+      },
+      {
+        "id": "14-P09",
+        "teamId": "14",
+        "name": "Evan Khemais"
+      },
+      {
+        "id": "14-P10",
+        "teamId": "14",
+        "name": "Tao Arnaud"
+      },
+      {
+        "id": "14-P11",
+        "teamId": "14",
+        "name": "Louis Arnaud"
+      },
+      {
+        "id": "14-P12",
+        "teamId": "14",
+        "name": "Sasha Vaughan"
+      },
+      {
+        "id": "14-P13",
+        "teamId": "14",
+        "name": "Noah Ridel"
+      },
+      {
+        "id": "14-P14",
+        "teamId": "14",
+        "name": "Leo Ronconi"
+      },
+      {
+        "id": "14-P15",
+        "teamId": "14",
+        "name": "Jules Khemais"
+      },
+      {
+        "id": "15-P01",
+        "teamId": "15",
+        "name": "Evan Leclerc"
+      },
+      {
+        "id": "15-P02",
+        "teamId": "15",
+        "name": "Luca Vaughan"
+      },
+      {
+        "id": "15-P03",
+        "teamId": "15",
+        "name": "Noah Arnaud"
+      },
+      {
+        "id": "15-P04",
+        "teamId": "15",
+        "name": "Leo Vaughan"
+      },
+      {
+        "id": "15-P05",
+        "teamId": "15",
+        "name": "Milan Duray"
+      },
+      {
+        "id": "15-P06",
+        "teamId": "15",
+        "name": "Evan Arnaud"
+      },
+      {
+        "id": "15-P07",
+        "teamId": "15",
+        "name": "Sasha Ridel"
+      },
+      {
+        "id": "15-P08",
+        "teamId": "15",
+        "name": "Evan Ronconi"
+      },
+      {
+        "id": "15-P09",
+        "teamId": "15",
+        "name": "Jules Ridel"
+      },
+      {
+        "id": "15-P10",
+        "teamId": "15",
+        "name": "Milan Tribo"
+      },
+      {
+        "id": "15-P11",
+        "teamId": "15",
+        "name": "Axel Ronconi"
+      },
+      {
+        "id": "15-P12",
+        "teamId": "15",
+        "name": "Evan Duray"
+      },
+      {
+        "id": "15-P13",
+        "teamId": "15",
+        "name": "Jules Ronconi"
+      },
+      {
+        "id": "15-P14",
+        "teamId": "15",
+        "name": "Axel Gourin"
+      },
+      {
+        "id": "15-P15",
+        "teamId": "15",
+        "name": "Evan Ridel"
+      },
+      {
+        "id": "16-P01",
+        "teamId": "16",
+        "name": "Axel Tribo"
+      },
+      {
+        "id": "16-P02",
+        "teamId": "16",
+        "name": "Axel Tribo"
+      },
+      {
+        "id": "16-P03",
+        "teamId": "16",
+        "name": "Mathys Vaughan"
+      },
+      {
+        "id": "16-P04",
+        "teamId": "16",
+        "name": "Leo Gourin"
+      },
+      {
+        "id": "16-P05",
+        "teamId": "16",
+        "name": "Mathys Ridel"
+      },
+      {
+        "id": "16-P06",
+        "teamId": "16",
+        "name": "Jules Duray"
+      },
+      {
+        "id": "16-P07",
+        "teamId": "16",
+        "name": "Tao Ridel"
+      },
+      {
+        "id": "16-P08",
+        "teamId": "16",
+        "name": "Jules Mellin"
+      },
+      {
+        "id": "16-P09",
+        "teamId": "16",
+        "name": "Sasha Ronconi"
+      },
+      {
+        "id": "16-P10",
+        "teamId": "16",
+        "name": "Nolan Ronconi"
+      },
+      {
+        "id": "16-P11",
+        "teamId": "16",
+        "name": "Noah Ronconi"
+      },
+      {
+        "id": "16-P12",
+        "teamId": "16",
+        "name": "Leo Leclerc"
+      },
+      {
+        "id": "16-P13",
+        "teamId": "16",
+        "name": "Leo Ronconi"
+      },
+      {
+        "id": "16-P14",
+        "teamId": "16",
+        "name": "Axel Tribo"
+      },
+      {
+        "id": "16-P15",
+        "teamId": "16",
+        "name": "Louis Duray"
+      }
+    ],
+    "matches": [
+      {
+        "id": "M-1",
+        "teamAId": "1",
+        "teamBId": "4",
+        "day": "J1",
+        "dateTime": "2026-05-23T07:00:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "A",
+        "teamA": "Meyrin",
+        "teamB": "Angers",
+        "status": "finished",
+        "scoreA": 1,
+        "scoreB": 1,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-2",
+        "teamAId": "5",
+        "teamBId": "8",
+        "day": "J1",
+        "dateTime": "2026-05-23T07:27:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "A",
+        "teamA": "Rennes",
+        "teamB": "Neuilly",
+        "status": "finished",
+        "scoreA": 0,
+        "scoreB": 1,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-3",
+        "teamAId": "9",
+        "teamBId": "12",
+        "day": "J1",
+        "dateTime": "2026-05-23T07:54:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "A",
+        "teamA": "Cholet",
+        "teamB": "Courbevoie",
+        "status": "finished",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-4",
+        "teamAId": "13",
+        "teamBId": "16",
+        "day": "J1",
+        "dateTime": "2026-05-23T08:21:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "A",
+        "teamA": "Tours",
+        "teamB": "Les Volants",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-6",
+        "teamAId": "2",
+        "teamBId": "3",
+        "day": "J1",
+        "dateTime": "2026-05-23T09:08:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "A",
+        "teamA": "Champigny",
+        "teamB": "Dammarie",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-7",
+        "teamAId": "6",
+        "teamBId": "7",
+        "day": "J1",
+        "dateTime": "2026-05-23T09:35:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "A",
+        "teamA": "Meudon",
+        "teamB": "Compiègne",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-8",
+        "teamAId": "10",
+        "teamBId": "11",
+        "day": "J1",
+        "dateTime": "2026-05-23T10:02:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "B",
+        "teamA": "Le Havre",
+        "teamB": "Evry-Viry",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-9",
+        "teamAId": "14",
+        "teamBId": "15",
+        "day": "J1",
+        "dateTime": "2026-05-23T10:29:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "B",
+        "teamA": "Valenciennes",
+        "teamB": "Rouen",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-11",
+        "teamAId": "1",
+        "teamBId": "3",
+        "day": "J1",
+        "dateTime": "2026-05-23T11:16:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "B",
+        "teamA": "Meyrin",
+        "teamB": "Dammarie",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-12",
+        "teamAId": "5",
+        "teamBId": "7",
+        "day": "J1",
+        "dateTime": "2026-05-23T11:43:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "B",
+        "teamA": "Rennes",
+        "teamB": "Compiègne",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-13",
+        "teamAId": "9",
+        "teamBId": "11",
+        "day": "J1",
+        "dateTime": "2026-05-23T12:10:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "B",
+        "teamA": "Cholet",
+        "teamB": "Evry-Viry",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-14",
+        "teamAId": "13",
+        "teamBId": "15",
+        "day": "J1",
+        "dateTime": "2026-05-23T12:37:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "B",
+        "teamA": "Tours",
+        "teamB": "Rouen",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-16",
+        "teamAId": "4",
+        "teamBId": "2",
+        "day": "J1",
+        "dateTime": "2026-05-23T13:24:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "C",
+        "teamA": "Angers",
+        "teamB": "Champigny",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-17",
+        "teamAId": "8",
+        "teamBId": "6",
+        "day": "J1",
+        "dateTime": "2026-05-23T13:51:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "C",
+        "teamA": "Neuilly",
+        "teamB": "Meudon",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-18",
+        "teamAId": "12",
+        "teamBId": "10",
+        "day": "J1",
+        "dateTime": "2026-05-23T14:18:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "C",
+        "teamA": "Courbevoie",
+        "teamB": "Le Havre",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-19",
+        "teamAId": "16",
+        "teamBId": "14",
+        "day": "J1",
+        "dateTime": "2026-05-23T14:45:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "C",
+        "teamA": "Les Volants",
+        "teamB": "Valenciennes",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-21",
+        "teamAId": "1",
+        "teamBId": "2",
+        "day": "J1",
+        "dateTime": "2026-05-23T15:32:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "C",
+        "teamA": "Meyrin",
+        "teamB": "Champigny",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-22",
+        "teamAId": "5",
+        "teamBId": "6",
+        "day": "J1",
+        "dateTime": "2026-05-23T15:59:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "C",
+        "teamA": "Rennes",
+        "teamB": "Meudon",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-23",
+        "teamAId": "9",
+        "teamBId": "10",
+        "day": "J1",
+        "dateTime": "2026-05-23T16:26:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "D",
+        "teamA": "Cholet",
+        "teamB": "Le Havre",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-24",
+        "teamAId": "13",
+        "teamBId": "14",
+        "day": "J1",
+        "dateTime": "2026-05-23T16:53:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "D",
+        "teamA": "Tours",
+        "teamB": "Valenciennes",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-26",
+        "teamAId": "3",
+        "teamBId": "4",
+        "day": "J1",
+        "dateTime": "2026-05-23T17:40:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "D",
+        "teamA": "Dammarie",
+        "teamB": "Angers",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-27",
+        "teamAId": "7",
+        "teamBId": "8",
+        "day": "J1",
+        "dateTime": "2026-05-23T18:07:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "D",
+        "teamA": "Compiègne",
+        "teamB": "Neuilly",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-28",
+        "teamAId": "11",
+        "teamBId": "12",
+        "day": "J1",
+        "dateTime": "2026-05-23T18:34:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "D",
+        "teamA": "Evry-Viry",
+        "teamB": "Courbevoie",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      },
+      {
+        "id": "M-29",
+        "teamAId": "15",
+        "teamBId": "16",
+        "day": "J1",
+        "dateTime": "2026-05-23T19:01:00.000Z",
+        "competition": "5v5",
+        "phase": "Brassage",
+        "group": "D",
+        "teamA": "Rouen",
+        "teamB": "Les Volants",
+        "status": "planned",
+        "scoreA": 0,
+        "scoreB": 0,
+        "forcedWinnerAIfDraw": false
+      }
+    ],
+    "standings": {
+      "J1:A": [
+        {
+          "teamId": "8",
+          "points": 2,
+          "played": 1,
+          "wins": 1,
+          "draws": 0,
+          "losses": 0,
+          "goalsFor": 1,
+          "goalsAgainst": 0
+        },
+        {
+          "teamId": "1",
+          "points": 1,
+          "played": 1,
+          "wins": 0,
+          "draws": 1,
+          "losses": 0,
+          "goalsFor": 1,
+          "goalsAgainst": 1
+        },
+        {
+          "teamId": "4",
+          "points": 1,
+          "played": 1,
+          "wins": 0,
+          "draws": 1,
+          "losses": 0,
+          "goalsFor": 1,
+          "goalsAgainst": 1
+        },
+        {
+          "teamId": "12",
+          "points": 1,
+          "played": 1,
+          "wins": 0,
+          "draws": 1,
+          "losses": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0
+        },
+        {
+          "teamId": "9",
+          "points": 1,
+          "played": 1,
+          "wins": 0,
+          "draws": 1,
+          "losses": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0
+        },
+        {
+          "teamId": "5",
+          "points": 0,
+          "played": 1,
+          "wins": 0,
+          "draws": 0,
+          "losses": 1,
+          "goalsFor": 0,
+          "goalsAgainst": 1
+        }
+      ]
+    },
+    "challengeAttempts": [
+      {
+        "playerId": "144",
+        "teamId": "1",
+        "atelier": "vitesse",
+        "value": 10.89,
+        "at": "2026-05-23T07:30:00.000Z"
+      },
+      {
+        "playerId": "144",
+        "teamId": "1",
+        "atelier": "agilite",
+        "value": 20.88,
+        "raw": "base:17.88,errors:1",
+        "at": "2026-05-23T07:30:00.000Z"
+      },
+      {
+        "playerId": "144",
+        "teamId": "1",
+        "atelier": "tir",
+        "value": 7,
+        "raw": "shots:3,1,3",
+        "at": "2026-05-23T07:30:00.000Z"
+      },
+      {
+        "playerId": "145",
+        "teamId": "1",
+        "atelier": "vitesse",
+        "value": 14.47,
+        "at": "2026-05-23T07:32:55.000Z"
+      },
+      {
+        "playerId": "145",
+        "teamId": "1",
+        "atelier": "agilite",
+        "value": 13.76,
+        "raw": "base:13.76,errors:0",
+        "at": "2026-05-23T07:32:55.000Z"
+      },
+      {
+        "playerId": "145",
+        "teamId": "1",
+        "atelier": "tir",
+        "value": 2,
+        "raw": "shots:-1,0,3",
+        "at": "2026-05-23T07:32:55.000Z"
+      },
+      {
+        "playerId": "146",
+        "teamId": "1",
+        "atelier": "vitesse",
+        "value": 14.57,
+        "at": "2026-05-23T07:35:50.000Z"
+      },
+      {
+        "playerId": "146",
+        "teamId": "1",
+        "atelier": "agilite",
+        "value": 23.23,
+        "raw": "base:11.23,errors:4",
+        "at": "2026-05-23T07:35:50.000Z"
+      },
+      {
+        "playerId": "146",
+        "teamId": "1",
+        "atelier": "tir",
+        "value": -2,
+        "raw": "shots:-1,0,-1",
+        "at": "2026-05-23T07:35:50.000Z"
+      },
+      {
+        "playerId": "147",
+        "teamId": "1",
+        "atelier": "vitesse",
+        "value": 15.89,
+        "at": "2026-05-23T07:38:45.000Z"
+      },
+      {
+        "playerId": "147",
+        "teamId": "1",
+        "atelier": "agilite",
+        "value": 28.52,
+        "raw": "base:16.52,errors:4",
+        "at": "2026-05-23T07:38:45.000Z"
+      },
+      {
+        "playerId": "147",
+        "teamId": "1",
+        "atelier": "tir",
+        "value": 2,
+        "raw": "shots:0,-1,3",
+        "at": "2026-05-23T07:38:45.000Z"
+      },
+      {
+        "playerId": "148",
+        "teamId": "1",
+        "atelier": "vitesse",
+        "value": 15.93,
+        "at": "2026-05-23T07:41:40.000Z"
+      },
+      {
+        "playerId": "148",
+        "teamId": "1",
+        "atelier": "agilite",
+        "value": 25.43,
+        "raw": "base:16.43,errors:3",
+        "at": "2026-05-23T07:41:40.000Z"
+      },
+      {
+        "playerId": "148",
+        "teamId": "1",
+        "atelier": "tir",
+        "value": 1,
+        "raw": "shots:1,-1,1",
+        "at": "2026-05-23T07:41:40.000Z"
+      },
+      {
+        "playerId": "149",
+        "teamId": "1",
+        "atelier": "vitesse",
+        "value": 15.84,
+        "at": "2026-05-23T07:44:35.000Z"
+      },
+      {
+        "playerId": "149",
+        "teamId": "1",
+        "atelier": "agilite",
+        "value": 28.66,
+        "raw": "base:16.66,errors:4",
+        "at": "2026-05-23T07:44:35.000Z"
+      },
+      {
+        "playerId": "149",
+        "teamId": "1",
+        "atelier": "tir",
+        "value": -1,
+        "raw": "shots:-1,0,0",
+        "at": "2026-05-23T07:44:35.000Z"
+      },
+      {
+        "playerId": "150",
+        "teamId": "1",
+        "atelier": "vitesse",
+        "value": 17.72,
+        "at": "2026-05-23T07:47:30.000Z"
+      },
+      {
+        "playerId": "150",
+        "teamId": "1",
+        "atelier": "agilite",
+        "value": 15.37,
+        "raw": "base:12.37,errors:1",
+        "at": "2026-05-23T07:47:30.000Z"
+      },
+      {
+        "playerId": "150",
+        "teamId": "1",
+        "atelier": "tir",
+        "value": 1,
+        "raw": "shots:1,1,-1",
+        "at": "2026-05-23T07:47:30.000Z"
+      },
+      {
+        "playerId": "151",
+        "teamId": "1",
+        "atelier": "vitesse",
+        "value": 17.85,
+        "at": "2026-05-23T07:50:25.000Z"
+      },
+      {
+        "playerId": "151",
+        "teamId": "1",
+        "atelier": "agilite",
+        "value": 17.62,
+        "raw": "base:11.62,errors:2",
+        "at": "2026-05-23T07:50:25.000Z"
+      },
+      {
+        "playerId": "151",
+        "teamId": "1",
+        "atelier": "tir",
+        "value": 3,
+        "raw": "shots:-1,1,3",
+        "at": "2026-05-23T07:50:25.000Z"
+      },
+      {
+        "playerId": "152",
+        "teamId": "1",
+        "atelier": "vitesse",
+        "value": 11.08,
+        "at": "2026-05-23T07:53:20.000Z"
+      },
+      {
+        "playerId": "152",
+        "teamId": "1",
+        "atelier": "agilite",
+        "value": 11.35,
+        "raw": "base:11.35,errors:0",
+        "at": "2026-05-23T07:53:20.000Z"
+      },
+      {
+        "playerId": "152",
+        "teamId": "1",
+        "atelier": "tir",
+        "value": 3,
+        "raw": "shots:-1,1,3",
+        "at": "2026-05-23T07:53:20.000Z"
+      },
+      {
+        "playerId": "153",
+        "teamId": "1",
+        "atelier": "vitesse",
+        "value": 16.8,
+        "at": "2026-05-23T07:56:15.000Z"
+      },
+      {
+        "playerId": "153",
+        "teamId": "1",
+        "atelier": "agilite",
+        "value": 27.78,
+        "raw": "base:18.78,errors:3",
+        "at": "2026-05-23T07:56:15.000Z"
+      },
+      {
+        "playerId": "153",
+        "teamId": "1",
+        "atelier": "tir",
+        "value": 4,
+        "raw": "shots:1,0,3",
+        "at": "2026-05-23T07:56:15.000Z"
+      },
+      {
+        "playerId": "154",
+        "teamId": "1",
+        "atelier": "vitesse",
+        "value": 11.44,
+        "at": "2026-05-23T07:59:10.000Z"
+      },
+      {
+        "playerId": "154",
+        "teamId": "1",
+        "atelier": "agilite",
+        "value": 31.6,
+        "raw": "base:19.6,errors:4",
+        "at": "2026-05-23T07:59:10.000Z"
+      },
+      {
+        "playerId": "154",
+        "teamId": "1",
+        "atelier": "tir",
+        "value": 3,
+        "raw": "shots:-1,1,3",
+        "at": "2026-05-23T07:59:10.000Z"
+      },
+      {
+        "playerId": "155",
+        "teamId": "1",
+        "atelier": "vitesse",
+        "value": 13.22,
+        "at": "2026-05-23T08:02:05.000Z"
+      },
+      {
+        "playerId": "155",
+        "teamId": "1",
+        "atelier": "agilite",
+        "value": 22.13,
+        "raw": "base:13.13,errors:3",
+        "at": "2026-05-23T08:02:05.000Z"
+      },
+      {
+        "playerId": "155",
+        "teamId": "1",
+        "atelier": "tir",
+        "value": 2,
+        "raw": "shots:1,1,0",
+        "at": "2026-05-23T08:02:05.000Z"
+      },
+      {
+        "playerId": "110",
+        "teamId": "2",
+        "atelier": "vitesse",
+        "value": 14.61,
+        "at": "2026-05-23T08:10:00.000Z"
+      },
+      {
+        "playerId": "110",
+        "teamId": "2",
+        "atelier": "agilite",
+        "value": 17.38,
+        "raw": "base:14.38,errors:1",
+        "at": "2026-05-23T08:10:00.000Z"
+      },
+      {
+        "playerId": "110",
+        "teamId": "2",
+        "atelier": "tir",
+        "value": 2,
+        "raw": "shots:3,0,-1",
+        "at": "2026-05-23T08:10:00.000Z"
+      },
+      {
+        "playerId": "111",
+        "teamId": "2",
+        "atelier": "vitesse",
+        "value": 10.52,
+        "at": "2026-05-23T08:12:03.529Z"
+      },
+      {
+        "playerId": "111",
+        "teamId": "2",
+        "atelier": "agilite",
+        "value": 20.24,
+        "raw": "base:20.24,errors:0",
+        "at": "2026-05-23T08:12:03.529Z"
+      },
+      {
+        "playerId": "111",
+        "teamId": "2",
+        "atelier": "tir",
+        "value": 5,
+        "raw": "shots:1,3,1",
+        "at": "2026-05-23T08:12:03.529Z"
+      },
+      {
+        "playerId": "112",
+        "teamId": "2",
+        "atelier": "vitesse",
+        "value": 12.76,
+        "at": "2026-05-23T08:14:07.058Z"
+      },
+      {
+        "playerId": "112",
+        "teamId": "2",
+        "atelier": "agilite",
+        "value": 26.71,
+        "raw": "base:20.71,errors:2",
+        "at": "2026-05-23T08:14:07.058Z"
+      },
+      {
+        "playerId": "112",
+        "teamId": "2",
+        "atelier": "tir",
+        "value": 2,
+        "raw": "shots:3,-1,0",
+        "at": "2026-05-23T08:14:07.058Z"
+      }
+    ],
+    "events": [
+      {
+        "type": "SIM_BACKUP_CREATED",
+        "at": "2026-02-22T17:28:54.548Z",
+        "payload": {
+          "filePath": "test/simulateur/out/run-4x4-backup.json",
+          "tableCounts": {
+            "TA_MATCHS": 80,
+            "ta_classement": 32,
+            "ta_joueurs": 171
+          }
+        },
+        "id": "SIM_BACKUP_CREATED-000001",
+        "sequence": 1
+      },
+      {
+        "type": "RESET_PRE_TOURNOI",
+        "at": "2026-02-22T17:28:54.796Z",
+        "payload": {
+          "reset": true,
+          "note": "Pre-tournament reset applied on DB target.",
+          "tables": [
+            "TA_MATCHS",
+            "ta_classement",
+            "ta_joueurs"
+          ]
+        },
+        "id": "RESET_PRE_TOURNOI-000002",
+        "sequence": 2
+      },
+      {
+        "type": "MATCH_STARTED",
+        "at": "2026-05-23T07:00:00.000Z",
+        "payload": {
+          "matchId": "M-1",
+          "day": "J1",
+          "phase": "Brassage",
+          "group": "A",
+          "teamA": "Meyrin",
+          "teamB": "Angers"
+        },
+        "id": "MATCH_STARTED-000003",
+        "sequence": 3
+      },
+      {
+        "type": "SIM_SQL_APPLIED",
+        "at": "2026-05-23T07:00:00.000Z",
+        "payload": {
+          "actionId": "M-1-start",
+          "attempted": 1,
+          "succeeded": 1,
+          "failed": 0
+        },
+        "id": "SIM_SQL_APPLIED-000004",
+        "sequence": 4
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T07:00:00.000Z",
+        "payload": {
+          "actionId": "M-1-start",
+          "actionType": "MATCH_STARTED",
+          "writes": 1
+        },
+        "id": "SIM_ACTION_EXECUTED-000005",
+        "sequence": 5
+      },
+      {
+        "type": "SIMULATOR_DATASET_LOADED",
+        "at": "2026-05-23T07:00:00.000Z",
+        "payload": {
+          "sqlDumpPath": "C:\\Users\\fabli\\Downloads\\rchcu11_tournoi_test.sql",
+          "sqlColumns": {
+            "taMatchs": [
+              "NUM_MATCH",
+              "EQUIPE1",
+              "EQUIPE2",
+              "EQUIPE_ID1",
+              "EQUIPE_ID2",
+              "ETAT",
+              "DATEHEURE",
+              "SURFACAGE"
+            ],
+            "taEquipes": [
+              "ID",
+              "EQUIPE",
+              "CHALLENGE_SAMEDI"
+            ],
+            "taClassement": [
+              "GROUPE_NOM",
+              "ORDRE",
+              "EQUIPE_ID"
+            ],
+            "taJoueurs": [
+              "ID",
+              "EQUIPE_ID",
+              "PRENOM",
+              "NOM",
+              "QF",
+              "DF",
+              "F",
+              "V"
+            ]
+          },
+          "teams": [
+            {
+              "id": "1",
+              "name": "Meyrin"
+            },
+            {
+              "id": "2",
+              "name": "Champigny"
+            },
+            {
+              "id": "3",
+              "name": "Dammarie"
+            },
+            {
+              "id": "4",
+              "name": "Angers"
+            },
+            {
+              "id": "5",
+              "name": "Rennes"
+            },
+            {
+              "id": "6",
+              "name": "Meudon"
+            },
+            {
+              "id": "7",
+              "name": "Compiègne"
+            },
+            {
+              "id": "8",
+              "name": "Neuilly"
+            },
+            {
+              "id": "9",
+              "name": "Cholet"
+            },
+            {
+              "id": "10",
+              "name": "Le Havre"
+            },
+            {
+              "id": "11",
+              "name": "Evry-Viry"
+            },
+            {
+              "id": "12",
+              "name": "Courbevoie"
+            },
+            {
+              "id": "13",
+              "name": "Tours"
+            },
+            {
+              "id": "14",
+              "name": "Valenciennes"
+            },
+            {
+              "id": "15",
+              "name": "Rouen"
+            },
+            {
+              "id": "16",
+              "name": "Les Volants"
+            }
+          ],
+          "warnings": [
+            "Match 71: team A placeholder \"pArgent C3Argent D4\" resolved via resolved_from_composite:argentc3.",
+            "Match 71: team B placeholder \"pArgent D3Argent C4\" resolved via resolved_from_composite:argentc4.",
+            "Match 72: team A placeholder \"pArgent C1Argent D2\" resolved via resolved_from_composite:argentc1.",
+            "Match 72: team B placeholder \"pArgent D1Argent C2\" resolved via resolved_from_composite:argentc2.",
+            "Match 73: team A placeholder \"pOr A3Or B4\" resolved via resolved_from_composite:ora3.",
+            "Match 73: team B placeholder \"pOr B3Or A4\" resolved via resolved_from_composite:ora4.",
+            "Match 74: team A placeholder \"pOr A1Or B2\" resolved via resolved_from_composite:ora1.",
+            "Match 74: team B placeholder \"pOr B1Or A2\" resolved via resolved_from_composite:ora2.",
+            "Match 76: team A placeholder \"vArgent C3Argent D4\" resolved via resolved_from_composite:argentc3.",
+            "Match 76: team B placeholder \"vArgent D3Argent C4\" resolved via resolved_from_composite:argentc4.",
+            "Match 77: team A placeholder \"vArgent C1Argent D2\" resolved via resolved_from_composite:argentc1.",
+            "Match 77: team B placeholder \"vArgent D1Argent C2\" resolved via resolved_from_composite:argentc2.",
+            "Match 78: team A placeholder \"vOr A3Or B4\" resolved via resolved_from_composite:ora3.",
+            "Match 78: team B placeholder \"vOr B3Or A4\" resolved via resolved_from_composite:ora4.",
+            "Match 80: team A placeholder \"vOr A1Or B2\" resolved via resolved_from_composite:ora1.",
+            "Match 80: team B placeholder \"vOr B1Or A2\" resolved via resolved_from_composite:ora2."
+          ],
+          "loadDiagnostics": {
+            "fiveVFiveSourceRows": 64,
+            "droppedByReason": {},
+            "keptByDay": {
+              "J1": 24,
+              "J2": 24,
+              "J3": 16
+            }
+          },
+          "scheduleMode": "dynamic",
+          "matchCounts": {
+            "j1": 24,
+            "j2": 24,
+            "j3": 16
+          }
+        },
+        "id": "SIMULATOR_DATASET_LOADED-000006",
+        "sequence": 6
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T07:00:00.000Z",
+        "payload": {
+          "actionId": "dataset-loaded",
+          "actionType": "SIMULATOR_DATASET_LOADED",
+          "writes": 0
+        },
+        "id": "SIM_ACTION_EXECUTED-000007",
+        "sequence": 7
+      },
+      {
+        "type": "GOAL",
+        "at": "2026-05-23T07:11:00.000Z",
+        "payload": {
+          "matchId": "M-1",
+          "scorerTeam": "Meyrin",
+          "scoreA": 1,
+          "scoreB": 0
+        },
+        "id": "GOAL-000008",
+        "sequence": 8
+      },
+      {
+        "type": "SIM_SQL_APPLIED",
+        "at": "2026-05-23T07:11:00.000Z",
+        "payload": {
+          "actionId": "M-1-goal-1",
+          "attempted": 1,
+          "succeeded": 1,
+          "failed": 0
+        },
+        "id": "SIM_SQL_APPLIED-000009",
+        "sequence": 9
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T07:11:00.000Z",
+        "payload": {
+          "actionId": "M-1-goal-1",
+          "actionType": "GOAL",
+          "writes": 1
+        },
+        "id": "SIM_ACTION_EXECUTED-000010",
+        "sequence": 10
+      },
+      {
+        "type": "GOAL",
+        "at": "2026-05-23T07:11:00.000Z",
+        "payload": {
+          "matchId": "M-1",
+          "scorerTeam": "Angers",
+          "scoreA": 1,
+          "scoreB": 1
+        },
+        "id": "GOAL-000011",
+        "sequence": 11
+      },
+      {
+        "type": "SIM_SQL_APPLIED",
+        "at": "2026-05-23T07:11:00.000Z",
+        "payload": {
+          "actionId": "M-1-goal-2",
+          "attempted": 1,
+          "succeeded": 1,
+          "failed": 0
+        },
+        "id": "SIM_SQL_APPLIED-000012",
+        "sequence": 12
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T07:11:00.000Z",
+        "payload": {
+          "actionId": "M-1-goal-2",
+          "actionType": "GOAL",
+          "writes": 1
+        },
+        "id": "SIM_ACTION_EXECUTED-000013",
+        "sequence": 13
+      },
+      {
+        "type": "MATCH_FINISHED",
+        "at": "2026-05-23T07:22:00.000Z",
+        "payload": {
+          "matchId": "M-1",
+          "scoreA": 1,
+          "scoreB": 1
+        },
+        "id": "MATCH_FINISHED-000014",
+        "sequence": 14
+      },
+      {
+        "type": "STANDINGS_RECALCULATED",
+        "at": "2026-05-23T07:22:00.000Z",
+        "payload": {
+          "trigger": "MATCH_FINISHED",
+          "matchId": "M-1"
+        },
+        "id": "STANDINGS_RECALCULATED-000015",
+        "sequence": 15
+      },
+      {
+        "type": "SIM_SQL_APPLIED",
+        "at": "2026-05-23T07:22:00.000Z",
+        "payload": {
+          "actionId": "M-1-finished",
+          "attempted": 3,
+          "succeeded": 3,
+          "failed": 0
+        },
+        "id": "SIM_SQL_APPLIED-000016",
+        "sequence": 16
+      },
+      {
+        "type": "SIM_CLASSEMENT_WRITE_APPLIED",
+        "at": "2026-05-23T07:22:00.000Z",
+        "payload": {
+          "triggerMatchId": "M-1",
+          "teamId": "1",
+          "jour": "J1",
+          "groupeNom": "A",
+          "rowsAffected": 1,
+          "mode": "upsert_fallback"
+        },
+        "id": "SIM_CLASSEMENT_WRITE_APPLIED-000017",
+        "sequence": 17
+      },
+      {
+        "type": "SIM_CLASSEMENT_WRITE_APPLIED",
+        "at": "2026-05-23T07:22:00.000Z",
+        "payload": {
+          "triggerMatchId": "M-1",
+          "teamId": "4",
+          "jour": "J1",
+          "groupeNom": "A",
+          "rowsAffected": 1,
+          "mode": "upsert_fallback"
+        },
+        "id": "SIM_CLASSEMENT_WRITE_APPLIED-000018",
+        "sequence": 18
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T07:22:00.000Z",
+        "payload": {
+          "actionId": "M-1-finished",
+          "actionType": "MATCH_FINISHED",
+          "writes": 3
+        },
+        "id": "SIM_ACTION_EXECUTED-000019",
+        "sequence": 19
+      },
+      {
+        "type": "INTER_MATCH_BREAK_STARTED",
+        "at": "2026-05-23T07:22:00.000Z",
+        "payload": {
+          "matchId": "M-1",
+          "breakMinutes": 5
+        },
+        "id": "INTER_MATCH_BREAK_STARTED-000020",
+        "sequence": 20
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T07:22:00.000Z",
+        "payload": {
+          "actionId": "M-1-break-start",
+          "actionType": "INTER_MATCH_BREAK_STARTED",
+          "writes": 0
+        },
+        "id": "SIM_ACTION_EXECUTED-000021",
+        "sequence": 21
+      },
+      {
+        "type": "MATCH_STARTED",
+        "at": "2026-05-23T07:27:00.000Z",
+        "payload": {
+          "matchId": "M-2",
+          "day": "J1",
+          "phase": "Brassage",
+          "group": "A",
+          "teamA": "Rennes",
+          "teamB": "Neuilly"
+        },
+        "id": "MATCH_STARTED-000022",
+        "sequence": 22
+      },
+      {
+        "type": "SIM_SQL_APPLIED",
+        "at": "2026-05-23T07:27:00.000Z",
+        "payload": {
+          "actionId": "M-2-start",
+          "attempted": 1,
+          "succeeded": 1,
+          "failed": 0
+        },
+        "id": "SIM_SQL_APPLIED-000023",
+        "sequence": 23
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T07:27:00.000Z",
+        "payload": {
+          "actionId": "M-2-start",
+          "actionType": "MATCH_STARTED",
+          "writes": 1
+        },
+        "id": "SIM_ACTION_EXECUTED-000024",
+        "sequence": 24
+      },
+      {
+        "type": "INTER_MATCH_BREAK_FINISHED",
+        "at": "2026-05-23T07:27:00.000Z",
+        "payload": {
+          "matchId": "M-1"
+        },
+        "id": "INTER_MATCH_BREAK_FINISHED-000025",
+        "sequence": 25
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T07:27:00.000Z",
+        "payload": {
+          "actionId": "M-1-break-end",
+          "actionType": "INTER_MATCH_BREAK_FINISHED",
+          "writes": 0
+        },
+        "id": "SIM_ACTION_EXECUTED-000026",
+        "sequence": 26
+      },
+      {
+        "type": "CHALLENGE_TEAM_WINDOW_STARTED",
+        "at": "2026-05-23T07:30:00.000Z",
+        "payload": {
+          "teamId": "1",
+          "windowMinutes": 35,
+          "startSource": "sql",
+          "configuredStart": "2026-05-23T07:30:00.000Z",
+          "rawSqlValue": "2026-05-23 09:30:00"
+        },
+        "id": "CHALLENGE_TEAM_WINDOW_STARTED-000027",
+        "sequence": 27
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T07:30:00.000Z",
+        "payload": {
+          "actionId": "challenge-1-start",
+          "actionType": "CHALLENGE_TEAM_WINDOW_STARTED",
+          "writes": 0
+        },
+        "id": "SIM_ACTION_EXECUTED-000028",
+        "sequence": 28
+      },
+      {
+        "type": "CHALLENGE_PLAYER_PASSED",
+        "at": "2026-05-23T07:30:00.000Z",
+        "payload": {
+          "teamId": "1",
+          "playerId": "144",
+          "vitesse": 10.89,
+          "agilite": 20.88,
+          "tir": 7
+        },
+        "id": "CHALLENGE_PLAYER_PASSED-000029",
+        "sequence": 29
+      },
+      {
+        "type": "SIM_SQL_APPLIED",
+        "at": "2026-05-23T07:30:00.000Z",
+        "payload": {
+          "actionId": "challenge-1-144",
+          "attempted": 3,
+          "succeeded": 3,
+          "failed": 0
+        },
+        "id": "SIM_SQL_APPLIED-000030",
+        "sequence": 30
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T07:30:00.000Z",
+        "payload": {
+          "actionId": "challenge-1-144",
+          "actionType": "CHALLENGE_PLAYER_PASSED",
+          "writes": 3
+        },
+        "id": "SIM_ACTION_EXECUTED-000031",
+        "sequence": 31
+      },
+      {
+        "type": "CHALLENGE_PLAYER_PASSED",
+        "at": "2026-05-23T07:32:55.000Z",
+        "payload": {
+          "teamId": "1",
+          "playerId": "145",
+          "vitesse": 14.47,
+          "agilite": 13.76,
+          "tir": 2
+        },
+        "id": "CHALLENGE_PLAYER_PASSED-000032",
+        "sequence": 32
+      },
+      {
+        "type": "SIM_SQL_APPLIED",
+        "at": "2026-05-23T07:32:55.000Z",
+        "payload": {
+          "actionId": "challenge-1-145",
+          "attempted": 3,
+          "succeeded": 3,
+          "failed": 0
+        },
+        "id": "SIM_SQL_APPLIED-000033",
+        "sequence": 33
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T07:32:55.000Z",
+        "payload": {
+          "actionId": "challenge-1-145",
+          "actionType": "CHALLENGE_PLAYER_PASSED",
+          "writes": 3
+        },
+        "id": "SIM_ACTION_EXECUTED-000034",
+        "sequence": 34
+      },
+      {
+        "type": "CHALLENGE_PLAYER_PASSED",
+        "at": "2026-05-23T07:35:50.000Z",
+        "payload": {
+          "teamId": "1",
+          "playerId": "146",
+          "vitesse": 14.57,
+          "agilite": 23.23,
+          "tir": -2
+        },
+        "id": "CHALLENGE_PLAYER_PASSED-000035",
+        "sequence": 35
+      },
+      {
+        "type": "SIM_SQL_APPLIED",
+        "at": "2026-05-23T07:35:50.000Z",
+        "payload": {
+          "actionId": "challenge-1-146",
+          "attempted": 3,
+          "succeeded": 3,
+          "failed": 0
+        },
+        "id": "SIM_SQL_APPLIED-000036",
+        "sequence": 36
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T07:35:50.000Z",
+        "payload": {
+          "actionId": "challenge-1-146",
+          "actionType": "CHALLENGE_PLAYER_PASSED",
+          "writes": 3
+        },
+        "id": "SIM_ACTION_EXECUTED-000037",
+        "sequence": 37
+      },
+      {
+        "type": "CHALLENGE_PLAYER_PASSED",
+        "at": "2026-05-23T07:38:45.000Z",
+        "payload": {
+          "teamId": "1",
+          "playerId": "147",
+          "vitesse": 15.89,
+          "agilite": 28.52,
+          "tir": 2
+        },
+        "id": "CHALLENGE_PLAYER_PASSED-000038",
+        "sequence": 38
+      },
+      {
+        "type": "SIM_SQL_APPLIED",
+        "at": "2026-05-23T07:38:45.000Z",
+        "payload": {
+          "actionId": "challenge-1-147",
+          "attempted": 3,
+          "succeeded": 3,
+          "failed": 0
+        },
+        "id": "SIM_SQL_APPLIED-000039",
+        "sequence": 39
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T07:38:45.000Z",
+        "payload": {
+          "actionId": "challenge-1-147",
+          "actionType": "CHALLENGE_PLAYER_PASSED",
+          "writes": 3
+        },
+        "id": "SIM_ACTION_EXECUTED-000040",
+        "sequence": 40
+      },
+      {
+        "type": "GOAL",
+        "at": "2026-05-23T07:40:00.000Z",
+        "payload": {
+          "matchId": "M-2",
+          "scorerTeam": "Neuilly",
+          "scoreA": 0,
+          "scoreB": 1
+        },
+        "id": "GOAL-000041",
+        "sequence": 41
+      },
+      {
+        "type": "SIM_SQL_APPLIED",
+        "at": "2026-05-23T07:40:00.000Z",
+        "payload": {
+          "actionId": "M-2-goal-1",
+          "attempted": 1,
+          "succeeded": 1,
+          "failed": 0
+        },
+        "id": "SIM_SQL_APPLIED-000042",
+        "sequence": 42
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T07:40:00.000Z",
+        "payload": {
+          "actionId": "M-2-goal-1",
+          "actionType": "GOAL",
+          "writes": 1
+        },
+        "id": "SIM_ACTION_EXECUTED-000043",
+        "sequence": 43
+      },
+      {
+        "type": "CHALLENGE_PLAYER_PASSED",
+        "at": "2026-05-23T07:41:40.000Z",
+        "payload": {
+          "teamId": "1",
+          "playerId": "148",
+          "vitesse": 15.93,
+          "agilite": 25.43,
+          "tir": 1
+        },
+        "id": "CHALLENGE_PLAYER_PASSED-000044",
+        "sequence": 44
+      },
+      {
+        "type": "SIM_SQL_APPLIED",
+        "at": "2026-05-23T07:41:40.000Z",
+        "payload": {
+          "actionId": "challenge-1-148",
+          "attempted": 3,
+          "succeeded": 3,
+          "failed": 0
+        },
+        "id": "SIM_SQL_APPLIED-000045",
+        "sequence": 45
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T07:41:40.000Z",
+        "payload": {
+          "actionId": "challenge-1-148",
+          "actionType": "CHALLENGE_PLAYER_PASSED",
+          "writes": 3
+        },
+        "id": "SIM_ACTION_EXECUTED-000046",
+        "sequence": 46
+      },
+      {
+        "type": "CHALLENGE_PLAYER_PASSED",
+        "at": "2026-05-23T07:44:35.000Z",
+        "payload": {
+          "teamId": "1",
+          "playerId": "149",
+          "vitesse": 15.84,
+          "agilite": 28.66,
+          "tir": -1
+        },
+        "id": "CHALLENGE_PLAYER_PASSED-000047",
+        "sequence": 47
+      },
+      {
+        "type": "SIM_SQL_APPLIED",
+        "at": "2026-05-23T07:44:35.000Z",
+        "payload": {
+          "actionId": "challenge-1-149",
+          "attempted": 3,
+          "succeeded": 3,
+          "failed": 0
+        },
+        "id": "SIM_SQL_APPLIED-000048",
+        "sequence": 48
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T07:44:35.000Z",
+        "payload": {
+          "actionId": "challenge-1-149",
+          "actionType": "CHALLENGE_PLAYER_PASSED",
+          "writes": 3
+        },
+        "id": "SIM_ACTION_EXECUTED-000049",
+        "sequence": 49
+      },
+      {
+        "type": "CHALLENGE_PLAYER_PASSED",
+        "at": "2026-05-23T07:47:30.000Z",
+        "payload": {
+          "teamId": "1",
+          "playerId": "150",
+          "vitesse": 17.72,
+          "agilite": 15.37,
+          "tir": 1
+        },
+        "id": "CHALLENGE_PLAYER_PASSED-000050",
+        "sequence": 50
+      },
+      {
+        "type": "SIM_SQL_APPLIED",
+        "at": "2026-05-23T07:47:30.000Z",
+        "payload": {
+          "actionId": "challenge-1-150",
+          "attempted": 3,
+          "succeeded": 3,
+          "failed": 0
+        },
+        "id": "SIM_SQL_APPLIED-000051",
+        "sequence": 51
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T07:47:30.000Z",
+        "payload": {
+          "actionId": "challenge-1-150",
+          "actionType": "CHALLENGE_PLAYER_PASSED",
+          "writes": 3
+        },
+        "id": "SIM_ACTION_EXECUTED-000052",
+        "sequence": 52
+      },
+      {
+        "type": "MATCH_FINISHED",
+        "at": "2026-05-23T07:49:00.000Z",
+        "payload": {
+          "matchId": "M-2",
+          "scoreA": 0,
+          "scoreB": 1
+        },
+        "id": "MATCH_FINISHED-000053",
+        "sequence": 53
+      },
+      {
+        "type": "STANDINGS_RECALCULATED",
+        "at": "2026-05-23T07:49:00.000Z",
+        "payload": {
+          "trigger": "MATCH_FINISHED",
+          "matchId": "M-2"
+        },
+        "id": "STANDINGS_RECALCULATED-000054",
+        "sequence": 54
+      },
+      {
+        "type": "SIM_SQL_APPLIED",
+        "at": "2026-05-23T07:49:00.000Z",
+        "payload": {
+          "actionId": "M-2-finished",
+          "attempted": 5,
+          "succeeded": 5,
+          "failed": 0
+        },
+        "id": "SIM_SQL_APPLIED-000055",
+        "sequence": 55
+      },
+      {
+        "type": "SIM_CLASSEMENT_WRITE_APPLIED",
+        "at": "2026-05-23T07:49:00.000Z",
+        "payload": {
+          "triggerMatchId": "M-2",
+          "teamId": "8",
+          "jour": "J1",
+          "groupeNom": "A",
+          "rowsAffected": 2,
+          "mode": "upsert_fallback"
+        },
+        "id": "SIM_CLASSEMENT_WRITE_APPLIED-000056",
+        "sequence": 56
+      },
+      {
+        "type": "SIM_CLASSEMENT_WRITE_APPLIED",
+        "at": "2026-05-23T07:49:00.000Z",
+        "payload": {
+          "triggerMatchId": "M-2",
+          "teamId": "1",
+          "jour": "J1",
+          "groupeNom": "A",
+          "rowsAffected": 2,
+          "mode": "upsert_fallback"
+        },
+        "id": "SIM_CLASSEMENT_WRITE_APPLIED-000057",
+        "sequence": 57
+      },
+      {
+        "type": "SIM_CLASSEMENT_WRITE_APPLIED",
+        "at": "2026-05-23T07:49:00.000Z",
+        "payload": {
+          "triggerMatchId": "M-2",
+          "teamId": "4",
+          "jour": "J1",
+          "groupeNom": "A",
+          "rowsAffected": 1,
+          "mode": "upsert_fallback"
+        },
+        "id": "SIM_CLASSEMENT_WRITE_APPLIED-000058",
+        "sequence": 58
+      },
+      {
+        "type": "SIM_CLASSEMENT_WRITE_APPLIED",
+        "at": "2026-05-23T07:49:00.000Z",
+        "payload": {
+          "triggerMatchId": "M-2",
+          "teamId": "5",
+          "jour": "J1",
+          "groupeNom": "A",
+          "rowsAffected": 1,
+          "mode": "upsert_fallback"
+        },
+        "id": "SIM_CLASSEMENT_WRITE_APPLIED-000059",
+        "sequence": 59
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T07:49:00.000Z",
+        "payload": {
+          "actionId": "M-2-finished",
+          "actionType": "MATCH_FINISHED",
+          "writes": 5
+        },
+        "id": "SIM_ACTION_EXECUTED-000060",
+        "sequence": 60
+      },
+      {
+        "type": "INTER_MATCH_BREAK_STARTED",
+        "at": "2026-05-23T07:49:00.000Z",
+        "payload": {
+          "matchId": "M-2",
+          "breakMinutes": 5
+        },
+        "id": "INTER_MATCH_BREAK_STARTED-000061",
+        "sequence": 61
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T07:49:00.000Z",
+        "payload": {
+          "actionId": "M-2-break-start",
+          "actionType": "INTER_MATCH_BREAK_STARTED",
+          "writes": 0
+        },
+        "id": "SIM_ACTION_EXECUTED-000062",
+        "sequence": 62
+      },
+      {
+        "type": "CHALLENGE_PLAYER_PASSED",
+        "at": "2026-05-23T07:50:25.000Z",
+        "payload": {
+          "teamId": "1",
+          "playerId": "151",
+          "vitesse": 17.85,
+          "agilite": 17.62,
+          "tir": 3
+        },
+        "id": "CHALLENGE_PLAYER_PASSED-000063",
+        "sequence": 63
+      },
+      {
+        "type": "SIM_SQL_APPLIED",
+        "at": "2026-05-23T07:50:25.000Z",
+        "payload": {
+          "actionId": "challenge-1-151",
+          "attempted": 3,
+          "succeeded": 3,
+          "failed": 0
+        },
+        "id": "SIM_SQL_APPLIED-000064",
+        "sequence": 64
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T07:50:25.000Z",
+        "payload": {
+          "actionId": "challenge-1-151",
+          "actionType": "CHALLENGE_PLAYER_PASSED",
+          "writes": 3
+        },
+        "id": "SIM_ACTION_EXECUTED-000065",
+        "sequence": 65
+      },
+      {
+        "type": "CHALLENGE_PLAYER_PASSED",
+        "at": "2026-05-23T07:53:20.000Z",
+        "payload": {
+          "teamId": "1",
+          "playerId": "152",
+          "vitesse": 11.08,
+          "agilite": 11.35,
+          "tir": 3
+        },
+        "id": "CHALLENGE_PLAYER_PASSED-000066",
+        "sequence": 66
+      },
+      {
+        "type": "SIM_SQL_APPLIED",
+        "at": "2026-05-23T07:53:20.000Z",
+        "payload": {
+          "actionId": "challenge-1-152",
+          "attempted": 3,
+          "succeeded": 3,
+          "failed": 0
+        },
+        "id": "SIM_SQL_APPLIED-000067",
+        "sequence": 67
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T07:53:20.000Z",
+        "payload": {
+          "actionId": "challenge-1-152",
+          "actionType": "CHALLENGE_PLAYER_PASSED",
+          "writes": 3
+        },
+        "id": "SIM_ACTION_EXECUTED-000068",
+        "sequence": 68
+      },
+      {
+        "type": "MATCH_STARTED",
+        "at": "2026-05-23T07:54:00.000Z",
+        "payload": {
+          "matchId": "M-3",
+          "day": "J1",
+          "phase": "Brassage",
+          "group": "A",
+          "teamA": "Cholet",
+          "teamB": "Courbevoie"
+        },
+        "id": "MATCH_STARTED-000069",
+        "sequence": 69
+      },
+      {
+        "type": "SIM_SQL_APPLIED",
+        "at": "2026-05-23T07:54:00.000Z",
+        "payload": {
+          "actionId": "M-3-start",
+          "attempted": 1,
+          "succeeded": 1,
+          "failed": 0
+        },
+        "id": "SIM_SQL_APPLIED-000070",
+        "sequence": 70
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T07:54:00.000Z",
+        "payload": {
+          "actionId": "M-3-start",
+          "actionType": "MATCH_STARTED",
+          "writes": 1
+        },
+        "id": "SIM_ACTION_EXECUTED-000071",
+        "sequence": 71
+      },
+      {
+        "type": "INTER_MATCH_BREAK_FINISHED",
+        "at": "2026-05-23T07:54:00.000Z",
+        "payload": {
+          "matchId": "M-2"
+        },
+        "id": "INTER_MATCH_BREAK_FINISHED-000072",
+        "sequence": 72
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T07:54:00.000Z",
+        "payload": {
+          "actionId": "M-2-break-end",
+          "actionType": "INTER_MATCH_BREAK_FINISHED",
+          "writes": 0
+        },
+        "id": "SIM_ACTION_EXECUTED-000073",
+        "sequence": 73
+      },
+      {
+        "type": "CHALLENGE_PLAYER_PASSED",
+        "at": "2026-05-23T07:56:15.000Z",
+        "payload": {
+          "teamId": "1",
+          "playerId": "153",
+          "vitesse": 16.8,
+          "agilite": 27.78,
+          "tir": 4
+        },
+        "id": "CHALLENGE_PLAYER_PASSED-000074",
+        "sequence": 74
+      },
+      {
+        "type": "SIM_SQL_APPLIED",
+        "at": "2026-05-23T07:56:15.000Z",
+        "payload": {
+          "actionId": "challenge-1-153",
+          "attempted": 3,
+          "succeeded": 3,
+          "failed": 0
+        },
+        "id": "SIM_SQL_APPLIED-000075",
+        "sequence": 75
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T07:56:15.000Z",
+        "payload": {
+          "actionId": "challenge-1-153",
+          "actionType": "CHALLENGE_PLAYER_PASSED",
+          "writes": 3
+        },
+        "id": "SIM_ACTION_EXECUTED-000076",
+        "sequence": 76
+      },
+      {
+        "type": "CHALLENGE_PLAYER_PASSED",
+        "at": "2026-05-23T07:59:10.000Z",
+        "payload": {
+          "teamId": "1",
+          "playerId": "154",
+          "vitesse": 11.44,
+          "agilite": 31.6,
+          "tir": 3
+        },
+        "id": "CHALLENGE_PLAYER_PASSED-000077",
+        "sequence": 77
+      },
+      {
+        "type": "SIM_SQL_APPLIED",
+        "at": "2026-05-23T07:59:10.000Z",
+        "payload": {
+          "actionId": "challenge-1-154",
+          "attempted": 3,
+          "succeeded": 3,
+          "failed": 0
+        },
+        "id": "SIM_SQL_APPLIED-000078",
+        "sequence": 78
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T07:59:10.000Z",
+        "payload": {
+          "actionId": "challenge-1-154",
+          "actionType": "CHALLENGE_PLAYER_PASSED",
+          "writes": 3
+        },
+        "id": "SIM_ACTION_EXECUTED-000079",
+        "sequence": 79
+      },
+      {
+        "type": "CHALLENGE_PLAYER_PASSED",
+        "at": "2026-05-23T08:02:05.000Z",
+        "payload": {
+          "teamId": "1",
+          "playerId": "155",
+          "vitesse": 13.22,
+          "agilite": 22.13,
+          "tir": 2
+        },
+        "id": "CHALLENGE_PLAYER_PASSED-000080",
+        "sequence": 80
+      },
+      {
+        "type": "SIM_SQL_APPLIED",
+        "at": "2026-05-23T08:02:05.000Z",
+        "payload": {
+          "actionId": "challenge-1-155",
+          "attempted": 3,
+          "succeeded": 3,
+          "failed": 0
+        },
+        "id": "SIM_SQL_APPLIED-000081",
+        "sequence": 81
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T08:02:05.000Z",
+        "payload": {
+          "actionId": "challenge-1-155",
+          "actionType": "CHALLENGE_PLAYER_PASSED",
+          "writes": 3
+        },
+        "id": "SIM_ACTION_EXECUTED-000082",
+        "sequence": 82
+      },
+      {
+        "type": "CHALLENGE_TEAM_WINDOW_FINISHED",
+        "at": "2026-05-23T08:05:00.000Z",
+        "payload": {
+          "teamId": "1",
+          "day1Date": "2026-05-23"
+        },
+        "id": "CHALLENGE_TEAM_WINDOW_FINISHED-000083",
+        "sequence": 83
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T08:05:00.000Z",
+        "payload": {
+          "actionId": "challenge-1-end",
+          "actionType": "CHALLENGE_TEAM_WINDOW_FINISHED",
+          "writes": 0
+        },
+        "id": "SIM_ACTION_EXECUTED-000084",
+        "sequence": 84
+      },
+      {
+        "type": "CHALLENGE_TEAM_WINDOW_STARTED",
+        "at": "2026-05-23T08:10:00.000Z",
+        "payload": {
+          "teamId": "2",
+          "windowMinutes": 35,
+          "startSource": "sql",
+          "configuredStart": "2026-05-23T08:10:00.000Z",
+          "rawSqlValue": "2026-05-23 10:10:00"
+        },
+        "id": "CHALLENGE_TEAM_WINDOW_STARTED-000085",
+        "sequence": 85
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T08:10:00.000Z",
+        "payload": {
+          "actionId": "challenge-2-start",
+          "actionType": "CHALLENGE_TEAM_WINDOW_STARTED",
+          "writes": 0
+        },
+        "id": "SIM_ACTION_EXECUTED-000086",
+        "sequence": 86
+      },
+      {
+        "type": "CHALLENGE_PLAYER_PASSED",
+        "at": "2026-05-23T08:10:00.000Z",
+        "payload": {
+          "teamId": "2",
+          "playerId": "110",
+          "vitesse": 14.61,
+          "agilite": 17.38,
+          "tir": 2
+        },
+        "id": "CHALLENGE_PLAYER_PASSED-000087",
+        "sequence": 87
+      },
+      {
+        "type": "SIM_SQL_APPLIED",
+        "at": "2026-05-23T08:10:00.000Z",
+        "payload": {
+          "actionId": "challenge-2-110",
+          "attempted": 3,
+          "succeeded": 3,
+          "failed": 0
+        },
+        "id": "SIM_SQL_APPLIED-000088",
+        "sequence": 88
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T08:10:00.000Z",
+        "payload": {
+          "actionId": "challenge-2-110",
+          "actionType": "CHALLENGE_PLAYER_PASSED",
+          "writes": 3
+        },
+        "id": "SIM_ACTION_EXECUTED-000089",
+        "sequence": 89
+      },
+      {
+        "type": "CHALLENGE_PLAYER_PASSED",
+        "at": "2026-05-23T08:12:03.529Z",
+        "payload": {
+          "teamId": "2",
+          "playerId": "111",
+          "vitesse": 10.52,
+          "agilite": 20.24,
+          "tir": 5
+        },
+        "id": "CHALLENGE_PLAYER_PASSED-000090",
+        "sequence": 90
+      },
+      {
+        "type": "SIM_SQL_APPLIED",
+        "at": "2026-05-23T08:12:03.529Z",
+        "payload": {
+          "actionId": "challenge-2-111",
+          "attempted": 3,
+          "succeeded": 3,
+          "failed": 0
+        },
+        "id": "SIM_SQL_APPLIED-000091",
+        "sequence": 91
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T08:12:03.529Z",
+        "payload": {
+          "actionId": "challenge-2-111",
+          "actionType": "CHALLENGE_PLAYER_PASSED",
+          "writes": 3
+        },
+        "id": "SIM_ACTION_EXECUTED-000092",
+        "sequence": 92
+      },
+      {
+        "type": "CHALLENGE_PLAYER_PASSED",
+        "at": "2026-05-23T08:14:07.058Z",
+        "payload": {
+          "teamId": "2",
+          "playerId": "112",
+          "vitesse": 12.76,
+          "agilite": 26.71,
+          "tir": 2
+        },
+        "id": "CHALLENGE_PLAYER_PASSED-000093",
+        "sequence": 93
+      },
+      {
+        "type": "SIM_SQL_APPLIED",
+        "at": "2026-05-23T08:14:07.058Z",
+        "payload": {
+          "actionId": "challenge-2-112",
+          "attempted": 3,
+          "succeeded": 3,
+          "failed": 0
+        },
+        "id": "SIM_SQL_APPLIED-000094",
+        "sequence": 94
+      },
+      {
+        "type": "SIM_ACTION_EXECUTED",
+        "at": "2026-05-23T08:14:07.058Z",
+        "payload": {
+          "actionId": "challenge-2-112",
+          "actionType": "CHALLENGE_PLAYER_PASSED",
+          "writes": 3
+        },
+        "id": "SIM_ACTION_EXECUTED-000095",
+        "sequence": 95
+      },
+      {
+        "type": "MATCH_FINISHED",
+        "at": "2026-05-23T08:16:00.000Z",
+        "payload": {
+          "matchId": "M-3",
+          "scoreA": 0,
+          "scoreB": 0
+        },
+        "id": "MATCH_FINISHED-000096",
+        "sequence": 96
+      },
+      {
+        "type": "SIM_CLASSEMENT_GROUP_OVERFLOW",
+        "at": "2026-05-23T08:16:00.000Z",
+        "payload": {
+          "jour": "J1",
+          "groupeNom": "A",
+          "rowCount": 6,
+          "guardrail": "blocking"
+        },
+        "id": "SIM_CLASSEMENT_GROUP_OVERFLOW-000097",
+        "sequence": 97
+      },
+      {
+        "type": "SIM_BACKUP_RESTORE_FAILED",
+        "at": "2026-02-22T17:29:00.581Z",
+        "payload": {
+          "backupFile": "test/simulateur/out/run-4x4-backup.json",
+          "error": "\nInvalid `prisma.$executeRawUnsafe()` invocation:\n\n\nTransaction API error: Transaction not found. Transaction ID is invalid, refers to an old closed transaction Prisma doesn't have information about anymore, or was obtained before disconnecting."
+        },
+        "id": "SIM_BACKUP_RESTORE_FAILED-000098",
+        "sequence": 98
+      }
+    ],
+    "writes": [
+      {
+        "table": "ta_matchs",
+        "action": "update",
+        "at": "2026-05-23T07:00:00.000Z",
+        "where": "ID='M-1'",
+        "values": {
+          "ETAT": "c"
+        }
+      },
+      {
+        "table": "ta_matchs",
+        "action": "update",
+        "at": "2026-05-23T07:11:00.000Z",
+        "where": "ID='M-1'",
+        "values": {
+          "SCORE_EQUIPE1": 1,
+          "SCORE_EQUIPE2": 0
+        }
+      },
+      {
+        "table": "ta_matchs",
+        "action": "update",
+        "at": "2026-05-23T07:11:00.000Z",
+        "where": "ID='M-1'",
+        "values": {
+          "SCORE_EQUIPE1": 1,
+          "SCORE_EQUIPE2": 1
+        }
+      },
+      {
+        "table": "ta_matchs",
+        "action": "update",
+        "at": "2026-05-23T07:22:00.000Z",
+        "where": "ID='M-1'",
+        "values": {
+          "ETAT": "x",
+          "SCORE_EQUIPE1": 1,
+          "SCORE_EQUIPE2": 1
+        }
+      },
+      {
+        "table": "ta_classement",
+        "action": "update",
+        "at": "2026-05-23T07:22:00.000Z",
+        "where": "GROUPE_NOM='A' AND EQUIPE_ID='1'",
+        "values": {
+          "JOUR": "J1",
+          "GROUPE_NOM": "A",
+          "ORDRE": 1,
+          "EQUIPE_ID": "1",
+          "POINTS": 1,
+          "MATCHS_JOUES": 1,
+          "VICTOIRES": 0,
+          "NULS": 1,
+          "DEFAITES": 0,
+          "BUTS_POUR": 1,
+          "BUTS_CONTRE": 1,
+          "__ACTIVE_GROUP_SIZE": 2,
+          "__GROUP_CLEANUP_LAST": false,
+          "__TRIGGER_MATCH_ID": "M-1"
+        }
+      },
+      {
+        "table": "ta_classement",
+        "action": "update",
+        "at": "2026-05-23T07:22:00.000Z",
+        "where": "GROUPE_NOM='A' AND EQUIPE_ID='4'",
+        "values": {
+          "JOUR": "J1",
+          "GROUPE_NOM": "A",
+          "ORDRE": 2,
+          "EQUIPE_ID": "4",
+          "POINTS": 1,
+          "MATCHS_JOUES": 1,
+          "VICTOIRES": 0,
+          "NULS": 1,
+          "DEFAITES": 0,
+          "BUTS_POUR": 1,
+          "BUTS_CONTRE": 1,
+          "__ACTIVE_GROUP_SIZE": 2,
+          "__GROUP_CLEANUP_LAST": true,
+          "__TRIGGER_MATCH_ID": "M-1"
+        }
+      },
+      {
+        "table": "ta_matchs",
+        "action": "update",
+        "at": "2026-05-23T07:27:00.000Z",
+        "where": "ID='M-2'",
+        "values": {
+          "ETAT": "c"
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:30:00.000Z",
+        "values": {
+          "PLAYER_ID": "144",
+          "TEAM_ID": "1",
+          "ATELIER": "vitesse",
+          "RESULTAT": 10.89,
+          "META": null
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:30:00.000Z",
+        "values": {
+          "PLAYER_ID": "144",
+          "TEAM_ID": "1",
+          "ATELIER": "agilite",
+          "RESULTAT": 20.88,
+          "META": "base:17.88,errors:1"
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:30:00.000Z",
+        "values": {
+          "PLAYER_ID": "144",
+          "TEAM_ID": "1",
+          "ATELIER": "tir",
+          "RESULTAT": 7,
+          "META": "shots:3,1,3"
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:32:55.000Z",
+        "values": {
+          "PLAYER_ID": "145",
+          "TEAM_ID": "1",
+          "ATELIER": "vitesse",
+          "RESULTAT": 14.47,
+          "META": null
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:32:55.000Z",
+        "values": {
+          "PLAYER_ID": "145",
+          "TEAM_ID": "1",
+          "ATELIER": "agilite",
+          "RESULTAT": 13.76,
+          "META": "base:13.76,errors:0"
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:32:55.000Z",
+        "values": {
+          "PLAYER_ID": "145",
+          "TEAM_ID": "1",
+          "ATELIER": "tir",
+          "RESULTAT": 2,
+          "META": "shots:-1,0,3"
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:35:50.000Z",
+        "values": {
+          "PLAYER_ID": "146",
+          "TEAM_ID": "1",
+          "ATELIER": "vitesse",
+          "RESULTAT": 14.57,
+          "META": null
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:35:50.000Z",
+        "values": {
+          "PLAYER_ID": "146",
+          "TEAM_ID": "1",
+          "ATELIER": "agilite",
+          "RESULTAT": 23.23,
+          "META": "base:11.23,errors:4"
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:35:50.000Z",
+        "values": {
+          "PLAYER_ID": "146",
+          "TEAM_ID": "1",
+          "ATELIER": "tir",
+          "RESULTAT": -2,
+          "META": "shots:-1,0,-1"
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:38:45.000Z",
+        "values": {
+          "PLAYER_ID": "147",
+          "TEAM_ID": "1",
+          "ATELIER": "vitesse",
+          "RESULTAT": 15.89,
+          "META": null
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:38:45.000Z",
+        "values": {
+          "PLAYER_ID": "147",
+          "TEAM_ID": "1",
+          "ATELIER": "agilite",
+          "RESULTAT": 28.52,
+          "META": "base:16.52,errors:4"
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:38:45.000Z",
+        "values": {
+          "PLAYER_ID": "147",
+          "TEAM_ID": "1",
+          "ATELIER": "tir",
+          "RESULTAT": 2,
+          "META": "shots:0,-1,3"
+        }
+      },
+      {
+        "table": "ta_matchs",
+        "action": "update",
+        "at": "2026-05-23T07:40:00.000Z",
+        "where": "ID='M-2'",
+        "values": {
+          "SCORE_EQUIPE1": 0,
+          "SCORE_EQUIPE2": 1
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:41:40.000Z",
+        "values": {
+          "PLAYER_ID": "148",
+          "TEAM_ID": "1",
+          "ATELIER": "vitesse",
+          "RESULTAT": 15.93,
+          "META": null
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:41:40.000Z",
+        "values": {
+          "PLAYER_ID": "148",
+          "TEAM_ID": "1",
+          "ATELIER": "agilite",
+          "RESULTAT": 25.43,
+          "META": "base:16.43,errors:3"
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:41:40.000Z",
+        "values": {
+          "PLAYER_ID": "148",
+          "TEAM_ID": "1",
+          "ATELIER": "tir",
+          "RESULTAT": 1,
+          "META": "shots:1,-1,1"
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:44:35.000Z",
+        "values": {
+          "PLAYER_ID": "149",
+          "TEAM_ID": "1",
+          "ATELIER": "vitesse",
+          "RESULTAT": 15.84,
+          "META": null
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:44:35.000Z",
+        "values": {
+          "PLAYER_ID": "149",
+          "TEAM_ID": "1",
+          "ATELIER": "agilite",
+          "RESULTAT": 28.66,
+          "META": "base:16.66,errors:4"
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:44:35.000Z",
+        "values": {
+          "PLAYER_ID": "149",
+          "TEAM_ID": "1",
+          "ATELIER": "tir",
+          "RESULTAT": -1,
+          "META": "shots:-1,0,0"
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:47:30.000Z",
+        "values": {
+          "PLAYER_ID": "150",
+          "TEAM_ID": "1",
+          "ATELIER": "vitesse",
+          "RESULTAT": 17.72,
+          "META": null
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:47:30.000Z",
+        "values": {
+          "PLAYER_ID": "150",
+          "TEAM_ID": "1",
+          "ATELIER": "agilite",
+          "RESULTAT": 15.37,
+          "META": "base:12.37,errors:1"
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:47:30.000Z",
+        "values": {
+          "PLAYER_ID": "150",
+          "TEAM_ID": "1",
+          "ATELIER": "tir",
+          "RESULTAT": 1,
+          "META": "shots:1,1,-1"
+        }
+      },
+      {
+        "table": "ta_matchs",
+        "action": "update",
+        "at": "2026-05-23T07:49:00.000Z",
+        "where": "ID='M-2'",
+        "values": {
+          "ETAT": "x",
+          "SCORE_EQUIPE1": 0,
+          "SCORE_EQUIPE2": 1
+        }
+      },
+      {
+        "table": "ta_classement",
+        "action": "update",
+        "at": "2026-05-23T07:49:00.000Z",
+        "where": "GROUPE_NOM='A' AND EQUIPE_ID='8'",
+        "values": {
+          "JOUR": "J1",
+          "GROUPE_NOM": "A",
+          "ORDRE": 1,
+          "EQUIPE_ID": "8",
+          "POINTS": 2,
+          "MATCHS_JOUES": 1,
+          "VICTOIRES": 1,
+          "NULS": 0,
+          "DEFAITES": 0,
+          "BUTS_POUR": 1,
+          "BUTS_CONTRE": 0,
+          "__ACTIVE_GROUP_SIZE": 4,
+          "__GROUP_CLEANUP_LAST": false,
+          "__TRIGGER_MATCH_ID": "M-2"
+        }
+      },
+      {
+        "table": "ta_classement",
+        "action": "update",
+        "at": "2026-05-23T07:49:00.000Z",
+        "where": "GROUPE_NOM='A' AND EQUIPE_ID='1'",
+        "values": {
+          "JOUR": "J1",
+          "GROUPE_NOM": "A",
+          "ORDRE": 2,
+          "EQUIPE_ID": "1",
+          "POINTS": 1,
+          "MATCHS_JOUES": 1,
+          "VICTOIRES": 0,
+          "NULS": 1,
+          "DEFAITES": 0,
+          "BUTS_POUR": 1,
+          "BUTS_CONTRE": 1,
+          "__ACTIVE_GROUP_SIZE": 4,
+          "__GROUP_CLEANUP_LAST": false,
+          "__TRIGGER_MATCH_ID": "M-2"
+        }
+      },
+      {
+        "table": "ta_classement",
+        "action": "update",
+        "at": "2026-05-23T07:49:00.000Z",
+        "where": "GROUPE_NOM='A' AND EQUIPE_ID='4'",
+        "values": {
+          "JOUR": "J1",
+          "GROUPE_NOM": "A",
+          "ORDRE": 3,
+          "EQUIPE_ID": "4",
+          "POINTS": 1,
+          "MATCHS_JOUES": 1,
+          "VICTOIRES": 0,
+          "NULS": 1,
+          "DEFAITES": 0,
+          "BUTS_POUR": 1,
+          "BUTS_CONTRE": 1,
+          "__ACTIVE_GROUP_SIZE": 4,
+          "__GROUP_CLEANUP_LAST": false,
+          "__TRIGGER_MATCH_ID": "M-2"
+        }
+      },
+      {
+        "table": "ta_classement",
+        "action": "update",
+        "at": "2026-05-23T07:49:00.000Z",
+        "where": "GROUPE_NOM='A' AND EQUIPE_ID='5'",
+        "values": {
+          "JOUR": "J1",
+          "GROUPE_NOM": "A",
+          "ORDRE": 4,
+          "EQUIPE_ID": "5",
+          "POINTS": 0,
+          "MATCHS_JOUES": 1,
+          "VICTOIRES": 0,
+          "NULS": 0,
+          "DEFAITES": 1,
+          "BUTS_POUR": 0,
+          "BUTS_CONTRE": 1,
+          "__ACTIVE_GROUP_SIZE": 4,
+          "__GROUP_CLEANUP_LAST": true,
+          "__TRIGGER_MATCH_ID": "M-2"
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:50:25.000Z",
+        "values": {
+          "PLAYER_ID": "151",
+          "TEAM_ID": "1",
+          "ATELIER": "vitesse",
+          "RESULTAT": 17.85,
+          "META": null
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:50:25.000Z",
+        "values": {
+          "PLAYER_ID": "151",
+          "TEAM_ID": "1",
+          "ATELIER": "agilite",
+          "RESULTAT": 17.62,
+          "META": "base:11.62,errors:2"
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:50:25.000Z",
+        "values": {
+          "PLAYER_ID": "151",
+          "TEAM_ID": "1",
+          "ATELIER": "tir",
+          "RESULTAT": 3,
+          "META": "shots:-1,1,3"
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:53:20.000Z",
+        "values": {
+          "PLAYER_ID": "152",
+          "TEAM_ID": "1",
+          "ATELIER": "vitesse",
+          "RESULTAT": 11.08,
+          "META": null
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:53:20.000Z",
+        "values": {
+          "PLAYER_ID": "152",
+          "TEAM_ID": "1",
+          "ATELIER": "agilite",
+          "RESULTAT": 11.35,
+          "META": "base:11.35,errors:0"
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:53:20.000Z",
+        "values": {
+          "PLAYER_ID": "152",
+          "TEAM_ID": "1",
+          "ATELIER": "tir",
+          "RESULTAT": 3,
+          "META": "shots:-1,1,3"
+        }
+      },
+      {
+        "table": "ta_matchs",
+        "action": "update",
+        "at": "2026-05-23T07:54:00.000Z",
+        "where": "ID='M-3'",
+        "values": {
+          "ETAT": "c"
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:56:15.000Z",
+        "values": {
+          "PLAYER_ID": "153",
+          "TEAM_ID": "1",
+          "ATELIER": "vitesse",
+          "RESULTAT": 16.8,
+          "META": null
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:56:15.000Z",
+        "values": {
+          "PLAYER_ID": "153",
+          "TEAM_ID": "1",
+          "ATELIER": "agilite",
+          "RESULTAT": 27.78,
+          "META": "base:18.78,errors:3"
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:56:15.000Z",
+        "values": {
+          "PLAYER_ID": "153",
+          "TEAM_ID": "1",
+          "ATELIER": "tir",
+          "RESULTAT": 4,
+          "META": "shots:1,0,3"
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:59:10.000Z",
+        "values": {
+          "PLAYER_ID": "154",
+          "TEAM_ID": "1",
+          "ATELIER": "vitesse",
+          "RESULTAT": 11.44,
+          "META": null
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:59:10.000Z",
+        "values": {
+          "PLAYER_ID": "154",
+          "TEAM_ID": "1",
+          "ATELIER": "agilite",
+          "RESULTAT": 31.6,
+          "META": "base:19.6,errors:4"
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T07:59:10.000Z",
+        "values": {
+          "PLAYER_ID": "154",
+          "TEAM_ID": "1",
+          "ATELIER": "tir",
+          "RESULTAT": 3,
+          "META": "shots:-1,1,3"
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T08:02:05.000Z",
+        "values": {
+          "PLAYER_ID": "155",
+          "TEAM_ID": "1",
+          "ATELIER": "vitesse",
+          "RESULTAT": 13.22,
+          "META": null
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T08:02:05.000Z",
+        "values": {
+          "PLAYER_ID": "155",
+          "TEAM_ID": "1",
+          "ATELIER": "agilite",
+          "RESULTAT": 22.13,
+          "META": "base:13.13,errors:3"
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T08:02:05.000Z",
+        "values": {
+          "PLAYER_ID": "155",
+          "TEAM_ID": "1",
+          "ATELIER": "tir",
+          "RESULTAT": 2,
+          "META": "shots:1,1,0"
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T08:10:00.000Z",
+        "values": {
+          "PLAYER_ID": "110",
+          "TEAM_ID": "2",
+          "ATELIER": "vitesse",
+          "RESULTAT": 14.61,
+          "META": null
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T08:10:00.000Z",
+        "values": {
+          "PLAYER_ID": "110",
+          "TEAM_ID": "2",
+          "ATELIER": "agilite",
+          "RESULTAT": 17.38,
+          "META": "base:14.38,errors:1"
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T08:10:00.000Z",
+        "values": {
+          "PLAYER_ID": "110",
+          "TEAM_ID": "2",
+          "ATELIER": "tir",
+          "RESULTAT": 2,
+          "META": "shots:3,0,-1"
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T08:12:03.529Z",
+        "values": {
+          "PLAYER_ID": "111",
+          "TEAM_ID": "2",
+          "ATELIER": "vitesse",
+          "RESULTAT": 10.52,
+          "META": null
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T08:12:03.529Z",
+        "values": {
+          "PLAYER_ID": "111",
+          "TEAM_ID": "2",
+          "ATELIER": "agilite",
+          "RESULTAT": 20.24,
+          "META": "base:20.24,errors:0"
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T08:12:03.529Z",
+        "values": {
+          "PLAYER_ID": "111",
+          "TEAM_ID": "2",
+          "ATELIER": "tir",
+          "RESULTAT": 5,
+          "META": "shots:1,3,1"
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T08:14:07.058Z",
+        "values": {
+          "PLAYER_ID": "112",
+          "TEAM_ID": "2",
+          "ATELIER": "vitesse",
+          "RESULTAT": 12.76,
+          "META": null
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T08:14:07.058Z",
+        "values": {
+          "PLAYER_ID": "112",
+          "TEAM_ID": "2",
+          "ATELIER": "agilite",
+          "RESULTAT": 26.71,
+          "META": "base:20.71,errors:2"
+        }
+      },
+      {
+        "table": "ta_challenge_attempts",
+        "action": "insert",
+        "at": "2026-05-23T08:14:07.058Z",
+        "values": {
+          "PLAYER_ID": "112",
+          "TEAM_ID": "2",
+          "ATELIER": "tir",
+          "RESULTAT": 2,
+          "META": "shots:3,-1,0"
+        }
+      },
+      {
+        "table": "ta_matchs",
+        "action": "update",
+        "at": "2026-05-23T08:16:00.000Z",
+        "where": "ID='M-3'",
+        "values": {
+          "ETAT": "x",
+          "SCORE_EQUIPE1": 0,
+          "SCORE_EQUIPE2": 0
+        }
+      }
+    ],
+    "challengeStartAudit": [
+      {
+        "teamId": "1",
+        "startAt": "2026-05-23T07:30:00.000Z",
+        "startSource": "sql",
+        "rawSqlValue": "2026-05-23 09:30:00"
+      },
+      {
+        "teamId": "2",
+        "startAt": "2026-05-23T08:10:00.000Z",
+        "startSource": "sql",
+        "rawSqlValue": "2026-05-23 10:10:00"
+      }
+    ],
+    "sqlDateRemap": {
+      "enabled": true,
+      "sourceTournamentDates": [
+        "2026-05-23",
+        "2026-05-24",
+        "2026-05-25"
+      ],
+      "targetTournamentDates": [
+        "2026-05-23",
+        "2026-05-24",
+        "2026-05-25"
+      ],
+      "mapping": {
+        "2026-05-23": "2026-05-23",
+        "2026-05-24": "2026-05-24",
+        "2026-05-25": "2026-05-25"
+      }
+    },
+    "runMetrics": {
+      "sessionExecutedWrites": 59,
+      "sessionFailedWrites": 0,
+      "sessionRetries": 0,
+      "sessionRowsAffectedByTable": {
+        "ta_matchs": 8,
+        "ta_classement": 8,
+        "ta_challenge_attempts": 0
+      },
+      "skippedBecauseAlreadyExecuted": 0,
+      "totalExecutedWritesIncludingCheckpoint": 59,
+      "totalFailedWritesIncludingCheckpoint": 0,
+      "totalRetriesIncludingCheckpoint": 0,
+      "totalRowsAffectedIncludingCheckpoint": {
+        "ta_matchs": 8,
+        "ta_classement": 8,
+        "ta_challenge_attempts": 0
+      },
+      "classementUpdateAttempts": 6,
+      "classementUpdateZeroRows": 6,
+      "classementUpsertFallbackCount": 6,
+      "classementRowsDeletedStale": 0,
+      "classementGroupOverflowDetected": 1,
+      "executedWrites": 59,
+      "failedWrites": 0,
+      "retries": 0,
+      "rowsAffectedByTable": {
+        "ta_matchs": 8,
+        "ta_classement": 8,
+        "ta_challenge_attempts": 0
+      },
+      "runDurationMs": 5785,
+      "dbTarget": "rchcu11_tournoi_test",
+      "backupFile": "test/simulateur/out/run-4x4-backup.json",
+      "checkpointUsed": false
+    }
+  },
+  "executedActionIds": [
+    "M-1-start",
+    "dataset-loaded",
+    "M-1-goal-1",
+    "M-1-goal-2",
+    "M-1-finished",
+    "M-1-break-start",
+    "M-2-start",
+    "M-1-break-end",
+    "challenge-1-start",
+    "challenge-1-144",
+    "challenge-1-145",
+    "challenge-1-146",
+    "challenge-1-147",
+    "M-2-goal-1",
+    "challenge-1-148",
+    "challenge-1-149",
+    "challenge-1-150",
+    "M-2-finished",
+    "M-2-break-start",
+    "challenge-1-151",
+    "challenge-1-152",
+    "M-3-start",
+    "M-2-break-end",
+    "challenge-1-153",
+    "challenge-1-154",
+    "challenge-1-155",
+    "challenge-1-end",
+    "challenge-2-start",
+    "challenge-2-110",
+    "challenge-2-111",
+    "challenge-2-112"
+  ],
+  "processedActions": 31,
+  "runStartedAt": "2026-02-22T17:28:54.249Z"
+}

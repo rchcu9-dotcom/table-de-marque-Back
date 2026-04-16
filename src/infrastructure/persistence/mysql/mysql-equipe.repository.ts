@@ -8,6 +8,7 @@ import { EquipeRepository } from '@/domain/equipe/repositories/equipe.repository
 import { PrismaService } from './prisma.service';
 import {
   buildTeamLogoUrl,
+  buildTeamPhotoUrl,
   normalizeKey,
   pouleDisplayName,
   toClassementDbGroupCode,
@@ -18,6 +19,10 @@ type TaEquipeRow = {
   ID: number;
   EQUIPE: string;
   IMAGE: string | null;
+  REPAS_SAMEDI: string | null;
+  REPAS_DIMANCHE: string | null;
+  CHALLENGE_SAMEDI: string | null;
+  PHOTO: string | null;
 };
 
 type TaClassementRow = {
@@ -33,6 +38,7 @@ type TaClassementRow = {
   BP: number;
   BC: number;
   DIFF: number;
+  REPAS_SAMEDI: string | null;
 };
 
 @Injectable()
@@ -49,13 +55,18 @@ export class MySqlEquipeRepository implements EquipeRepository {
     const uiCode = toUiPouleCode(normalized) ?? normalized;
     const [classementRows, equipeRows] = await Promise.all([
       this.prisma.$queryRaw<TaClassementRow[]>`
-        SELECT GROUPE_NOM, ORDRE, EQUIPE, EQUIPE_ID, J, V, N, D, PTS, BP, BC, DIFF
+        SELECT GROUPE_NOM, ORDRE, EQUIPE, EQUIPE_ID, J, V, N, D, PTS, BP, BC, DIFF,
+          DATE_FORMAT(REPAS_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS REPAS_SAMEDI
         FROM ta_classement
         WHERE GROUPE_NOM = ${dbCode}
         ORDER BY PTS DESC, DIFF DESC, BP DESC, EQUIPE_ID ASC
       `,
       this.prisma.$queryRaw<TaEquipeRow[]>`
-        SELECT ID, EQUIPE, IMAGE FROM ta_equipes
+        SELECT ID, EQUIPE, IMAGE, PHOTO,
+          DATE_FORMAT(REPAS_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS REPAS_SAMEDI,
+          DATE_FORMAT(REPAS_DIMANCHE, '%Y-%m-%dT%H:%i:%s') AS REPAS_DIMANCHE,
+          DATE_FORMAT(CHALLENGE_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS CHALLENGE_SAMEDI
+        FROM ta_equipes
       `,
     ]);
 
@@ -67,10 +78,15 @@ export class MySqlEquipeRepository implements EquipeRepository {
       return a.EQUIPE_ID - b.EQUIPE_ID;
     });
 
+    const equipeByName = new Map(
+      equipeRows.map((r) => [normalizeKey(r.EQUIPE), r]),
+    );
+
     const pouleName = pouleDisplayName(uiCode) ?? uiCode;
     const equipes = sortedRows.map(
-      (row, index) =>
-        new Equipe(
+      (row, index) => {
+        const eq = equipeByName.get(normalizeKey(row.EQUIPE));
+        return new Equipe(
           row.EQUIPE,
           row.EQUIPE,
           buildTeamLogoUrl(row.EQUIPE),
@@ -85,7 +101,12 @@ export class MySqlEquipeRepository implements EquipeRepository {
           row.BP,
           row.BC,
           row.DIFF,
-        ),
+          row.REPAS_SAMEDI ?? null,
+          null,
+          null,
+          buildTeamPhotoUrl(eq?.PHOTO ?? null),
+        );
+      },
     );
 
     return { pouleCode: uiCode, pouleName, equipes };
@@ -107,14 +128,24 @@ export class MySqlEquipeRepository implements EquipeRepository {
   async findAllEquipes(): Promise<Equipe[]> {
     const [classementRows, equipeRows] = await Promise.all([
       this.prisma.$queryRaw<TaClassementRow[]>`
-        SELECT GROUPE_NOM, ORDRE, EQUIPE, EQUIPE_ID, J, V, N, D, PTS, BP, BC, DIFF
+        SELECT GROUPE_NOM, ORDRE, EQUIPE, EQUIPE_ID, J, V, N, D, PTS, BP, BC, DIFF,
+          DATE_FORMAT(REPAS_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS REPAS_SAMEDI
         FROM ta_classement
+        WHERE GROUPE_NOM IN ('A', 'B', 'C', 'D')
         ORDER BY GROUPE_NOM ASC, PTS DESC, DIFF DESC, BP DESC, EQUIPE_ID ASC
       `,
       this.prisma.$queryRaw<TaEquipeRow[]>`
-        SELECT ID, EQUIPE, IMAGE FROM ta_equipes
+        SELECT ID, EQUIPE, IMAGE, PHOTO,
+          DATE_FORMAT(REPAS_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS REPAS_SAMEDI,
+          DATE_FORMAT(REPAS_DIMANCHE, '%Y-%m-%dT%H:%i:%s') AS REPAS_DIMANCHE,
+          DATE_FORMAT(CHALLENGE_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS CHALLENGE_SAMEDI
+        FROM ta_equipes
       `,
     ]);
+
+    const equipeByName = new Map(
+      equipeRows.map((r) => [normalizeKey(r.EQUIPE), r]),
+    );
 
     const sortedRows = [...classementRows].sort((a, b) => {
       const groupCmp = String(a.GROUPE_NOM).localeCompare(String(b.GROUPE_NOM), 'fr-FR');
@@ -128,6 +159,7 @@ export class MySqlEquipeRepository implements EquipeRepository {
     const mapped = sortedRows.map((row) => {
       const uiCode = toUiPouleCode(row.GROUPE_NOM) ?? row.GROUPE_NOM;
       const pouleName = pouleDisplayName(uiCode) ?? uiCode;
+      const eq = equipeByName.get(normalizeKey(row.EQUIPE));
       return new Equipe(
         row.EQUIPE,
         row.EQUIPE,
@@ -143,6 +175,10 @@ export class MySqlEquipeRepository implements EquipeRepository {
         row.BP,
         row.BC,
         row.DIFF,
+        row.REPAS_SAMEDI ?? null,
+        null,
+        eq?.CHALLENGE_SAMEDI ?? null,
+        buildTeamPhotoUrl(eq?.PHOTO ?? null),
       );
     });
 

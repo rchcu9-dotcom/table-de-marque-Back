@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { InscriptionModule } from './inscription/inscription.module';
 import { MatchModule } from './infrastructure/http/match/match.module';
 import { PersistenceModule } from './infrastructure/persistence/persistence.module';
 import { ClassementModule } from './infrastructure/http/classement/classement.module';
@@ -12,9 +13,11 @@ import { MockEquipeSeeder } from './hooks/mock-equipe.seeder';
 import { CacheModule } from './infrastructure/cache/cache.module';
 import { LiveModule } from './infrastructure/http/live/live.module';
 import { HealthModule } from './health/health.module';
+import { PartenaireModule } from './infrastructure/http/partenaire/partenaire.module';
 
 @Module({
   imports: [
+    InscriptionModule,
     CacheModule,
     PersistenceModule,
     MatchModule,
@@ -25,6 +28,7 @@ import { HealthModule } from './health/health.module';
     MealsModule,
     LiveModule,
     HealthModule,
+    PartenaireModule,
   ],
   providers: [ChallengeMockSeeder, MockScheduleSeeder, MockEquipeSeeder],
 })
