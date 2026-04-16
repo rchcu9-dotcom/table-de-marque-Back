@@ -1,7 +1,11 @@
-import { PrismaClient } from '@prisma/client';
+import fs from 'node:fs';
+import path from 'node:path';
+import { Prisma, PrismaClient } from '@prisma/client';
 import type { SimMatch, SimTeam } from '../types';
 
-async function tableExists(prisma: PrismaClient, table: string): Promise<boolean> {
+type PrismaQueryable = Pick<PrismaClient, '$queryRawUnsafe'> | Prisma.TransactionClient;
+
+async function tableExists(prisma: PrismaQueryable, table: string): Promise<boolean> {
   const rows = await prisma.$queryRawUnsafe<Array<{ c: number }>>(
     'SELECT COUNT(*) AS c FROM information_schema.tables WHERE table_schema = DATABASE() AND table_name = ?',
     table,
@@ -17,6 +21,158 @@ type ResetResult = {
   playersInsertedForMissingTeams: number;
   joueursResetRowsAffected: number;
 };
+
+type J1PlannerTeamSlot = {
+  repasSql: string;
+  challengeSql: string;
+};
+
+type J1PlannerFile = {
+  planning?: Array<{
+    teamId: number;
+    teamName: string;
+    challenge?: { debut?: string | null } | null;
+    repas?: { debut?: string | null } | null;
+  }>;
+};
+
+function resolveJ1PlannerOutputDir(): string {
+  return path.resolve(__dirname, '../../../../.codex/planning-j1/output');
+}
+
+function combineSqlDateAndTime(sqlDate: string, time: string, label: string, teamId: number): string {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(sqlDate)) {
+    throw new Error(`Invalid SQL date "${sqlDate}" while building ${label} for J1 planner teamId=${teamId}`);
+  }
+  if (!/^\d{2}:\d{2}$/.test(time)) {
+    throw new Error(`Invalid planner time "${time}" for ${label} teamId=${teamId}`);
+  }
+  return `${sqlDate} ${time}:00`;
+}
+
+function loadJ1PlannerSlots(sqlDate: string): Map<number, J1PlannerTeamSlot> {
+  const outputDir = resolveJ1PlannerOutputDir();
+  if (!fs.existsSync(outputDir)) {
+    throw new Error(`J1 planner output directory not found: ${outputDir}`);
+  }
+
+  const plannerFiles = fs
+    .readdirSync(outputDir)
+    .filter((file) => /^planning-j1-.*\.json$/i.test(file))
+    .sort((a, b) => a.localeCompare(b, 'fr-FR'));
+  const plannerFile = plannerFiles[plannerFiles.length - 1];
+  if (!plannerFile) {
+    throw new Error(`No planning-j1 JSON file found in ${outputDir}`);
+  }
+
+  const plannerPath = path.join(outputDir, plannerFile);
+  const planner = JSON.parse(fs.readFileSync(plannerPath, 'utf8')) as J1PlannerFile;
+  const rows = planner.planning ?? [];
+  if (rows.length === 0) {
+    throw new Error(`Planner file has no team planning rows: ${plannerPath}`);
+  }
+
+  const slots = new Map<number, J1PlannerTeamSlot>();
+  for (const row of rows) {
+    const teamId = Number(row.teamId);
+    const repas = row.repas?.debut?.trim() ?? '';
+    const challenge = row.challenge?.debut?.trim() ?? '';
+    if (!Number.isFinite(teamId) || teamId <= 0) {
+      throw new Error(`Invalid teamId in J1 planner: ${JSON.stringify(row)}`);
+    }
+    if (!repas) {
+      throw new Error(`Missing repas.debut in J1 planner for teamId=${teamId}`);
+    }
+    if (!challenge) {
+      throw new Error(`Missing challenge.debut in J1 planner for teamId=${teamId}`);
+    }
+    if (slots.has(teamId)) {
+      throw new Error(`Duplicate teamId=${teamId} in J1 planner ${plannerPath}`);
+    }
+
+    slots.set(teamId, {
+      repasSql: combineSqlDateAndTime(sqlDate, repas, 'repas', teamId),
+      challengeSql: combineSqlDateAndTime(sqlDate, challenge, 'challenge', teamId),
+    });
+  }
+
+  return slots;
+}
+
+type TeamChallengeSyncRow = {
+  teamId: number;
+  challengeSql: string;
+};
+
+type ClassementInsertRow = {
+  groupeNom: string;
+  ordre: number;
+  ordreFinal: number;
+  equipe: string;
+  equipeId: number;
+  repasSamedi: string | null;
+  challengeSamedi: string | null;
+};
+
+async function syncTeamChallengeSlots(
+  tx: Prisma.TransactionClient,
+  rows: TeamChallengeSyncRow[],
+): Promise<number> {
+  if (rows.length === 0) return 0;
+
+  const caseFragments = rows.map(() => 'WHEN ? THEN ?').join(' ');
+  const idsPlaceholders = rows.map(() => '?').join(', ');
+  const params: Array<string | number> = [];
+  rows.forEach((row) => {
+    params.push(row.teamId, row.challengeSql);
+  });
+  rows.forEach((row) => {
+    params.push(row.teamId);
+  });
+
+  return Number(
+    await tx.$executeRawUnsafe(
+      `UPDATE ta_equipes
+       SET CHALLENGE_SAMEDI = CASE ID ${caseFragments} ELSE CHALLENGE_SAMEDI END
+       WHERE ID IN (${idsPlaceholders})`,
+      ...params,
+    ),
+  );
+}
+
+async function insertClassementRows(
+  tx: Prisma.TransactionClient,
+  rows: ClassementInsertRow[],
+): Promise<number> {
+  if (rows.length === 0) return 0;
+
+  const placeholders = rows
+    .map(() => '(?, ?, ?, ?, ?, 0, 0, 0, 0, 0, 0, 0, 0, ?, ?)')
+    .join(', ');
+  const params: Array<string | number | null> = [];
+  rows.forEach((row) => {
+    params.push(
+      row.groupeNom,
+      row.ordre,
+      row.ordreFinal,
+      row.equipe,
+      row.equipeId,
+      row.repasSamedi,
+      row.challengeSamedi,
+    );
+  });
+
+  return Number(
+    await tx.$executeRawUnsafe(
+      `INSERT INTO ta_classement (
+        GROUPE_NOM, ORDRE, ORDRE_FINAL, EQUIPE, EQUIPE_ID,
+        J, V, N, D, PTS, BP, BC, DIFF,
+        REPAS_SAMEDI, CHALLENGE_SAMEDI
+      ) VALUES ${placeholders}`,
+      ...params,
+    ),
+  );
+}
 
 /**
  * Remet EQUIPE1/EQUIPE2 aux valeurs placeholder pour les matchs J2/J3.
@@ -70,18 +226,45 @@ export async function resetPreTournament(j1Teams?: Array<{ team: SimTeam; group:
   let joueursResetRowsAffected = 0;
 
   try {
+    const j1DateRows = await prisma.$queryRawUnsafe<Array<{ J1_DATE: string | null }>>(
+      `SELECT DATE_FORMAT(MIN(DATEHEURE), '%Y-%m-%d') AS J1_DATE
+       FROM TA_MATCHS
+       WHERE NUM_MATCH BETWEEN 1 AND 24 AND SURFACAGE = 0`,
+    );
+    const j1SqlDate = j1DateRows[0]?.J1_DATE ?? null;
+    if (!j1SqlDate) {
+      throw new Error('Unable to resolve J1 SQL date from TA_MATCHS for reset-pre-tournoi');
+    }
+    const plannerSlotsByTeamId = loadJ1PlannerSlots(j1SqlDate);
+
     await prisma.$transaction(async (tx) => {
       const teams = await tx.$queryRawUnsafe<Array<{
         ID: number;
         EQUIPE: string;
-        REPAS_SAMEDI: string | null;
         CHALLENGE_SAMEDI: string | null;
       }>>(
         `SELECT ID, EQUIPE,
-           DATE_FORMAT(REPAS_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS REPAS_SAMEDI,
            DATE_FORMAT(CHALLENGE_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS CHALLENGE_SAMEDI
          FROM ta_equipes ORDER BY ID`,
       );
+      const teamChallengeUpdates: TeamChallengeSyncRow[] = [];
+      for (const team of teams) {
+        const teamId = Number(team.ID);
+        const plannerSlot = plannerSlotsByTeamId.get(teamId);
+        if (!plannerSlot) {
+          throw new Error(`Missing J1 planner slot for teamId=${teamId} (${team.EQUIPE})`);
+        }
+        const currentChallenge = team.CHALLENGE_SAMEDI ?? null;
+        if (currentChallenge !== plannerSlot.challengeSql.replace(' ', 'T')) {
+          teamChallengeUpdates.push({
+            teamId,
+            challengeSql: plannerSlot.challengeSql,
+          });
+        }
+      }
+      await syncTeamChallengeSlots(tx, teamChallengeUpdates);
+      touched.push('ta_equipes');
+
       const counts = await tx.$queryRawUnsafe<Array<{ EQUIPE_ID: number; c: number }>>(
         'SELECT EQUIPE_ID, COUNT(*) AS c FROM ta_joueurs GROUP BY EQUIPE_ID',
       );
@@ -126,11 +309,6 @@ export async function resetPreTournament(j1Teams?: Array<{ team: SimTeam; group:
       await tx.$executeRawUnsafe('DELETE FROM ta_classement');
       touched.push('ta_classement');
 
-      // Build a lookup map for J1 repas/challenge from ta_equipes (already queried above)
-      const equipeRepasById = new Map<number, { repas: string | null; challenge: string | null }>(
-        teams.map((t) => [Number(t.ID), { repas: t.REPAS_SAMEDI ?? null, challenge: t.CHALLENGE_SAMEDI ?? null }]),
-      );
-
       if (j1Teams && j1Teams.length > 0) {
         const byGroup = new Map<string, Array<{ team: SimTeam; group: string }>>();
         for (const entry of j1Teams) {
@@ -138,24 +316,26 @@ export async function resetPreTournament(j1Teams?: Array<{ team: SimTeam; group:
           list.push(entry);
           byGroup.set(entry.group, list);
         }
+        const j1ClassementRows: ClassementInsertRow[] = [];
         for (const [group, entries] of byGroup) {
           for (let i = 0; i < entries.length; i++) {
             const { team } = entries[i];
-            const eq = equipeRepasById.get(Number(team.id));
-            // J1: REPAS_SAMEDI and CHALLENGE_SAMEDI come from ta_equipes (per real team)
-            await tx.$executeRawUnsafe(
-              `INSERT INTO ta_classement (GROUPE_NOM, ORDRE, ORDRE_FINAL, EQUIPE, EQUIPE_ID, J, V, N, D, PTS, BP, BC, DIFF, REPAS_SAMEDI, CHALLENGE_SAMEDI)
-               VALUES (?, ?, ?, ?, ?, 0, 0, 0, 0, 0, 0, 0, 0, ?, ?)`,
-              group,
-              i + 1,
-              i + 1,
-              team.name,
-              Number(team.id),
-              eq?.repas ?? null,
-              eq?.challenge ?? null,
-            );
+            const plannerSlot = plannerSlotsByTeamId.get(Number(team.id));
+            if (!plannerSlot) {
+              throw new Error(`Missing J1 planner slot for classement init teamId=${team.id} (${team.name})`);
+            }
+            j1ClassementRows.push({
+              groupeNom: group,
+              ordre: i + 1,
+              ordreFinal: i + 1,
+              equipe: team.name,
+              equipeId: Number(team.id),
+              repasSamedi: plannerSlot.repasSql,
+              challengeSamedi: plannerSlot.challengeSql,
+            });
           }
         }
+        await insertClassementRows(tx, j1ClassementRows);
       }
 
       // J2 standings init — 4 pools cross-J1 (GROUPE_NOM '1'/'2'/'3'/'4')
@@ -181,13 +361,18 @@ export async function resetPreTournament(j1Teams?: Array<{ team: SimTeam; group:
         ['4', 3, 'D3', 115, '2026-05-24 13:30:00'],
         ['4', 4, 'D4', 116, '2026-05-24 11:00:00'],
       ];
-      for (const [groupe, ordre, alias, equipeId, repasSamedi] of j2Rows) {
-        await tx.$executeRawUnsafe(
-          `INSERT INTO ta_classement (GROUPE_NOM, ORDRE, ORDRE_FINAL, EQUIPE, EQUIPE_ID, J, V, N, D, PTS, BP, BC, DIFF, REPAS_SAMEDI, CHALLENGE_SAMEDI)
-           VALUES (?, ?, ?, ?, ?, 0, 0, 0, 0, 0, 0, 0, 0, ?, NULL)`,
-          groupe, ordre, ordre, alias, equipeId, repasSamedi,
-        );
-      }
+      await insertClassementRows(
+        tx,
+        j2Rows.map(([groupe, ordre, alias, equipeId, repasSamedi]) => ({
+          groupeNom: groupe,
+          ordre,
+          ordreFinal: ordre,
+          equipe: alias,
+          equipeId,
+          repasSamedi,
+          challengeSamedi: null,
+        })),
+      );
 
       // J3 Phase1 standings init — groupes E (Or) et F (Argent) — pas de repas
       const j3Phase1Rows: Array<[string, number, string, number]> = [
@@ -196,13 +381,18 @@ export async function resetPreTournament(j1Teams?: Array<{ team: SimTeam; group:
         ['F', 1, 'C1', 105], ['F', 2, 'D1', 107], ['F', 3, 'D2', 108], ['F', 4, 'C2', 106],
         ['F', 5, 'C3', 113], ['F', 6, 'D3', 115], ['F', 7, 'D4', 116], ['F', 8, 'C4', 114],
       ];
-      for (const [groupe, ordre, alias, equipeId] of j3Phase1Rows) {
-        await tx.$executeRawUnsafe(
-          `INSERT INTO ta_classement (GROUPE_NOM, ORDRE, ORDRE_FINAL, EQUIPE, EQUIPE_ID, J, V, N, D, PTS, BP, BC, DIFF, REPAS_SAMEDI, CHALLENGE_SAMEDI)
-           VALUES (?, ?, ?, ?, ?, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL)`,
-          groupe, ordre, ordre, alias, equipeId,
-        );
-      }
+      await insertClassementRows(
+        tx,
+        j3Phase1Rows.map(([groupe, ordre, alias, equipeId]) => ({
+          groupeNom: groupe,
+          ordre,
+          ordreFinal: ordre,
+          equipe: alias,
+          equipeId,
+          repasSamedi: null,
+          challengeSamedi: null,
+        })),
+      );
 
       // J3 Phase2 standings init — groupes G (Losers) et J (Winners)
       // REPAS_SAMEDI = créneaux fixes du planning J3 (planning-j3-2026-05-25.json)
@@ -225,13 +415,18 @@ export async function resetPreTournament(j1Teams?: Array<{ team: SimTeam; group:
         ['J', 7, 'vC3D4', 215, '2026-05-25 12:35:00'],
         ['J', 8, 'vD3C4', 216, '2026-05-25 11:05:00'],
       ];
-      for (const [groupe, ordre, alias, equipeId, repasSamedi] of j3Phase2Rows) {
-        await tx.$executeRawUnsafe(
-          `INSERT INTO ta_classement (GROUPE_NOM, ORDRE, ORDRE_FINAL, EQUIPE, EQUIPE_ID, J, V, N, D, PTS, BP, BC, DIFF, REPAS_SAMEDI, CHALLENGE_SAMEDI)
-           VALUES (?, ?, ?, ?, ?, 0, 0, 0, 0, 0, 0, 0, 0, ?, NULL)`,
-          groupe, ordre, ordre, alias, equipeId, repasSamedi,
-        );
-      }
+      await insertClassementRows(
+        tx,
+        j3Phase2Rows.map(([groupe, ordre, alias, equipeId, repasSamedi]) => ({
+          groupeNom: groupe,
+          ordre,
+          ordreFinal: ordre,
+          equipe: alias,
+          equipeId,
+          repasSamedi,
+          challengeSamedi: null,
+        })),
+      );
 
       joueursResetRowsAffected = Number(
         await tx.$executeRawUnsafe(
@@ -264,10 +459,13 @@ export async function resetPreTournament(j1Teams?: Array<{ team: SimTeam; group:
       );
       touched.push('ta_joueurs');
 
-      if (await tableExists(prisma, 'ta_challenge_attempts')) {
+      if (await tableExists(tx, 'ta_challenge_attempts')) {
         await tx.$executeRawUnsafe('DELETE FROM ta_challenge_attempts');
         touched.push('ta_challenge_attempts');
       }
+    }, {
+      maxWait: 10_000,
+      timeout: 30_000,
     });
 
     return {

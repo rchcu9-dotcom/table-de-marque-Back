@@ -1,5 +1,9 @@
-﻿import { parseConfig, usageText } from './config';
+import * as dotenv from 'dotenv';
+import { parseConfig, usageText } from './config';
 import { runSimulation } from './orchestrator';
+
+dotenv.config({ path: '.env.local' });
+dotenv.config();
 
 async function main(): Promise<void> {
   try {
@@ -42,4 +46,3 @@ async function main(): Promise<void> {
 }
 
 void main();
-
