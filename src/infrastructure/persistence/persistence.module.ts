@@ -217,6 +217,7 @@ const challengeJ1MomentumPersistenceProvider = {
     partenairePersistenceProvider,
   ],
   exports: [
+    PrismaService,
     MATCH_REPOSITORY,
     EQUIPE_REPOSITORY,
     MEAL_REPOSITORY,

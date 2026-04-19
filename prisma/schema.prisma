@@ -279,3 +279,12 @@ model InscCoachDossier {
 
   @@map("insc_coachs_dossier")
 }
+
+model TaCacheSnapshot {
+  id          Int      @id @default(autoincrement())
+  snapshotKey String   @unique @map("snapshot_key") @db.VarChar(64)
+  data        String   @db.LongText
+  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@map("ta_cache_snapshots")
+}

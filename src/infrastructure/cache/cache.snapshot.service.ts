@@ -3,6 +3,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { CacheStore } from './cache.store';
 import { CacheEntry, CacheKey } from './cache.types';
+import { PrismaService } from '@/infrastructure/persistence/mysql/prisma.service';
+
+const SNAPSHOT_KEY = 'main';
 
 @Injectable()
 export class CacheSnapshotService implements OnModuleInit {
@@ -11,13 +14,34 @@ export class CacheSnapshotService implements OnModuleInit {
     process.env.CACHE_SNAPSHOT_PATH ?? './cache/snapshots.json';
   private readonly logger = new Logger(CacheSnapshotService.name);
 
-  constructor(private readonly store: CacheStore) {}
+  constructor(
+    private readonly store: CacheStore,
+    private readonly prisma: PrismaService,
+  ) {}
 
-  onModuleInit() {
-    this.loadSnapshotsOnBoot();
+  async onModuleInit() {
+    await this.loadSnapshotsOnBoot();
   }
 
-  loadSnapshotsOnBoot() {
+  async loadSnapshotsOnBoot() {
+    // Try MySQL first
+    try {
+      const row = await this.prisma.taCacheSnapshot.findUnique({
+        where: { snapshotKey: SNAPSHOT_KEY },
+      });
+      if (row) {
+        const raw = JSON.parse(row.data) as Record<string, CacheEntry<unknown>>;
+        Object.keys(raw).forEach((key) =>
+          this.store.setEntry(key as CacheKey, raw[key]),
+        );
+        this.logger.log('Cache snapshot loaded from DB.');
+        return;
+      }
+    } catch (err) {
+      this.logger.warn(`DB snapshot load failed, trying file: ${String(err)}`);
+    }
+
+    // Fallback: file
     if (!fs.existsSync(this.snapshotPath)) return;
     try {
       const raw = JSON.parse(
@@ -26,9 +50,9 @@ export class CacheSnapshotService implements OnModuleInit {
       Object.keys(raw).forEach((key) =>
         this.store.setEntry(key as CacheKey, raw[key]),
       );
-      this.logger.log('Cache snapshot loaded.');
+      this.logger.log('Cache snapshot loaded from file.');
     } catch (err) {
-      this.logger.warn(`Failed to load cache snapshot: ${String(err)}`);
+      this.logger.warn(`Failed to load cache snapshot from file: ${String(err)}`);
     }
   }
 
@@ -94,7 +118,23 @@ export class CacheSnapshotService implements OnModuleInit {
   private persist() {
     const obj: Record<string, CacheEntry<unknown>> = {};
     for (const [k, v] of this.store.entries()) obj[k] = v;
-    fs.mkdirSync(path.dirname(this.snapshotPath), { recursive: true });
-    fs.writeFileSync(this.snapshotPath, JSON.stringify(obj));
+    const json = JSON.stringify(obj);
+
+    // Async DB persist (fire-and-forget)
+    this.prisma.taCacheSnapshot
+      .upsert({
+        where: { snapshotKey: SNAPSHOT_KEY },
+        create: { snapshotKey: SNAPSHOT_KEY, data: json },
+        update: { data: json },
+      })
+      .catch((err) => this.logger.warn(`DB snapshot persist failed: ${String(err)}`));
+
+    // File persist (local dev fallback)
+    try {
+      fs.mkdirSync(path.dirname(this.snapshotPath), { recursive: true });
+      fs.writeFileSync(this.snapshotPath, json);
+    } catch {
+      // Non-critical in container environments
+    }
   }
 }
