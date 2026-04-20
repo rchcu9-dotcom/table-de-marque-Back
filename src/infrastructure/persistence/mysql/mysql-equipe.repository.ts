@@ -19,9 +19,6 @@ type TaEquipeRow = {
   ID: number;
   EQUIPE: string;
   IMAGE: string | null;
-  REPAS_SAMEDI: string | null;
-  REPAS_DIMANCHE: string | null;
-  CHALLENGE_SAMEDI: string | null;
   PHOTO: string | null;
 };
 
@@ -39,6 +36,8 @@ type TaClassementRow = {
   BC: number;
   DIFF: number;
   REPAS_SAMEDI: string | null;
+  REPAS_DIMANCHE: string | null;
+  CHALLENGE_SAMEDI: string | null;
 };
 
 @Injectable()
@@ -53,25 +52,26 @@ export class MySqlEquipeRepository implements EquipeRepository {
     const dbCode = toClassementDbGroupCode(normalized);
     if (!dbCode) return null;
     const uiCode = toUiPouleCode(normalized) ?? normalized;
+    const isJ3FinalSquare = ['I', 'J', 'K', 'L'].includes(uiCode);
     const [classementRows, equipeRows] = await Promise.all([
       this.prisma.$queryRaw<TaClassementRow[]>`
         SELECT GROUPE_NOM, ORDRE, EQUIPE, EQUIPE_ID, J, V, N, D, PTS, BP, BC, DIFF,
-          DATE_FORMAT(REPAS_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS REPAS_SAMEDI
+          DATE_FORMAT(REPAS_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS REPAS_SAMEDI,
+          DATE_FORMAT(REPAS_DIMANCHE, '%Y-%m-%dT%H:%i:%s') AS REPAS_DIMANCHE,
+          DATE_FORMAT(CHALLENGE_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS CHALLENGE_SAMEDI
         FROM ta_classement
         WHERE GROUPE_NOM = ${dbCode}
         ORDER BY PTS DESC, DIFF DESC, BP DESC, EQUIPE_ID ASC
       `,
       this.prisma.$queryRaw<TaEquipeRow[]>`
-        SELECT ID, EQUIPE, IMAGE, PHOTO,
-          DATE_FORMAT(REPAS_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS REPAS_SAMEDI,
-          DATE_FORMAT(REPAS_DIMANCHE, '%Y-%m-%dT%H:%i:%s') AS REPAS_DIMANCHE,
-          DATE_FORMAT(CHALLENGE_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS CHALLENGE_SAMEDI
+        SELECT ID, EQUIPE, IMAGE, PHOTO
         FROM ta_equipes
       `,
     ]);
 
     if (!classementRows.length) return null;
     const sortedRows = [...classementRows].sort((a, b) => {
+      if (isJ3FinalSquare && a.ORDRE !== b.ORDRE) return a.ORDRE - b.ORDRE;
       if (b.PTS !== a.PTS) return b.PTS - a.PTS;
       if (b.DIFF !== a.DIFF) return b.DIFF - a.DIFF;
       if (b.BP !== a.BP) return b.BP - a.BP;
@@ -92,7 +92,7 @@ export class MySqlEquipeRepository implements EquipeRepository {
           buildTeamLogoUrl(row.EQUIPE),
           uiCode,
           pouleName,
-          index + 1,
+          isJ3FinalSquare ? row.ORDRE : index + 1,
           row.J,
           row.V,
           row.N,
@@ -102,8 +102,8 @@ export class MySqlEquipeRepository implements EquipeRepository {
           row.BC,
           row.DIFF,
           row.REPAS_SAMEDI ?? null,
-          null,
-          null,
+          row.REPAS_DIMANCHE ?? null,
+          row.CHALLENGE_SAMEDI ?? null,
           buildTeamPhotoUrl(eq?.PHOTO ?? null),
         );
       },
@@ -129,16 +129,15 @@ export class MySqlEquipeRepository implements EquipeRepository {
     const [classementRows, equipeRows] = await Promise.all([
       this.prisma.$queryRaw<TaClassementRow[]>`
         SELECT GROUPE_NOM, ORDRE, EQUIPE, EQUIPE_ID, J, V, N, D, PTS, BP, BC, DIFF,
-          DATE_FORMAT(REPAS_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS REPAS_SAMEDI
+          DATE_FORMAT(REPAS_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS REPAS_SAMEDI,
+          DATE_FORMAT(REPAS_DIMANCHE, '%Y-%m-%dT%H:%i:%s') AS REPAS_DIMANCHE,
+          DATE_FORMAT(CHALLENGE_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS CHALLENGE_SAMEDI
         FROM ta_classement
         WHERE GROUPE_NOM IN ('A', 'B', 'C', 'D')
         ORDER BY GROUPE_NOM ASC, PTS DESC, DIFF DESC, BP DESC, EQUIPE_ID ASC
       `,
       this.prisma.$queryRaw<TaEquipeRow[]>`
-        SELECT ID, EQUIPE, IMAGE, PHOTO,
-          DATE_FORMAT(REPAS_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS REPAS_SAMEDI,
-          DATE_FORMAT(REPAS_DIMANCHE, '%Y-%m-%dT%H:%i:%s') AS REPAS_DIMANCHE,
-          DATE_FORMAT(CHALLENGE_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS CHALLENGE_SAMEDI
+        SELECT ID, EQUIPE, IMAGE, PHOTO
         FROM ta_equipes
       `,
     ]);
@@ -176,8 +175,8 @@ export class MySqlEquipeRepository implements EquipeRepository {
         row.BC,
         row.DIFF,
         row.REPAS_SAMEDI ?? null,
-        null,
-        eq?.CHALLENGE_SAMEDI ?? null,
+        row.REPAS_DIMANCHE ?? null,
+        row.CHALLENGE_SAMEDI ?? null,
         buildTeamPhotoUrl(eq?.PHOTO ?? null),
       );
     });
