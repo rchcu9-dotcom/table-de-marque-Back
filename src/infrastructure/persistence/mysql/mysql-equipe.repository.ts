@@ -36,7 +36,6 @@ type TaClassementRow = {
   BC: number;
   DIFF: number;
   REPAS_SAMEDI: string | null;
-  REPAS_DIMANCHE: string | null;
   CHALLENGE_SAMEDI: string | null;
 };
 
@@ -57,7 +56,6 @@ export class MySqlEquipeRepository implements EquipeRepository {
       this.prisma.$queryRaw<TaClassementRow[]>`
         SELECT GROUPE_NOM, ORDRE, EQUIPE, EQUIPE_ID, J, V, N, D, PTS, BP, BC, DIFF,
           DATE_FORMAT(REPAS_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS REPAS_SAMEDI,
-          DATE_FORMAT(REPAS_DIMANCHE, '%Y-%m-%dT%H:%i:%s') AS REPAS_DIMANCHE,
           DATE_FORMAT(CHALLENGE_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS CHALLENGE_SAMEDI
         FROM ta_classement
         WHERE GROUPE_NOM = ${dbCode}
@@ -102,7 +100,7 @@ export class MySqlEquipeRepository implements EquipeRepository {
           row.BC,
           row.DIFF,
           row.REPAS_SAMEDI ?? null,
-          row.REPAS_DIMANCHE ?? null,
+          null,
           row.CHALLENGE_SAMEDI ?? null,
           buildTeamPhotoUrl(eq?.PHOTO ?? null),
         );
@@ -130,7 +128,6 @@ export class MySqlEquipeRepository implements EquipeRepository {
       this.prisma.$queryRaw<TaClassementRow[]>`
         SELECT GROUPE_NOM, ORDRE, EQUIPE, EQUIPE_ID, J, V, N, D, PTS, BP, BC, DIFF,
           DATE_FORMAT(REPAS_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS REPAS_SAMEDI,
-          DATE_FORMAT(REPAS_DIMANCHE, '%Y-%m-%dT%H:%i:%s') AS REPAS_DIMANCHE,
           DATE_FORMAT(CHALLENGE_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS CHALLENGE_SAMEDI
         FROM ta_classement
         WHERE GROUPE_NOM IN ('A', 'B', 'C', 'D')
@@ -175,7 +172,7 @@ export class MySqlEquipeRepository implements EquipeRepository {
         row.BC,
         row.DIFF,
         row.REPAS_SAMEDI ?? null,
-        row.REPAS_DIMANCHE ?? null,
+        null,
         row.CHALLENGE_SAMEDI ?? null,
         buildTeamPhotoUrl(eq?.PHOTO ?? null),
       );
