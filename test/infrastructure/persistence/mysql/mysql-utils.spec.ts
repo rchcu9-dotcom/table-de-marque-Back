@@ -85,21 +85,15 @@ describe('buildTeamLogoUrl', () => {
 });
 
 describe('toClassementDbGroupCode', () => {
-  it('maps UI E/F/G/H to DB codes 1/2/3/4', () => {
-    expect(toClassementDbGroupCode('E')).toBe('1');
-    expect(toClassementDbGroupCode('F')).toBe('2');
-    expect(toClassementDbGroupCode('G')).toBe('3');
-    expect(toClassementDbGroupCode('H')).toBe('4');
+  it('passes through J2 pool codes E/F/G/H unchanged (DB stores E/F/G/H directly)', () => {
+    expect(toClassementDbGroupCode('E')).toBe('E');
+    expect(toClassementDbGroupCode('F')).toBe('F');
+    expect(toClassementDbGroupCode('G')).toBe('G');
+    expect(toClassementDbGroupCode('H')).toBe('H');
   });
 
-  it('keeps legacy Alpha/Beta/Gamma/Delta aliases for backward compatibility', () => {
-    expect(toClassementDbGroupCode('Alpha')).toBe('1');
-    expect(toClassementDbGroupCode('Beta')).toBe('2');
-    expect(toClassementDbGroupCode('Gamma')).toBe('3');
-    expect(toClassementDbGroupCode('Delta')).toBe('4');
-  });
-
-  it('returns the value unchanged if not a known J2 code', () => {
+  it('passes through any non-null/non-empty value unchanged', () => {
+    expect(toClassementDbGroupCode('Alpha')).toBe('Alpha');
     expect(toClassementDbGroupCode('A')).toBe('A');
     expect(toClassementDbGroupCode('1')).toBe('1');
   });
