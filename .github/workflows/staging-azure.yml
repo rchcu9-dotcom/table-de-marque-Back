@@ -67,9 +67,28 @@ jobs:
             --resource-group $RESOURCE_GROUP \
             --image $ACR_LOGIN_SERVER/$IMAGE_NAME:$TAG
 
+      - name: Wait for container readiness
+        env:
+          API_BASE_URL: https://table-de-marque-back.wittyrock-6c116ec6.westeurope.azurecontainerapps.io
+        run: |
+          echo "Waiting for container to be ready (KEDA cold start)..."
+          for i in {1..10}; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 20 "$API_BASE_URL/health" || echo "000")
+            echo "Attempt $i: HTTP $STATUS"
+            if [ "$STATUS" = "200" ]; then
+              echo "Container ready."
+              break
+            fi
+            if [ "$i" = "10" ]; then
+              echo "Container did not become ready in time."
+              exit 1
+            fi
+            sleep 25
+          done
+
       - name: Smoke test
         env:
           API_BASE_URL: https://table-de-marque-back.wittyrock-6c116ec6.westeurope.azurecontainerapps.io
         run: |
-          curl -f "$API_BASE_URL/matches"
-          curl -f "$API_BASE_URL/matches/stream?once=true"
+          curl -f --max-time 30 "$API_BASE_URL/matches"
+          curl -f --max-time 30 "$API_BASE_URL/matches/stream?once=true"
