@@ -1,5 +1,6 @@
 import { CacheStore } from '@/infrastructure/cache/cache.store';
 import { CacheSnapshotService } from '@/infrastructure/cache/cache.snapshot.service';
+import type { PrismaService } from '@/infrastructure/persistence/mysql/prisma.service';
 
 jest.mock('node:fs', () => ({
   existsSync: jest.fn(() => false),
@@ -7,6 +8,15 @@ jest.mock('node:fs', () => ({
   mkdirSync: jest.fn(),
   writeFileSync: jest.fn(),
 }));
+
+function makePrismaMock(): PrismaService {
+  return {
+    taCacheSnapshot: {
+      upsert: jest.fn().mockResolvedValue({}),
+      findUnique: jest.fn().mockResolvedValue(null),
+    },
+  } as unknown as PrismaService;
+}
 
 describe('CacheSnapshotService.readThrough', () => {
   const envBackup = { ...process.env };
@@ -25,7 +35,7 @@ describe('CacheSnapshotService.readThrough', () => {
   });
 
   it('calls loader on miss and returns fresh data', async () => {
-    const service = new CacheSnapshotService(new CacheStore());
+    const service = new CacheSnapshotService(new CacheStore(), makePrismaMock());
     const loader = jest.fn().mockResolvedValue({ value: 'fresh' });
 
     const result = await service.readThrough('j3carres', loader);
@@ -40,7 +50,7 @@ describe('CacheSnapshotService.readThrough', () => {
   it('does not call loader on fresh hit', async () => {
     const store = new CacheStore();
     store.setEntry('j3carres', { data: { value: 'cached' }, updatedAt: Date.now() });
-    const service = new CacheSnapshotService(store);
+    const service = new CacheSnapshotService(store, makePrismaMock());
     const loader = jest.fn().mockResolvedValue({ value: 'fresh' });
 
     const result = await service.readThrough('j3carres', loader);
@@ -55,7 +65,7 @@ describe('CacheSnapshotService.readThrough', () => {
       data: { value: 'stale' },
       updatedAt: Date.now() - 5000,
     });
-    const service = new CacheSnapshotService(store);
+    const service = new CacheSnapshotService(store, makePrismaMock());
     const loader = jest.fn().mockResolvedValue({ value: 'fresh' });
 
     const result = await service.readThrough('j3carres', loader);

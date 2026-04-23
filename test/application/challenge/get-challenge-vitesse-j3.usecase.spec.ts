@@ -43,6 +43,8 @@ function buildTournamentMatches() {
     new Match('j1', new Date('2026-02-28T09:00:00Z'), 'A', 'B', 'finished', 1, 0, undefined, undefined, undefined, undefined, '5v5', 'GG', 'brassage', 'J1'),
     new Match('j2', new Date('2026-03-01T09:00:00Z'), 'C', 'D', 'finished', 1, 0, undefined, undefined, undefined, undefined, '5v5', 'GG', 'qualification', 'J2'),
     new Match('j3', new Date('2026-03-02T09:00:00Z'), 'E', 'F', 'planned', null, null, undefined, undefined, undefined, undefined, '5v5', 'GG', 'finales', 'J3'),
+    // 3v3 match on J3 morning: ends at 06:30Z — before QF starts at 08:48Z
+    new Match('3v3-j3', new Date('2026-03-02T06:00:00Z'), 'X', 'Y', 'finished', 2, 1, undefined, undefined, undefined, undefined, '3v3', 'PG', 'finales', 'J3'),
   ];
 }
 
