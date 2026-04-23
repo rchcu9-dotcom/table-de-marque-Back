@@ -85,20 +85,17 @@ describe('buildTeamLogoUrl', () => {
 });
 
 describe('toClassementDbGroupCode', () => {
-  it('maps UI Alpha to DB code 1', () => {
+  it('maps UI E/F/G/H to DB codes 1/2/3/4', () => {
+    expect(toClassementDbGroupCode('E')).toBe('1');
+    expect(toClassementDbGroupCode('F')).toBe('2');
+    expect(toClassementDbGroupCode('G')).toBe('3');
+    expect(toClassementDbGroupCode('H')).toBe('4');
+  });
+
+  it('keeps legacy Alpha/Beta/Gamma/Delta aliases for backward compatibility', () => {
     expect(toClassementDbGroupCode('Alpha')).toBe('1');
-    expect(toClassementDbGroupCode('alpha')).toBe('1');
-  });
-
-  it('maps UI Beta to DB code 2', () => {
     expect(toClassementDbGroupCode('Beta')).toBe('2');
-  });
-
-  it('maps UI Gamma to DB code 3', () => {
     expect(toClassementDbGroupCode('Gamma')).toBe('3');
-  });
-
-  it('maps UI Delta to DB code 4', () => {
     expect(toClassementDbGroupCode('Delta')).toBe('4');
   });
 
@@ -115,25 +112,16 @@ describe('toClassementDbGroupCode', () => {
 });
 
 describe('toUiPouleCode', () => {
-  it('maps DB code 1 to UI Alpha', () => {
-    expect(toUiPouleCode('1')).toBe('Alpha');
+  it('maps DB code 1/2/3/4 to UI E/F/G/H', () => {
+    expect(toUiPouleCode('1')).toBe('E');
+    expect(toUiPouleCode('2')).toBe('F');
+    expect(toUiPouleCode('3')).toBe('G');
+    expect(toUiPouleCode('4')).toBe('H');
   });
 
-  it('maps DB code 2 to UI Beta', () => {
-    expect(toUiPouleCode('2')).toBe('Beta');
-  });
-
-  it('maps DB code 3 to UI Gamma', () => {
-    expect(toUiPouleCode('3')).toBe('Gamma');
-  });
-
-  it('maps DB code 4 to UI Delta', () => {
-    expect(toUiPouleCode('4')).toBe('Delta');
-  });
-
-  it('capitalizes known UI code when passed as lowercase', () => {
-    expect(toUiPouleCode('alpha')).toBe('Alpha');
-    expect(toUiPouleCode('beta')).toBe('Beta');
+  it('normalizes known legacy aliases to the new J2 codes', () => {
+    expect(toUiPouleCode('alpha')).toBe('E');
+    expect(toUiPouleCode('beta')).toBe('F');
   });
 
   it('returns poule code unchanged for J1 codes (A, B, etc.)', () => {
@@ -149,24 +137,19 @@ describe('toUiPouleCode', () => {
 });
 
 describe('pouleDisplayName', () => {
-  it('returns Tournoi Or - Alpha for Alpha', () => {
-    expect(pouleDisplayName('Alpha')).toBe('Tournoi Or - Alpha');
-    expect(pouleDisplayName('1')).toBe('Tournoi Or - Alpha');
+  it('returns Or E/F and Argent G/H for the J2 pools', () => {
+    expect(pouleDisplayName('E')).toBe('Or E');
+    expect(pouleDisplayName('1')).toBe('Or E');
+    expect(pouleDisplayName('F')).toBe('Or F');
+    expect(pouleDisplayName('G')).toBe('Argent G');
+    expect(pouleDisplayName('H')).toBe('Argent H');
   });
 
-  it('returns Tournoi Or - Beta for Beta', () => {
-    expect(pouleDisplayName('Beta')).toBe('Tournoi Or - Beta');
-    expect(pouleDisplayName('2')).toBe('Tournoi Or - Beta');
-  });
-
-  it('returns Tournoi Argent - Gamma for Gamma', () => {
-    expect(pouleDisplayName('Gamma')).toBe('Tournoi Argent - Gamma');
-    expect(pouleDisplayName('3')).toBe('Tournoi Argent - Gamma');
-  });
-
-  it('returns Tournoi Argent - Delta for Delta', () => {
-    expect(pouleDisplayName('Delta')).toBe('Tournoi Argent - Delta');
-    expect(pouleDisplayName('4')).toBe('Tournoi Argent - Delta');
+  it('returns Carré Or 1 / Carré Or 5 / Carré Argent 9 / Carré Argent 13 for J3 squares', () => {
+    expect(pouleDisplayName('I')).toBe('Carré Or 1');
+    expect(pouleDisplayName('J')).toBe('Carré Or 5');
+    expect(pouleDisplayName('K')).toBe('Carré Argent 9');
+    expect(pouleDisplayName('L')).toBe('Carré Argent 13');
   });
 
   it('returns Poule X for single-letter codes', () => {

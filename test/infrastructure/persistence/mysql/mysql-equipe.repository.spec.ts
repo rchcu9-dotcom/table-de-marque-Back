@@ -4,6 +4,7 @@ import { PrismaService } from '@/infrastructure/persistence/mysql/prisma.service
 type TaClassementRow = {
   GROUPE_NOM: string;
   ORDRE: number;
+  ORDRE_FINAL: number;
   EQUIPE: string;
   EQUIPE_ID: number;
   J: number;
@@ -14,6 +15,10 @@ type TaClassementRow = {
   BP: number;
   BC: number;
   DIFF: number;
+  REPAS_SAMEDI: string | null;
+  REPAS_DIMANCHE: string | null;
+  REPAS_LUNDI: string | null;
+  CHALLENGE_SAMEDI: string | null;
 };
 
 type TaEquipeRow = {
@@ -27,6 +32,7 @@ const classementRow = (
 ): TaClassementRow => ({
   GROUPE_NOM: '1',
   ORDRE: 1,
+  ORDRE_FINAL: 1,
   EQUIPE: 'Equipe A',
   EQUIPE_ID: 1,
   J: 2,
@@ -37,11 +43,18 @@ const classementRow = (
   BP: 2,
   BC: 2,
   DIFF: 0,
+  REPAS_SAMEDI: null,
+  REPAS_DIMANCHE: null,
+  REPAS_LUNDI: null,
+  CHALLENGE_SAMEDI: null,
   ...overrides,
 });
 
-describe('MySqlEquipeRepository J2 poule mapping', () => {
-  const buildRepo = (classementRows: TaClassementRow[], equipeRows: TaEquipeRow[] = []) => {
+describe('MySqlEquipeRepository J2/J3 poule mapping', () => {
+  const buildRepo = (
+    classementRows: TaClassementRow[],
+    equipeRows: TaEquipeRow[] = [],
+  ) => {
     const prisma = {
       $queryRaw: jest
         .fn()
@@ -51,36 +64,38 @@ describe('MySqlEquipeRepository J2 poule mapping', () => {
     return new MySqlEquipeRepository(prisma);
   };
 
-  it('maps Alpha request to DB code 1 and returns UI poule Alpha', async () => {
+  it('maps E request to DB code 1 and returns UI poule E', async () => {
     const repo = buildRepo([classementRow({ GROUPE_NOM: '1', EQUIPE: 'Rennes' })]);
 
-    const result = await repo.findClassementByPoule('Alpha');
+    const result = await repo.findClassementByPoule('E');
 
     expect(result).not.toBeNull();
-    expect(result?.pouleCode).toBe('Alpha');
-    expect(result?.pouleName).toBe('Tournoi Or - Alpha');
-    expect(result?.equipes[0]?.pouleCode).toBe('Alpha');
+    expect(result?.pouleCode).toBe('E');
+    expect(result?.pouleName).toBe('Or E');
+    expect(result?.equipes[0]?.pouleCode).toBe('E');
   });
 
-  it('maps numeric request 1 to UI poule Alpha', async () => {
-    const repo = buildRepo([classementRow({ GROUPE_NOM: '1', EQUIPE: 'Dammarie' })]);
+  it('maps numeric request 1 to UI poule E', async () => {
+    const repo = buildRepo([
+      classementRow({ GROUPE_NOM: '1', EQUIPE: 'Dammarie' }),
+    ]);
 
     const result = await repo.findClassementByPoule('1');
 
     expect(result).not.toBeNull();
-    expect(result?.pouleCode).toBe('Alpha');
-    expect(result?.pouleName).toBe('Tournoi Or - Alpha');
+    expect(result?.pouleCode).toBe('E');
+    expect(result?.pouleName).toBe('Or E');
   });
 
-  it('maps Delta request to DB code 4 and returns UI poule Delta', async () => {
+  it('maps H request to DB code 4 and returns UI poule H', async () => {
     const repo = buildRepo([classementRow({ GROUPE_NOM: '4', EQUIPE: 'Amiens' })]);
 
-    const result = await repo.findClassementByPoule('Delta');
+    const result = await repo.findClassementByPoule('H');
 
     expect(result).not.toBeNull();
-    expect(result?.pouleCode).toBe('Delta');
-    expect(result?.pouleName).toBe('Tournoi Argent - Delta');
-    expect(result?.equipes[0]?.pouleCode).toBe('Delta');
+    expect(result?.pouleCode).toBe('H');
+    expect(result?.pouleName).toBe('Argent H');
+    expect(result?.equipes[0]?.pouleCode).toBe('H');
   });
 
   it('sorts classement by PTS, DIFF, BP then stable team id', async () => {
@@ -91,7 +106,7 @@ describe('MySqlEquipeRepository J2 poule mapping', () => {
       classementRow({ EQUIPE: 'Team D', EQUIPE_ID: 4, PTS: 6, DIFF: 3, BP: 6 }),
     ]);
 
-    const result = await repo.findClassementByPoule('Alpha');
+    const result = await repo.findClassementByPoule('E');
 
     expect(result?.equipes.map((team) => team.name)).toEqual([
       'Team D',
@@ -100,5 +115,51 @@ describe('MySqlEquipeRepository J2 poule mapping', () => {
       'Team C',
     ]);
     expect(result?.equipes.map((team) => team.rang)).toEqual([1, 2, 3, 4]);
+  });
+
+  it('uses ORDRE_FINAL as J3 rank and keeps ORDRE available as planning slot', async () => {
+    const repo = buildRepo([
+      classementRow({
+        GROUPE_NOM: 'I',
+        ORDRE: 3,
+        ORDRE_FINAL: 1,
+        EQUIPE: 'Champigny',
+      }),
+      classementRow({
+        GROUPE_NOM: 'I',
+        ORDRE: 4,
+        ORDRE_FINAL: 2,
+        EQUIPE: 'Meyrin',
+      }),
+      classementRow({
+        GROUPE_NOM: 'I',
+        ORDRE: 1,
+        ORDRE_FINAL: 3,
+        EQUIPE: 'Tours',
+        REPAS_LUNDI: '2026-05-25T12:00:00',
+      }),
+      classementRow({
+        GROUPE_NOM: 'I',
+        ORDRE: 2,
+        ORDRE_FINAL: 4,
+        EQUIPE: 'Aulnay',
+        REPAS_LUNDI: '2026-05-25T12:40:00',
+      }),
+    ]);
+
+    const result = await repo.findClassementByPoule('I');
+
+    expect(result?.pouleCode).toBe('I');
+    expect(result?.pouleName).toBe('Carré Or 1');
+    expect(result?.equipes.map((team) => team.name)).toEqual([
+      'Champigny',
+      'Meyrin',
+      'Tours',
+      'Aulnay',
+    ]);
+    expect(result?.equipes.map((team) => team.rang)).toEqual([1, 2, 3, 4]);
+    expect(result?.equipes.map((team) => team.ordre)).toEqual([3, 4, 1, 2]);
+    expect(result?.equipes.map((team) => team.ordreFinal)).toEqual([1, 2, 3, 4]);
+    expect(result?.equipes[2]?.repasLundi).toBe('2026-05-25T12:00:00');
   });
 });

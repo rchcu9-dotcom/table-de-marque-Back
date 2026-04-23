@@ -14,6 +14,12 @@ import {
   parseParisSqlDateTime,
   parseRequiredParisSqlDateTime,
 } from './date-paris.utils';
+import {
+  canonicalizeJ3SeedPair,
+  inferJ3SquareCodeFromMatchNumber,
+  inferJ3SquareCodeFromText,
+  parseJ3ParticipantLabel,
+} from '@/domain/match/services/j3-bracket.utils';
 
 export type TaMatchRow = {
   NUM_MATCH: number;
@@ -24,6 +30,7 @@ export type TaMatchRow = {
   EQUIPE_ID2: number | null;
   SCORE1: number | null;
   SCORE2: number | null;
+  ECART: number | null;
   ETAT: string;
   DATEHEURE_SQL: string;
   SURFACAGE: number;
@@ -127,7 +134,7 @@ export class MatchEnrichmentService {
 
     return {
       J1: this.computeDayPouleMap(byDay.J1, ['A', 'B', 'C', 'D'], equipeById),
-      J2: this.computeDayPouleMap(byDay.J2, ['1', '2', '3', '4'], equipeById),
+      J2: this.computeDayPouleMap(byDay.J2, ['E', 'F', 'G', 'H'], equipeById),
     };
   }
 
@@ -245,36 +252,75 @@ export class MatchEnrichmentService {
       const code = codeA ?? codeB;
       if (code && codeA === codeB) {
         pouleByMatchNum.set(row.NUM_MATCH, code);
+      } else {
+        const aliasCode =
+          this.inferPouleFromAlias(row.EQUIPE1) ??
+          this.inferPouleFromAlias(row.EQUIPE2);
+        if (aliasCode) {
+          pouleByMatchNum.set(row.NUM_MATCH, aliasCode);
+        }
       }
     }
 
     return pouleByMatchNum;
   }
 
+  private inferPouleFromAlias(name: string): string | null {
+    const m = (name ?? '').match(/^([A-H])[1-4]$/);
+    return m ? m[1] : null;
+  }
+
   inferJ3PouleCode(row: TaMatchRow): string | null {
-    // Legacy naming: "Or 1", "Or 5", "Argent 1", "Argent 5" in team name text
+    const explicitSquare =
+      inferJ3SquareCodeFromText(row.EQUIPE1) ??
+      inferJ3SquareCodeFromText(row.EQUIPE2) ??
+      inferJ3SquareCodeFromText(`${row.EQUIPE1} ${row.EQUIPE2}`);
+    if (explicitSquare) return explicitSquare;
+
+    const parsedA = parseJ3ParticipantLabel(row.EQUIPE1);
+    const parsedB = parseJ3ParticipantLabel(row.EQUIPE2);
+    if (parsedA?.type === 'phase1' && parsedB?.type === 'phase1') {
+      const pair = canonicalizeJ3SeedPair(parsedA.seed, parsedB.seed);
+      if (pair?.squareCode) return pair.squareCode;
+    }
+
+    const inferredSquare =
+      parsedA?.squareCode ??
+      parsedB?.squareCode ??
+      inferJ3SquareCodeFromMatchNumber(row.NUM_MATCH);
+    if (inferredSquare) return inferredSquare;
+    // Primary naming: "Carré Or 1", "Carré Or 5", "Carré Argent 9", "Carré Argent 13".
+    // Legacy labels remain supported defensively in read-paths.
     const text = `${row.EQUIPE1} ${row.EQUIPE2}`.toLowerCase();
-    if (/\bor\s*1\b/.test(text)) return 'Or 1';
-    if (/\bor\s*5\b/.test(text)) return 'Or 5';
-    if (/\bargent\s*1\b/.test(text)) return 'Argent 1';
-    if (/\bargent\s*5\b/.test(text)) return 'Argent 5';
+    if (/\bcarr[ée]?\s+or\s*1\b/.test(text)) return 'I';
+    if (/\bcarr[ée]?\s+or\s*5\b/.test(text)) return 'J';
+    if (/\bcarr[ée]?\s+argent\s*9\b/.test(text)) return 'K';
+    if (/\bcarr[ée]?\s+argent\s*13\b/.test(text)) return 'L';
+    if (/\bor\s*1\b/.test(text)) return 'I';
+    if (/\bor\s*5\b/.test(text)) return 'J';
+    if (/\bargent\s*1\b/.test(text)) return 'K';
+    if (/\bargent\s*5\b/.test(text)) return 'L';
+    if (/\bor\s*1-4\b/.test(text)) return 'I';
+    if (/\bor\s*5-8\b/.test(text)) return 'J';
+    if (/\bargent\s*9-12\b/.test(text)) return 'K';
+    if (/\bargent\s*13-16\b/.test(text)) return 'L';
 
     // New bracket naming — Phase 2: vA1B2 / pC3D4 (winner/loser of Phase 1 match XnYm)
-    const bracketRe = /^[vp]([A-D])[1-4][A-D][1-4]$/;
+    const bracketRe = /^[vp]([A-H])[1-4][A-H][1-4]$/;
     const bm1 = row.EQUIPE1.match(bracketRe);
     const bm2 = row.EQUIPE2.match(bracketRe);
     if (bm1 && bm2) {
       const pool = bm1[1];
-      return pool === 'A' || pool === 'B' ? 'Or 1' : 'Argent 1';
+      return this.squareCodeFromPool(pool, true);
     }
 
     // New bracket naming — Phase 1: A1, B2, C3, D4 (J2 team slot labels)
-    const phase1Re = /^([A-D])[1-4]$/;
+    const phase1Re = /^([A-H])[1-4]$/;
     const pm1 = row.EQUIPE1.match(phase1Re);
     const pm2 = row.EQUIPE2.match(phase1Re);
     if (pm1 && pm2) {
       const pool = pm1[1];
-      return pool === 'A' || pool === 'B' ? 'Or 1' : 'Argent 1';
+      return this.squareCodeFromPool(pool, true);
     }
 
     const squareCode = this.inferJ3SquareCode(row);
@@ -283,15 +329,20 @@ export class MatchEnrichmentService {
     return null;
   }
 
-  inferJ3SquareCode(row: TaMatchRow): 'E' | 'F' | 'G' | 'H' | null {
+  inferJ3SquareCode(row: TaMatchRow): 'I' | 'J' | 'K' | 'L' | null {
     const matchNum = row.NUM_MATCH;
-    if (matchNum >= 49 && matchNum <= 56) {
-      const bySemiPair: Array<'G' | 'H' | 'E' | 'F'> = ['G', 'H', 'E', 'F'];
-      return bySemiPair[Math.floor((matchNum - 49) / 2)] ?? null;
+    return inferJ3SquareCodeFromMatchNumber(matchNum);
+  }
+
+  private squareCodeFromPool(
+    pool: string,
+    topSeedBucket: boolean,
+  ): 'I' | 'J' | 'K' | 'L' | null {
+    if (pool === 'E' || pool === 'F') {
+      return topSeedBucket ? 'I' : 'K';
     }
-    if (matchNum >= 57 && matchNum <= 64) {
-      const byPhase2Slot: Array<'G' | 'H' | 'E' | 'F'> = ['G', 'H', 'E', 'F'];
-      return byPhase2Slot[(matchNum - 57) % 4] ?? null;
+    if (pool === 'G' || pool === 'H') {
+      return topSeedBucket ? 'J' : 'L';
     }
     return null;
   }

@@ -42,6 +42,7 @@ function toMatchResponse(match: Match): MatchResponse {
     surface: match.surface ?? 'GG',
     phase: match.phase ?? null,
     jour: match.jour ?? null,
+    ecart: match.ecart ?? null,
   };
 }
 

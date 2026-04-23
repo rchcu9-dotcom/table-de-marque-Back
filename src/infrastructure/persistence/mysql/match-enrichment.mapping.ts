@@ -6,6 +6,10 @@ export const PHASE_BY_JOUR_POULE: Record<
 > = {
   J1: { A: 'Brassage', B: 'Brassage', C: 'Brassage', D: 'Brassage' },
   J2: {
+    E: 'Qualification',
+    F: 'Qualification',
+    G: 'Qualification',
+    H: 'Qualification',
     Alpha: 'Qualification',
     Beta: 'Qualification',
     Gamma: 'Qualification',
@@ -16,14 +20,23 @@ export const PHASE_BY_JOUR_POULE: Record<
     '4': 'Qualification',
   },
   J3: {
+    I: 'Finales',
+    J: 'Finales',
+    K: 'Finales',
+    L: 'Finales',
+    'Carré Or 1': 'Finales',
+    'Carré Or 5': 'Finales',
+    'Carré Argent 9': 'Finales',
+    'Carré Argent 13': 'Finales',
+    // Defensive legacy support only.
     'Or 1': 'Finales',
     'Or 5': 'Finales',
     'Argent 1': 'Finales',
     'Argent 5': 'Finales',
-    E: 'Finales',
-    F: 'Finales',
-    G: 'Finales',
-    H: 'Finales',
+    'Or 1-4': 'Finales',
+    'Or 5-8': 'Finales',
+    'Argent 9-12': 'Finales',
+    'Argent 13-16': 'Finales',
   },
 };
 

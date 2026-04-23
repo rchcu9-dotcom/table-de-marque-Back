@@ -59,6 +59,8 @@ model TaClassement {
   bc              Int       @map("BC")
   diff            Int       @map("DIFF")
   repasSamedi     DateTime? @map("REPAS_SAMEDI")
+  repasDimanche   DateTime? @map("REPAS_DIMANCHE")
+  repasLundi      DateTime? @map("REPAS_LUNDI")
   challengeSamedi DateTime? @map("CHALLENGE_SAMEDI")
 
   @@id([groupeNom, ordre])

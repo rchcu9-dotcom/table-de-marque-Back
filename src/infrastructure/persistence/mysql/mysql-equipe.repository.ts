@@ -25,6 +25,7 @@ type TaEquipeRow = {
 type TaClassementRow = {
   GROUPE_NOM: string;
   ORDRE: number;
+  ORDRE_FINAL: number;
   EQUIPE: string;
   EQUIPE_ID: number;
   J: number;
@@ -36,6 +37,8 @@ type TaClassementRow = {
   BC: number;
   DIFF: number;
   REPAS_SAMEDI: string | null;
+  REPAS_DIMANCHE: string | null;
+  REPAS_LUNDI: string | null;
   CHALLENGE_SAMEDI: string | null;
 };
 
@@ -54,8 +57,10 @@ export class MySqlEquipeRepository implements EquipeRepository {
     const isJ3FinalSquare = ['I', 'J', 'K', 'L'].includes(uiCode);
     const [classementRows, equipeRows] = await Promise.all([
       this.prisma.$queryRaw<TaClassementRow[]>`
-        SELECT GROUPE_NOM, ORDRE, EQUIPE, EQUIPE_ID, J, V, N, D, PTS, BP, BC, DIFF,
+        SELECT GROUPE_NOM, ORDRE, ORDRE_FINAL, EQUIPE, EQUIPE_ID, J, V, N, D, PTS, BP, BC, DIFF,
           DATE_FORMAT(REPAS_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS REPAS_SAMEDI,
+          DATE_FORMAT(REPAS_DIMANCHE, '%Y-%m-%dT%H:%i:%s') AS REPAS_DIMANCHE,
+          DATE_FORMAT(REPAS_LUNDI, '%Y-%m-%dT%H:%i:%s') AS REPAS_LUNDI,
           DATE_FORMAT(CHALLENGE_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS CHALLENGE_SAMEDI
         FROM ta_classement
         WHERE GROUPE_NOM = ${dbCode}
@@ -69,6 +74,9 @@ export class MySqlEquipeRepository implements EquipeRepository {
 
     if (!classementRows.length) return null;
     const sortedRows = [...classementRows].sort((a, b) => {
+      if (isJ3FinalSquare && a.ORDRE_FINAL !== b.ORDRE_FINAL) {
+        return a.ORDRE_FINAL - b.ORDRE_FINAL;
+      }
       if (isJ3FinalSquare && a.ORDRE !== b.ORDRE) return a.ORDRE - b.ORDRE;
       if (b.PTS !== a.PTS) return b.PTS - a.PTS;
       if (b.DIFF !== a.DIFF) return b.DIFF - a.DIFF;
@@ -79,18 +87,20 @@ export class MySqlEquipeRepository implements EquipeRepository {
     const equipeByName = new Map(
       equipeRows.map((r) => [normalizeKey(r.EQUIPE), r]),
     );
+    const equipeById = new Map(equipeRows.map((r) => [r.ID, r]));
 
     const pouleName = pouleDisplayName(uiCode) ?? uiCode;
     const equipes = sortedRows.map(
       (row, index) => {
-        const eq = equipeByName.get(normalizeKey(row.EQUIPE));
+        const eqById = equipeById.get(row.EQUIPE_ID);
+        const eq = eqById ?? equipeByName.get(normalizeKey(row.EQUIPE));
         return new Equipe(
           row.EQUIPE,
           row.EQUIPE,
           buildTeamLogoUrl(row.EQUIPE),
           uiCode,
           pouleName,
-          isJ3FinalSquare ? row.ORDRE : index + 1,
+          isJ3FinalSquare ? row.ORDRE_FINAL : index + 1,
           row.J,
           row.V,
           row.N,
@@ -100,9 +110,12 @@ export class MySqlEquipeRepository implements EquipeRepository {
           row.BC,
           row.DIFF,
           row.REPAS_SAMEDI ?? null,
-          null,
+          row.REPAS_DIMANCHE ?? null,
           row.CHALLENGE_SAMEDI ?? null,
           buildTeamPhotoUrl(eq?.PHOTO ?? null),
+          row.REPAS_LUNDI ?? null,
+          row.ORDRE,
+          row.ORDRE_FINAL,
         );
       },
     );
@@ -115,7 +128,11 @@ export class MySqlEquipeRepository implements EquipeRepository {
   ): Promise<PouleClassement | null> {
     const target = normalizeKey(teamName);
     const rows = await this.prisma.$queryRaw<TaClassementRow[]>`
-      SELECT GROUPE_NOM, ORDRE, EQUIPE, EQUIPE_ID, J, V, N, D, PTS, BP, BC, DIFF
+      SELECT GROUPE_NOM, ORDRE, ORDRE_FINAL, EQUIPE, EQUIPE_ID, J, V, N, D, PTS, BP, BC, DIFF,
+        DATE_FORMAT(REPAS_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS REPAS_SAMEDI,
+        DATE_FORMAT(REPAS_DIMANCHE, '%Y-%m-%dT%H:%i:%s') AS REPAS_DIMANCHE,
+        DATE_FORMAT(REPAS_LUNDI, '%Y-%m-%dT%H:%i:%s') AS REPAS_LUNDI,
+        DATE_FORMAT(CHALLENGE_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS CHALLENGE_SAMEDI
       FROM ta_classement
     `;
     const match = rows.find((row) => normalizeKey(row.EQUIPE) === target);
@@ -126,8 +143,10 @@ export class MySqlEquipeRepository implements EquipeRepository {
   async findAllEquipes(): Promise<Equipe[]> {
     const [classementRows, equipeRows] = await Promise.all([
       this.prisma.$queryRaw<TaClassementRow[]>`
-        SELECT GROUPE_NOM, ORDRE, EQUIPE, EQUIPE_ID, J, V, N, D, PTS, BP, BC, DIFF,
+        SELECT GROUPE_NOM, ORDRE, ORDRE_FINAL, EQUIPE, EQUIPE_ID, J, V, N, D, PTS, BP, BC, DIFF,
           DATE_FORMAT(REPAS_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS REPAS_SAMEDI,
+          DATE_FORMAT(REPAS_DIMANCHE, '%Y-%m-%dT%H:%i:%s') AS REPAS_DIMANCHE,
+          DATE_FORMAT(REPAS_LUNDI, '%Y-%m-%dT%H:%i:%s') AS REPAS_LUNDI,
           DATE_FORMAT(CHALLENGE_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS CHALLENGE_SAMEDI
         FROM ta_classement
         WHERE GROUPE_NOM IN ('A', 'B', 'C', 'D')
@@ -142,6 +161,7 @@ export class MySqlEquipeRepository implements EquipeRepository {
     const equipeByName = new Map(
       equipeRows.map((r) => [normalizeKey(r.EQUIPE), r]),
     );
+    const equipeById = new Map(equipeRows.map((r) => [r.ID, r]));
 
     const sortedRows = [...classementRows].sort((a, b) => {
       const groupCmp = String(a.GROUPE_NOM).localeCompare(String(b.GROUPE_NOM), 'fr-FR');
@@ -155,7 +175,8 @@ export class MySqlEquipeRepository implements EquipeRepository {
     const mapped = sortedRows.map((row) => {
       const uiCode = toUiPouleCode(row.GROUPE_NOM) ?? row.GROUPE_NOM;
       const pouleName = pouleDisplayName(uiCode) ?? uiCode;
-      const eq = equipeByName.get(normalizeKey(row.EQUIPE));
+      const eqById = equipeById.get(row.EQUIPE_ID);
+      const eq = eqById ?? equipeByName.get(normalizeKey(row.EQUIPE));
       return new Equipe(
         row.EQUIPE,
         row.EQUIPE,
@@ -172,9 +193,12 @@ export class MySqlEquipeRepository implements EquipeRepository {
         row.BC,
         row.DIFF,
         row.REPAS_SAMEDI ?? null,
-        null,
+        row.REPAS_DIMANCHE ?? null,
         row.CHALLENGE_SAMEDI ?? null,
         buildTeamPhotoUrl(eq?.PHOTO ?? null),
+        row.REPAS_LUNDI ?? null,
+        row.ORDRE,
+        row.ORDRE_FINAL,
       );
     });
 
