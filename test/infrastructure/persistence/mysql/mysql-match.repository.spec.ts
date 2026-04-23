@@ -1,4 +1,5 @@
 import { MySqlMatchRepository } from '@/infrastructure/persistence/mysql/mysql-match.repository';
+import { MatchEnrichmentService } from '@/infrastructure/persistence/mysql/match-enrichment.service';
 import { PrismaService } from '@/infrastructure/persistence/mysql/prisma.service';
 
 type TaMatchRow = {
@@ -62,7 +63,10 @@ describe('MySqlMatchRepository', () => {
       .mockResolvedValueOnce(equipeRows)
       .mockResolvedValueOnce(playerRows);
     const prisma = { $queryRaw: queryRaw } as unknown as PrismaService;
-    return { repo: new MySqlMatchRepository(prisma), queryRaw };
+    return {
+      repo: new MySqlMatchRepository(prisma, new MatchEnrichmentService()),
+      queryRaw,
+    };
   };
 
   it('assigns stable poules by day for J1/J2/J3', async () => {
@@ -126,12 +130,12 @@ describe('MySqlMatchRepository', () => {
     expect(byId('2')?.pouleCode).toBe('B');
 
     expect(byId('3')?.jour).toBe('J2');
-    expect(byId('3')?.pouleCode).toBe('Alpha');
-    expect(byId('4')?.pouleCode).toBe('Beta');
+    expect(byId('3')?.pouleCode).toBe('E');
+    expect(byId('4')?.pouleCode).toBe('F');
 
     expect(byId('5')?.jour).toBe('J3');
-    expect(byId('5')?.pouleCode).toBe('Or 1');
-    expect(byId('6')?.pouleCode).toBe('Argent 5');
+    expect(byId('5')?.pouleCode).toBe('I');
+    expect(byId('6')?.pouleCode).toBe('L');
   });
 
   it('does not rely on ta_classement query for poule enrichment', async () => {
@@ -187,7 +191,7 @@ describe('MySqlMatchRepository', () => {
       ] satisfies TaJoueurChallengeRow[]);
 
     const prisma = { $queryRaw: queryRaw } as unknown as PrismaService;
-    const repo = new MySqlMatchRepository(prisma);
+    const repo = new MySqlMatchRepository(prisma, new MatchEnrichmentService());
 
     const result = await repo.findAll();
     const ongoingChallenge = result.find((m) => m.id === 'challenge-10');

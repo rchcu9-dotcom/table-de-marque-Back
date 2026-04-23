@@ -8,6 +8,10 @@ import {
   MatchRepository,
 } from '@/domain/match/repositories/match.repository';
 import { Match } from '@/domain/match/entities/match.entity';
+import {
+  canonicalizeJ3SeedPair,
+  parseJ3ParticipantLabel,
+} from '@/domain/match/services/j3-bracket.utils';
 
 type TeamRef = {
   id: string;
@@ -33,14 +37,14 @@ type RankingEntry = {
   placeholder: string | null;
 };
 
-type SquareCode = 'E' | 'F' | 'G' | 'H';
+type SquareCode = 'I' | 'J' | 'K' | 'L';
 type J3SquareHint = {
   squareCode: SquareCode;
   stage: 'semi' | 'postSemi';
 };
 
 export type FinalSquare = {
-  dbCode: 'E' | 'F' | 'G' | 'H';
+  dbCode: 'I' | 'J' | 'K' | 'L';
   label: string;
   placeRange: string;
   semiFinals: FinalSquareMatch[];
@@ -58,15 +62,15 @@ export type J3FinalSquaresResponse = {
 const RANKING_PLACEHOLDER = 'En attente du résultat';
 
 const SQUARES: Array<{
-  dbCode: 'E' | 'F' | 'G' | 'H';
+  dbCode: 'I' | 'J' | 'K' | 'L';
   label: string;
   rangeStart: number;
   rangeEnd: number;
 }> = [
-  { dbCode: 'E', label: 'Carré Or A', rangeStart: 1, rangeEnd: 4 },
-  { dbCode: 'F', label: 'Carré Or B', rangeStart: 5, rangeEnd: 8 },
-  { dbCode: 'G', label: 'Carré Argent C', rangeStart: 9, rangeEnd: 12 },
-  { dbCode: 'H', label: 'Carré Argent D', rangeStart: 13, rangeEnd: 16 },
+  { dbCode: 'I', label: 'Carré Or 1', rangeStart: 1, rangeEnd: 4 },
+  { dbCode: 'J', label: 'Carré Or 5', rangeStart: 5, rangeEnd: 8 },
+  { dbCode: 'K', label: 'Carré Argent 9', rangeStart: 9, rangeEnd: 12 },
+  { dbCode: 'L', label: 'Carré Argent 13', rangeStart: 13, rangeEnd: 16 },
 ];
 
 @Injectable()
@@ -102,13 +106,15 @@ export class GetJ3FinalSquaresUseCase {
         .map((team) => team.name)
         .filter((value): value is string => Boolean(value?.trim()));
       const teamNameSet = new Set(teamNames.map((name) => this.norm(name)));
-      const squareMatchesFromPersistence = j3Matches.filter(
+      const directMatches = j3Matches.filter(
         (match) =>
-          match.pouleCode === square.dbCode || match.pouleName === square.label,
+          match.pouleCode === square.dbCode ||
+          match.pouleName === square.label ||
+          this.isLegacyJ3SquareLabel(match.pouleName, square.dbCode),
       );
       const squareMatches =
-        squareMatchesFromPersistence.length > 0
-          ? squareMatchesFromPersistence
+        directMatches.length > 0
+          ? directMatches
           : this.fallbackSquareMatches(j3Matches, square.dbCode, teamNameSet);
 
       const semis = squareMatches.slice(0, 2);
@@ -118,27 +124,16 @@ export class GetJ3FinalSquaresUseCase {
         postSemis,
       );
 
-      const semiFinals = semis.map((match) => this.toFinalSquareMatch(match));
-      const finalMatch = finalSource
-        ? this.toFinalSquareMatch(finalSource)
-        : null;
-      const thirdPlaceMatch = thirdSource
-        ? this.toFinalSquareMatch(thirdSource)
-        : null;
-      const ranking = this.buildRanking({
-        rangeStart: square.rangeStart,
-        finalMatch,
-        thirdPlaceMatch,
-      });
-
       return {
         dbCode: square.dbCode,
         label: square.label,
         placeRange: `${square.rangeStart}..${square.rangeEnd}`,
-        semiFinals,
-        finalMatch,
-        thirdPlaceMatch,
-        ranking,
+        semiFinals: semis.map((match) => this.toFinalSquareMatch(match)),
+        finalMatch: finalSource ? this.toFinalSquareMatch(finalSource) : null,
+        thirdPlaceMatch: thirdSource
+          ? this.toFinalSquareMatch(thirdSource)
+          : null,
+        ranking: this.buildRanking(square.rangeStart, classement),
       } satisfies FinalSquare;
     });
 
@@ -177,6 +172,23 @@ export class GetJ3FinalSquaresUseCase {
           a.date.getTime() - b.date.getTime() ||
           a.id.localeCompare(b.id, 'fr-FR'),
       );
+  }
+
+  private isLegacyJ3SquareLabel(
+    value: string | null | undefined,
+    squareCode: SquareCode,
+  ): boolean {
+    const normalized = this.norm(value ?? '');
+    if (!normalized) return false;
+
+    const legacyLabels: Record<SquareCode, string[]> = {
+      I: ['or 1-4', 'or 1', 'carré or a', 'carre or a'],
+      J: ['or 5-8', 'or 5', 'carré or b', 'carre or b'],
+      K: ['argent 9-12', 'argent 9', 'argent 1', 'carré argent c', 'carre argent c'],
+      L: ['argent 13-16', 'argent 13', 'argent 5', 'carré argent d', 'carre argent d'],
+    };
+
+    return legacyLabels[squareCode].includes(normalized);
   }
 
   private norm(value: string): string {
@@ -225,74 +237,26 @@ export class GetJ3FinalSquaresUseCase {
   }
 
   private resolveJ3SquareHint(match: Match): J3SquareHint | null {
-    const phase1A = this.parsePhase1Seed(match.teamA);
-    const phase1B = this.parsePhase1Seed(match.teamB);
-    if (phase1A && phase1B) {
-      const squareCode = this.squareCodeFromSeedPair(phase1A, phase1B);
-      return squareCode ? { squareCode, stage: 'semi' } : null;
+    const parsedA = parseJ3ParticipantLabel(match.teamA);
+    const parsedB = parseJ3ParticipantLabel(match.teamB);
+    if (parsedA?.type === 'phase1' && parsedB?.type === 'phase1') {
+      const pair = canonicalizeJ3SeedPair(parsedA.seed, parsedB.seed);
+      return pair?.squareCode ? { squareCode: pair.squareCode, stage: 'semi' } : null;
     }
 
-    const phase2A = this.parsePhase2Source(match.teamA);
-    const phase2B = this.parsePhase2Source(match.teamB);
-    if (phase2A && phase2B) {
-      const squareA = this.squareCodeFromSeedPair(phase2A.left, phase2A.right);
-      const squareB = this.squareCodeFromSeedPair(phase2B.left, phase2B.right);
-      if (squareA && squareA === squareB) {
-        return { squareCode: squareA, stage: 'postSemi' };
+    const phase2Participants = [parsedA, parsedB].filter(
+      (value) => value && value.type !== 'phase1' && value.squareCode,
+    );
+    if (phase2Participants.length > 0) {
+      const squareCode = phase2Participants[0]?.squareCode ?? null;
+      if (
+        squareCode &&
+        phase2Participants.every((value) => value?.squareCode === squareCode)
+      ) {
+        return { squareCode, stage: 'postSemi' };
       }
     }
 
-    return null;
-  }
-
-  private parsePhase1Seed(
-    value: string,
-  ): { pool: 'A' | 'B' | 'C' | 'D'; rank: 1 | 2 | 3 | 4 } | null {
-    const match = value.trim().toUpperCase().match(/^([A-D])([1-4])$/);
-    if (!match) return null;
-    return {
-      pool: match[1] as 'A' | 'B' | 'C' | 'D',
-      rank: Number(match[2]) as 1 | 2 | 3 | 4,
-    };
-  }
-
-  private parsePhase2Source(value: string): {
-    left: { pool: 'A' | 'B' | 'C' | 'D'; rank: 1 | 2 | 3 | 4 };
-    right: { pool: 'A' | 'B' | 'C' | 'D'; rank: 1 | 2 | 3 | 4 };
-  } | null {
-    const match = value.trim().toUpperCase().match(/^[VP]([A-D])([1-4])([A-D])([1-4])$/);
-    if (!match) return null;
-    return {
-      left: {
-        pool: match[1] as 'A' | 'B' | 'C' | 'D',
-        rank: Number(match[2]) as 1 | 2 | 3 | 4,
-      },
-      right: {
-        pool: match[3] as 'A' | 'B' | 'C' | 'D',
-        rank: Number(match[4]) as 1 | 2 | 3 | 4,
-      },
-    };
-  }
-
-  private squareCodeFromSeedPair(
-    left: { pool: 'A' | 'B' | 'C' | 'D'; rank: 1 | 2 | 3 | 4 },
-    right: { pool: 'A' | 'B' | 'C' | 'D'; rank: 1 | 2 | 3 | 4 },
-  ): SquareCode | null {
-    const pools = new Set([left.pool, right.pool]);
-    const rankBucket =
-      left.rank <= 2 && right.rank <= 2
-        ? 'top'
-        : left.rank >= 3 && right.rank >= 3
-          ? 'bottom'
-          : null;
-
-    if (!rankBucket) return null;
-    if (this.sameSet(pools, new Set(['A', 'B']))) {
-      return rankBucket === 'top' ? 'E' : 'F';
-    }
-    if (this.sameSet(pools, new Set(['C', 'D']))) {
-      return rankBucket === 'top' ? 'G' : 'H';
-    }
     return null;
   }
 
@@ -359,48 +323,41 @@ export class GetJ3FinalSquaresUseCase {
       : { winner: match.teamB, loser: match.teamA };
   }
 
-  private buildRanking(args: {
-    rangeStart: number;
-    finalMatch: FinalSquareMatch | null;
-    thirdPlaceMatch: FinalSquareMatch | null;
-  }): RankingEntry[] {
+  private buildRanking(
+    rangeStart: number,
+    classement:
+      | {
+          equipes: Array<{
+            id: string;
+            name: string;
+            logoUrl?: string | null;
+            rang: number;
+          }>;
+        }
+      | null
+      | undefined,
+  ): RankingEntry[] {
     const ranking: RankingEntry[] = [1, 2, 3, 4].map((rankInSquare) => ({
       rankInSquare: rankInSquare as 1 | 2 | 3 | 4,
-      place: args.rangeStart + rankInSquare - 1,
+      place: rangeStart + rankInSquare - 1,
       team: null,
       placeholder: RANKING_PLACEHOLDER,
     }));
 
-    const finalOutcome = this.getOutcome(args.finalMatch);
-    if (finalOutcome) {
-      ranking[0].team = finalOutcome.winner;
-      ranking[0].placeholder = null;
-      ranking[1].team = finalOutcome.loser;
-      ranking[1].placeholder = null;
-    }
-
-    const thirdOutcome = this.getOutcome(args.thirdPlaceMatch);
-    if (thirdOutcome) {
-      ranking[2].team = thirdOutcome.winner;
-      ranking[2].placeholder = null;
-      ranking[3].team = thirdOutcome.loser;
-      ranking[3].placeholder = null;
-    }
+    const classementRows = [...(classement?.equipes ?? [])]
+      .filter((team) => !this.isPendingRankingPlaceholder(team.name))
+      .sort((a, b) => a.rang - b.rang)
+      .slice(0, 4);
+    classementRows.forEach((team, index) => {
+      ranking[index].team = this.toTeamRef(team.id, team.name, team.logoUrl);
+      ranking[index].placeholder = null;
+    });
 
     return ranking;
   }
 
-  private getOutcome(
-    match: FinalSquareMatch | null,
-  ): { winner: TeamRef; loser: TeamRef } | null {
-    if (!match || match.status !== 'finished') return null;
-    const scoreA = match.scoreA ?? 0;
-    const scoreB = match.scoreB ?? 0;
-    if (scoreA === scoreB) {
-      return { winner: match.teamA, loser: match.teamB };
-    }
-    return scoreA > scoreB
-      ? { winner: match.teamA, loser: match.teamB }
-      : { winner: match.teamB, loser: match.teamA };
+  private isPendingRankingPlaceholder(value: string): boolean {
+    const normalized = this.norm(value);
+    return normalized.startsWith('en attente');
   }
 }

@@ -42,16 +42,18 @@ export class MySqlMatchRepository implements MatchRepository {
     const [matchRows, equipeRows, joueurRows] = await Promise.all([
       this.prisma.$queryRaw<TaMatchRow[]>`
         SELECT NUM_MATCH, MATCH_CASE, EQUIPE1, EQUIPE2, EQUIPE_ID1, EQUIPE_ID2,
-               SCORE1, SCORE2, ETAT,
+               SCORE1, SCORE2, ECART, ETAT,
                DATE_FORMAT(DATEHEURE, '%Y-%m-%d %H:%i:%s') AS DATEHEURE_SQL,
                SURFACAGE
         FROM TA_MATCHS
         ORDER BY DATEHEURE ASC, NUM_MATCH ASC
       `,
       this.prisma.$queryRaw<TaEquipeRow[]>`
-        SELECT ID, EQUIPE, IMAGE,
-               DATE_FORMAT(CHALLENGE_SAMEDI, '%Y-%m-%d %H:%i:%s') AS CHALLENGE_SAMEDI_SQL
-        FROM ta_equipes
+        SELECT e.ID, e.EQUIPE, e.IMAGE,
+               DATE_FORMAT(MIN(c.CHALLENGE_SAMEDI), '%Y-%m-%d %H:%i:%s') AS CHALLENGE_SAMEDI_SQL
+        FROM ta_equipes e
+        LEFT JOIN ta_classement c ON c.EQUIPE_ID = e.ID
+        GROUP BY e.ID, e.EQUIPE, e.IMAGE
       `,
       this.prisma.$queryRaw<TaJoueurChallengeRow[]>`
         SELECT ID, EQUIPE_ID, TIME_VITESSE, TIME_SLALOM, TIR1, TIR2, TIR3
@@ -118,6 +120,7 @@ export class MySqlMatchRepository implements MatchRepository {
         surface,
         phase,
         jour,
+        row.ECART ?? null,
       );
     });
 

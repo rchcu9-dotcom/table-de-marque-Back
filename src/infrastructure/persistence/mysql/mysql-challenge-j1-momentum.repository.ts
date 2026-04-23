@@ -35,9 +35,11 @@ export class MySqlChallengeJ1MomentumRepository implements ChallengeJ1MomentumRe
   async findJ1Momentum(): Promise<ChallengeJ1MomentumEntry[]> {
     const [equipes, joueurRows] = await Promise.all([
       this.prisma.$queryRaw<TaEquipeRow[]>`
-        SELECT ID, EQUIPE,
-               DATE_FORMAT(CHALLENGE_SAMEDI, '%Y-%m-%d %H:%i:%s') AS CHALLENGE_SAMEDI_SQL
-        FROM ta_equipes
+        SELECT e.ID, e.EQUIPE,
+               DATE_FORMAT(MIN(c.CHALLENGE_SAMEDI), '%Y-%m-%d %H:%i:%s') AS CHALLENGE_SAMEDI_SQL
+        FROM ta_equipes e
+        LEFT JOIN ta_classement c ON c.EQUIPE_ID = e.ID
+        GROUP BY e.ID, e.EQUIPE
       `,
       this.prisma.$queryRaw<TaJoueurChallengeRow[]>`
         SELECT EQUIPE_ID, TIME_VITESSE, TIME_SLALOM, TIR1, TIR2, TIR3

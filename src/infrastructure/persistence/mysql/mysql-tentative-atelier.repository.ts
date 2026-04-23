@@ -40,9 +40,11 @@ export class MySqlTentativeAtelierRepository implements TentativeAtelierReposito
         FROM ta_joueurs
       `,
       this.prisma.$queryRaw<TaEquipeRow[]>`
-        SELECT ID,
-               DATE_FORMAT(CHALLENGE_SAMEDI, '%Y-%m-%d %H:%i:%s') AS CHALLENGE_SAMEDI_SQL
-        FROM ta_equipes
+        SELECT e.ID,
+               DATE_FORMAT(MIN(c.CHALLENGE_SAMEDI), '%Y-%m-%d %H:%i:%s') AS CHALLENGE_SAMEDI_SQL
+        FROM ta_equipes e
+        LEFT JOIN ta_classement c ON c.EQUIPE_ID = e.ID
+        GROUP BY e.ID
       `,
     ]);
 

@@ -23,7 +23,7 @@ export class MySqlMealRepository implements MealRepository {
           '%Y-%m-%d %H:%i:%s'
         ) as repasSamediSql,
         DATE_FORMAT(
-          MIN(CASE WHEN GROUPE_NOM IN ('1', '2', '3', '4') THEN REPAS_SAMEDI END),
+          MIN(CASE WHEN GROUPE_NOM IN ('E', 'F', 'G', 'H') THEN REPAS_DIMANCHE END),
           '%Y-%m-%d %H:%i:%s'
         ) as repasDimancheSql
       FROM ta_classement

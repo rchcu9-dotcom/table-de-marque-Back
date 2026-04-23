@@ -26,11 +26,18 @@ export class LiveStreamController {
       res.write(`data: ${JSON.stringify(payload)}\n\n`);
     };
 
+    let ping: Subscription | null = null;
     const sub: Subscription = this.streamService
       .observe({ replayLast: true, completeAfterFirst: once })
-      .subscribe((event) => send('live_status', event));
+      .subscribe({
+        next: (event) => send('live_status', event),
+        complete: () => {
+          ping?.unsubscribe();
+          res.end();
+        },
+      });
 
-    const ping = once
+    ping = once
       ? null
       : interval(25000).subscribe(() =>
           send('ping', { type: 'ping', timestamp: Date.now() }),
@@ -39,7 +46,6 @@ export class LiveStreamController {
     req.on('close', () => {
       sub.unsubscribe();
       ping?.unsubscribe();
-      res.end();
     });
   }
 }

@@ -2,41 +2,28 @@ export function normalizeKey(value: string): string {
   return (value ?? '').trim().toLowerCase();
 }
 
-const J2_UI_TO_DB: Record<string, '1' | '2' | '3' | '4'> = {
-  alpha: '1',
-  beta: '2',
-  gamma: '3',
-  delta: '4',
-};
-
-const J2_DB_TO_UI: Record<'1' | '2' | '3' | '4', 'Alpha' | 'Beta' | 'Gamma' | 'Delta'> = {
-  '1': 'Alpha',
-  '2': 'Beta',
-  '3': 'Gamma',
-  '4': 'Delta',
-};
-
 export function toClassementDbGroupCode(input?: string | null): string | null {
   if (!input) return null;
+
   const trimmed = input.trim();
   if (!trimmed) return null;
-  const normalized = normalizeKey(trimmed);
-  if (normalized in J2_UI_TO_DB) return J2_UI_TO_DB[normalized];
+
   return trimmed;
 }
 
 export function toUiPouleCode(input?: string | null): string | null {
   if (!input) return null;
+
   const trimmed = input.trim();
   if (!trimmed) return null;
-  if (trimmed in J2_DB_TO_UI) {
-    return J2_DB_TO_UI[trimmed as keyof typeof J2_DB_TO_UI];
-  }
-  const normalized = normalizeKey(trimmed);
-  if (normalized in J2_UI_TO_DB) {
-    return normalized.charAt(0).toUpperCase() + normalized.slice(1);
-  }
-  return trimmed;
+
+  const normalized = trimmed.toLowerCase();
+  if (normalized === '1' || normalized === 'e' || normalized === 'alpha') return 'E';
+  if (normalized === '2' || normalized === 'f' || normalized === 'beta') return 'F';
+  if (normalized === '3' || normalized === 'g' || normalized === 'gamma') return 'G';
+  if (normalized === '4' || normalized === 'h' || normalized === 'delta') return 'H';
+
+  return trimmed.length === 1 ? trimmed.toUpperCase() : trimmed;
 }
 
 export function slugifyTeamName(value: string): string {
@@ -66,16 +53,19 @@ export function buildTeamLogoUrl(teamName?: string | null): string | null {
 
 export function pouleDisplayName(code?: string | null): string | null {
   if (!code) return null;
+
   const uiCode = toUiPouleCode(code);
   if (!uiCode) return null;
-  if (uiCode === 'Alpha') return 'Tournoi Or - Alpha';
-  if (uiCode === 'Beta') return 'Tournoi Or - Beta';
-  if (uiCode === 'Gamma') return 'Tournoi Argent - Gamma';
-  if (uiCode === 'Delta') return 'Tournoi Argent - Delta';
-  if (uiCode === 'E') return 'Carré Or A';
-  if (uiCode === 'F') return 'Carré Or B';
-  if (uiCode === 'G') return 'Carré Argent C';
-  if (uiCode === 'H') return 'Carré Argent D';
+
+  if (uiCode === 'E') return 'Or E';
+  if (uiCode === 'F') return 'Or F';
+  if (uiCode === 'G') return 'Argent G';
+  if (uiCode === 'H') return 'Argent H';
+  if (uiCode === 'I') return 'Carré Or 1';
+  if (uiCode === 'J') return 'Carré Or 5';
+  if (uiCode === 'K') return 'Carré Argent 9';
+  if (uiCode === 'L') return 'Carré Argent 13';
   if (uiCode.length === 1) return `Poule ${uiCode}`;
+
   return uiCode;
 }

@@ -20,6 +20,9 @@ export class Equipe {
     public repasDimanche: string | null = null,
     public challengeSamedi: string | null = null,
     public photoUrl: string | null = null,
+    public repasLundi: string | null = null,
+    public ordre: number | null = null,
+    public ordreFinal: number | null = null,
   ) {}
 }
 

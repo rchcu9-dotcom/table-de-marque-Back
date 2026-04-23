@@ -15,5 +15,6 @@ export class Match {
     public surface: 'GG' | 'PG' = 'GG',
     public phase: 'brassage' | 'qualification' | 'finales' | null = null,
     public jour: 'J1' | 'J2' | 'J3' | null = null,
+    public ecart: number | null = null,
   ) {}
 }

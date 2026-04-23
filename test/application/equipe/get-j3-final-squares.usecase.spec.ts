@@ -4,18 +4,22 @@ import { EquipeRepository } from '@/domain/equipe/repositories/equipe.repository
 import { Match } from '@/domain/match/entities/match.entity';
 import { MatchRepository } from '@/domain/match/repositories/match.repository';
 
-const classementFor = (code: string, names: string[]) => ({
+const classementFor = (
+  code: string,
+  names: string[],
+  startRank = 1,
+) => ({
   pouleCode: code,
   pouleName: code,
   equipes: names.map(
-    (name, idx) =>
+    (name, index) =>
       new Equipe(
         name,
         name,
         null,
         code,
         code,
-        idx + 1,
+        startRank + index,
         0,
         0,
         0,
@@ -36,6 +40,8 @@ const match5v5J3 = (
   status: Match['status'],
   scoreA: number | null,
   scoreB: number | null,
+  squareCode?: 'I' | 'J' | 'K' | 'L',
+  squareName?: string,
 ) =>
   new Match(
     id,
@@ -47,37 +53,8 @@ const match5v5J3 = (
     scoreB,
     null,
     null,
-    null,
-    null,
-    '5v5',
-    'GG',
-    'finales',
-    'J3',
-  );
-
-const match5v5J3InSquare = (
-  id: string,
-  dateIso: string,
-  teamA: string,
-  teamB: string,
-  squareCode: 'E' | 'F' | 'G' | 'H',
-  squareName: string,
-  status: Match['status'],
-  scoreA: number | null,
-  scoreB: number | null,
-) =>
-  new Match(
-    id,
-    new Date(dateIso),
-    teamA,
-    teamB,
-    status,
-    scoreA,
-    scoreB,
-    null,
-    null,
-    squareCode,
-    squareName,
+    squareCode ?? null,
+    squareName ?? null,
     '5v5',
     'GG',
     'finales',
@@ -104,12 +81,12 @@ describe('GetJ3FinalSquaresUseCase', () => {
     jest.clearAllMocks();
   });
 
-  it('maps E/F/G/H into expected labels and ranges', async () => {
+  it('maps I/J/K/L into expected labels and ranges', async () => {
     equipeRepository.findClassementByPoule
-      .mockResolvedValueOnce(classementFor('E', ['A', 'B', 'C', 'D']))
-      .mockResolvedValueOnce(classementFor('F', ['E', 'F', 'G', 'H']))
-      .mockResolvedValueOnce(classementFor('G', ['I', 'J', 'K', 'L']))
-      .mockResolvedValueOnce(classementFor('H', ['M', 'N', 'O', 'P']));
+      .mockResolvedValueOnce(classementFor('I', ['A', 'B', 'C', 'D']))
+      .mockResolvedValueOnce(classementFor('J', ['E', 'F', 'G', 'H'], 5))
+      .mockResolvedValueOnce(classementFor('K', ['I', 'J', 'K', 'L'], 9))
+      .mockResolvedValueOnce(classementFor('L', ['M', 'N', 'O', 'P'], 13));
     matchRepository.findAll.mockResolvedValue([]);
 
     const useCase = new GetJ3FinalSquaresUseCase(
@@ -119,12 +96,12 @@ describe('GetJ3FinalSquaresUseCase', () => {
     const result = await useCase.execute();
 
     expect(result.jour).toBe('J3');
-    expect(result.carres.map((c) => c.dbCode)).toEqual(['E', 'F', 'G', 'H']);
+    expect(result.carres.map((c) => c.dbCode)).toEqual(['I', 'J', 'K', 'L']);
     expect(result.carres.map((c) => c.label)).toEqual([
-      'Carré Or A',
-      'Carré Or B',
-      'Carré Argent C',
-      'Carré Argent D',
+      'Carré Or 1',
+      'Carré Or 5',
+      'Carré Argent 9',
+      'Carré Argent 13',
     ]);
     expect(result.carres.map((c) => c.placeRange)).toEqual([
       '1..4',
@@ -134,16 +111,17 @@ describe('GetJ3FinalSquaresUseCase', () => {
     ]);
   });
 
-  it('keeps placeholder text when ranking is partial', async () => {
+  it('shows J3 matches from TA_MATCHS while keeping ranking placeholders until classement exists', async () => {
     equipeRepository.findClassementByPoule
-      .mockResolvedValueOnce(classementFor('E', ['A', 'B', 'C', 'D']))
-      .mockResolvedValueOnce(classementFor('F', []))
-      .mockResolvedValueOnce(classementFor('G', []))
-      .mockResolvedValueOnce(classementFor('H', []));
+      .mockResolvedValueOnce(classementFor('I', []))
+      .mockResolvedValueOnce(classementFor('J', []))
+      .mockResolvedValueOnce(classementFor('K', []))
+      .mockResolvedValueOnce(classementFor('L', []));
     matchRepository.findAll.mockResolvedValue([
-      match5v5J3('semi-1', '2026-05-25T09:00:00.000Z', 'A', 'B', 'finished', 2, 1),
-      match5v5J3('semi-2', '2026-05-25T10:00:00.000Z', 'C', 'D', 'finished', 3, 0),
-      match5v5J3('final', '2026-05-25T11:00:00.000Z', 'A', 'C', 'finished', 1, 0),
+      match5v5J3('semi-1', '2026-05-25T09:00:00.000Z', 'Champigny', 'Tours', 'finished', 2, 1, 'I', 'Carré Or 1'),
+      match5v5J3('semi-2', '2026-05-25T10:00:00.000Z', 'Meyrin', 'Aulnay', 'finished', 3, 1, 'I', 'Carré Or 1'),
+      match5v5J3('third', '2026-05-25T11:00:00.000Z', 'Tours', 'Aulnay', 'planned', null, null, 'I', 'Carré Or 1'),
+      match5v5J3('final', '2026-05-25T12:00:00.000Z', 'Champigny', 'Meyrin', 'planned', null, null, 'I', 'Carré Or 1'),
     ]);
 
     const useCase = new GetJ3FinalSquaresUseCase(
@@ -151,106 +129,34 @@ describe('GetJ3FinalSquaresUseCase', () => {
       matchRepository,
     );
     const result = await useCase.execute();
-    const squareE = result.carres.find((c) => c.dbCode === 'E');
+    const squareI = result.carres.find((c) => c.dbCode === 'I');
 
-    expect(squareE?.ranking[0].team?.name).toBe('A');
-    expect(squareE?.ranking[1].team?.name).toBe('C');
-    expect(squareE?.ranking[2].team).toBeNull();
-    expect(squareE?.ranking[3].team).toBeNull();
-    expect(squareE?.ranking[2].placeholder).toBe('En attente du résultat');
-  });
-
-  it('applies no-draw policy when finished score is tied (team A wins)', async () => {
-    equipeRepository.findClassementByPoule
-      .mockResolvedValueOnce(classementFor('E', ['A', 'B', 'C', 'D']))
-      .mockResolvedValueOnce(classementFor('F', []))
-      .mockResolvedValueOnce(classementFor('G', []))
-      .mockResolvedValueOnce(classementFor('H', []));
-    matchRepository.findAll.mockResolvedValue([
-      match5v5J3('semi-1', '2026-05-25T09:00:00.000Z', 'A', 'B', 'finished', 1, 1),
-      match5v5J3('semi-2', '2026-05-25T10:00:00.000Z', 'C', 'D', 'finished', 0, 0),
-      match5v5J3('final', '2026-05-25T11:00:00.000Z', 'A', 'C', 'finished', 2, 2),
-      match5v5J3('third', '2026-05-25T12:00:00.000Z', 'B', 'D', 'finished', 3, 3),
-    ]);
-
-    const useCase = new GetJ3FinalSquaresUseCase(
-      equipeRepository,
-      matchRepository,
-    );
-    const result = await useCase.execute();
-    const squareE = result.carres.find((c) => c.dbCode === 'E');
-
-    expect(squareE?.finalMatch?.winnerTeamId).toBe('A');
-    expect(squareE?.ranking[0].team?.name).toBe('A');
-    expect(squareE?.ranking[1].team?.name).toBe('C');
-    expect(squareE?.ranking[2].team?.name).toBe('B');
-    expect(squareE?.ranking[3].team?.name).toBe('D');
-  });
-
-  it('is resilient when semis/final/third are incomplete', async () => {
-    equipeRepository.findClassementByPoule
-      .mockResolvedValueOnce(classementFor('E', ['A', 'B', 'C', 'D']))
-      .mockResolvedValueOnce(classementFor('F', []))
-      .mockResolvedValueOnce(classementFor('G', []))
-      .mockResolvedValueOnce(classementFor('H', []));
-    matchRepository.findAll.mockResolvedValue([
-      match5v5J3('semi-1', '2026-05-25T09:00:00.000Z', 'A', 'B', 'ongoing', 1, 0),
-      match5v5J3('semi-2', '2026-05-25T10:00:00.000Z', 'C', 'D', 'planned', null, null),
-      match5v5J3('post-only', '2026-05-25T11:00:00.000Z', 'A', 'C', 'planned', null, null),
-    ]);
-
-    const useCase = new GetJ3FinalSquaresUseCase(
-      equipeRepository,
-      matchRepository,
-    );
-    const result = await useCase.execute();
-    const squareE = result.carres.find((c) => c.dbCode === 'E');
-
-    expect(squareE?.semiFinals).toHaveLength(2);
-    expect(squareE?.finalMatch?.id).toBe('post-only');
-    expect(squareE?.thirdPlaceMatch).toBeNull();
-    expect(squareE?.ranking.every((r) => r.team === null)).toBe(true);
-  });
-
-  it('rattache un match J3 phase 2 placeholder a son carre source via les demi-finales', async () => {
-    equipeRepository.findClassementByPoule
-      .mockResolvedValueOnce(classementFor('E', ['A', 'B', 'C', 'D']))
-      .mockResolvedValueOnce(classementFor('F', []))
-      .mockResolvedValueOnce(classementFor('G', []))
-      .mockResolvedValueOnce(classementFor('H', []));
-    matchRepository.findAll.mockResolvedValue([
-      match5v5J3('semi-1', '2026-05-25T09:00:00.000Z', 'A1', 'B2', 'planned', null, null),
-      match5v5J3('semi-2', '2026-05-25T10:00:00.000Z', 'B1', 'A2', 'planned', null, null),
-      match5v5J3('final', '2026-05-25T11:00:00.000Z', 'vA1B2', 'vB1A2', 'planned', null, null),
-      match5v5J3('third', '2026-05-25T12:00:00.000Z', 'pA1B2', 'pB1A2', 'planned', null, null),
-    ]);
-
-    const useCase = new GetJ3FinalSquaresUseCase(
-      equipeRepository,
-      matchRepository,
-    );
-    const result = await useCase.execute();
-    const squareE = result.carres.find((c) => c.dbCode === 'E');
-
-    expect(squareE?.semiFinals.map((match) => match.id)).toEqual([
+    expect(squareI?.semiFinals.map((match) => match.id)).toEqual([
       'semi-1',
       'semi-2',
     ]);
-    expect(squareE?.finalMatch?.id).toBe('final');
-    expect(squareE?.thirdPlaceMatch?.id).toBe('third');
+    expect(squareI?.thirdPlaceMatch?.id).toBe('third');
+    expect(squareI?.finalMatch?.id).toBe('final');
+    expect(squareI?.ranking.every((row) => row.team === null)).toBe(true);
+    expect(squareI?.ranking[0].placeholder).toBe('En attente du résultat');
   });
 
-  it('reconstruit nominalement un carre depuis les matchs J3 enrichis E/F/G/H avec equipes resolues', async () => {
+  it('ignores pending classement placeholder rows on J3 tournament squares', async () => {
     equipeRepository.findClassementByPoule
-      .mockResolvedValueOnce(classementFor('E', []))
-      .mockResolvedValueOnce(classementFor('F', []))
-      .mockResolvedValueOnce(classementFor('G', []))
-      .mockResolvedValueOnce(classementFor('H', []));
+      .mockResolvedValueOnce(
+        classementFor('I', [
+          'En attente du resultat',
+          'En attente du resultat',
+          'En attente du resultat',
+          'En attente du resultat',
+        ]),
+      )
+      .mockResolvedValueOnce(classementFor('J', []))
+      .mockResolvedValueOnce(classementFor('K', []))
+      .mockResolvedValueOnce(classementFor('L', []));
     matchRepository.findAll.mockResolvedValue([
-      match5v5J3InSquare('semi-1', '2026-05-25T09:00:00.000Z', 'Champigny', 'Tours', 'E', 'Carré Or A', 'finished', 2, 1),
-      match5v5J3InSquare('semi-2', '2026-05-25T10:00:00.000Z', 'Meyrin', 'Aulnay', 'E', 'Carré Or A', 'finished', 3, 1),
-      match5v5J3InSquare('third', '2026-05-25T11:00:00.000Z', 'Tours', 'Aulnay', 'E', 'Carré Or A', 'planned', null, null),
-      match5v5J3InSquare('final', '2026-05-25T12:00:00.000Z', 'Champigny', 'Meyrin', 'E', 'Carré Or A', 'planned', null, null),
+      match5v5J3('semi-1', '2026-05-25T09:00:00.000Z', 'Champigny', 'Tours', 'planned', null, null, 'I', 'Carré Or 1'),
+      match5v5J3('semi-2', '2026-05-25T10:00:00.000Z', 'Meyrin', 'Aulnay', 'planned', null, null, 'I', 'Carré Or 1'),
     ]);
 
     const useCase = new GetJ3FinalSquaresUseCase(
@@ -258,13 +164,152 @@ describe('GetJ3FinalSquaresUseCase', () => {
       matchRepository,
     );
     const result = await useCase.execute();
-    const squareE = result.carres.find((c) => c.dbCode === 'E');
+    const squareI = result.carres.find((c) => c.dbCode === 'I');
 
-    expect(squareE?.semiFinals.map((match) => match.id)).toEqual([
+    expect(squareI?.ranking.every((row) => row.team === null)).toBe(true);
+    expect(squareI?.ranking[0]?.placeholder).toBe('En attente du résultat');
+  });
+
+  it('fills J3 ranking only from classement once final classement is available', async () => {
+    equipeRepository.findClassementByPoule
+      .mockResolvedValueOnce(classementFor('I', ['Champigny', 'Meyrin', 'Tours', 'Aulnay']))
+      .mockResolvedValueOnce(classementFor('J', []))
+      .mockResolvedValueOnce(classementFor('K', []))
+      .mockResolvedValueOnce(classementFor('L', []));
+    matchRepository.findAll.mockResolvedValue([
+      match5v5J3('semi-1', '2026-05-25T09:00:00.000Z', 'Champigny', 'Tours', 'finished', 2, 1, 'I', 'Carré Or 1'),
+      match5v5J3('semi-2', '2026-05-25T10:00:00.000Z', 'Meyrin', 'Aulnay', 'finished', 3, 1, 'I', 'Carré Or 1'),
+      match5v5J3('third', '2026-05-25T11:00:00.000Z', 'Tours', 'Aulnay', 'finished', 2, 0, 'I', 'Carré Or 1'),
+      match5v5J3('final', '2026-05-25T12:00:00.000Z', 'Champigny', 'Meyrin', 'finished', 1, 0, 'I', 'Carré Or 1'),
+    ]);
+
+    const useCase = new GetJ3FinalSquaresUseCase(
+      equipeRepository,
+      matchRepository,
+    );
+    const result = await useCase.execute();
+    const squareI = result.carres.find((c) => c.dbCode === 'I');
+
+    expect(squareI?.ranking.map((row) => row.team?.name ?? null)).toEqual([
+      'Champigny',
+      'Meyrin',
+      'Tours',
+      'Aulnay',
+    ]);
+    expect(squareI?.ranking.every((row) => row.placeholder === null)).toBe(true);
+  });
+
+  it('reconstructs J3 square from placeholder seeds without using E/F/G/H as final square codes', async () => {
+    equipeRepository.findClassementByPoule
+      .mockResolvedValueOnce(classementFor('I', []))
+      .mockResolvedValueOnce(classementFor('J', []))
+      .mockResolvedValueOnce(classementFor('K', []))
+      .mockResolvedValueOnce(classementFor('L', []));
+    matchRepository.findAll.mockResolvedValue([
+      match5v5J3('semi-1', '2026-05-25T09:00:00.000Z', 'E1', 'F2', 'planned', null, null),
+      match5v5J3('semi-2', '2026-05-25T10:00:00.000Z', 'F1', 'E2', 'planned', null, null),
+      match5v5J3('final', '2026-05-25T11:00:00.000Z', 'vE1F2', 'vF1E2', 'planned', null, null),
+      match5v5J3('third', '2026-05-25T12:00:00.000Z', 'pE1F2', 'pF1E2', 'planned', null, null),
+    ]);
+
+    const useCase = new GetJ3FinalSquaresUseCase(
+      equipeRepository,
+      matchRepository,
+    );
+    const result = await useCase.execute();
+    const squareI = result.carres.find((c) => c.dbCode === 'I');
+
+    expect(squareI?.semiFinals.map((match) => match.id)).toEqual([
       'semi-1',
       'semi-2',
     ]);
-    expect(squareE?.thirdPlaceMatch?.id).toBe('third');
-    expect(squareE?.finalMatch?.id).toBe('final');
+    expect(squareI?.finalMatch?.id).toBe('final');
+    expect(squareI?.thirdPlaceMatch?.id).toBe('third');
+    expect(result.carres.map((c) => c.dbCode)).not.toContain('E');
+    expect(result.carres.map((c) => c.dbCode)).not.toContain('F');
+  });
+
+  it('reconstructs J3 square from primary Perd./Vain. labels', async () => {
+    equipeRepository.findClassementByPoule
+      .mockResolvedValueOnce(classementFor('I', []))
+      .mockResolvedValueOnce(classementFor('J', []))
+      .mockResolvedValueOnce(classementFor('K', []))
+      .mockResolvedValueOnce(classementFor('L', []));
+    matchRepository.findAll.mockResolvedValue([
+      match5v5J3('semi-1', '2026-05-25T09:00:00.000Z', 'G4', 'H3', 'planned', null, null),
+      match5v5J3('semi-2', '2026-05-25T10:00:00.000Z', 'G3', 'H4', 'planned', null, null),
+      match5v5J3(
+        'final',
+        '2026-05-25T11:00:00.000Z',
+        'Vain. G4-H3',
+        'Vain. G3-H4',
+        'planned',
+        null,
+        null,
+      ),
+      match5v5J3(
+        'third',
+        '2026-05-25T12:00:00.000Z',
+        'Perd. G4-H3',
+        'Perd. G3-H4',
+        'planned',
+        null,
+        null,
+      ),
+    ]);
+
+    const useCase = new GetJ3FinalSquaresUseCase(
+      equipeRepository,
+      matchRepository,
+    );
+    const result = await useCase.execute();
+    const squareL = result.carres.find((c) => c.dbCode === 'L');
+
+    expect(squareL?.semiFinals.map((match) => match.id)).toEqual([
+      'semi-1',
+      'semi-2',
+    ]);
+    expect(squareL?.finalMatch?.id).toBe('final');
+    expect(squareL?.thirdPlaceMatch?.id).toBe('third');
+  });
+
+  it('realigns E3/F4/E4/F3 on square K and G1/H2/G2/H1 on square J', async () => {
+    equipeRepository.findClassementByPoule
+      .mockResolvedValueOnce(classementFor('I', []))
+      .mockResolvedValueOnce(classementFor('J', []))
+      .mockResolvedValueOnce(classementFor('K', []))
+      .mockResolvedValueOnce(classementFor('L', []));
+    matchRepository.findAll.mockResolvedValue([
+      match5v5J3('semi-k-1', '2026-05-25T09:00:00.000Z', 'E4', 'F3', 'planned', null, null),
+      match5v5J3('semi-k-2', '2026-05-25T10:00:00.000Z', 'E3', 'F4', 'planned', null, null),
+      match5v5J3('final-k', '2026-05-25T11:00:00.000Z', 'Vain. E4-F3', 'Vain. E3-F4', 'planned', null, null),
+      match5v5J3('third-k', '2026-05-25T12:00:00.000Z', 'Perd. E4-F3', 'Perd. E3-F4', 'planned', null, null),
+      match5v5J3('semi-j-1', '2026-05-25T13:00:00.000Z', 'G2', 'H1', 'planned', null, null),
+      match5v5J3('semi-j-2', '2026-05-25T14:00:00.000Z', 'G1', 'H2', 'planned', null, null),
+      match5v5J3('final-j', '2026-05-25T15:00:00.000Z', 'Vain. G2-H1', 'Vain. G1-H2', 'planned', null, null),
+      match5v5J3('third-j', '2026-05-25T16:00:00.000Z', 'Perd. G2-H1', 'Perd. G1-H2', 'planned', null, null),
+    ]);
+
+    const useCase = new GetJ3FinalSquaresUseCase(
+      equipeRepository,
+      matchRepository,
+    );
+    const result = await useCase.execute();
+    const squareK = result.carres.find((c) => c.dbCode === 'K');
+    const squareJ = result.carres.find((c) => c.dbCode === 'J');
+
+    expect(squareK?.semiFinals.map((match) => match.id)).toEqual([
+      'semi-k-1',
+      'semi-k-2',
+    ]);
+    expect(squareK?.finalMatch?.id).toBe('final-k');
+    expect(squareK?.thirdPlaceMatch?.id).toBe('third-k');
+
+    expect(squareJ?.semiFinals.map((match) => match.id)).toEqual([
+      'semi-j-1',
+      'semi-j-2',
+    ]);
+    expect(squareJ?.finalMatch?.id).toBe('final-j');
+    expect(squareJ?.thirdPlaceMatch?.id).toBe('third-j');
   });
 });
