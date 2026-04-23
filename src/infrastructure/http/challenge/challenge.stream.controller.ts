@@ -25,11 +25,18 @@ export class ChallengeStreamController {
       res.write(`data: ${JSON.stringify(payload)}\n\n`);
     };
 
+    let ping: Subscription | null = null;
     const sub: Subscription = this.streamService
       .observe({ replayLast: true, completeAfterFirst: once })
-      .subscribe((event) => send(event));
+      .subscribe({
+        next: (event) => send(event),
+        complete: () => {
+          ping?.unsubscribe();
+          res.end();
+        },
+      });
 
-    const ping = once
+    ping = once
       ? null
       : interval(25000).subscribe(() =>
           send({ type: 'ping', timestamp: Date.now() }),
@@ -38,7 +45,6 @@ export class ChallengeStreamController {
     req.on('close', () => {
       sub.unsubscribe();
       ping?.unsubscribe();
-      res.end();
     });
   }
 }

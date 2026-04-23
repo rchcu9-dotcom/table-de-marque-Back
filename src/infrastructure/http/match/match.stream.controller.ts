@@ -55,22 +55,29 @@ export class MatchStreamController {
       res.write(`data: ${JSON.stringify(payload)}\n\n`);
     };
 
+    let ping: Subscription | null = null;
     const sub: Subscription = this.streamService
       .observe({ replayLast: true, completeAfterFirst: once })
-      .subscribe((event) => {
-        if (event.type !== 'matches') {
-          send(event);
-          return;
-        }
-        send({
-          ...event,
-          matches: Array.isArray(event.matches)
-            ? event.matches.map((match) => mapMatchDate(match as MatchLike))
-            : [],
-        });
+      .subscribe({
+        next: (event) => {
+          if (event.type !== 'matches') {
+            send(event);
+            return;
+          }
+          send({
+            ...event,
+            matches: Array.isArray(event.matches)
+              ? event.matches.map((match) => mapMatchDate(match as MatchLike))
+              : [],
+          });
+        },
+        complete: () => {
+          ping?.unsubscribe();
+          res.end();
+        },
       });
 
-    const ping = once
+    ping = once
       ? null
       : interval(25000).subscribe(() =>
           send({ type: 'ping', timestamp: Date.now() }),
@@ -79,7 +86,6 @@ export class MatchStreamController {
     req.on('close', () => {
       sub.unsubscribe();
       ping?.unsubscribe();
-      res.end();
     });
   }
 }

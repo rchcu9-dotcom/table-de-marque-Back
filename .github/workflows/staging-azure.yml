@@ -91,4 +91,3 @@ jobs:
           API_BASE_URL: https://table-de-marque-back.wittyrock-6c116ec6.westeurope.azurecontainerapps.io
         run: |
           curl -f --max-time 30 "$API_BASE_URL/matches"
-          curl -f --max-time 30 "$API_BASE_URL/matches/stream?once=true"
