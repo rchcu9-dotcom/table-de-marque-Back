@@ -52,7 +52,9 @@ export class CacheSnapshotService implements OnModuleInit {
       );
       this.logger.log('Cache snapshot loaded from file.');
     } catch (err) {
-      this.logger.warn(`Failed to load cache snapshot from file: ${String(err)}`);
+      this.logger.warn(
+        `Failed to load cache snapshot from file: ${String(err)}`,
+      );
     }
   }
 
@@ -127,7 +129,9 @@ export class CacheSnapshotService implements OnModuleInit {
         create: { snapshotKey: SNAPSHOT_KEY, data: json },
         update: { data: json },
       })
-      .catch((err) => this.logger.warn(`DB snapshot persist failed: ${String(err)}`));
+      .catch((err) =>
+        this.logger.warn(`DB snapshot persist failed: ${String(err)}`),
+      );
 
     // File persist (local dev fallback)
     try {

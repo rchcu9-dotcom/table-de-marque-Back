@@ -2,15 +2,7 @@ export const J3_SQUARE_CODES = ['I', 'J', 'K', 'L'] as const;
 
 export type J3SquareCode = (typeof J3_SQUARE_CODES)[number];
 export type J3TrajectoryType = 'phase1' | 'loser' | 'winner';
-export type J3PoolCode =
-  | 'A'
-  | 'B'
-  | 'C'
-  | 'D'
-  | 'E'
-  | 'F'
-  | 'G'
-  | 'H';
+export type J3PoolCode = 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H';
 export type J3SeedRank = 1 | 2 | 3 | 4;
 export type J3SeedCode = `${J3PoolCode}${J3SeedRank}`;
 export type J3StableSlot = 1 | 2 | 3 | 4;
@@ -107,7 +99,7 @@ export function parseJ3SeedCode(value: string): {
   return {
     pool,
     rank,
-    seed: `${pool}${rank}` as J3SeedCode,
+    seed: `${pool}${rank}`,
     squareCode: inferJ3SquareCodeFromPoolAndRank(pool, rank),
   };
 }
@@ -197,7 +189,9 @@ export function parseJ3ParticipantLabel(
   }
 
   const trimmed = String(value).trim();
-  const primary = trimmed.match(/^(Perd|Vain)\.?\s*([A-H][1-4])\s*-\s*([A-H][1-4])$/i);
+  const primary = trimmed.match(
+    /^(Perd|Vain)\.?\s*([A-H][1-4])\s*-\s*([A-H][1-4])$/i,
+  );
   const legacy = trimmed.match(/^([PV])([A-H][1-4])([A-H][1-4])$/i);
   if (!primary && !legacy) return null;
 
@@ -205,8 +199,16 @@ export function parseJ3ParticipantLabel(
     primary?.[1].toLowerCase() === 'perd' || legacy?.[1].toLowerCase() === 'p'
       ? 'loser'
       : 'winner';
-  const rawLeft = (primary?.[2] ?? legacy?.[2] ?? '').toUpperCase() as J3SeedCode;
-  const rawRight = (primary?.[3] ?? legacy?.[3] ?? '').toUpperCase() as J3SeedCode;
+  const rawLeft = (
+    primary?.[2] ??
+    legacy?.[2] ??
+    ''
+  ).toUpperCase() as J3SeedCode;
+  const rawRight = (
+    primary?.[3] ??
+    legacy?.[3] ??
+    ''
+  ).toUpperCase() as J3SeedCode;
   const pair = canonicalizeJ3SeedPair(rawLeft, rawRight);
   if (!pair) return null;
 

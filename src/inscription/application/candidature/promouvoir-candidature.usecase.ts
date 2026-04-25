@@ -29,7 +29,7 @@ export class PromouvoCandidatureUseCase {
     }
     if (inscription.statut !== InscriptionStatut.LISTE_ATTENTE) {
       throw new BadRequestException(
-        'Seule une candidature en liste d\'attente peut être promue',
+        "Seule une candidature en liste d'attente peut être promue",
       );
     }
 

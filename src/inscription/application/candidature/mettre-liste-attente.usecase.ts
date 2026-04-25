@@ -19,7 +19,7 @@ export class MettreListeAttenteUseCase {
     }
     if (inscription.statut !== InscriptionStatut.CANDIDATE) {
       throw new BadRequestException(
-        'Seule une candidature en statut CANDIDATE peut être mise en liste d\'attente',
+        "Seule une candidature en statut CANDIDATE peut être mise en liste d'attente",
       );
     }
 

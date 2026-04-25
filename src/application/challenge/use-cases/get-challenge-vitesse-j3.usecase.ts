@@ -184,10 +184,14 @@ export class GetChallengeVitesseJ3UseCase {
       day3DateKey,
       OFFICIAL_PHASE_TIMES.F,
     );
-    const threeVThreeMatches = matches.filter((m) => m.competitionType === '3v3');
+    const threeVThreeMatches = matches.filter(
+      (m) => m.competitionType === '3v3',
+    );
     const lastThreeVThreeEndMs =
       threeVThreeMatches.length > 0
-        ? Math.max(...threeVThreeMatches.map((m) => new Date(m.date).getTime())) +
+        ? Math.max(
+            ...threeVThreeMatches.map((m) => new Date(m.date).getTime()),
+          ) +
           30 * 60 * 1000
         : Number.POSITIVE_INFINITY;
     const homeVisible = nowMs >= lastThreeVThreeEndMs;

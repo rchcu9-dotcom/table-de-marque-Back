@@ -20,6 +20,7 @@ type TaEquipeRow = {
   EQUIPE: string;
   IMAGE: string | null;
   PHOTO: string | null;
+  TEASER: string | null;
 };
 
 type TaClassementRow = {
@@ -67,7 +68,7 @@ export class MySqlEquipeRepository implements EquipeRepository {
         ORDER BY PTS DESC, DIFF DESC, BP DESC, EQUIPE_ID ASC
       `,
       this.prisma.$queryRaw<TaEquipeRow[]>`
-        SELECT ID, EQUIPE, IMAGE, PHOTO
+        SELECT ID, EQUIPE, IMAGE, PHOTO, TEASER
         FROM ta_equipes
       `,
     ]);
@@ -116,6 +117,7 @@ export class MySqlEquipeRepository implements EquipeRepository {
           row.REPAS_LUNDI ?? null,
           row.ORDRE,
           row.ORDRE_FINAL,
+          eq?.TEASER ?? null,
         );
       },
     );
@@ -153,7 +155,7 @@ export class MySqlEquipeRepository implements EquipeRepository {
         ORDER BY GROUPE_NOM ASC, PTS DESC, DIFF DESC, BP DESC, EQUIPE_ID ASC
       `,
       this.prisma.$queryRaw<TaEquipeRow[]>`
-        SELECT ID, EQUIPE, IMAGE, PHOTO
+        SELECT ID, EQUIPE, IMAGE, PHOTO, TEASER
         FROM ta_equipes
       `,
     ]);
@@ -199,6 +201,7 @@ export class MySqlEquipeRepository implements EquipeRepository {
         row.REPAS_LUNDI ?? null,
         row.ORDRE,
         row.ORDRE_FINAL,
+        eq?.TEASER ?? null,
       );
     });
 

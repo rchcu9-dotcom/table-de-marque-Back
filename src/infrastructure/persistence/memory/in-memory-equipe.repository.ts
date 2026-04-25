@@ -40,6 +40,14 @@ export class InMemoryEquipeRepository implements EquipeRepository {
             eq.bp,
             eq.bc,
             eq.diff,
+            eq.repasSamedi ?? null,
+            eq.repasDimanche ?? null,
+            eq.challengeSamedi ?? null,
+            eq.photoUrl ?? null,
+            eq.repasLundi ?? null,
+            eq.ordre ?? null,
+            eq.ordreFinal ?? null,
+            eq.teaser ?? null,
           ),
       );
       const clonedPoule: PouleClassement = {
