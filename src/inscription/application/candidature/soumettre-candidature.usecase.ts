@@ -38,7 +38,7 @@ export class SoumettreCanditatureUseCase {
     });
     if (!edition) {
       throw new BadRequestException(
-        "Aucune édition ouverte aux inscriptions pour le moment",
+        'Aucune édition ouverte aux inscriptions pour le moment',
       );
     }
 

@@ -184,8 +184,20 @@ export class GetJ3FinalSquaresUseCase {
     const legacyLabels: Record<SquareCode, string[]> = {
       I: ['or 1-4', 'or 1', 'carré or a', 'carre or a'],
       J: ['or 5-8', 'or 5', 'carré or b', 'carre or b'],
-      K: ['argent 9-12', 'argent 9', 'argent 1', 'carré argent c', 'carre argent c'],
-      L: ['argent 13-16', 'argent 13', 'argent 5', 'carré argent d', 'carre argent d'],
+      K: [
+        'argent 9-12',
+        'argent 9',
+        'argent 1',
+        'carré argent c',
+        'carre argent c',
+      ],
+      L: [
+        'argent 13-16',
+        'argent 13',
+        'argent 5',
+        'carré argent d',
+        'carre argent d',
+      ],
     };
 
     return legacyLabels[squareCode].includes(normalized);
@@ -241,7 +253,9 @@ export class GetJ3FinalSquaresUseCase {
     const parsedB = parseJ3ParticipantLabel(match.teamB);
     if (parsedA?.type === 'phase1' && parsedB?.type === 'phase1') {
       const pair = canonicalizeJ3SeedPair(parsedA.seed, parsedB.seed);
-      return pair?.squareCode ? { squareCode: pair.squareCode, stage: 'semi' } : null;
+      return pair?.squareCode
+        ? { squareCode: pair.squareCode, stage: 'semi' }
+        : null;
     }
 
     const phase2Participants = [parsedA, parsedB].filter(

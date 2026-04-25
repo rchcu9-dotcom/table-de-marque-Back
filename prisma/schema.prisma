@@ -30,6 +30,7 @@ model TaMatch {
 model TaEquipe {
   id               Int       @id @map("ID")
   equipe           String    @map("EQUIPE")
+  teaser           String?   @map("TEASER") @db.Text
   repasSamedi      DateTime? @map("REPAS_SAMEDI")
   challengeSamedi  DateTime? @map("CHALLENGE_SAMEDI")
   repasDimanche    DateTime? @map("REPAS_DIMANCHE")

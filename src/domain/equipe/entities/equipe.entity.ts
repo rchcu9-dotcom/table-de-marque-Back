@@ -23,6 +23,7 @@ export class Equipe {
     public repasLundi: string | null = null,
     public ordre: number | null = null,
     public ordreFinal: number | null = null,
+    public teaser: string | null = null,
   ) {}
 }
 
