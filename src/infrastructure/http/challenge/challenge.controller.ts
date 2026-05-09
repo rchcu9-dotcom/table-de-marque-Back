@@ -9,6 +9,7 @@ import { GetChallengeVitesseJ3UseCase } from '@/application/challenge/use-cases/
 import { GetChallengeJ1MomentumUseCase } from '@/application/challenge/use-cases/get-challenge-j1-momentum.usecase';
 import { RecordTentativeDto } from '@/application/challenge/dto/record-tentative.dto';
 import type { TentativeMetrics } from '@/domain/challenge/entities/tentative-atelier.entity';
+import { assertApiWritable } from '@/infrastructure/http/read-only.util';
 
 @Controller('challenge')
 export class ChallengeController {
@@ -43,6 +44,7 @@ export class ChallengeController {
     @Param('id') id: string,
     @Body() dto: RecordTentativeDto,
   ) {
+    assertApiWritable();
     return this.recordTentative.execute({
       atelierId: id,
       joueurId: dto.joueurId,

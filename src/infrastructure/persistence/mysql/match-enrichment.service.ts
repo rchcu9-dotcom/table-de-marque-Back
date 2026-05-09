@@ -82,7 +82,7 @@ export class MatchEnrichmentService {
   }
 
   teamKey(rowTeamId: number | null, rowTeamName: string): string {
-    if (rowTeamId != null) return `id:${rowTeamId}`;
+    if (rowTeamId != null && rowTeamId !== 0) return `id:${rowTeamId}`;
     return `name:${normalizeKey(rowTeamName)}`;
   }
 
