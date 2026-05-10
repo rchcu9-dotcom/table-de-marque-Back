@@ -212,7 +212,8 @@ export class MatchCacheService implements MatchRepository {
       (a.teamALogo ?? null) === (b.teamALogo ?? null) &&
       (a.teamBLogo ?? null) === (b.teamBLogo ?? null) &&
       (a.pouleCode ?? null) === (b.pouleCode ?? null) &&
-      (a.pouleName ?? null) === (b.pouleName ?? null)
+      (a.pouleName ?? null) === (b.pouleName ?? null) &&
+      (a.ecart ?? null) === (b.ecart ?? null)
     );
   }
 
@@ -235,6 +236,7 @@ export class MatchCacheService implements MatchRepository {
           m.surface ?? 'GG',
           m.phase ?? null,
           m.jour ?? null,
+          m.ecart ?? null,
         ),
     );
   }
@@ -258,6 +260,7 @@ export class MatchCacheService implements MatchRepository {
           m.surface ?? 'GG',
           m.phase ?? null,
           m.jour ?? null,
+          m.ecart ?? null,
         ),
     );
   }
@@ -280,6 +283,7 @@ export class MatchCacheService implements MatchRepository {
       surface: m.surface ?? 'GG',
       phase: m.phase ?? null,
       jour: m.jour ?? null,
+      ecart: m.ecart ?? null,
     }));
     return createHash('sha256').update(JSON.stringify(plain)).digest('hex');
   }

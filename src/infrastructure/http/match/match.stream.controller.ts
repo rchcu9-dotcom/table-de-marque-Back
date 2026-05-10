@@ -21,6 +21,7 @@ type MatchLike = {
   surface?: string | null;
   phase?: string | null;
   jour?: string | null;
+  ecart?: number | null;
 };
 
 function mapMatchDate(match: MatchLike) {
