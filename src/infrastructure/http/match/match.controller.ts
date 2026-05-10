@@ -22,6 +22,7 @@ import { GetMomentumMatchesUseCase } from '@/application/match/use-cases/get-mom
 import { CacheSnapshotService } from '@/infrastructure/cache/cache.snapshot.service';
 import { formatParisIso } from '@/infrastructure/persistence/mysql/date-paris.utils';
 import type { Match } from '@/domain/match/entities/match.entity';
+import { assertApiWritable } from '@/infrastructure/http/read-only.util';
 
 type MatchResponse = Omit<Match, 'date'> & { date: string };
 
@@ -65,6 +66,7 @@ export class MatchController {
   // CREATE
   @Post()
   async create(@Body() dto: CreateMatchDto) {
+    assertApiWritable();
     const match = await this.createMatchUseCase.execute(dto);
     return toMatchResponse(match);
   }
@@ -121,6 +123,7 @@ export class MatchController {
   // UPDATE
   @Put(':id')
   async update(@Param('id') id: string, @Body() dto: UpdateMatchDto) {
+    assertApiWritable();
     const match = await this.updateMatchUseCase.execute(id, dto);
     return match ? toMatchResponse(match) : null;
   }
@@ -128,6 +131,7 @@ export class MatchController {
   // DELETE
   @Delete(':id')
   async delete(@Param('id') id: string, @Body() dto: DeleteMatchDto) {
+    assertApiWritable();
     return await this.deleteMatchUseCase.execute(id, dto);
   }
 }
