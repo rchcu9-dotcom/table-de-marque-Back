@@ -362,9 +362,12 @@ export class GetJ3FinalSquaresUseCase {
       .filter((team) => team.rang > 0)
       .sort((a, b) => a.rang - b.rang)
       .slice(0, 4);
-    classementRows.forEach((team, index) => {
-      ranking[index].team = this.toTeamRef(team.id, team.name, team.logoUrl);
-      ranking[index].placeholder = null;
+    classementRows.forEach((team) => {
+      const rankIndex = team.rang - 1;
+      if (rankIndex >= 0 && rankIndex < 4) {
+        ranking[rankIndex].team = this.toTeamRef(team.id, team.name, team.logoUrl);
+        ranking[rankIndex].placeholder = null;
+      }
     });
 
     return ranking;
