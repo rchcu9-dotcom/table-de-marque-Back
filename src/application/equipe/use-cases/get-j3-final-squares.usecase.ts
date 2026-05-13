@@ -359,7 +359,7 @@ export class GetJ3FinalSquaresUseCase {
     }));
 
     const classementRows = [...(classement?.equipes ?? [])]
-      .filter((team) => !this.isPendingRankingPlaceholder(team.name))
+      .filter((team) => team.rang > 0)
       .sort((a, b) => a.rang - b.rang)
       .slice(0, 4);
     classementRows.forEach((team, index) => {
@@ -370,13 +370,4 @@ export class GetJ3FinalSquaresUseCase {
     return ranking;
   }
 
-  private isPendingRankingPlaceholder(value: string): boolean {
-    const normalized = this.norm(value);
-    if (normalized.startsWith('en attente')) return true;
-    // QUALIF alias: "E 1", "F 2", etc.
-    if (/^[a-h]\s*[1-4]$/.test(normalized)) return true;
-    // Classement Final alias: "Vain CL1", "Perd CL1", etc.
-    if (/^(vain|perd)\s+cl\d+$/.test(normalized)) return true;
-    return false;
-  }
 }
