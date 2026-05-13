@@ -372,6 +372,11 @@ export class GetJ3FinalSquaresUseCase {
 
   private isPendingRankingPlaceholder(value: string): boolean {
     const normalized = this.norm(value);
-    return normalized.startsWith('en attente');
+    if (normalized.startsWith('en attente')) return true;
+    // QUALIF alias: "E 1", "F 2", etc.
+    if (/^[a-h]\s*[1-4]$/.test(normalized)) return true;
+    // Classement Final alias: "Vain CL1", "Perd CL1", etc.
+    if (/^(vain|perd)\s+cl\d+$/.test(normalized)) return true;
+    return false;
   }
 }
