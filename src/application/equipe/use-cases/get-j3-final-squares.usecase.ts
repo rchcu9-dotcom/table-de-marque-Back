@@ -203,6 +203,12 @@ export class GetJ3FinalSquaresUseCase {
     return legacyLabels[squareCode].includes(normalized);
   }
 
+  private isCarreAlias(value: string): boolean {
+    const normalized = this.norm(value);
+    if (normalized.startsWith('en attente')) return true;
+    return /^(vain|perd)\s+cl\d+$/.test(normalized);
+  }
+
   private norm(value: string): string {
     return value.trim().toLowerCase();
   }
@@ -359,7 +365,7 @@ export class GetJ3FinalSquaresUseCase {
     }));
 
     const classementRows = [...(classement?.equipes ?? [])]
-      .filter((team) => team.rang > 0)
+      .filter((team) => !this.isCarreAlias(team.name))
       .sort((a, b) => a.rang - b.rang)
       .slice(0, 4);
     classementRows.forEach((team) => {
