@@ -12,6 +12,8 @@ export class MySqlAtelierRepository implements AtelierRepository {
       new Atelier('finale-vitesse-qf', 'Finale Vitesse - Quarts', 'vitesse', 'Jour 3 - GG Surf #1', 4),
       new Atelier('finale-vitesse-df', 'Finale Vitesse - Demis', 'vitesse', 'Jour 3 - GG Surf #2', 5),
       new Atelier('finale-vitesse-finale', 'Finale Vitesse - Finale', 'vitesse', 'Jour 3 - GG Surf #3', 6),
+      new Atelier('atelier-gardien-vitesse', 'Vitesse Gardien', 'vitesse', 'Jour 1 - Gardiens', 7),
+      new Atelier('atelier-gardien-arret', 'Arrêt Gardien', 'gardien_arret', 'Jour 1 - Gardiens', 8),
     ];
   }
 

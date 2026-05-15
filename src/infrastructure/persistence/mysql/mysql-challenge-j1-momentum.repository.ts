@@ -15,11 +15,14 @@ type TaEquipeRow = {
 
 type TaJoueurChallengeRow = {
   EQUIPE_ID: number;
+  POSITION: string;
   TIME_VITESSE: number | null;
   TIME_SLALOM: number | null;
   TIR1: number | null;
   TIR2: number | null;
   TIR3: number | null;
+  GARDIEN_TIME_VITESSE: number | null;
+  GARDIEN_TIME_ATELIER: number | null;
 };
 
 type ChallengeTeamProgress = {
@@ -42,7 +45,8 @@ export class MySqlChallengeJ1MomentumRepository implements ChallengeJ1MomentumRe
         GROUP BY e.ID, e.EQUIPE
       `,
       this.prisma.$queryRaw<TaJoueurChallengeRow[]>`
-        SELECT EQUIPE_ID, TIME_VITESSE, TIME_SLALOM, TIR1, TIR2, TIR3
+        SELECT EQUIPE_ID, POSITION, TIME_VITESSE, TIME_SLALOM, TIR1, TIR2, TIR3,
+               GARDIEN_TIME_VITESSE, GARDIEN_TIME_ATELIER
         FROM ta_joueurs
       `,
     ]);
@@ -111,19 +115,28 @@ export class MySqlChallengeJ1MomentumRepository implements ChallengeJ1MomentumRe
         completedCount: 0,
       };
       current.playersCount += 1;
-      const hasAnyAttempt =
-        (row.TIME_VITESSE ?? 0) > 0 ||
-        (row.TIME_SLALOM ?? 0) > 0 ||
-        row.TIR1 !== null ||
-        row.TIR2 !== null ||
-        row.TIR3 !== null;
+      let hasAnyAttempt: boolean;
+      let hasCompletedAttempt: boolean;
+      if (row.POSITION === 'G') {
+        hasAnyAttempt =
+          (row.GARDIEN_TIME_VITESSE ?? 0) > 0 || (row.GARDIEN_TIME_ATELIER ?? 0) > 0;
+        hasCompletedAttempt =
+          (row.GARDIEN_TIME_VITESSE ?? 0) > 0 && (row.GARDIEN_TIME_ATELIER ?? 0) > 0;
+      } else {
+        hasAnyAttempt =
+          (row.TIME_VITESSE ?? 0) > 0 ||
+          (row.TIME_SLALOM ?? 0) > 0 ||
+          row.TIR1 !== null ||
+          row.TIR2 !== null ||
+          row.TIR3 !== null;
+        hasCompletedAttempt =
+          (row.TIME_VITESSE ?? 0) > 0 &&
+          (row.TIME_SLALOM ?? 0) > 0 &&
+          row.TIR1 !== null &&
+          row.TIR2 !== null &&
+          row.TIR3 !== null;
+      }
       if (hasAnyAttempt) current.hasAnyAttempt = true;
-      const hasCompletedAttempt =
-        (row.TIME_VITESSE ?? 0) > 0 &&
-        (row.TIME_SLALOM ?? 0) > 0 &&
-        row.TIR1 !== null &&
-        row.TIR2 !== null &&
-        row.TIR3 !== null;
       if (hasCompletedAttempt) current.completedCount += 1;
       progressByTeam.set(row.EQUIPE_ID, current);
     });

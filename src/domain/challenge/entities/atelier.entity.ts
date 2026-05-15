@@ -1,4 +1,4 @@
-export type AtelierType = 'vitesse' | 'tir' | 'glisse_crosse';
+export type AtelierType = 'vitesse' | 'tir' | 'glisse_crosse' | 'gardien_arret';
 
 export class Atelier {
   constructor(

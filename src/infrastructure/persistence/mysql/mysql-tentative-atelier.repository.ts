@@ -7,12 +7,16 @@ import { parseParisSqlDateTime } from './date-paris.utils';
 type TaJoueurRow = {
   ID: number;
   EQUIPE_ID: number;
+  POSITION: string;
   TIME_VITESSE: number;
   TIME_SLALOM: number;
   NB_PORTES: number;
   TIR1: number | null;
   TIR2: number | null;
   TIR3: number | null;
+  GARDIEN_TIME_VITESSE: number;
+  GARDIEN_TIME_ATELIER: number;
+  GARDIEN_NB_BUT: number | null;
 };
 
 type TaEquipeRow = {
@@ -36,7 +40,8 @@ export class MySqlTentativeAtelierRepository implements TentativeAtelierReposito
   async findAll(): Promise<TentativeAtelier[]> {
     const [joueurs, equipes] = await Promise.all([
       this.prisma.$queryRaw<TaJoueurRow[]>`
-        SELECT ID, EQUIPE_ID, TIME_VITESSE, TIME_SLALOM, NB_PORTES, TIR1, TIR2, TIR3
+        SELECT ID, EQUIPE_ID, POSITION, TIME_VITESSE, TIME_SLALOM, NB_PORTES, TIR1, TIR2, TIR3,
+               GARDIEN_TIME_VITESSE, GARDIEN_TIME_ATELIER, GARDIEN_NB_BUT
         FROM ta_joueurs
       `,
       this.prisma.$queryRaw<TaEquipeRow[]>`
@@ -59,44 +64,72 @@ export class MySqlTentativeAtelierRepository implements TentativeAtelierReposito
     const attempts: TentativeAtelier[] = [];
     joueurs.forEach((row) => {
       const baseDate = challengeByEquipe.get(row.EQUIPE_ID) ?? new Date();
-      const vitesse = Math.max(0, row.TIME_VITESSE ?? 0);
-      const slalom = Math.max(0, row.TIME_SLALOM ?? 0);
-      const penalites = Math.max(0, row.NB_PORTES ?? 0);
-      const tirs = [row.TIR1, row.TIR2, row.TIR3].map((v) =>
-        typeof v === 'number' ? v : 0,
-      );
-      const total = tirs.reduce((a, b) => a + b, 0);
 
-      attempts.push(
-        new TentativeAtelier(
-          `${row.ID}-vitesse`,
-          'atelier-vitesse',
-          String(row.ID),
-          'vitesse',
-          { type: 'vitesse', tempsMs: vitesse },
-          baseDate,
-        ),
-      );
-      attempts.push(
-        new TentativeAtelier(
-          `${row.ID}-tir`,
-          'atelier-tir',
-          String(row.ID),
-          'tir',
-          { type: 'tir', tirs, totalPoints: total },
-          baseDate,
-        ),
-      );
-      attempts.push(
-        new TentativeAtelier(
-          `${row.ID}-glisse`,
-          'atelier-glisse',
-          String(row.ID),
-          'glisse_crosse',
-          { type: 'glisse_crosse', tempsMs: slalom, penalites },
-          baseDate,
-        ),
-      );
+      if (row.POSITION === 'G') {
+        const gardienVitesse = Math.max(0, row.GARDIEN_TIME_VITESSE ?? 0);
+        const gardienAtelier = Math.max(0, row.GARDIEN_TIME_ATELIER ?? 0);
+        const gardienNbBut = row.GARDIEN_NB_BUT ?? 0;
+
+        attempts.push(
+          new TentativeAtelier(
+            `${row.ID}-gardien-vitesse`,
+            'atelier-gardien-vitesse',
+            String(row.ID),
+            'vitesse',
+            { type: 'vitesse', tempsMs: gardienVitesse },
+            baseDate,
+          ),
+        );
+        attempts.push(
+          new TentativeAtelier(
+            `${row.ID}-gardien-arret`,
+            'atelier-gardien-arret',
+            String(row.ID),
+            'gardien_arret',
+            { type: 'gardien_arret', tempsMs: gardienAtelier, nbButs: gardienNbBut },
+            baseDate,
+          ),
+        );
+      } else {
+        const vitesse = Math.max(0, row.TIME_VITESSE ?? 0);
+        const slalom = Math.max(0, row.TIME_SLALOM ?? 0);
+        const penalites = Math.max(0, row.NB_PORTES ?? 0);
+        const tirs = [row.TIR1, row.TIR2, row.TIR3].map((v) =>
+          typeof v === 'number' ? v : 0,
+        );
+        const total = tirs.reduce((a, b) => a + b, 0);
+
+        attempts.push(
+          new TentativeAtelier(
+            `${row.ID}-vitesse`,
+            'atelier-vitesse',
+            String(row.ID),
+            'vitesse',
+            { type: 'vitesse', tempsMs: vitesse },
+            baseDate,
+          ),
+        );
+        attempts.push(
+          new TentativeAtelier(
+            `${row.ID}-tir`,
+            'atelier-tir',
+            String(row.ID),
+            'tir',
+            { type: 'tir', tirs, totalPoints: total },
+            baseDate,
+          ),
+        );
+        attempts.push(
+          new TentativeAtelier(
+            `${row.ID}-glisse`,
+            'atelier-glisse',
+            String(row.ID),
+            'glisse_crosse',
+            { type: 'glisse_crosse', tempsMs: slalom, penalites },
+            baseDate,
+          ),
+        );
+      }
     });
 
     return attempts;
