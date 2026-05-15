@@ -17,6 +17,7 @@ type TaJoueurRow = {
   GARDIEN_TIME_VITESSE: number;
   GARDIEN_TIME_ATELIER: number;
   GARDIEN_NB_BUT: number | null;
+  GARDIEN_TIME_TOTAL: number;
 };
 
 type TaEquipeRow = {
@@ -41,7 +42,7 @@ export class MySqlTentativeAtelierRepository implements TentativeAtelierReposito
     const [joueurs, equipes] = await Promise.all([
       this.prisma.$queryRaw<TaJoueurRow[]>`
         SELECT ID, EQUIPE_ID, POSITION, TIME_VITESSE, TIME_SLALOM, NB_PORTES, TIR1, TIR2, TIR3,
-               GARDIEN_TIME_VITESSE, GARDIEN_TIME_ATELIER, GARDIEN_NB_BUT
+               GARDIEN_TIME_VITESSE, GARDIEN_TIME_ATELIER, GARDIEN_NB_BUT, GARDIEN_TIME_TOTAL
         FROM ta_joueurs
       `,
       this.prisma.$queryRaw<TaEquipeRow[]>`
@@ -66,30 +67,35 @@ export class MySqlTentativeAtelierRepository implements TentativeAtelierReposito
       const baseDate = challengeByEquipe.get(row.EQUIPE_ID) ?? new Date();
 
       if (row.POSITION === 'G') {
-        const gardienVitesse = Math.max(0, row.GARDIEN_TIME_VITESSE ?? 0);
-        const gardienAtelier = Math.max(0, row.GARDIEN_TIME_ATELIER ?? 0);
+        const gardienVitesse = row.GARDIEN_TIME_VITESSE ?? 0;
+        const gardienAtelier = row.GARDIEN_TIME_ATELIER ?? 0;
         const gardienNbBut = row.GARDIEN_NB_BUT ?? 0;
+        const gardienTempsTotal = row.GARDIEN_TIME_TOTAL ?? 0;
 
-        attempts.push(
-          new TentativeAtelier(
-            `${row.ID}-gardien-vitesse`,
-            'atelier-gardien-vitesse',
-            String(row.ID),
-            'vitesse',
-            { type: 'vitesse', tempsMs: gardienVitesse },
-            baseDate,
-          ),
-        );
-        attempts.push(
-          new TentativeAtelier(
-            `${row.ID}-gardien-arret`,
-            'atelier-gardien-arret',
-            String(row.ID),
-            'gardien_arret',
-            { type: 'gardien_arret', tempsMs: gardienAtelier, nbButs: gardienNbBut },
-            baseDate,
-          ),
-        );
+        if (gardienVitesse > 0) {
+          attempts.push(
+            new TentativeAtelier(
+              `${row.ID}-gardien-vitesse`,
+              'atelier-gardien-vitesse',
+              String(row.ID),
+              'vitesse',
+              { type: 'vitesse', tempsMs: gardienVitesse },
+              baseDate,
+            ),
+          );
+        }
+        if (gardienAtelier > 0) {
+          attempts.push(
+            new TentativeAtelier(
+              `${row.ID}-gardien-arret`,
+              'atelier-gardien-arret',
+              String(row.ID),
+              'gardien_arret',
+              { type: 'gardien_arret', tempsMs: gardienAtelier, nbButs: gardienNbBut, tempsTotal: gardienTempsTotal },
+              baseDate,
+            ),
+          );
+        }
       } else {
         const vitesse = Math.max(0, row.TIME_VITESSE ?? 0);
         const slalom = Math.max(0, row.TIME_SLALOM ?? 0);

@@ -6,6 +6,7 @@ import { RecordTentativeUseCase } from '@/application/challenge/use-cases/record
 import { GetChallengeByEquipeUseCase } from '@/application/challenge/use-cases/get-challenge-by-equipe.usecase';
 import { GetChallengeAllUseCase } from '@/application/challenge/use-cases/get-challenge-all.usecase';
 import { GetChallengeVitesseJ3UseCase } from '@/application/challenge/use-cases/get-challenge-vitesse-j3.usecase';
+import { GetChallengeGardienJ3UseCase } from '@/application/challenge/use-cases/get-challenge-gardien-j3.usecase';
 import { GetChallengeJ1MomentumUseCase } from '@/application/challenge/use-cases/get-challenge-j1-momentum.usecase';
 import { RecordTentativeDto } from '@/application/challenge/dto/record-tentative.dto';
 import type { TentativeMetrics } from '@/domain/challenge/entities/tentative-atelier.entity';
@@ -21,6 +22,7 @@ export class ChallengeController {
     private readonly getChallengeByEquipe: GetChallengeByEquipeUseCase,
     private readonly getChallengeAll: GetChallengeAllUseCase,
     private readonly getChallengeVitesseJ3: GetChallengeVitesseJ3UseCase,
+    private readonly getChallengeGardienJ3: GetChallengeGardienJ3UseCase,
     private readonly getChallengeJ1Momentum: GetChallengeJ1MomentumUseCase,
   ) {}
 
@@ -65,6 +67,11 @@ export class ChallengeController {
   @Get('vitesse/j3')
   async challengeVitesseJ3() {
     return this.getChallengeVitesseJ3.execute();
+  }
+
+  @Get('gardien/j3')
+  async challengeGardienJ3() {
+    return this.getChallengeGardienJ3.execute();
   }
 
   @Get('j1/momentum')
