@@ -199,17 +199,17 @@ describe('GetJ3FinalSquaresUseCase', () => {
     expect(squareI?.ranking.every((row) => row.placeholder === null)).toBe(true);
   });
 
-  it('reconstructs J3 square from placeholder seeds without using E/F/G/H as final square codes', async () => {
+  it('assigns matches to squares via pouleCode (NUM_MATCH), not team name inference', async () => {
     equipeRepository.findClassementByPoule
       .mockResolvedValueOnce(classementFor('I', []))
       .mockResolvedValueOnce(classementFor('J', []))
       .mockResolvedValueOnce(classementFor('K', []))
       .mockResolvedValueOnce(classementFor('L', []));
     matchRepository.findAll.mockResolvedValue([
-      match5v5J3('semi-1', '2026-05-25T09:00:00.000Z', 'E1', 'F2', 'planned', null, null),
-      match5v5J3('semi-2', '2026-05-25T10:00:00.000Z', 'F1', 'E2', 'planned', null, null),
-      match5v5J3('final', '2026-05-25T11:00:00.000Z', 'vE1F2', 'vF1E2', 'planned', null, null),
-      match5v5J3('third', '2026-05-25T12:00:00.000Z', 'pE1F2', 'pF1E2', 'planned', null, null),
+      match5v5J3('semi-1', '2026-05-25T09:00:00.000Z', 'E1', 'F2', 'planned', null, null, 'I', 'Carré Or 1'),
+      match5v5J3('semi-2', '2026-05-25T10:00:00.000Z', 'F1', 'E2', 'planned', null, null, 'I', 'Carré Or 1'),
+      match5v5J3('final', '2026-05-25T11:00:00.000Z', 'vE1F2', 'vF1E2', 'planned', null, null, 'I', 'Carré Or 1'),
+      match5v5J3('third', '2026-05-25T12:00:00.000Z', 'pE1F2', 'pF1E2', 'planned', null, null, 'I', 'Carré Or 1'),
     ]);
 
     const useCase = new GetJ3FinalSquaresUseCase(
@@ -229,15 +229,15 @@ describe('GetJ3FinalSquaresUseCase', () => {
     expect(result.carres.map((c) => c.dbCode)).not.toContain('F');
   });
 
-  it('reconstructs J3 square from primary Perd./Vain. labels', async () => {
+  it('assigns matches to square L via pouleCode set from NUM_MATCH', async () => {
     equipeRepository.findClassementByPoule
       .mockResolvedValueOnce(classementFor('I', []))
       .mockResolvedValueOnce(classementFor('J', []))
       .mockResolvedValueOnce(classementFor('K', []))
       .mockResolvedValueOnce(classementFor('L', []));
     matchRepository.findAll.mockResolvedValue([
-      match5v5J3('semi-1', '2026-05-25T09:00:00.000Z', 'G4', 'H3', 'planned', null, null),
-      match5v5J3('semi-2', '2026-05-25T10:00:00.000Z', 'G3', 'H4', 'planned', null, null),
+      match5v5J3('semi-1', '2026-05-25T09:00:00.000Z', 'G4', 'H3', 'planned', null, null, 'L', 'Carré Argent 13'),
+      match5v5J3('semi-2', '2026-05-25T10:00:00.000Z', 'G3', 'H4', 'planned', null, null, 'L', 'Carré Argent 13'),
       match5v5J3(
         'final',
         '2026-05-25T11:00:00.000Z',
@@ -246,6 +246,8 @@ describe('GetJ3FinalSquaresUseCase', () => {
         'planned',
         null,
         null,
+        'L',
+        'Carré Argent 13',
       ),
       match5v5J3(
         'third',
@@ -255,6 +257,8 @@ describe('GetJ3FinalSquaresUseCase', () => {
         'planned',
         null,
         null,
+        'L',
+        'Carré Argent 13',
       ),
     ]);
 
@@ -273,21 +277,21 @@ describe('GetJ3FinalSquaresUseCase', () => {
     expect(squareL?.thirdPlaceMatch?.id).toBe('third');
   });
 
-  it('realigns E3/F4/E4/F3 on square K and G1/H2/G2/H1 on square J', async () => {
+  it('distributes matches to squares K and J via pouleCode set from NUM_MATCH', async () => {
     equipeRepository.findClassementByPoule
       .mockResolvedValueOnce(classementFor('I', []))
       .mockResolvedValueOnce(classementFor('J', []))
       .mockResolvedValueOnce(classementFor('K', []))
       .mockResolvedValueOnce(classementFor('L', []));
     matchRepository.findAll.mockResolvedValue([
-      match5v5J3('semi-k-1', '2026-05-25T09:00:00.000Z', 'E4', 'F3', 'planned', null, null),
-      match5v5J3('semi-k-2', '2026-05-25T10:00:00.000Z', 'E3', 'F4', 'planned', null, null),
-      match5v5J3('final-k', '2026-05-25T11:00:00.000Z', 'Vain. E4-F3', 'Vain. E3-F4', 'planned', null, null),
-      match5v5J3('third-k', '2026-05-25T12:00:00.000Z', 'Perd. E4-F3', 'Perd. E3-F4', 'planned', null, null),
-      match5v5J3('semi-j-1', '2026-05-25T13:00:00.000Z', 'G2', 'H1', 'planned', null, null),
-      match5v5J3('semi-j-2', '2026-05-25T14:00:00.000Z', 'G1', 'H2', 'planned', null, null),
-      match5v5J3('final-j', '2026-05-25T15:00:00.000Z', 'Vain. G2-H1', 'Vain. G1-H2', 'planned', null, null),
-      match5v5J3('third-j', '2026-05-25T16:00:00.000Z', 'Perd. G2-H1', 'Perd. G1-H2', 'planned', null, null),
+      match5v5J3('semi-k-1', '2026-05-25T09:00:00.000Z', 'E4', 'F3', 'planned', null, null, 'K', 'Carré Argent 9'),
+      match5v5J3('semi-k-2', '2026-05-25T10:00:00.000Z', 'E3', 'F4', 'planned', null, null, 'K', 'Carré Argent 9'),
+      match5v5J3('final-k', '2026-05-25T11:00:00.000Z', 'Vain. E4-F3', 'Vain. E3-F4', 'planned', null, null, 'K', 'Carré Argent 9'),
+      match5v5J3('third-k', '2026-05-25T12:00:00.000Z', 'Perd. E4-F3', 'Perd. E3-F4', 'planned', null, null, 'K', 'Carré Argent 9'),
+      match5v5J3('semi-j-1', '2026-05-25T13:00:00.000Z', 'G2', 'H1', 'planned', null, null, 'J', 'Carré Or 5'),
+      match5v5J3('semi-j-2', '2026-05-25T14:00:00.000Z', 'G1', 'H2', 'planned', null, null, 'J', 'Carré Or 5'),
+      match5v5J3('final-j', '2026-05-25T15:00:00.000Z', 'Vain. G2-H1', 'Vain. G1-H2', 'planned', null, null, 'J', 'Carré Or 5'),
+      match5v5J3('third-j', '2026-05-25T16:00:00.000Z', 'Perd. G2-H1', 'Perd. G1-H2', 'planned', null, null, 'J', 'Carré Or 5'),
     ]);
 
     const useCase = new GetJ3FinalSquaresUseCase(
