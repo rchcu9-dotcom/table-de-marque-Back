@@ -8,10 +8,6 @@ import {
   MatchRepository,
 } from '@/domain/match/repositories/match.repository';
 import { Match } from '@/domain/match/entities/match.entity';
-import {
-  canonicalizeJ3SeedPair,
-  parseJ3ParticipantLabel,
-} from '@/domain/match/services/j3-bracket.utils';
 
 type TeamRef = {
   id: string;
@@ -38,10 +34,6 @@ type RankingEntry = {
 };
 
 type SquareCode = 'I' | 'J' | 'K' | 'L';
-type J3SquareHint = {
-  squareCode: SquareCode;
-  stage: 'semi' | 'postSemi';
-};
 
 export type FinalSquare = {
   dbCode: 'I' | 'J' | 'K' | 'L';
@@ -102,20 +94,12 @@ export class GetJ3FinalSquaresUseCase {
 
     const carres = SQUARES.map((square, index) => {
       const classement = allClassements[index];
-      const teamNames = (classement?.equipes ?? [])
-        .map((team) => team.name)
-        .filter((value): value is string => Boolean(value?.trim()));
-      const teamNameSet = new Set(teamNames.map((name) => this.norm(name)));
-      const directMatches = j3Matches.filter(
+      const squareMatches = j3Matches.filter(
         (match) =>
           match.pouleCode === square.dbCode ||
           match.pouleName === square.label ||
           this.isLegacyJ3SquareLabel(match.pouleName, square.dbCode),
       );
-      const squareMatches =
-        directMatches.length > 0
-          ? directMatches
-          : this.fallbackSquareMatches(j3Matches, square.dbCode, teamNameSet);
 
       const semis = squareMatches.slice(0, 2);
       const postSemis = squareMatches.slice(2);
@@ -142,36 +126,6 @@ export class GetJ3FinalSquaresUseCase {
       carres,
       computedAt: new Date().toISOString(),
     };
-  }
-
-  private fallbackSquareMatches(
-    allMatches: Match[],
-    squareCode: SquareCode,
-    teamNameSet: Set<string>,
-  ): Match[] {
-    const hintedMatches = allMatches.filter(
-      (match) => this.resolveJ3SquareHint(match)?.squareCode === squareCode,
-    );
-
-    if (hintedMatches.length > 0) {
-      return hintedMatches.sort(
-        (a, b) =>
-          a.date.getTime() - b.date.getTime() ||
-          a.id.localeCompare(b.id, 'fr-FR'),
-      );
-    }
-
-    return allMatches
-      .filter(
-        (match) =>
-          teamNameSet.has(this.norm(match.teamA)) &&
-          teamNameSet.has(this.norm(match.teamB)),
-      )
-      .sort(
-        (a, b) =>
-          a.date.getTime() - b.date.getTime() ||
-          a.id.localeCompare(b.id, 'fr-FR'),
-      );
   }
 
   private isLegacyJ3SquareLabel(
@@ -252,32 +206,6 @@ export class GetJ3FinalSquaresUseCase {
       return match.teamA;
     }
     return scoreA > scoreB ? match.teamA : match.teamB;
-  }
-
-  private resolveJ3SquareHint(match: Match): J3SquareHint | null {
-    const parsedA = parseJ3ParticipantLabel(match.teamA);
-    const parsedB = parseJ3ParticipantLabel(match.teamB);
-    if (parsedA?.type === 'phase1' && parsedB?.type === 'phase1') {
-      const pair = canonicalizeJ3SeedPair(parsedA.seed, parsedB.seed);
-      return pair?.squareCode
-        ? { squareCode: pair.squareCode, stage: 'semi' }
-        : null;
-    }
-
-    const phase2Participants = [parsedA, parsedB].filter(
-      (value) => value && value.type !== 'phase1' && value.squareCode,
-    );
-    if (phase2Participants.length > 0) {
-      const squareCode = phase2Participants[0]?.squareCode ?? null;
-      if (
-        squareCode &&
-        phase2Participants.every((value) => value?.squareCode === squareCode)
-      ) {
-        return { squareCode, stage: 'postSemi' };
-      }
-    }
-
-    return null;
   }
 
   private pickFinalAndThird(
