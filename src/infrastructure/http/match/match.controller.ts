@@ -19,7 +19,6 @@ import { DeleteMatchDto } from '@/application/match/dto/delete-match.dto';
 import { UpdateMatchDto } from '@/application/match/dto/update-match.dto';
 
 import { GetMomentumMatchesUseCase } from '@/application/match/use-cases/get-momentum-matches.usecase';
-import { CacheSnapshotService } from '@/infrastructure/cache/cache.snapshot.service';
 import { formatParisIso } from '@/infrastructure/persistence/mysql/date-paris.utils';
 import type { Match } from '@/domain/match/entities/match.entity';
 import { assertApiWritable } from '@/infrastructure/http/read-only.util';
@@ -60,7 +59,6 @@ export class MatchController {
     private readonly updateMatchUseCase: UpdateMatchUseCase,
     private readonly deleteMatchUseCase: DeleteMatchUseCase,
     private readonly getMomentumMatchesUseCase: GetMomentumMatchesUseCase,
-    private readonly cache: CacheSnapshotService,
   ) {}
 
   // CREATE
@@ -94,22 +92,13 @@ export class MatchController {
     @Query('teamId') teamId?: string,
     @Query('jour') jour?: 'J1' | 'J2' | 'J3',
   ) {
-    const hasFilters = Boolean(
-      competition || surface || status || teamId || jour,
-    );
-    if (hasFilters) {
-      const matches = await this.getAllMatchesUseCase.execute({
-        competitionType: competition,
-        surface,
-        status,
-        teamId,
-        jour,
-      });
-      return mapMatches(matches);
-    }
-    const matches = await this.cache.staleWhileRevalidate('matches', () =>
-      this.getAllMatchesUseCase.execute({}),
-    );
+    const matches = await this.getAllMatchesUseCase.execute({
+      competitionType: competition,
+      surface,
+      status,
+      teamId,
+      jour,
+    });
     return mapMatches(matches);
   }
 

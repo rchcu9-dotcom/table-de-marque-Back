@@ -10,10 +10,9 @@ import { DeleteMatchUseCase } from '@/application/match/use-cases/delete-match.u
 import { GetMomentumMatchesUseCase } from '@/application/match/use-cases/get-momentum-matches.usecase';
 import { PersistenceModule } from '@/infrastructure/persistence/persistence.module';
 import { MatchStreamController } from './match.stream.controller';
-import { CacheModule } from '@/infrastructure/cache/cache.module';
 
 @Module({
-  imports: [PersistenceModule, CacheModule],
+  imports: [PersistenceModule],
   controllers: [MatchStreamController, MatchController],
   providers: [
     CreateMatchUseCase,
