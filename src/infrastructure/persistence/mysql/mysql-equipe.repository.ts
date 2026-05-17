@@ -143,7 +143,10 @@ export class MySqlEquipeRepository implements EquipeRepository {
   }
 
   async findAllEquipes(): Promise<Equipe[]> {
-    const [classementRows, equipeRows] = await Promise.all([
+    type J2MealRow = { EQUIPE_ID: number; REPAS_DIMANCHE: string | null };
+    type J3MealRow = { EQUIPE_ID: number; REPAS_LUNDI: string | null };
+
+    const [classementRows, equipeRows, j2MealRows, j3MealRows] = await Promise.all([
       this.prisma.$queryRaw<TaClassementRow[]>`
         SELECT GROUPE_NOM, ORDRE, ORDRE_FINAL, EQUIPE, EQUIPE_ID, J, V, N, D, PTS, BP, BC, DIFF,
           DATE_FORMAT(REPAS_SAMEDI, '%Y-%m-%dT%H:%i:%s') AS REPAS_SAMEDI,
@@ -158,12 +161,26 @@ export class MySqlEquipeRepository implements EquipeRepository {
         SELECT ID, EQUIPE, IMAGE, PHOTO, TEASER
         FROM ta_equipes
       `,
+      this.prisma.$queryRaw<J2MealRow[]>`
+        SELECT EQUIPE_ID,
+          DATE_FORMAT(REPAS_DIMANCHE, '%Y-%m-%dT%H:%i:%s') AS REPAS_DIMANCHE
+        FROM ta_classement
+        WHERE GROUPE_NOM IN ('E', 'F', 'G', 'H')
+      `,
+      this.prisma.$queryRaw<J3MealRow[]>`
+        SELECT EQUIPE_ID,
+          DATE_FORMAT(REPAS_LUNDI, '%Y-%m-%dT%H:%i:%s') AS REPAS_LUNDI
+        FROM ta_classement
+        WHERE GROUPE_NOM IN ('I', 'J', 'K', 'L')
+      `,
     ]);
 
     const equipeByName = new Map(
       equipeRows.map((r) => [normalizeKey(r.EQUIPE), r]),
     );
     const equipeById = new Map(equipeRows.map((r) => [r.ID, r]));
+    const j2MealByEquipeId = new Map(j2MealRows.map((r) => [r.EQUIPE_ID, r.REPAS_DIMANCHE]));
+    const j3MealByEquipeId = new Map(j3MealRows.map((r) => [r.EQUIPE_ID, r.REPAS_LUNDI]));
 
     const sortedRows = [...classementRows].sort((a, b) => {
       const groupCmp = String(a.GROUPE_NOM).localeCompare(String(b.GROUPE_NOM), 'fr-FR');
@@ -195,10 +212,10 @@ export class MySqlEquipeRepository implements EquipeRepository {
         row.BC,
         row.DIFF,
         row.REPAS_SAMEDI ?? null,
-        row.REPAS_DIMANCHE ?? null,
+        j2MealByEquipeId.get(row.EQUIPE_ID) ?? null,
         row.CHALLENGE_SAMEDI ?? null,
         buildTeamPhotoUrl(eq?.PHOTO ?? null),
-        row.REPAS_LUNDI ?? null,
+        j3MealByEquipeId.get(row.EQUIPE_ID) ?? null,
         row.ORDRE,
         row.ORDRE_FINAL,
         eq?.TEASER ?? null,
