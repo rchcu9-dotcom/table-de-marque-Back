@@ -297,7 +297,7 @@ export class GetJ3FinalSquaresUseCase {
       .sort((a, b) => a.rang - b.rang)
       .slice(0, 4);
     classementRows.forEach((team) => {
-      const rankIndex = team.rang - 1;
+      const rankIndex = team.rang - rangeStart;
       if (rankIndex >= 0 && rankIndex < 4) {
         ranking[rankIndex].team = this.toTeamRef(team.id, team.name, team.logoUrl);
         ranking[rankIndex].placeholder = null;
