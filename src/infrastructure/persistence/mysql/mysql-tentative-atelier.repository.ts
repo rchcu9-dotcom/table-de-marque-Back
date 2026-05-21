@@ -14,6 +14,7 @@ type TaJoueurRow = {
   TIR1: number | null;
   TIR2: number | null;
   TIR3: number | null;
+  TIME_TOTAL: number;
   GARDIEN_TIME_VITESSE: number;
   GARDIEN_TIME_ATELIER: number;
   GARDIEN_NB_BUT: number | null;
@@ -42,7 +43,7 @@ export class MySqlTentativeAtelierRepository implements TentativeAtelierReposito
     const [joueurs, equipes] = await Promise.all([
       this.prisma.$queryRaw<TaJoueurRow[]>`
         SELECT ID, EQUIPE_ID, POSITION, TIME_VITESSE, TIME_SLALOM, NB_PORTES, TIR1, TIR2, TIR3,
-               GARDIEN_TIME_VITESSE, GARDIEN_TIME_ATELIER, GARDIEN_NB_BUT, GARDIEN_TIME_TOTAL
+               TIME_TOTAL, GARDIEN_TIME_VITESSE, GARDIEN_TIME_ATELIER, GARDIEN_NB_BUT, GARDIEN_TIME_TOTAL
         FROM ta_joueurs
       `,
       this.prisma.$queryRaw<TaEquipeRow[]>`
@@ -105,13 +106,14 @@ export class MySqlTentativeAtelierRepository implements TentativeAtelierReposito
         );
         const total = tirs.reduce((a, b) => a + b, 0);
 
+        const tempsTotal = Math.max(0, row.TIME_TOTAL ?? 0);
         attempts.push(
           new TentativeAtelier(
             `${row.ID}-vitesse`,
             'atelier-vitesse',
             String(row.ID),
             'vitesse',
-            { type: 'vitesse', tempsMs: vitesse },
+            { type: 'vitesse', tempsMs: vitesse, ...(tempsTotal > 0 ? { tempsTotal } : {}) },
             baseDate,
           ),
         );
