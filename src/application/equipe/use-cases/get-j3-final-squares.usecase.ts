@@ -90,13 +90,22 @@ export class GetJ3FinalSquaresUseCase {
           a.id.localeCompare(b.id, 'fr-FR'),
       );
 
+    // Build lookup: normalized team name/id → square dbCode (real teams only, no placeholders)
+    const teamToSquare = new Map<string, SquareCode>();
+    SQUARES.forEach((square, index) => {
+      const classement = allClassements[index];
+      (classement?.equipes ?? [])
+        .filter((team) => !this.isCarreAlias(team.name))
+        .forEach((team) => {
+          teamToSquare.set(this.norm(team.name), square.dbCode);
+          teamToSquare.set(this.norm(team.id), square.dbCode);
+        });
+    });
+
     const carres = SQUARES.map((square, index) => {
       const classement = allClassements[index];
       const squareMatches = j3Matches.filter(
-        (match) =>
-          match.pouleCode === square.dbCode ||
-          match.pouleName === square.label ||
-          this.isLegacyJ3SquareLabel(match.pouleName, square.dbCode),
+        (match) => this.resolveSquare(match, teamToSquare) === square.dbCode,
       );
 
       return {
@@ -115,33 +124,46 @@ export class GetJ3FinalSquaresUseCase {
     };
   }
 
-  private isLegacyJ3SquareLabel(
-    value: string | null | undefined,
-    squareCode: SquareCode,
-  ): boolean {
-    const normalized = this.norm(value ?? '');
-    if (!normalized) return false;
+  /**
+   * Resolve which square a J3 match belongs to, in priority order:
+   * 1. Real team found in classement → that square
+   * 2. Placeholder alias (E1/E2/F1/F2→I, E3/E4/F3/F4→J, G1/G2/H1/H2→K, G3/G4/H3/H4→L)
+   * 3. pouleCode from DB as last fallback
+   */
+  private resolveSquare(
+    match: Match,
+    teamToSquare: Map<string, SquareCode>,
+  ): SquareCode | null {
+    const fromA = teamToSquare.get(this.norm(match.teamA));
+    if (fromA) return fromA;
+    const fromB = teamToSquare.get(this.norm(match.teamB));
+    if (fromB) return fromB;
 
-    const legacyLabels: Record<SquareCode, string[]> = {
-      I: ['or 1-4', 'or 1', 'carré or a', 'carre or a'],
-      J: ['or 5-8', 'or 5', 'carré or b', 'carre or b'],
-      K: [
-        'argent 9-12',
-        'argent 9',
-        'argent 1',
-        'carré argent c',
-        'carre argent c',
-      ],
-      L: [
-        'argent 13-16',
-        'argent 13',
-        'argent 5',
-        'carré argent d',
-        'carre argent d',
-      ],
-    };
+    const fromAlias = this.aliasSquare(match.teamA, match.teamB);
+    if (fromAlias) return fromAlias;
 
-    return legacyLabels[squareCode].includes(normalized);
+    const code = match.pouleCode as SquareCode | null;
+    if (code && SQUARES.some((s) => s.dbCode === code)) return code;
+
+    return null;
+  }
+
+  /**
+   * Extract square code from placeholder team names using group references.
+   * E1/E2/F1/F2 → I | E3/E4/F3/F4 → J | G1/G2/H1/H2 → K | G3/G4/H3/H4 → L
+   */
+  private aliasSquare(teamA: string, teamB: string): SquareCode | null {
+    const text = `${teamA} ${teamB}`.toUpperCase();
+    const refs = text.match(/[EFGH]\d/g) ?? [];
+    for (const ref of refs) {
+      const letter = ref[0] as 'E' | 'F' | 'G' | 'H';
+      const num = parseInt(ref[1], 10);
+      if ((letter === 'E' || letter === 'F') && num <= 2) return 'I';
+      if ((letter === 'E' || letter === 'F') && num >= 3) return 'J';
+      if ((letter === 'G' || letter === 'H') && num <= 2) return 'K';
+      if ((letter === 'G' || letter === 'H') && num >= 3) return 'L';
+    }
+    return null;
   }
 
   private isCarreAlias(value: string): boolean {
