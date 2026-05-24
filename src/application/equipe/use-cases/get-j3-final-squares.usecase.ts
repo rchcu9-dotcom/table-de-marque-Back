@@ -39,9 +39,7 @@ export type FinalSquare = {
   dbCode: 'I' | 'J' | 'K' | 'L';
   label: string;
   placeRange: string;
-  semiFinals: FinalSquareMatch[];
-  finalMatch: FinalSquareMatch | null;
-  thirdPlaceMatch: FinalSquareMatch | null;
+  matches: FinalSquareMatch[];
   ranking: RankingEntry[];
 };
 
@@ -101,22 +99,11 @@ export class GetJ3FinalSquaresUseCase {
           this.isLegacyJ3SquareLabel(match.pouleName, square.dbCode),
       );
 
-      const semis = squareMatches.slice(0, 2);
-      const postSemis = squareMatches.slice(2);
-      const [finalSource, thirdSource] = this.pickFinalAndThird(
-        semis,
-        postSemis,
-      );
-
       return {
         dbCode: square.dbCode,
         label: square.label,
         placeRange: `${square.rangeStart}..${square.rangeEnd}`,
-        semiFinals: semis.map((match) => this.toFinalSquareMatch(match)),
-        finalMatch: finalSource ? this.toFinalSquareMatch(finalSource) : null,
-        thirdPlaceMatch: thirdSource
-          ? this.toFinalSquareMatch(thirdSource)
-          : null,
+        matches: squareMatches.map((match) => this.toFinalSquareMatch(match)),
         ranking: this.buildRanking(square.rangeStart, classement),
       } satisfies FinalSquare;
     });
@@ -208,69 +195,6 @@ export class GetJ3FinalSquaresUseCase {
     return scoreA > scoreB ? match.teamA : match.teamB;
   }
 
-  private pickFinalAndThird(
-    semis: Match[],
-    postSemis: Match[],
-  ): [Match | null, Match | null] {
-    if (postSemis.length === 0) return [null, null];
-    if (postSemis.length === 1) return [postSemis[0], null];
-
-    const semiOutcomes = semis
-      .map((semi) => this.getWinnerLoserNames(semi))
-      .filter(
-        (value): value is { winner: string; loser: string } => value !== null,
-      );
-
-    if (semiOutcomes.length === 2) {
-      const winners = new Set(semiOutcomes.map((x) => this.norm(x.winner)));
-      const losers = new Set(semiOutcomes.map((x) => this.norm(x.loser)));
-      let finalMatch: Match | null = null;
-      let thirdPlaceMatch: Match | null = null;
-      for (const match of postSemis) {
-        const teams = new Set([this.norm(match.teamA), this.norm(match.teamB)]);
-        if (this.sameSet(teams, winners)) {
-          finalMatch = match;
-          continue;
-        }
-        if (this.sameSet(teams, losers)) {
-          thirdPlaceMatch = match;
-        }
-      }
-      if (finalMatch || thirdPlaceMatch) {
-        return [
-          finalMatch ?? postSemis[0] ?? null,
-          thirdPlaceMatch ??
-            postSemis.find((m) => m.id !== (finalMatch?.id ?? '')) ??
-            null,
-        ];
-      }
-    }
-
-    return [postSemis[0] ?? null, postSemis[1] ?? null];
-  }
-
-  private sameSet(a: Set<string>, b: Set<string>): boolean {
-    if (a.size !== b.size) return false;
-    for (const item of a) {
-      if (!b.has(item)) return false;
-    }
-    return true;
-  }
-
-  private getWinnerLoserNames(
-    match: Match,
-  ): { winner: string; loser: string } | null {
-    if (match.status !== 'finished') return null;
-    const scoreA = match.scoreA ?? 0;
-    const scoreB = match.scoreB ?? 0;
-    if (scoreA === scoreB) {
-      return { winner: match.teamA, loser: match.teamB };
-    }
-    return scoreA > scoreB
-      ? { winner: match.teamA, loser: match.teamB }
-      : { winner: match.teamB, loser: match.teamA };
-  }
-
   private buildRanking(
     rangeStart: number,
     classement:
@@ -306,5 +230,4 @@ export class GetJ3FinalSquaresUseCase {
 
     return ranking;
   }
-
 }
