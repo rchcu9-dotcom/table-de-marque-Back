@@ -131,12 +131,12 @@ describe('GetJ3FinalSquaresUseCase', () => {
     const result = await useCase.execute();
     const squareI = result.carres.find((c) => c.dbCode === 'I');
 
-    expect(squareI?.semiFinals.map((match) => match.id)).toEqual([
+    expect(squareI?.matches.map((m) => m.id)).toEqual([
       'semi-1',
       'semi-2',
+      'third',
+      'final',
     ]);
-    expect(squareI?.thirdPlaceMatch?.id).toBe('third');
-    expect(squareI?.finalMatch?.id).toBe('final');
     expect(squareI?.ranking.every((row) => row.team === null)).toBe(true);
     expect(squareI?.ranking[0].placeholder).toBe('En attente du résultat');
   });
@@ -166,6 +166,7 @@ describe('GetJ3FinalSquaresUseCase', () => {
     const result = await useCase.execute();
     const squareI = result.carres.find((c) => c.dbCode === 'I');
 
+    expect(squareI?.matches.map((m) => m.id)).toEqual(['semi-1', 'semi-2']);
     expect(squareI?.ranking.every((row) => row.team === null)).toBe(true);
     expect(squareI?.ranking[0]?.placeholder).toBe('En attente du résultat');
   });
@@ -219,12 +220,12 @@ describe('GetJ3FinalSquaresUseCase', () => {
     const result = await useCase.execute();
     const squareI = result.carres.find((c) => c.dbCode === 'I');
 
-    expect(squareI?.semiFinals.map((match) => match.id)).toEqual([
+    expect(squareI?.matches.map((m) => m.id)).toEqual([
       'semi-1',
       'semi-2',
+      'final',
+      'third',
     ]);
-    expect(squareI?.finalMatch?.id).toBe('final');
-    expect(squareI?.thirdPlaceMatch?.id).toBe('third');
     expect(result.carres.map((c) => c.dbCode)).not.toContain('E');
     expect(result.carres.map((c) => c.dbCode)).not.toContain('F');
   });
@@ -269,12 +270,12 @@ describe('GetJ3FinalSquaresUseCase', () => {
     const result = await useCase.execute();
     const squareL = result.carres.find((c) => c.dbCode === 'L');
 
-    expect(squareL?.semiFinals.map((match) => match.id)).toEqual([
+    expect(squareL?.matches.map((m) => m.id)).toEqual([
       'semi-1',
       'semi-2',
+      'final',
+      'third',
     ]);
-    expect(squareL?.finalMatch?.id).toBe('final');
-    expect(squareL?.thirdPlaceMatch?.id).toBe('third');
   });
 
   it('distributes matches to squares K and J via pouleCode set from NUM_MATCH', async () => {
@@ -302,18 +303,40 @@ describe('GetJ3FinalSquaresUseCase', () => {
     const squareK = result.carres.find((c) => c.dbCode === 'K');
     const squareJ = result.carres.find((c) => c.dbCode === 'J');
 
-    expect(squareK?.semiFinals.map((match) => match.id)).toEqual([
+    expect(squareK?.matches.map((m) => m.id)).toEqual([
       'semi-k-1',
       'semi-k-2',
+      'final-k',
+      'third-k',
     ]);
-    expect(squareK?.finalMatch?.id).toBe('final-k');
-    expect(squareK?.thirdPlaceMatch?.id).toBe('third-k');
-
-    expect(squareJ?.semiFinals.map((match) => match.id)).toEqual([
+    expect(squareJ?.matches.map((m) => m.id)).toEqual([
       'semi-j-1',
       'semi-j-2',
+      'final-j',
+      'third-j',
     ]);
-    expect(squareJ?.finalMatch?.id).toBe('final-j');
-    expect(squareJ?.thirdPlaceMatch?.id).toBe('third-j');
+  });
+
+  it('affiche les 2 matchs aller-retour du carré L sans inférence de rôle', async () => {
+    equipeRepository.findClassementByPoule
+      .mockResolvedValueOnce(classementFor('I', []))
+      .mockResolvedValueOnce(classementFor('J', []))
+      .mockResolvedValueOnce(classementFor('K', []))
+      .mockResolvedValueOnce(classementFor('L', ['Tours', 'La Roche', 'TeamC', 'TeamD'], 13));
+    matchRepository.findAll.mockResolvedValue([
+      match5v5J3('aller', '2026-05-26T08:00:00.000Z', 'Tours', 'La Roche', 'planned', null, null, 'L', 'Carré Argent 13'),
+      match5v5J3('retour', '2026-05-26T11:34:00.000Z', 'La Roche', 'Tours', 'planned', null, null, 'L', 'Carré Argent 13'),
+    ]);
+
+    const useCase = new GetJ3FinalSquaresUseCase(
+      equipeRepository,
+      matchRepository,
+    );
+    const result = await useCase.execute();
+    const squareL = result.carres.find((c) => c.dbCode === 'L');
+
+    expect(squareL?.matches.map((m) => m.id)).toEqual(['aller', 'retour']);
+    expect(squareL?.ranking[0].team?.name).toBe('Tours');
+    expect(squareL?.ranking[1].team?.name).toBe('La Roche');
   });
 });
