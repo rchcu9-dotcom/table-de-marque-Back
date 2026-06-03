@@ -16,6 +16,8 @@ import {
 } from './date-paris.utils';
 import {
   inferJ3SquareCodeFromMatchNumber,
+  inferJ3SquareCodeFromText,
+  parseJ3ParticipantLabel,
 } from '@/domain/match/services/j3-bracket.utils';
 
 export type TaMatchRow = {
@@ -268,6 +270,16 @@ export class MatchEnrichmentService {
   }
 
   inferJ3PouleCode(row: TaMatchRow): string | null {
+    const fromLabel =
+      parseJ3ParticipantLabel(row.EQUIPE1)?.squareCode ??
+      parseJ3ParticipantLabel(row.EQUIPE2)?.squareCode;
+    if (fromLabel) return fromLabel;
+
+    const fromText =
+      inferJ3SquareCodeFromText(row.EQUIPE1) ??
+      inferJ3SquareCodeFromText(row.EQUIPE2);
+    if (fromText) return fromText;
+
     return inferJ3SquareCodeFromMatchNumber(row.NUM_MATCH) ?? null;
   }
 

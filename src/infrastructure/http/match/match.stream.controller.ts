@@ -80,7 +80,7 @@ export class MatchStreamController {
 
     ping = once
       ? null
-      : interval(25000).subscribe(() =>
+      : interval(60000).subscribe(() =>
           send({ type: 'ping', timestamp: Date.now() }),
         );
 

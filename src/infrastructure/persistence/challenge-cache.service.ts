@@ -118,8 +118,8 @@ export class ChallengeCacheService {
       this.stream.emit({
         type: 'challenge',
         diff,
-        snapshot: this.cache,
         timestamp: this.lastUpdated,
+        snapshot,
       });
     }
 

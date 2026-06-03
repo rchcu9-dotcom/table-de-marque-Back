@@ -36,7 +36,7 @@ export class MatchCacheService implements MatchRepository {
     if (!this.cache.length) {
       await this.refresh(true);
     }
-    return this.cloneMatches(this.cache);
+    return [...this.cache];
   }
 
   async findById(id: string): Promise<Match | null> {

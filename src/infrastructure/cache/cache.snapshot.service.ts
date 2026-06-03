@@ -117,12 +117,21 @@ export class CacheSnapshotService implements OnModuleInit {
     this.persist();
   }
 
+  private persistTimer: ReturnType<typeof setTimeout> | null = null;
+
   private persist() {
+    if (this.persistTimer) return;
+    this.persistTimer = setTimeout(() => {
+      this.persistTimer = null;
+      this.flushPersist();
+    }, 5000);
+  }
+
+  private flushPersist() {
     const obj: Record<string, CacheEntry<unknown>> = {};
     for (const [k, v] of this.store.entries()) obj[k] = v;
     const json = JSON.stringify(obj);
 
-    // Async DB persist (fire-and-forget)
     this.prisma.taCacheSnapshot
       .upsert({
         where: { snapshotKey: SNAPSHOT_KEY },
@@ -133,7 +142,6 @@ export class CacheSnapshotService implements OnModuleInit {
         this.logger.warn(`DB snapshot persist failed: ${String(err)}`),
       );
 
-    // File persist (local dev fallback)
     try {
       fs.mkdirSync(path.dirname(this.snapshotPath), { recursive: true });
       fs.writeFileSync(this.snapshotPath, json);

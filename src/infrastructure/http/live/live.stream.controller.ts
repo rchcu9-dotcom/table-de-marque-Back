@@ -39,7 +39,7 @@ export class LiveStreamController {
 
     ping = once
       ? null
-      : interval(25000).subscribe(() =>
+      : interval(60000).subscribe(() =>
           send('ping', { type: 'ping', timestamp: Date.now() }),
         );
 

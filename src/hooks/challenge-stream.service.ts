@@ -10,8 +10,8 @@ type ChallengeStreamEvent = {
     updated: string[];
     removed: string[];
   };
-  snapshot: unknown;
   timestamp: number;
+  snapshot?: object;
 };
 
 type ObserveOptions = {

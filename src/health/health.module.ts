@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
 import { HealthController } from './health.controller';
-import { PrismaService } from '@/infrastructure/persistence/mysql/prisma.service';
+import { HealthService } from './health.service';
+import { PersistenceModule } from '@/infrastructure/persistence/persistence.module';
 
 @Module({
+  imports: [PersistenceModule],
   controllers: [HealthController],
-  providers: [PrismaService],
+  providers: [HealthService],
 })
 export class HealthModule {}
