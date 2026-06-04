@@ -8,7 +8,7 @@ export default tseslint.config(
   {
     ignores: [
       'eslint.config.mjs',
-      'src/app.controller.spec.ts',
+      'src/**/*.spec.ts',
       'test/**/*.ts',
       'src/infrastructure/persistence/**',
       'src/hooks/mock-*.seeder.ts',
