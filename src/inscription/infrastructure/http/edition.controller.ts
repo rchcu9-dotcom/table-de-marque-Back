@@ -19,6 +19,7 @@ import {
 } from '../../application/edition/update-edition.usecase';
 import { FirebaseAuthGuard } from '../../../auth/firebase-auth.guard';
 import { Roles } from '../../../auth/decorators/roles.decorator';
+import { InscriptionRoleGuard } from './inscription-role.guard';
 
 @Controller('inscription')
 export class EditionController {
@@ -34,14 +35,14 @@ export class EditionController {
   }
 
   @Post('editions')
-  @UseGuards(FirebaseAuthGuard)
+  @UseGuards(FirebaseAuthGuard, InscriptionRoleGuard)
   @Roles('ORGANISATEUR')
   async create(@Body() dto: CreateEditionDto) {
     return this.createEdition.execute(dto);
   }
 
   @Patch('editions/:id')
-  @UseGuards(FirebaseAuthGuard)
+  @UseGuards(FirebaseAuthGuard, InscriptionRoleGuard)
   @Roles('ORGANISATEUR')
   async update(
     @Param('id', ParseIntPipe) id: number,

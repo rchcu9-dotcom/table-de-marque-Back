@@ -16,6 +16,7 @@ import {
 import { ValidateEquipeReferentielUseCase } from '../../application/equipe/validate-equipe-referentiel.usecase';
 import { FirebaseAuthGuard } from '../../../auth/firebase-auth.guard';
 import { Roles } from '../../../auth/decorators/roles.decorator';
+import { InscriptionRoleGuard } from './inscription-role.guard';
 
 @Controller('inscription/equipes')
 export class EquipeReferentielController {
@@ -31,7 +32,7 @@ export class EquipeReferentielController {
   }
 
   @Get('toutes')
-  @UseGuards(FirebaseAuthGuard)
+  @UseGuards(FirebaseAuthGuard, InscriptionRoleGuard)
   @Roles('ORGANISATEUR')
   async listToutes() {
     return this.getEquipes.execute(true);
@@ -44,14 +45,14 @@ export class EquipeReferentielController {
   }
 
   @Patch(':id/activer')
-  @UseGuards(FirebaseAuthGuard)
+  @UseGuards(FirebaseAuthGuard, InscriptionRoleGuard)
   @Roles('ORGANISATEUR')
   async activer(@Param('id', ParseIntPipe) id: number) {
     return this.validateEquipe.activate(id);
   }
 
   @Patch(':id/desactiver')
-  @UseGuards(FirebaseAuthGuard)
+  @UseGuards(FirebaseAuthGuard, InscriptionRoleGuard)
   @Roles('ORGANISATEUR')
   async desactiver(@Param('id', ParseIntPipe) id: number) {
     return this.validateEquipe.deactivate(id);
