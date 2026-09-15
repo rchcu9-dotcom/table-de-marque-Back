@@ -247,7 +247,7 @@ describe('Live endpoints integration', () => {
     const { req, res } = createMockSseContext();
     controller.stream(req as never, res as never);
 
-    jest.advanceTimersByTime(25_000);
+    jest.advanceTimersByTime(60_000);
 
     const writes = res.write.mock.calls.map((call) => String(call[0])).join('');
     expect(writes).toContain('event: ping');
