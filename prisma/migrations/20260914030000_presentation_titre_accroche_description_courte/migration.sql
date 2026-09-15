@@ -1,0 +1,5 @@
+ALTER TABLE `presentation_articles`
+  ADD COLUMN IF NOT EXISTS `titre_accroche` VARCHAR(100) NOT NULL DEFAULT '',
+  ADD COLUMN IF NOT EXISTS `titre_accroche_en` VARCHAR(100) NOT NULL DEFAULT '',
+  ADD COLUMN IF NOT EXISTS `description_courte` VARCHAR(320) NOT NULL DEFAULT '',
+  ADD COLUMN IF NOT EXISTS `description_courte_en` VARCHAR(320) NOT NULL DEFAULT '';

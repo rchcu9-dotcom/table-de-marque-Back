@@ -1,0 +1,4 @@
+ALTER TABLE `presentation_articles`
+  ADD COLUMN IF NOT EXISTS `groupe_ordre` INT NOT NULL DEFAULT 0,
+  ADD COLUMN IF NOT EXISTS `groupe_duree_ms` INT NOT NULL DEFAULT 5000,
+  ADD COLUMN IF NOT EXISTS `groupe_image_url` VARCHAR(500) NULL;
