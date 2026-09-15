@@ -31,9 +31,6 @@ model TaEquipe {
   id               Int       @id @map("ID")
   equipe           String    @map("EQUIPE")
   teaser           String?   @map("TEASER") @db.Text
-  repasSamedi      DateTime? @map("REPAS_SAMEDI")
-  challengeSamedi  DateTime? @map("CHALLENGE_SAMEDI")
-  repasDimanche    DateTime? @map("REPAS_DIMANCHE")
   image            String?   @map("IMAGE")
   couleurFont      String    @map("COULEUR_FONT")
   couleurBack      String    @map("COULEUR_BACK")
@@ -41,6 +38,8 @@ model TaEquipe {
   coach2           String?   @map("COACH_2")
   coach3           String?   @map("COACH_3")
   coach4           String?   @map("COACH_4")
+  equipeRefId      Int?      @map("EQUIPE_REF_ID")
+  equipeRef        InscEquipeReferentiel? @relation(fields: [equipeRefId], references: [id])
 
   @@map("ta_equipes")
 }
@@ -143,13 +142,15 @@ enum InscriptionStatut {
 enum UtilisateurRole {
   RESPONSABLE_EQUIPE
   ORGANISATEUR
+  TABLE_DE_MARQUE
 
   @@map("insc_utilisateur_role")
 }
 
 model InscUtilisateur {
   id          Int      @id @default(autoincrement())
-  firebaseUid String   @unique @map("firebase_uid") @db.VarChar(128)
+  providerUid String   @unique @map("provider_uid") @db.VarChar(128)
+  provider    String   @default("google") @map("provider") @db.VarChar(20)
   email       String   @db.VarChar(255)
   displayName String?  @map("display_name") @db.VarChar(255)
   pseudo      String?  @db.VarChar(50)
@@ -170,7 +171,6 @@ model InscEdition {
   dateDebut               DateTime @map("date_debut")
   dateFinDebut            DateTime @map("date_fin_debut")
   dateFinFin              DateTime @map("date_fin_fin")
-  dateDbutRepas           DateTime? @map("date_debut_repas")
   fraisInscription        Decimal  @map("frais_inscription") @db.Decimal(8,2)
   prixRepas               Decimal  @map("prix_repas") @db.Decimal(8,2)
   nbPlacesMax             Int      @default(16) @map("nb_places_max")
@@ -191,17 +191,45 @@ model InscEdition {
   msgInscriptionValidee   String?  @map("msg_inscription_validee_autre") @db.Text
   msgLancerDemande        String?  @map("msg_lancer_demande") @db.Text
   msgDemandeSoumise       String?  @map("msg_demande_soumise") @db.Text
+  msgEquipeRefusee        String?  @map("msg_equipe_refusee") @db.Text
   msgListeAttente         String?  @map("msg_liste_attente") @db.Text
   msgPaiementAttendu      String?  @map("msg_paiement_attendu") @db.Text
   msgChequeInfo1          String?  @map("msg_cheque_info_1") @db.Text
   msgChequeInfo2          String?  @map("msg_cheque_info_2") @db.Text
   msgInscriptionConfirmee String?  @map("msg_inscription_confirmee") @db.Text
   msgRenseigneJoueurs     String?  @map("msg_renseigne_joueurs") @db.Text
+  dureeInterMatchMin          Int?     @map("duree_inter_match_min")
+  delaiMinActivite            Json?    @map("delai_min_activite")
+  nbPatinoires                Int?     @map("nb_patinoires")
+  nbPoules                    Int?     @map("nb_poules")
+  nbEquipesParPoule           Int?     @map("nb_equipes_par_poule")
+  nbEquipesQualifieesParPoule Int?     @map("nb_equipes_qualifiees_par_poule")
+  formatPhaseFinale           PlanningFormatPhaseFinale? @map("format_phase_finale")
+  reglesTieBreak              Json?    @map("regles_tie_break")
   createdAt               DateTime @default(now()) @map("created_at")
   updatedAt               DateTime @updatedAt @map("updated_at")
   inscriptions            InscInscription[]
+  joursCompetition        InscEditionJour[]
+  activitesCatalogue      ActiviteCatalogue[]
+  creneauxActivite        CreneauActivite[]
+  planningConfirmations   PlanningConfirmation[]
+  planningMatchSlots      PlanningMatchSlot[]
+  formatPhases            FormatPhase[]
+  formatMeta              FormatMeta?
+  anneesAge               InscEditionAnneeAge[]
 
   @@map("insc_editions")
+}
+
+model InscEditionAnneeAge {
+  id        Int      @id @default(autoincrement())
+  editionId Int      @map("edition_id")
+  annee     Int
+  createdAt DateTime @default(now()) @map("created_at")
+  edition   InscEdition @relation(fields: [editionId], references: [id])
+
+  @@unique([editionId, annee])
+  @@map("insc_edition_annees_age")
 }
 
 model InscEquipeReferentiel {
@@ -212,6 +240,7 @@ model InscEquipeReferentiel {
   createdAt  DateTime @default(now()) @map("created_at")
   updatedAt  DateTime @updatedAt @map("updated_at")
   inscriptions InscInscription[]
+  taEquipes    TaEquipe[]
 
   @@map("insc_equipes_referentiel")
 }
@@ -266,6 +295,10 @@ model InscJoueurDossier {
   createdAt             DateTime @default(now()) @map("created_at")
   updatedAt             DateTime @updatedAt @map("updated_at")
   dossier               InscDossier @relation(fields: [dossierId], references: [id])
+  matchButsButeur       MatchBut[]  @relation("MatchButButeur")
+  matchButsAssist1      MatchBut[]  @relation("MatchButAssist1")
+  matchButsAssist2      MatchBut[]  @relation("MatchButAssist2")
+  matchPenalites        MatchPenalite[]
 
   @@map("insc_joueurs_dossier")
 }
@@ -290,4 +323,310 @@ model TaCacheSnapshot {
   updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("ta_cache_snapshots")
+}
+
+// ===== MODULE TABLE DE MARQUE =====
+
+enum MatchLiveEtat {
+  PLANIFIE
+  ANNONCE
+  EN_COURS
+  EN_PAUSE
+  TERMINE
+
+  @@map("match_live_etat")
+}
+
+model MatchLive {
+  numMatch            Int             @id @map("num_match")
+  etat                MatchLiveEtat   @default(PLANIFIE)
+  tempsEcouleSecondes Int             @default(0) @map("temps_ecoule_secondes")
+  chronoEnCours       Boolean         @default(false) @map("chrono_en_cours")
+  chronoDerniereMajAt DateTime?       @map("chrono_derniere_maj_at")
+  score1Cache         Int             @default(0) @map("score1_cache")
+  score2Cache         Int             @default(0) @map("score2_cache")
+  createdAt           DateTime        @default(now()) @map("created_at")
+  updatedAt           DateTime        @updatedAt @map("updated_at")
+  buts                MatchBut[]
+  penalites           MatchPenalite[]
+
+  @@map("match_live")
+}
+
+model MatchBut {
+  id               Int       @id @default(autoincrement())
+  numMatch         Int       @map("num_match")
+  equipeId         Int       @map("equipe_id")
+  buteurId         Int       @map("buteur_id")
+  assist1Id        Int?      @map("assist1_id")
+  assist2Id        Int?      @map("assist2_id")
+  tempsJeuSecondes Int       @map("temps_jeu_secondes")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  matchLive        MatchLive @relation(fields: [numMatch], references: [numMatch])
+  buteur           InscJoueurDossier  @relation("MatchButButeur", fields: [buteurId], references: [id])
+  assist1          InscJoueurDossier? @relation("MatchButAssist1", fields: [assist1Id], references: [id])
+  assist2          InscJoueurDossier? @relation("MatchButAssist2", fields: [assist2Id], references: [id])
+
+  @@map("match_buts")
+}
+
+model MatchPenalite {
+  id               Int       @id @default(autoincrement())
+  numMatch         Int       @map("num_match")
+  equipeId         Int       @map("equipe_id")
+  joueurId         Int       @map("joueur_id")
+  typePenaliteCode String    @map("type_penalite_code") @db.VarChar(30)
+  dureeMinutes     Int       @map("duree_minutes")
+  tempsJeuDebut    Int       @map("temps_jeu_debut")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  matchLive        MatchLive @relation(fields: [numMatch], references: [numMatch])
+  joueur           InscJoueurDossier @relation(fields: [joueurId], references: [id])
+  typePenalite     MatchTypePenalite @relation(fields: [typePenaliteCode], references: [code])
+
+  @@map("match_penalites")
+}
+
+model MatchTypePenalite {
+  code               String  @id @db.VarChar(30)
+  libelle            String  @db.VarChar(100)
+  dureeMinutesDefaut Int     @map("duree_minutes_defaut")
+  actif              Boolean @default(true)
+  penalites          MatchPenalite[]
+
+  @@map("match_types_penalite")
+}
+
+// ===== MODULE PLANNING =====
+
+enum PlanningFormatPhaseFinale {
+  ELIMINATION_DIRECTE
+  POULES_FINALES
+  CLASSEMENT_CROISE
+
+  @@map("planning_format_phase_finale")
+}
+
+model InscEditionJour {
+  id          Int      @id @default(autoincrement())
+  editionId   Int      @map("edition_id")
+  numeroJour  Int      @map("numero_jour")
+  date        DateTime @map("date") @db.Date
+  heureDebut  DateTime @map("heure_debut")
+  heureFin    DateTime @map("heure_fin")
+  typeJournee String   @map("type_journee") @db.VarChar(10)
+  edition           InscEdition       @relation(fields: [editionId], references: [id])
+  formatPhaseJours  FormatPhaseJour[]
+
+  @@unique([editionId, numeroJour])
+  @@map("insc_edition_jours")
+}
+
+enum CreneauActiviteStatut {
+  LIBRE
+  CONFIRME
+
+  @@map("creneau_activite_statut")
+}
+
+model ActiviteCatalogue {
+  id                 Int      @id @default(autoincrement())
+  editionId          Int      @map("edition_id")
+  label              String   @db.VarChar(100)
+  dureeParEquipeMin  Int      @map("duree_par_equipe_min")
+  capaciteParallele  Int      @default(1) @map("capacite_parallele")
+  createdAt          DateTime @default(now()) @map("created_at")
+  edition            InscEdition       @relation(fields: [editionId], references: [id])
+  creneaux           CreneauActivite[]
+
+  @@map("planning_activites_catalogue")
+}
+
+model CreneauActivite {
+  id          Int      @id @default(autoincrement())
+  editionId   Int      @map("edition_id")
+  activiteId  Int      @map("activite_id")
+  date        DateTime @map("date") @db.Date
+  heureDebut  DateTime @map("heure_debut")
+  dureeMin    Int      @map("duree_min")
+  equipeId    Int?     @map("equipe_id")
+  equipeLabel String?  @map("equipe_label") @db.VarChar(100)
+  statut      CreneauActiviteStatut @default(LIBRE)
+  createdAt   DateTime @default(now()) @map("created_at")
+  edition     InscEdition       @relation(fields: [editionId], references: [id])
+  activite    ActiviteCatalogue @relation(fields: [activiteId], references: [id], onDelete: Cascade)
+
+  @@map("planning_creneaux_activite")
+}
+
+model PlanningConfirmation {
+  id                     Int      @id @default(autoincrement())
+  editionId              Int      @map("edition_id")
+  confirmedAt            DateTime @default(now()) @map("confirmed_at")
+  nbMatchsCrees          Int      @map("nb_matchs_crees")
+  nbActivitesCrees       Int      @map("nb_activites_crees")
+  forcageEquipesFictives Boolean  @default(false) @map("forcage_equipes_fictives")
+  edition                InscEdition @relation(fields: [editionId], references: [id])
+
+  @@map("planning_confirmations")
+}
+
+enum PlanningSlotRole {
+  VAINQUEUR
+  PERDANT
+
+  @@map("planning_slot_role")
+}
+
+// Résolution automatique des placeholders de planning (J2/J3) une fois les
+// classements/résultats de brassage ou de bracket connus en direct.
+model PlanningMatchSlot {
+  id                 Int               @id @default(autoincrement())
+  editionId          Int               @map("edition_id")
+  numMatch           Int               @map("num_match")
+  cote               Int               @map("cote")
+  ref                String            @map("ref") @db.VarChar(80)
+  libellePlaceholder String            @map("libelle_placeholder") @db.VarChar(100)
+  numMatchSource     Int?              @map("num_match_source")
+  pouleCode          String?           @map("poule_code") @db.VarChar(4)
+  rangPoule          Int?              @map("rang_poule")
+  role               PlanningSlotRole  @default(VAINQUEUR) @map("role")
+  resolu             Boolean           @default(false)
+  equipeIdResolu     Int?              @map("equipe_id_resolu")
+  equipeNomResolu    String?           @map("equipe_nom_resolu") @db.VarChar(100)
+  resoluAt           DateTime?         @map("resolu_at")
+  resoluManuellement Boolean           @default(false) @map("resolu_manuellement")
+  createdAt          DateTime          @default(now()) @map("created_at")
+  edition            InscEdition       @relation(fields: [editionId], references: [id])
+
+  @@unique([numMatch, cote])
+  @@map("planning_match_slots")
+}
+
+// ===== MODULE FORMAT DE COMPETITION (graphe Phase/Groupe/Place/Lien) =====
+
+enum FormatLienEtat {
+  NON_DEFINI
+  ELIMINE
+  LIE
+
+  @@map("format_lien_etat")
+}
+
+enum FormatPlaceOrigine {
+  ALIAS
+  LIEE
+
+  @@map("format_place_origine")
+}
+
+enum FormatGroupeFormule {
+  CHAMPIONNAT
+  RONDE_SUISSE
+
+  @@map("format_groupe_formule")
+}
+
+model FormatPhase {
+  id        Int               @id @default(autoincrement())
+  editionId Int               @map("edition_id")
+  nom       String            @db.VarChar(60)
+  ordre     Int
+  edition   InscEdition       @relation(fields: [editionId], references: [id])
+  groupes   FormatGroupe[]
+  jours     FormatPhaseJour[]
+
+  @@unique([editionId, ordre])
+  @@map("format_phases")
+}
+
+model FormatPhaseJour {
+  id            Int             @id @default(autoincrement())
+  phaseId       Int             @map("phase_id")
+  editionJourId Int             @map("edition_jour_id")
+  phase         FormatPhase     @relation(fields: [phaseId], references: [id])
+  editionJour   InscEditionJour @relation(fields: [editionJourId], references: [id])
+
+  @@unique([phaseId, editionJourId])
+  @@map("format_phase_jours")
+}
+
+model FormatGroupe {
+  id            Int                 @id @default(autoincrement())
+  phaseId       Int                 @map("phase_id")
+  nom           String              @db.VarChar(60)
+  ordre         Int
+  formule       FormatGroupeFormule @default(CHAMPIONNAT) @map("formule")
+  phase         FormatPhase         @relation(fields: [phaseId], references: [id])
+  places        FormatPlace[]
+  liensSortants FormatLien[]        @relation("LienSource")
+
+  @@unique([phaseId, ordre])
+  @@map("format_groupes")
+}
+
+model FormatPlace {
+  id          Int                @id @default(autoincrement())
+  groupeId    Int                @map("groupe_id")
+  position    Int
+  origine     FormatPlaceOrigine
+  aliasLabel  String?            @map("alias_label") @db.VarChar(60)
+  lienEntrant FormatLien?        @relation("LienCiblePlace")
+  groupe      FormatGroupe       @relation(fields: [groupeId], references: [id])
+
+  @@unique([groupeId, position])
+  @@map("format_places")
+}
+
+model FormatLien {
+  id             Int            @id @default(autoincrement())
+  groupeSourceId Int            @map("groupe_source_id")
+  rangSource     Int            @map("rang_source")
+  etat           FormatLienEtat @default(NON_DEFINI)
+  groupeCibleId  Int?           @map("groupe_cible_id")
+  placeCibleId   Int?           @unique @map("place_cible_id")
+  groupeSource   FormatGroupe   @relation("LienSource", fields: [groupeSourceId], references: [id])
+  placeCible     FormatPlace?   @relation("LienCiblePlace", fields: [placeCibleId], references: [id])
+
+  @@unique([groupeSourceId, rangSource])
+  @@map("format_liens")
+}
+
+model FormatMeta {
+  editionId           Int                        @id @map("edition_id")
+  genereDepuisPreset  PlanningFormatPhaseFinale?  @map("genere_depuis_preset")
+  modifieManuellement Boolean                    @default(false) @map("modifie_manuellement")
+  updatedAt           DateTime                   @updatedAt @map("updated_at")
+  edition             InscEdition                @relation(fields: [editionId], references: [id])
+
+  @@map("format_meta")
+}
+
+model PresentationArticle {
+  id            Int      @id @default(autoincrement())
+  groupe        String   @db.VarChar(100)
+  groupeEn      String   @map("groupe_en") @db.VarChar(100)
+  surtitre      String   @default("") @db.VarChar(100)
+  surtitreEn    String   @default("") @map("surtitre_en") @db.VarChar(100)
+  titre         String   @db.VarChar(150)
+  titreEn       String   @map("titre_en") @db.VarChar(150)
+  description   String   @db.Text
+  descriptionEn String   @map("description_en") @db.Text
+  faits         String?  @db.Text
+  faitsEn       String?  @map("faits_en") @db.Text
+  titreAccroche String   @default("") @map("titre_accroche") @db.VarChar(100)
+  titreAccrocheEn String @default("") @map("titre_accroche_en") @db.VarChar(100)
+  descriptionCourte   String @default("") @map("description_courte") @db.VarChar(320)
+  descriptionCourteEn String @default("") @map("description_courte_en") @db.VarChar(320)
+  imageUrl      String?  @map("image_url") @db.VarChar(500)
+  lienUrl       String?  @map("lien_url") @db.VarChar(500)
+  lieu          String?  @db.VarChar(255)
+  mapsQuery     String?  @map("maps_query") @db.VarChar(255)
+  ordre         Int      @default(0)
+  groupeOrdre   Int      @default(0) @map("groupe_ordre")
+  groupeDureeMs Int      @default(5000) @map("groupe_duree_ms")
+  groupeImageUrl String? @map("groupe_image_url") @db.VarChar(500)
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@map("presentation_articles")
 }
