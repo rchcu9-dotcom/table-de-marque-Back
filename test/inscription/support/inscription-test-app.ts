@@ -1,9 +1,8 @@
 import { INestApplication, Provider, Type } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
 import { Test } from '@nestjs/testing';
-import { FirebaseAuthGuard } from '@/auth/firebase-auth.guard';
-import { InscriptionRoleGuard } from '@/inscription/infrastructure/http/inscription-role.guard';
-import { InscriptionPrismaService } from '@/inscription/infrastructure/persistence/inscription-prisma.service';
-import { TestFirebaseAuthGuard } from './test-firebase-auth.guard';
+import { AuthPrismaService } from '@/auth/auth-prisma.service';
+import { TestAuthGuard } from './test-auth.guard';
 
 export interface PrismaUtilisateurMock {
   inscUtilisateur: { findUnique: jest.Mock };
@@ -16,29 +15,32 @@ export interface InscriptionTestApp {
 
 /**
  * Monte un `INestApplication` minimal pour un (ou plusieurs) contrôleur(s) du
- * module inscription, avec la chaîne `FirebaseAuthGuard -> InscriptionRoleGuard
- * -> @Roles` réelle (seul `FirebaseAuthGuard` est remplacé par
- * `TestFirebaseAuthGuard` et `InscriptionPrismaService` est mocké).
+ * module inscription, avec `TestAuthGuard` posé en `APP_GUARD` à la place du
+ * vrai `AuthGuard` (seule la vérification JWT est court-circuitée ; la
+ * résolution du rôle via `AuthPrismaService` reste identique à la prod).
+ *
+ * Par défaut, `inscUtilisateur.findUnique` résout un utilisateur
+ * `RESPONSABLE_EQUIPE` : suffisant pour les routes `@RequireAuth()` sans
+ * contrainte de rôle. Utiliser `givenRole` pour les routes `@Roles(...)`.
  */
 export async function buildInscriptionTestApp(
   controllers: Type<any>[],
   useCaseProviders: Provider[],
 ): Promise<InscriptionTestApp> {
   const prisma: PrismaUtilisateurMock = {
-    inscUtilisateur: { findUnique: jest.fn() },
+    inscUtilisateur: {
+      findUnique: jest.fn().mockResolvedValue({ role: 'RESPONSABLE_EQUIPE' }),
+    },
   };
 
   const moduleRef = await Test.createTestingModule({
     controllers,
     providers: [
       ...useCaseProviders,
-      InscriptionRoleGuard,
-      { provide: InscriptionPrismaService, useValue: prisma },
+      { provide: AuthPrismaService, useValue: prisma },
+      { provide: APP_GUARD, useClass: TestAuthGuard },
     ],
-  })
-    .overrideGuard(FirebaseAuthGuard)
-    .useClass(TestFirebaseAuthGuard)
-    .compile();
+  }).compile();
 
   const app = moduleRef.createNestApplication();
   await app.init();
@@ -47,9 +49,11 @@ export async function buildInscriptionTestApp(
 }
 
 /**
- * Configure la résolution de rôle de `InscriptionRoleGuard` pour le prochain
- * appel à `inscUtilisateur.findUnique`.
- * `role === null` simule un `InscUtilisateur` introuvable (-> 403).
+ * Configure la résolution de rôle de `TestAuthGuard` (relecture DB, via
+ * `AuthPrismaService` mocké) pour le prochain appel à
+ * `inscUtilisateur.findUnique`.
+ * `role === null` simule un `InscUtilisateur` introuvable (-> 401, comme en
+ * prod : cf. `AuthGuard`).
  */
 export function givenRole(
   prisma: PrismaUtilisateurMock,

@@ -3,7 +3,7 @@ import { UtilisateurRole } from '../enums/utilisateur-role.enum';
 export class Utilisateur {
   constructor(
     public readonly id: number,
-    public readonly firebaseUid: string,
+    public readonly providerUid: string,
     public readonly email: string,
     public readonly displayName: string | null,
     public readonly pseudo: string | null,

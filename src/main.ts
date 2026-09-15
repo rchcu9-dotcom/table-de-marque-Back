@@ -1,11 +1,14 @@
 import * as dotenv from 'dotenv';
+
+// Doit s'exécuter avant l'import d'AppModule : certains modules (ex. AuthModule)
+// lisent process.env de façon synchrone dès leur chargement (métadonnées de
+// décorateur @Module), donc avant même le démarrage de Nest.
+dotenv.config({ path: '.env.local' });
+dotenv.config();
+
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
-
-// Load .env.local if present, fallback to .env
-dotenv.config({ path: '.env.local' });
-dotenv.config();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

@@ -1,36 +1,45 @@
-import { Body, Controller, Post, UnauthorizedException } from '@nestjs/common';
-import { UpsertUtilisateurUseCase } from '../../application/auth/upsert-utilisateur.usecase';
-import { Inject } from '@nestjs/common';
-import * as admin from 'firebase-admin';
-import { FIREBASE_ADMIN } from '../../../auth/firebase-admin.provider';
-
-interface MeBody {
-  firebaseToken: string;
-}
+import { Body, Controller, Get, Patch } from '@nestjs/common';
+import { UpdatePseudoUseCase } from '../../application/auth/update-pseudo.usecase';
+import { UpdatePseudoDto } from '../../application/auth/dto/update-pseudo.dto';
+import { RequireAuth } from '../../../auth/decorators/require-auth.decorator';
+import {
+  CurrentUser,
+  type CurrentUserPayload,
+} from '../../../auth/decorators/current-user.decorator';
 
 @Controller('inscription/auth')
 export class AuthInscriptionController {
-  constructor(
-    private readonly upsertUtilisateur: UpsertUtilisateurUseCase,
-    @Inject(FIREBASE_ADMIN) private readonly firebaseApp: admin.app.App,
-  ) {}
+  constructor(private readonly updatePseudo: UpdatePseudoUseCase) {}
 
-  @Post('me')
-  async me(
-    @Body() body: MeBody,
+  /**
+   * Retourne le profil de l'utilisateur connecté (id, pseudo, role).
+   * L'upsert a déjà eu lieu dans AuthController.googleCallback —
+   * ce endpoint lit simplement le CurrentUser résolu par AuthGuard.
+   */
+  @Get('me')
+  @RequireAuth()
+  me(@CurrentUser() currentUser: CurrentUserPayload): {
+    id: number;
+    pseudo: string | null;
+    role: string;
+  } {
+    return {
+      id: currentUser.id,
+      pseudo: currentUser.pseudo ?? null,
+      role: currentUser.role,
+    };
+  }
+
+  @Patch('pseudo')
+  @RequireAuth()
+  async setPseudo(
+    @CurrentUser() currentUser: CurrentUserPayload,
+    @Body() dto: UpdatePseudoDto,
   ): Promise<{ id: number; pseudo: string | null; role: string }> {
-    let decoded: admin.auth.DecodedIdToken;
-    try {
-      decoded = await this.firebaseApp.auth().verifyIdToken(body.firebaseToken);
-    } catch {
-      throw new UnauthorizedException('Token Firebase invalide ou expiré');
-    }
-
-    const utilisateur = await this.upsertUtilisateur.execute({
-      uid: decoded.uid,
-      email: decoded.email ?? '',
-      name: (decoded.name ?? '') as string,
-    });
+    const utilisateur = await this.updatePseudo.execute(
+      currentUser.providerUid,
+      dto,
+    );
 
     return {
       id: utilisateur.id,

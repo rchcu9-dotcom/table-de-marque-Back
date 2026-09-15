@@ -14,7 +14,7 @@ function toRole(prismaRole: PrismaUtilisateurRole): UtilisateurRole {
 export function toUtilisateurEntity(raw: InscUtilisateur): Utilisateur {
   return new Utilisateur(
     raw.id,
-    raw.firebaseUid,
+    raw.providerUid,
     raw.email,
     raw.displayName,
     raw.pseudo,

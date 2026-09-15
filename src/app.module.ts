@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
 import { InscriptionModule } from './inscription/inscription.module';
 import { MatchModule } from './infrastructure/http/match/match.module';
 import { PersistenceModule } from './infrastructure/persistence/persistence.module';
@@ -14,9 +15,15 @@ import { CacheModule } from './infrastructure/cache/cache.module';
 import { LiveModule } from './infrastructure/http/live/live.module';
 import { HealthModule } from './health/health.module';
 import { PartenaireModule } from './infrastructure/http/partenaire/partenaire.module';
+import { PresentationModule } from './infrastructure/http/presentation/presentation.module';
+import { TableDeMarqueModule } from './table-de-marque/infrastructure/http/table-de-marque.module';
+import { PlanningModule } from './planning/infrastructure/http/planning.module';
+import { AuthModule } from './auth/auth.module';
+import { AuthGuard } from './auth/auth.guard';
 
 @Module({
   imports: [
+    AuthModule,
     InscriptionModule,
     CacheModule,
     PersistenceModule,
@@ -29,7 +36,18 @@ import { PartenaireModule } from './infrastructure/http/partenaire/partenaire.mo
     LiveModule,
     HealthModule,
     PartenaireModule,
+    PresentationModule,
+    TableDeMarqueModule,
+    PlanningModule,
   ],
-  providers: [ChallengeMockSeeder, MockScheduleSeeder, MockEquipeSeeder],
+  providers: [
+    // useExisting (pas useClass) : réutilise l'instance d'AuthGuard déjà construite
+    // et exportée par AuthModule (@Global) — une nouvelle instance via useClass ne
+    // pourrait pas résoudre JwtService, privé au scope d'AuthModule.
+    { provide: APP_GUARD, useExisting: AuthGuard },
+    ChallengeMockSeeder,
+    MockScheduleSeeder,
+    MockEquipeSeeder,
+  ],
 })
 export class AppModule {}
