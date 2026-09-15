@@ -1,6 +1,7 @@
 import {
   Inject,
   Injectable,
+  Logger,
   Module,
   OnModuleDestroy,
   OnModuleInit,
@@ -25,6 +26,7 @@ import { buildMealsPayload } from '@/application/meal/meal.utils';
 @Injectable()
 export class CacheWarmupService implements OnModuleInit, OnModuleDestroy {
   private timer?: NodeJS.Timeout;
+  private readonly logger = new Logger(CacheWarmupService.name);
 
   constructor(
     private readonly cache: CacheSnapshotService,
@@ -49,30 +51,36 @@ export class CacheWarmupService implements OnModuleInit, OnModuleDestroy {
   }
 
   private async runWarmup() {
-    const matches = await this.cache.staleWhileRevalidate('matches', () =>
-      this.matchRepo.findAll(),
-    );
-    const equipes = await this.cache.staleWhileRevalidate('equipes', () =>
-      this.equipeRepo.findAllEquipes(),
-    );
-    const byCode: Record<string, any> = {};
-    equipes.forEach((eq) => {
-      const code = eq.pouleCode ?? '';
-      if (code) byCode[code] = null;
-    });
-    for (const code of Object.keys(byCode)) {
-      const classement = await this.equipeRepo.findClassementByPoule(code);
-      if (classement) byCode[code] = classement;
-    }
-    if (Object.keys(byCode).length > 0) {
-      this.cache.setEntry('classement', byCode);
-    }
+    try {
+      const matches = await this.cache.staleWhileRevalidate('matches', () =>
+        this.matchRepo.findAll(),
+      );
+      const equipes = await this.cache.staleWhileRevalidate('equipes', () =>
+        this.equipeRepo.findAllEquipes(),
+      );
+      const byCode: Record<string, any> = {};
+      equipes.forEach((eq) => {
+        const code = eq.pouleCode ?? '';
+        if (code) byCode[code] = null;
+      });
+      for (const code of Object.keys(byCode)) {
+        const classement = await this.equipeRepo.findClassementByPoule(code);
+        if (classement) byCode[code] = classement;
+      }
+      if (Object.keys(byCode).length > 0) {
+        this.cache.setEntry('classement', byCode);
+      }
 
-    const mealsSource = await this.mealRepo.findMeals();
-    this.cache.setEntry(
-      'meals',
-      buildMealsPayload(mealsSource, matches, new Date()),
-    );
+      const mealsSource = await this.mealRepo.findMeals();
+      this.cache.setEntry(
+        'meals',
+        buildMealsPayload(mealsSource, matches, new Date()),
+      );
+    } catch (err) {
+      this.logger.warn(
+        `Cache warmup failed, keeping previous cache: ${String(err)}`,
+      );
+    }
   }
 }
 

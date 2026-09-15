@@ -4,7 +4,12 @@ import {
   MATCH_REPOSITORY,
   MATCH_REPOSITORY_SOURCE,
 } from '@/domain/match/repositories/match.repository';
-import { EQUIPE_REPOSITORY } from '@/domain/equipe/repositories/equipe.repository';
+import {
+  EQUIPE_REPOSITORY,
+  EQUIPE_REPOSITORY_LEGACY,
+  EquipeRepository,
+} from '@/domain/equipe/repositories/equipe.repository';
+import { ClassementPouleEngine } from '@/domain/equipe/services/classement-poule.engine';
 import { MEAL_REPOSITORY } from '@/domain/meal/repositories/meal.repository';
 import { JOUEUR_REPOSITORY } from '@/domain/joueur/repositories/joueur.repository';
 import { ATELIER_REPOSITORY } from '@/domain/challenge/repositories/atelier.repository';
@@ -31,6 +36,7 @@ import { PrismaService } from './mysql/prisma.service';
 import { MySqlMatchRepository } from './mysql/mysql-match.repository';
 import { MatchEnrichmentService } from './mysql/match-enrichment.service';
 import { MySqlEquipeRepository } from './mysql/mysql-equipe.repository';
+import { ClassementInterneEquipeRepository } from './mysql/classement-interne-equipe.repository';
 import { MySqlJoueurRepository } from './mysql/mysql-joueur.repository';
 import { MySqlMealRepository } from './mysql/mysql-meal.repository';
 import { MySqlAtelierRepository } from './mysql/mysql-atelier.repository';
@@ -40,6 +46,12 @@ import { MySqlChallengeGardienJ3Repository } from './mysql/mysql-challenge-gardi
 import { MySqlChallengeJ1MomentumRepository } from './mysql/mysql-challenge-j1-momentum.repository';
 import { MySqlPartenaireRepository } from './mysql/mysql-partenaire.repository';
 import { PARTENAIRE_REPOSITORY } from '@/domain/partenaire/repositories/partenaire.repository';
+import { PRESENTATION_REPOSITORY } from '@/domain/presentation/repositories/presentation.repository';
+import { PRESENTATION_ARTICLE_REPOSITORY } from '@/domain/presentation/repositories/presentation-article.repository';
+import { GoogleSheetsPresentationRepository } from './google-sheets/google-sheets-presentation.repository';
+import { InMemoryPresentationRepository } from './memory/in-memory-presentation.repository';
+import { MySqlPresentationRepository } from './mysql/mysql-presentation.repository';
+import { MySqlPresentationArticleRepository } from './mysql/mysql-presentation-article.repository';
 
 type MatchRepoDriver =
   | 'google-sheets-public'
@@ -78,8 +90,8 @@ const cachedMatchRepositoryProvider = {
   useExisting: MatchCacheService,
 };
 
-const equipePersistenceProvider = {
-  provide: EQUIPE_REPOSITORY,
+const equipeLegacyPersistenceProvider = {
+  provide: EQUIPE_REPOSITORY_LEGACY,
   useFactory: (prisma: PrismaService) => {
     const driver =
       (process.env.EQUIPE_REPOSITORY_DRIVER ?? '').trim().toLowerCase() ||
@@ -100,6 +112,31 @@ const equipePersistenceProvider = {
     throw new Error(`Unsupported EQUIPE_REPOSITORY_DRIVER: ${driver}`);
   },
   inject: [PrismaService],
+};
+
+/**
+ * Décorateur branché sur EQUIPE_REPOSITORY (chantier "classement live" —
+ * docs/specs/chantier-suivant-implementer-le-classement-live-doit-etre-ca.md) :
+ * calcule le classement sportif en interne depuis TA_MATCHS/MatchLive pour
+ * les poules de brassage/qualification round-robin, et délègue à
+ * EQUIPE_REPOSITORY_LEGACY (ta_classement/CSV, selon EQUIPE_REPOSITORY_DRIVER)
+ * pour les champs non sportifs et les pouleCode hors périmètre (J3, challenge).
+ */
+const equipePersistenceProvider = {
+  provide: EQUIPE_REPOSITORY,
+  useFactory: (
+    prisma: PrismaService,
+    enrichment: MatchEnrichmentService,
+    engine: ClassementPouleEngine,
+    legacy: EquipeRepository,
+  ) =>
+    new ClassementInterneEquipeRepository(prisma, enrichment, engine, legacy),
+  inject: [
+    PrismaService,
+    MatchEnrichmentService,
+    ClassementPouleEngine,
+    EQUIPE_REPOSITORY_LEGACY,
+  ],
 };
 
 const mealPersistenceProvider = {
@@ -201,6 +238,39 @@ const partenairePersistenceProvider = {
   inject: [PrismaService],
 };
 
+const presentationArticlePersistenceProvider = {
+  provide: PRESENTATION_ARTICLE_REPOSITORY,
+  useFactory: (prisma: PrismaService) => new MySqlPresentationArticleRepository(prisma),
+  inject: [PrismaService],
+};
+
+// Le contenu de présentation (accueil pendant INSCRIPTIONS_OUVERTES) est géré par
+// l'organisateur via la GUI admin (/admin/presentation-tournoi, table
+// presentation_articles) depuis la spec de découplage du Google Sheet — 'db' est donc
+// le driver par défaut. 'google-sheets-public' et 'memory' restent disponibles via
+// PRESENTATION_REPOSITORY_DRIVER pour rollback/tests, mais ne sont plus l'auto-détection
+// par défaut (l'ancienne détection sur GOOGLE_SHEETS_PRESENTATION_CSV_URL est retirée :
+// cette variable n'a plus vocation à être positionnée).
+const presentationPersistenceProvider = {
+  provide: PRESENTATION_REPOSITORY,
+  useFactory: (
+    prisma: PrismaService,
+    articleRepo: MySqlPresentationArticleRepository,
+  ) => {
+    const driver =
+      (process.env.PRESENTATION_REPOSITORY_DRIVER ?? '').trim().toLowerCase() ||
+      'db';
+    if (driver === 'google-sheets-public') {
+      return new GoogleSheetsPresentationRepository();
+    }
+    if (driver === 'memory') {
+      return new InMemoryPresentationRepository();
+    }
+    return new MySqlPresentationRepository(articleRepo);
+  },
+  inject: [PrismaService, PRESENTATION_ARTICLE_REPOSITORY],
+};
+
 const challengeJ1MomentumPersistenceProvider = {
   provide: CHALLENGE_J1_MOMENTUM_REPOSITORY,
   useFactory: (prisma: PrismaService) => {
@@ -227,6 +297,8 @@ const challengeJ1MomentumPersistenceProvider = {
     MatchCacheService,
     cachedMatchRepositoryProvider,
     MatchPollingService,
+    ClassementPouleEngine,
+    equipeLegacyPersistenceProvider,
     equipePersistenceProvider,
     mealPersistenceProvider,
     joueurPersistenceProvider,
@@ -236,6 +308,8 @@ const challengeJ1MomentumPersistenceProvider = {
     challengeGardienJ3PersistenceProvider,
     challengeJ1MomentumPersistenceProvider,
     partenairePersistenceProvider,
+    presentationArticlePersistenceProvider,
+    presentationPersistenceProvider,
   ],
   exports: [
     PrismaService,
@@ -249,6 +323,8 @@ const challengeJ1MomentumPersistenceProvider = {
     CHALLENGE_GARDIEN_J3_REPOSITORY,
     CHALLENGE_J1_MOMENTUM_REPOSITORY,
     PARTENAIRE_REPOSITORY,
+    PRESENTATION_REPOSITORY,
+    PRESENTATION_ARTICLE_REPOSITORY,
     MatchStreamService,
   ],
 })

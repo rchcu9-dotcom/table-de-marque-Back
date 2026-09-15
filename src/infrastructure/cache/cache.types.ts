@@ -5,6 +5,7 @@ export type CacheKey =
   | 'j3carres'
   | 'meals'
   | 'planning'
+  | 'presentation'
   | 'bootstrap';
 
 export type CacheEntry<T> = { data: T; updatedAt: number };

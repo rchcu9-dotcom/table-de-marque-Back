@@ -159,8 +159,8 @@ export class GetJ3FinalSquaresUseCase {
       const letter = ref[0] as 'E' | 'F' | 'G' | 'H';
       const num = parseInt(ref[1], 10);
       if ((letter === 'E' || letter === 'F') && num <= 2) return 'I';
-      if ((letter === 'E' || letter === 'F') && num >= 3) return 'K';
-      if ((letter === 'G' || letter === 'H') && num <= 2) return 'J';
+      if ((letter === 'E' || letter === 'F') && num >= 3) return 'J';
+      if ((letter === 'G' || letter === 'H') && num <= 2) return 'K';
       if ((letter === 'G' || letter === 'H') && num >= 3) return 'L';
     }
     return null;
@@ -245,7 +245,11 @@ export class GetJ3FinalSquaresUseCase {
     classementRows.forEach((team) => {
       const rankIndex = team.rang - rangeStart;
       if (rankIndex >= 0 && rankIndex < 4) {
-        ranking[rankIndex].team = this.toTeamRef(team.id, team.name, team.logoUrl);
+        ranking[rankIndex].team = this.toTeamRef(
+          team.id,
+          team.name,
+          team.logoUrl,
+        );
         ranking[rankIndex].placeholder = null;
       }
     });

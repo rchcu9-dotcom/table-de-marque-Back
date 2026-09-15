@@ -14,6 +14,20 @@ type MatchStreamEvent = {
   timestamp: number;
 };
 
+export type MatchLiveStreamEvent = {
+  type: 'match-live';
+  numMatch: number;
+  etat: string;
+  tempsEcouleSecondes: number;
+  chronoEnCours: boolean;
+  chronoDerniereMajAt: string | null;
+  score1: number;
+  score2: number;
+  timestamp: number;
+};
+
+type AnyStreamEvent = MatchStreamEvent | MatchLiveStreamEvent;
+
 type ObserveOptions = {
   replayLast?: boolean;
   completeAfterFirst?: boolean;
@@ -21,15 +35,15 @@ type ObserveOptions = {
 
 @Injectable()
 export class MatchStreamService {
-  private readonly subject = new Subject<MatchStreamEvent>();
-  private lastEvent?: MatchStreamEvent;
+  private readonly subject = new Subject<AnyStreamEvent>();
+  private lastEvent?: AnyStreamEvent;
 
-  emit(event: MatchStreamEvent) {
+  emit(event: AnyStreamEvent) {
     this.lastEvent = event;
     this.subject.next(event);
   }
 
-  observe(options?: ObserveOptions): Observable<MatchStreamEvent> {
+  observe(options?: ObserveOptions): Observable<AnyStreamEvent> {
     const replay = options?.replayLast ?? false;
     const completeAfterFirst = options?.completeAfterFirst ?? false;
 

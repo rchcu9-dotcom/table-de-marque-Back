@@ -4,7 +4,12 @@ export type TentativeMetrics =
   | { type: 'vitesse'; tempsMs: number; tempsTotal?: number }
   | { type: 'tir'; tirs: number[]; totalPoints: number }
   | { type: 'glisse_crosse'; tempsMs: number; penalites: number }
-  | { type: 'gardien_arret'; tempsMs: number; nbButs: number; tempsTotal: number };
+  | {
+      type: 'gardien_arret';
+      tempsMs: number;
+      nbButs: number;
+      tempsTotal: number;
+    };
 
 export class TentativeAtelier {
   constructor(

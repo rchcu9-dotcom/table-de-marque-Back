@@ -13,17 +13,10 @@ export class PrismaService
   }
 
   async onModuleInit() {
-    const drivers = [
-      process.env.MATCH_REPOSITORY_DRIVER,
-      process.env.EQUIPE_REPOSITORY_DRIVER,
-      process.env.JOUEUR_REPOSITORY_DRIVER,
-      process.env.ATELIER_REPOSITORY_DRIVER,
-      process.env.TENTATIVE_ATELIER_REPOSITORY_DRIVER,
-    ];
-    const shouldConnect = drivers.some(
-      (value) => (value ?? '').trim().toLowerCase() === 'prisma',
-    );
-    if (!shouldConnect) return;
+    // Connexion inconditionnelle : le moteur de classement interne
+    // (ClassementInterneEquipeRepository) lit TA_MATCHS/ta_edition via ce
+    // client quel que soit le driver legacy configuré (EQUIPE_REPOSITORY_DRIVER
+    // vaut `google-sheets-public` par défaut, sans jamais valoir `prisma`).
     await this.$connect();
   }
 
