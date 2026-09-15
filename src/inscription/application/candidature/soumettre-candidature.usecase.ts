@@ -7,6 +7,9 @@ import {
 import { InscriptionPrismaService } from '../../infrastructure/persistence/inscription-prisma.service';
 import { SoumettreCanditatureDto } from './dto/soumettre-candidature.dto';
 import { InscriptionStatut } from '@prisma/client';
+import { EditionEtape } from '../../domain/enums/edition-etape.enum';
+
+const INSCRIPTIONS_OUVERTES: EditionEtape = 'INSCRIPTIONS_OUVERTES';
 
 export interface CandidatureResult {
   id: number;
@@ -20,12 +23,12 @@ export class SoumettreCanditatureUseCase {
   constructor(private readonly prisma: InscriptionPrismaService) {}
 
   async execute(
-    firebaseUid: string,
+    providerUid: string,
     dto: SoumettreCanditatureDto,
   ): Promise<CandidatureResult> {
     // Récupérer l'utilisateur interne
     const utilisateur = await this.prisma.inscUtilisateur.findUnique({
-      where: { firebaseUid },
+      where: { providerUid },
     });
     if (!utilisateur) {
       throw new NotFoundException('Utilisateur non trouvé');
@@ -33,12 +36,17 @@ export class SoumettreCanditatureUseCase {
 
     // Récupérer l'édition courante en INSCRIPTIONS_OUVERTES
     const edition = await this.prisma.inscEdition.findFirst({
-      where: { etape: 'INSCRIPTIONS_OUVERTES' },
+      where: { etape: INSCRIPTIONS_OUVERTES },
       orderBy: { createdAt: 'desc' },
     });
     if (!edition) {
       throw new BadRequestException(
         'Aucune édition ouverte aux inscriptions pour le moment',
+      );
+    }
+    if (new Date() > edition.dateFinFin) {
+      throw new BadRequestException(
+        "La période d'inscription pour cette édition est close",
       );
     }
 

@@ -8,6 +8,8 @@ import { MettreListeAttenteUseCase } from '@/inscription/application/candidature
 import { RefuserCandidatureUseCase } from '@/inscription/application/candidature/refuser-candidature.usecase';
 import { ValiderPaiementUseCase } from '@/inscription/application/candidature/valider-paiement.usecase';
 import { PromouvoCandidatureUseCase } from '@/inscription/application/candidature/promouvoir-candidature.usecase';
+import { ValiderDossierUseCase } from '@/inscription/application/candidature/valider-dossier.usecase';
+import { RouvrirDossierUseCase } from '@/inscription/application/candidature/rouvrir-dossier.usecase';
 import {
   buildInscriptionTestApp,
   givenRole,
@@ -25,6 +27,8 @@ describe('CandidatureController (integration)', () => {
   const refuserUseCase = { execute: jest.fn() };
   const validerPaiementUseCase = { execute: jest.fn() };
   const promouvoirUseCase = { execute: jest.fn() };
+  const validerDossierUseCase = { execute: jest.fn() };
+  const rouvrirDossierUseCase = { execute: jest.fn() };
 
   beforeAll(async () => {
     testApp = await buildInscriptionTestApp(
@@ -44,6 +48,8 @@ describe('CandidatureController (integration)', () => {
           useValue: validerPaiementUseCase,
         },
         { provide: PromouvoCandidatureUseCase, useValue: promouvoirUseCase },
+        { provide: ValiderDossierUseCase, useValue: validerDossierUseCase },
+        { provide: RouvrirDossierUseCase, useValue: rouvrirDossierUseCase },
       ],
     );
   });
@@ -80,14 +86,14 @@ describe('CandidatureController (integration)', () => {
       expect(soumettreUseCase.execute).not.toHaveBeenCalled();
     });
 
-    it('returns 403 when no InscUtilisateur matches the authenticated user', async () => {
+    it('returns 401 when no InscUtilisateur matches the authenticated user', async () => {
       givenRole(testApp.prisma, null);
 
       await request(testApp.app.getHttpServer())
         .post('/inscription/candidatures')
         .set('Authorization', 'Bearer inconnu-1')
         .send(dto)
-        .expect(403);
+        .expect(401);
 
       expect(soumettreUseCase.execute).not.toHaveBeenCalled();
     });
@@ -211,6 +217,22 @@ describe('CandidatureController (integration)', () => {
         dateVirementInscription: '2026-01-15T00:00:00.000Z',
         updatedAt: '2026-01-15T00:00:00.000Z',
       },
+    },
+    {
+      name: 'PATCH /inscription/candidatures/:id/valider-dossier',
+      method: 'patch',
+      path: '/inscription/candidatures/1/valider-dossier',
+      useCase: validerDossierUseCase,
+      expectedArgs: [1],
+      successResult: { id: 1, statut: 'DOSSIER_COMPLET' },
+    },
+    {
+      name: 'PATCH /inscription/candidatures/:id/rouvrir-dossier',
+      method: 'patch',
+      path: '/inscription/candidatures/1/rouvrir-dossier',
+      useCase: rouvrirDossierUseCase,
+      expectedArgs: [1],
+      successResult: { id: 1, statut: 'DOSSIER_EN_COURS' },
     },
   ];
 

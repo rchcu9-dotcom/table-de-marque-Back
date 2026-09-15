@@ -6,5 +6,6 @@ export class EquipeReferentiel {
     public readonly active: boolean,
     public readonly createdAt: Date,
     public readonly updatedAt: Date,
+    public readonly candidatureEnCours: boolean = false,
   ) {}
 }

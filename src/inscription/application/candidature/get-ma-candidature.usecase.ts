@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InscriptionPrismaService } from '../../infrastructure/persistence/inscription-prisma.service';
+import { EditionResolverService } from '../shared/edition-resolver.service';
 
 export interface MaCandidatureResult {
   id: number;
@@ -11,24 +12,20 @@ export interface MaCandidatureResult {
 
 @Injectable()
 export class GetMaCandidatureUseCase {
-  constructor(private readonly prisma: InscriptionPrismaService) {}
+  constructor(
+    private readonly prisma: InscriptionPrismaService,
+    private readonly editionResolver: EditionResolverService,
+  ) {}
 
-  async execute(firebaseUid: string): Promise<MaCandidatureResult | null> {
+  async execute(providerUid: string): Promise<MaCandidatureResult | null> {
     const utilisateur = await this.prisma.inscUtilisateur.findUnique({
-      where: { firebaseUid },
+      where: { providerUid },
     });
     if (!utilisateur) {
       throw new NotFoundException('Utilisateur non trouvé');
     }
 
-    // Édition courante (non clôturée)
-    const edition = await this.prisma.inscEdition.findFirst({
-      where: { etape: { not: 'CLOTUREE' } },
-      orderBy: { createdAt: 'desc' },
-    });
-    if (!edition) {
-      throw new NotFoundException('Aucune édition active');
-    }
+    const edition = await this.editionResolver.getEditionActive();
 
     const inscription = await this.prisma.inscInscription.findFirst({
       where: { editionId: edition.id, utilisateurId: utilisateur.id },

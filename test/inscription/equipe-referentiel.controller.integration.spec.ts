@@ -70,13 +70,13 @@ describe('EquipeReferentielController (integration)', () => {
       expect(getEquipes.execute).not.toHaveBeenCalled();
     });
 
-    it('returns 403 when no InscUtilisateur matches the authenticated user', async () => {
+    it('returns 401 when no InscUtilisateur matches the authenticated user', async () => {
       givenRole(testApp.prisma, null);
 
       await request(testApp.app.getHttpServer())
         .get('/inscription/equipes/toutes')
         .set('Authorization', 'Bearer inconnu-1')
-        .expect(403);
+        .expect(401);
 
       expect(getEquipes.execute).not.toHaveBeenCalled();
     });

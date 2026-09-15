@@ -1,5 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import type { InscEdition } from '@prisma/client';
 import { InscriptionPrismaService } from '../../infrastructure/persistence/inscription-prisma.service';
+import { EditionResolverService } from '../shared/edition-resolver.service';
 
 export interface CandidatureOrganisateurItem {
   id: number;
@@ -13,16 +15,20 @@ export interface CandidatureOrganisateurItem {
 
 @Injectable()
 export class GetToutesCandidaturesUseCase {
-  constructor(private readonly prisma: InscriptionPrismaService) {}
+  constructor(
+    private readonly prisma: InscriptionPrismaService,
+    private readonly editionResolver: EditionResolverService,
+  ) {}
 
   async execute(): Promise<CandidatureOrganisateurItem[]> {
-    // Édition courante (non clôturée)
-    const edition = await this.prisma.inscEdition.findFirst({
-      where: { etape: { not: 'CLOTUREE' } },
-      orderBy: { createdAt: 'desc' },
-    });
-    if (!edition) {
-      return [];
+    let edition: InscEdition;
+    try {
+      edition = await this.editionResolver.getEditionActive();
+    } catch (e) {
+      if (e instanceof NotFoundException) {
+        return [];
+      }
+      throw e;
     }
 
     const inscriptions = await this.prisma.inscInscription.findMany({

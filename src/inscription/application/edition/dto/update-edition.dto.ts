@@ -1,11 +1,14 @@
 import {
   IsBoolean,
+  IsIn,
   IsInt,
   IsNumber,
   IsOptional,
   IsString,
 } from 'class-validator';
 import { Type } from 'class-transformer';
+import { EDITION_ETAPES } from '../../../domain/enums/edition-etape.enum';
+import type { EditionEtape } from '../../../domain/enums/edition-etape.enum';
 
 export class UpdateEditionDto {
   @IsOptional()
@@ -21,8 +24,8 @@ export class UpdateEditionDto {
   annee?: number;
 
   @IsOptional()
-  @IsString()
-  etape?: string;
+  @IsIn(EDITION_ETAPES)
+  etape?: EditionEtape;
 
   @IsOptional()
   @Type(() => Date)
@@ -35,10 +38,6 @@ export class UpdateEditionDto {
   @IsOptional()
   @Type(() => Date)
   dateFinFin?: Date;
-
-  @IsOptional()
-  @Type(() => Date)
-  dateDbutRepas?: Date | null;
 
   @IsOptional()
   @IsNumber()
@@ -119,6 +118,10 @@ export class UpdateEditionDto {
   @IsOptional()
   @IsString()
   msgDemandeSoumise?: string | null;
+
+  @IsOptional()
+  @IsString()
+  msgEquipeRefusee?: string | null;
 
   @IsOptional()
   @IsString()

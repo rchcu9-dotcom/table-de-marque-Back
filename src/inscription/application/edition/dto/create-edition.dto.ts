@@ -1,5 +1,6 @@
 import {
   IsBoolean,
+  IsIn,
   IsInt,
   IsNotEmpty,
   IsNumber,
@@ -7,6 +8,8 @@ import {
   IsString,
 } from 'class-validator';
 import { Type } from 'class-transformer';
+import { EDITION_ETAPES } from '../../../domain/enums/edition-etape.enum';
+import type { EditionEtape } from '../../../domain/enums/edition-etape.enum';
 
 export class CreateEditionDto {
   @IsString()
@@ -21,27 +24,35 @@ export class CreateEditionDto {
   annee: number;
 
   @IsOptional()
-  @IsString()
-  etape?: string;
+  @IsIn(EDITION_ETAPES)
+  etape?: EditionEtape;
 
+  /**
+   * Optionnel depuis le cycle annuel de l'édition (docs/specs/title-cycle-
+   * annuel-de-ldition-dump-obligatoire-prparation-de.md §5.2) : le
+   * formulaire "Créer la nouvelle édition" ne collecte que nom/catégorie/
+   * année ; CreateEditionUseCase pose une date de bootstrap par défaut
+   * (1er janvier de `annee`) quand ce champ est omis.
+   */
+  @IsOptional()
   @Type(() => Date)
-  dateDebut: Date;
-
-  @Type(() => Date)
-  dateFinDebut: Date;
-
-  @Type(() => Date)
-  dateFinFin: Date;
+  dateDebut?: Date;
 
   @IsOptional()
   @Type(() => Date)
-  dateDbutRepas?: Date | null;
+  dateFinDebut?: Date;
 
-  @IsNumber()
-  fraisInscription: number;
+  @IsOptional()
+  @Type(() => Date)
+  dateFinFin?: Date;
 
+  @IsOptional()
   @IsNumber()
-  prixRepas: number;
+  fraisInscription?: number;
+
+  @IsOptional()
+  @IsNumber()
+  prixRepas?: number;
 
   @IsOptional()
   @IsInt()
@@ -114,6 +125,10 @@ export class CreateEditionDto {
   @IsOptional()
   @IsString()
   msgDemandeSoumise?: string | null;
+
+  @IsOptional()
+  @IsString()
+  msgEquipeRefusee?: string | null;
 
   @IsOptional()
   @IsString()

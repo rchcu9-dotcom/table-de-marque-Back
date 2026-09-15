@@ -5,20 +5,14 @@ import {
 } from '@nestjs/common';
 import { InscriptionPrismaService } from '../../infrastructure/persistence/inscription-prisma.service';
 import { InscriptionStatut } from '@prisma/client';
-
-const MAX_EQUIPES_RESERVEES = 16;
-
-const STATUTS_ACTIFS: InscriptionStatut[] = [
-  InscriptionStatut.RESERVEE,
-  InscriptionStatut.PAIEMENT_ATTENDU,
-  InscriptionStatut.VALIDEE,
-  InscriptionStatut.DOSSIER_EN_COURS,
-  InscriptionStatut.DOSSIER_COMPLET,
-];
+import { QuotaInscriptionService } from '../shared/quota-inscription.service';
 
 @Injectable()
 export class PromouvoCandidatureUseCase {
-  constructor(private readonly prisma: InscriptionPrismaService) {}
+  constructor(
+    private readonly prisma: InscriptionPrismaService,
+    private readonly quotaService: QuotaInscriptionService,
+  ) {}
 
   async execute(id: number): Promise<{ id: number; statut: string }> {
     const inscription = await this.prisma.inscInscription.findUnique({
@@ -33,17 +27,7 @@ export class PromouvoCandidatureUseCase {
       );
     }
 
-    const nbActives = await this.prisma.inscInscription.count({
-      where: {
-        editionId: inscription.editionId,
-        statut: { in: STATUTS_ACTIFS },
-      },
-    });
-    if (nbActives >= MAX_EQUIPES_RESERVEES) {
-      throw new BadRequestException(
-        `Le nombre maximum d'équipes (${MAX_EQUIPES_RESERVEES}) est atteint`,
-      );
-    }
+    await this.quotaService.verifierQuotaDisponible(inscription.editionId);
 
     const updated = await this.prisma.inscInscription.update({
       where: { id },

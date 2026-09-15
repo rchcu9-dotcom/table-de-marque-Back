@@ -1,24 +1,14 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InscriptionPrismaService } from '../../infrastructure/persistence/inscription-prisma.service';
+import { Injectable } from '@nestjs/common';
 import { Edition } from '../../domain/entities/edition.entity';
 import { toEditionEntity } from '../../infrastructure/persistence/edition.mapper';
+import { EditionResolverService } from '../shared/edition-resolver.service';
 
 @Injectable()
 export class GetEditionCouranteUseCase {
-  constructor(private readonly prisma: InscriptionPrismaService) {}
+  constructor(private readonly editionResolver: EditionResolverService) {}
 
   async execute(): Promise<Edition> {
-    const edition = await this.prisma.inscEdition.findFirst({
-      where: {
-        etape: { not: 'CLOTUREE' },
-      },
-      orderBy: { createdAt: 'desc' },
-    });
-
-    if (!edition) {
-      throw new NotFoundException('Aucune édition active trouvée');
-    }
-
+    const edition = await this.editionResolver.getEditionActive();
     return toEditionEntity(edition);
   }
 }

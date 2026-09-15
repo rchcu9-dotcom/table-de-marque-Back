@@ -1,8 +1,14 @@
 import request from 'supertest';
+import { BadRequestException } from '@nestjs/common';
 import { EditionController } from '@/inscription/infrastructure/http/edition.controller';
 import { GetEditionCouranteUseCase } from '@/inscription/application/edition/get-edition-courante.usecase';
+import { GetEditionEnPreparationUseCase } from '@/inscription/application/edition/get-edition-en-preparation.usecase';
 import { CreateEditionUseCase } from '@/inscription/application/edition/create-edition.usecase';
 import { UpdateEditionUseCase } from '@/inscription/application/edition/update-edition.usecase';
+import { DemarrerTournoiUseCase } from '@/inscription/application/edition/demarrer-tournoi.usecase';
+import { ExportTaUseCase } from '@/inscription/application/edition/export-ta.usecase';
+import { AjouterAnneeAgeUseCase } from '@/inscription/application/edition/ajouter-annee-age.usecase';
+import { RetirerAnneeAgeUseCase } from '@/inscription/application/edition/retirer-annee-age.usecase';
 import {
   buildInscriptionTestApp,
   givenRole,
@@ -12,20 +18,38 @@ import {
 describe('EditionController (integration)', () => {
   let testApp: InscriptionTestApp;
   let getEditionCourante: { execute: jest.Mock };
+  let getEditionEnPreparation: { execute: jest.Mock };
   let createEdition: { execute: jest.Mock };
   let updateEdition: { execute: jest.Mock };
+  let demarrerTournoi: { execute: jest.Mock };
+  let exportTa: { execute: jest.Mock };
+  let ajouterAnneeAge: { execute: jest.Mock };
+  let retirerAnneeAge: { execute: jest.Mock };
 
   beforeEach(async () => {
     getEditionCourante = { execute: jest.fn() };
+    getEditionEnPreparation = { execute: jest.fn() };
     createEdition = { execute: jest.fn() };
     updateEdition = { execute: jest.fn() };
+    demarrerTournoi = { execute: jest.fn() };
+    exportTa = { execute: jest.fn() };
+    ajouterAnneeAge = { execute: jest.fn() };
+    retirerAnneeAge = { execute: jest.fn() };
 
     testApp = await buildInscriptionTestApp(
       [EditionController],
       [
         { provide: GetEditionCouranteUseCase, useValue: getEditionCourante },
+        {
+          provide: GetEditionEnPreparationUseCase,
+          useValue: getEditionEnPreparation,
+        },
         { provide: CreateEditionUseCase, useValue: createEdition },
         { provide: UpdateEditionUseCase, useValue: updateEdition },
+        { provide: DemarrerTournoiUseCase, useValue: demarrerTournoi },
+        { provide: ExportTaUseCase, useValue: exportTa },
+        { provide: AjouterAnneeAgeUseCase, useValue: ajouterAnneeAge },
+        { provide: RetirerAnneeAgeUseCase, useValue: retirerAnneeAge },
       ],
     );
   });
@@ -83,14 +107,14 @@ describe('EditionController (integration)', () => {
       expect(createEdition.execute).not.toHaveBeenCalled();
     });
 
-    it('returns 403 when no InscUtilisateur matches the authenticated user', async () => {
+    it('returns 401 when no InscUtilisateur matches the authenticated user', async () => {
       givenRole(testApp.prisma, null);
 
       await request(testApp.app.getHttpServer())
         .post('/inscription/editions')
         .set('Authorization', 'Bearer inconnu-1')
         .send(createDto)
-        .expect(403);
+        .expect(401);
 
       expect(createEdition.execute).not.toHaveBeenCalled();
     });
@@ -134,14 +158,14 @@ describe('EditionController (integration)', () => {
       expect(updateEdition.execute).not.toHaveBeenCalled();
     });
 
-    it('returns 403 when no InscUtilisateur matches the authenticated user', async () => {
+    it('returns 401 when no InscUtilisateur matches the authenticated user', async () => {
       givenRole(testApp.prisma, null);
 
       await request(testApp.app.getHttpServer())
         .patch('/inscription/editions/1')
         .set('Authorization', 'Bearer inconnu-1')
         .send(updateDto)
-        .expect(403);
+        .expect(401);
 
       expect(updateEdition.execute).not.toHaveBeenCalled();
     });
@@ -158,6 +182,68 @@ describe('EditionController (integration)', () => {
 
       expect(res.body.id).toBe(1);
       expect(updateEdition.execute).toHaveBeenCalledWith(1, updateDto);
+    });
+  });
+
+  describe('POST /inscription/editions/:id/demarrer-tournoi', () => {
+    it('returns 401 without authentication and does not call the use case', async () => {
+      await request(testApp.app.getHttpServer())
+        .post('/inscription/editions/1/demarrer-tournoi')
+        .expect(401);
+
+      expect(demarrerTournoi.execute).not.toHaveBeenCalled();
+    });
+
+    it('returns 403 when the authenticated user has role RESPONSABLE_EQUIPE', async () => {
+      givenRole(testApp.prisma, 'RESPONSABLE_EQUIPE');
+
+      await request(testApp.app.getHttpServer())
+        .post('/inscription/editions/1/demarrer-tournoi')
+        .set('Authorization', 'Bearer responsable-1')
+        .expect(403);
+
+      expect(demarrerTournoi.execute).not.toHaveBeenCalled();
+    });
+
+    it('returns 401 when no InscUtilisateur matches the authenticated user', async () => {
+      givenRole(testApp.prisma, null);
+
+      await request(testApp.app.getHttpServer())
+        .post('/inscription/editions/1/demarrer-tournoi')
+        .set('Authorization', 'Bearer inconnu-1')
+        .expect(401);
+
+      expect(demarrerTournoi.execute).not.toHaveBeenCalled();
+    });
+
+    it('returns 201 and calls the use case when the authenticated user has role ORGANISATEUR', async () => {
+      givenRole(testApp.prisma, 'ORGANISATEUR');
+      demarrerTournoi.execute.mockResolvedValue({
+        id: 1,
+        etape: 'TOURNOI_DEMARRE',
+      });
+
+      const res = await request(testApp.app.getHttpServer())
+        .post('/inscription/editions/1/demarrer-tournoi')
+        .set('Authorization', 'Bearer organisateur-1')
+        .expect(201);
+
+      expect(res.body).toEqual({ id: 1, etape: 'TOURNOI_DEMARRE' });
+      expect(demarrerTournoi.execute).toHaveBeenCalledWith(1);
+    });
+
+    it('propagates a 400 when the use case rejects the transition (edition not CLOTUREE)', async () => {
+      givenRole(testApp.prisma, 'ORGANISATEUR');
+      demarrerTournoi.execute.mockRejectedValue(
+        new BadRequestException(
+          "Le tournoi ne peut être démarré que depuis l'étape CLOTUREE.",
+        ),
+      );
+
+      await request(testApp.app.getHttpServer())
+        .post('/inscription/editions/1/demarrer-tournoi')
+        .set('Authorization', 'Bearer organisateur-1')
+        .expect(400);
     });
   });
 });

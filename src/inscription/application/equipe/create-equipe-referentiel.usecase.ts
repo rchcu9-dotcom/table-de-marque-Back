@@ -15,7 +15,7 @@ export class CreateEquipeReferentielUseCase {
       data: {
         nom: dto.nom,
         logoUrl: dto.logoUrl ?? null,
-        active: false,
+        active: true, // était `false` — la validation préalable obligatoire est retirée
       },
     });
     return toEquipeReferentielEntity(equipe);
