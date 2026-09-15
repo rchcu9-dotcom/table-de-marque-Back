@@ -1,14 +1,15 @@
+import { EditionEtape } from '../enums/edition-etape.enum';
+
 export class Edition {
   constructor(
     public readonly id: number,
     public readonly nom: string,
     public readonly categorie: string,
     public readonly annee: number,
-    public readonly etape: string,
+    public readonly etape: EditionEtape,
     public readonly dateDebut: Date,
     public readonly dateFinDebut: Date,
     public readonly dateFinFin: Date,
-    public readonly dateDbutRepas: Date | null,
     public readonly fraisInscription: number,
     public readonly prixRepas: number,
     public readonly nbPlacesMax: number,
@@ -29,12 +30,14 @@ export class Edition {
     public readonly msgInscriptionValidee: string | null,
     public readonly msgLancerDemande: string | null,
     public readonly msgDemandeSoumise: string | null,
+    public readonly msgEquipeRefusee: string | null,
     public readonly msgListeAttente: string | null,
     public readonly msgPaiementAttendu: string | null,
     public readonly msgChequeInfo1: string | null,
     public readonly msgChequeInfo2: string | null,
     public readonly msgInscriptionConfirmee: string | null,
     public readonly msgRenseigneJoueurs: string | null,
+    public readonly anneesAge: number[],
     public readonly createdAt: Date,
     public readonly updatedAt: Date,
   ) {}
