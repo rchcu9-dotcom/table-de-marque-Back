@@ -5,8 +5,9 @@ WORKDIR /app
 # 1. Install pnpm
 RUN corepack enable
 
-# 2. Copy manifests only
+# 2. Copy manifests only (+ vendored local tarball deps referenced by package.json)
 COPY package.json pnpm-lock.yaml ./
+COPY .vendor ./.vendor
 
 # 3. Install deps (incl. dev deps)
 ENV NODE_ENV=development
