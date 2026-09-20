@@ -48,6 +48,36 @@ describe('EquipeReferentielController (integration)', () => {
       expect(res.body).toEqual([{ id: 1, nom: 'Equipe A' }]);
       expect(getEquipes.execute).toHaveBeenCalledWith(false);
     });
+
+    it('never exposes candidatureEnCours (or any other candidature-derived field) in the public response, even if the use case returns it (AC4)', async () => {
+      getEquipes.execute.mockResolvedValue([
+        {
+          id: 1,
+          nom: 'Equipe A',
+          logoUrl: 'https://example.com/logo.png',
+          active: true,
+          createdAt: '2026-01-01T00:00:00.000Z',
+          updatedAt: '2026-01-01T00:00:00.000Z',
+          candidatureEnCours: true,
+        },
+      ]);
+
+      const res = await request(testApp.app.getHttpServer())
+        .get('/inscription/equipes')
+        .expect(200);
+
+      expect(res.body).toEqual([
+        {
+          id: 1,
+          nom: 'Equipe A',
+          logoUrl: 'https://example.com/logo.png',
+          active: true,
+          createdAt: '2026-01-01T00:00:00.000Z',
+          updatedAt: '2026-01-01T00:00:00.000Z',
+        },
+      ]);
+      expect(res.body[0]).not.toHaveProperty('candidatureEnCours');
+    });
   });
 
   describe('GET /inscription/equipes/toutes', () => {

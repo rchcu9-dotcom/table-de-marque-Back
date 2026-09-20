@@ -16,15 +16,17 @@ import {
 import { SoumettreCanditatureUseCase } from '../../application/candidature/soumettre-candidature.usecase';
 import { GetMaCandidatureUseCase } from '../../application/candidature/get-ma-candidature.usecase';
 import { GetToutesCandidaturesUseCase } from '../../application/candidature/get-toutes-candidatures.usecase';
-import { AccepterCandidatureUseCase } from '../../application/candidature/accepter-candidature.usecase';
-import { MettreListeAttenteUseCase } from '../../application/candidature/mettre-liste-attente.usecase';
-import { RefuserCandidatureUseCase } from '../../application/candidature/refuser-candidature.usecase';
+import { ChangerStatutTriageUseCase } from '../../application/candidature/changer-statut-triage.usecase';
 import { ValiderPaiementUseCase } from '../../application/candidature/valider-paiement.usecase';
-import { PromouvoCandidatureUseCase } from '../../application/candidature/promouvoir-candidature.usecase';
+import { MarquerPaiementRepasUseCase } from '../../application/candidature/marquer-paiement-repas.usecase';
+import { DefinirCommentaireOrganisateurUseCase } from '../../application/candidature/definir-commentaire-organisateur.usecase';
 import { ValiderDossierUseCase } from '../../application/candidature/valider-dossier.usecase';
 import { RouvrirDossierUseCase } from '../../application/candidature/rouvrir-dossier.usecase';
 import { SoumettreCanditatureDto } from '../../application/candidature/dto/soumettre-candidature.dto';
 import { ValiderPaiementDto } from '../../application/candidature/dto/valider-paiement.dto';
+import { MarquerPaiementRepasDto } from '../../application/candidature/dto/marquer-paiement-repas.dto';
+import { DefinirCommentaireOrganisateurDto } from '../../application/candidature/dto/definir-commentaire-organisateur.dto';
+import { ChangerStatutTriageDto } from '../../application/candidature/dto/changer-statut-triage.dto';
 
 @Controller('inscription/candidatures')
 export class CandidatureController {
@@ -32,11 +34,10 @@ export class CandidatureController {
     private readonly soumettreUseCase: SoumettreCanditatureUseCase,
     private readonly getMaCandidatureUseCase: GetMaCandidatureUseCase,
     private readonly getToutesCandidaturesUseCase: GetToutesCandidaturesUseCase,
-    private readonly accepterUseCase: AccepterCandidatureUseCase,
-    private readonly listeAttenteUseCase: MettreListeAttenteUseCase,
-    private readonly refuserUseCase: RefuserCandidatureUseCase,
+    private readonly changerStatutTriageUseCase: ChangerStatutTriageUseCase,
     private readonly validerPaiementUseCase: ValiderPaiementUseCase,
-    private readonly promouvoirUseCase: PromouvoCandidatureUseCase,
+    private readonly marquerPaiementRepasUseCase: MarquerPaiementRepasUseCase,
+    private readonly definirCommentaireOrganisateurUseCase: DefinirCommentaireOrganisateurUseCase,
     private readonly validerDossierUseCase: ValiderDossierUseCase,
     private readonly rouvrirDossierUseCase: RouvrirDossierUseCase,
   ) {}
@@ -65,32 +66,16 @@ export class CandidatureController {
     return this.getToutesCandidaturesUseCase.execute();
   }
 
-  // US-003 — Organisateur : accepter → PAIEMENT_ATTENDU
-  @Patch(':id/accepter')
+  // Organisateur : changer le statut de triage (candidate/paiement attendu/liste
+  // d'attente/refusée) — mécanisme unique et réversible, remplace les anciennes
+  // routes accepter/liste-attente/promouvoir/refuser.
+  @Patch(':id/statut-triage')
   @Roles('ORGANISATEUR')
-  async accepter(@Param('id', ParseIntPipe) id: number) {
-    return this.accepterUseCase.execute(id);
-  }
-
-  // US-003 — Organisateur : mettre en liste d'attente
-  @Patch(':id/liste-attente')
-  @Roles('ORGANISATEUR')
-  async listeAttente(@Param('id', ParseIntPipe) id: number) {
-    return this.listeAttenteUseCase.execute(id);
-  }
-
-  // US-003 — Organisateur : promouvoir liste d'attente → PAIEMENT_ATTENDU
-  @Patch(':id/promouvoir')
-  @Roles('ORGANISATEUR')
-  async promouvoir(@Param('id', ParseIntPipe) id: number) {
-    return this.promouvoirUseCase.execute(id);
-  }
-
-  // US-003 — Organisateur : refuser
-  @Patch(':id/refuser')
-  @Roles('ORGANISATEUR')
-  async refuser(@Param('id', ParseIntPipe) id: number) {
-    return this.refuserUseCase.execute(id);
+  async changerStatutTriage(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: ChangerStatutTriageDto,
+  ) {
+    return this.changerStatutTriageUseCase.execute(id, dto);
   }
 
   // US-004 — Organisateur : valider paiement → VALIDEE
@@ -101,6 +86,26 @@ export class CandidatureController {
     @Body() dto: ValiderPaiementDto,
   ) {
     return this.validerPaiementUseCase.execute(id, dto);
+  }
+
+  // Organisateur : marquer le paiement du repas comme reçu (ou revenir en arrière)
+  @Patch(':id/repas-paiement')
+  @Roles('ORGANISATEUR')
+  async marquerPaiementRepas(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: MarquerPaiementRepasDto,
+  ) {
+    return this.marquerPaiementRepasUseCase.execute(id, dto);
+  }
+
+  // Organisateur : commentaire libre par équipe (jamais exposé au responsable)
+  @Patch(':id/commentaire-organisateur')
+  @Roles('ORGANISATEUR')
+  async definirCommentaireOrganisateur(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: DefinirCommentaireOrganisateurDto,
+  ) {
+    return this.definirCommentaireOrganisateurUseCase.execute(id, dto);
   }
 
   // Organisateur : valider le dossier → DOSSIER_COMPLET

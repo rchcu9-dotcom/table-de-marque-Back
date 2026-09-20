@@ -1,8 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InscriptionPrismaService } from '../../infrastructure/persistence/inscription-prisma.service';
 import { EditionResolverService } from '../shared/edition-resolver.service';
+import {
+  derivePaiementInscription,
+  type PaiementInscription,
+} from '../shared/paiement-inscription';
 
-export interface MaCandidatureResult {
+export interface MaCandidatureResult extends PaiementInscription {
   id: number;
   equipeNom: string;
   equipeLogoUrl: string | null;
@@ -29,7 +33,7 @@ export class GetMaCandidatureUseCase {
 
     const inscription = await this.prisma.inscInscription.findFirst({
       where: { editionId: edition.id, utilisateurId: utilisateur.id },
-      include: { equipeRef: true },
+      include: { equipeRef: true, dossier: { include: { joueurs: true } } },
     });
     if (!inscription) {
       throw new NotFoundException('Aucune candidature pour cette édition');
@@ -41,6 +45,7 @@ export class GetMaCandidatureUseCase {
       equipeLogoUrl: inscription.equipeRef?.logoUrl ?? null,
       statut: inscription.statut,
       createdAt: inscription.createdAt,
+      ...derivePaiementInscription(inscription),
     };
   }
 }

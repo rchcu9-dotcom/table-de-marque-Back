@@ -5,6 +5,8 @@ import type { GetEditionEnPreparationUseCase } from '../../application/edition/g
 import type { CreateEditionUseCase } from '../../application/edition/create-edition.usecase';
 import type { UpdateEditionUseCase } from '../../application/edition/update-edition.usecase';
 import type { DemarrerTournoiUseCase } from '../../application/edition/demarrer-tournoi.usecase';
+import type { OuvrirInscriptionsUseCase } from '../../application/edition/ouvrir-inscriptions.usecase';
+import type { CloturerInscriptionsUseCase } from '../../application/edition/cloturer-inscriptions.usecase';
 import type { ExportTaUseCase } from '../../application/edition/export-ta.usecase';
 
 /**
@@ -26,6 +28,8 @@ describe('EditionController', () => {
     const createEdition = { execute: jest.fn() } as unknown as CreateEditionUseCase;
     const updateEdition = { execute: jest.fn() } as unknown as UpdateEditionUseCase;
     const demarrerTournoi = { execute: jest.fn() } as unknown as DemarrerTournoiUseCase;
+    const ouvrirInscriptions = { execute: jest.fn() } as unknown as OuvrirInscriptionsUseCase;
+    const cloturerInscriptions = { execute: jest.fn() } as unknown as CloturerInscriptionsUseCase;
     const exportTa = { execute: jest.fn() } as unknown as ExportTaUseCase;
     const controller = new EditionController(
       getEditionCourante,
@@ -33,6 +37,8 @@ describe('EditionController', () => {
       createEdition,
       updateEdition,
       demarrerTournoi,
+      ouvrirInscriptions,
+      cloturerInscriptions,
       exportTa,
     );
     return {
@@ -42,6 +48,8 @@ describe('EditionController', () => {
       createEdition,
       updateEdition,
       demarrerTournoi,
+      ouvrirInscriptions,
+      cloturerInscriptions,
       exportTa,
     };
   }
@@ -130,6 +138,46 @@ describe('EditionController', () => {
 
       expect(demarrerTournoi.execute).toHaveBeenCalledWith(1);
       expect(result).toEqual({ id: 1, etape: 'TOURNOI_DEMARRE' });
+    });
+  });
+
+  describe('ouvrir()', () => {
+    it('exige le rôle ORGANISATEUR (métadonnée @Roles posée sur la route)', () => {
+      const roles = Reflect.getMetadata(ROLES_KEY, EditionController.prototype.ouvrir);
+      expect(roles).toEqual(['ORGANISATEUR']);
+    });
+
+    it("délègue à OuvrirInscriptionsUseCase.execute avec l'id parsé et retourne son résultat", async () => {
+      const { controller, ouvrirInscriptions } = makeController();
+      (ouvrirInscriptions.execute as jest.Mock).mockResolvedValue({
+        id: 1,
+        etape: 'INSCRIPTIONS_OUVERTES',
+      });
+
+      const result = await controller.ouvrir(1);
+
+      expect(ouvrirInscriptions.execute).toHaveBeenCalledWith(1);
+      expect(result).toEqual({ id: 1, etape: 'INSCRIPTIONS_OUVERTES' });
+    });
+  });
+
+  describe('cloturer()', () => {
+    it('exige le rôle ORGANISATEUR (métadonnée @Roles posée sur la route)', () => {
+      const roles = Reflect.getMetadata(ROLES_KEY, EditionController.prototype.cloturer);
+      expect(roles).toEqual(['ORGANISATEUR']);
+    });
+
+    it("délègue à CloturerInscriptionsUseCase.execute avec l'id parsé et retourne son résultat", async () => {
+      const { controller, cloturerInscriptions } = makeController();
+      (cloturerInscriptions.execute as jest.Mock).mockResolvedValue({
+        id: 1,
+        etape: 'CLOTUREE',
+      });
+
+      const result = await controller.cloturer(1);
+
+      expect(cloturerInscriptions.execute).toHaveBeenCalledWith(1);
+      expect(result).toEqual({ id: 1, etape: 'CLOTUREE' });
     });
   });
 

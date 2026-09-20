@@ -1,14 +1,23 @@
 import request from 'supertest';
-import { BadRequestException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  NotFoundException,
+} from '@nestjs/common';
 import { EditionController } from '@/inscription/infrastructure/http/edition.controller';
 import { GetEditionCouranteUseCase } from '@/inscription/application/edition/get-edition-courante.usecase';
 import { GetEditionEnPreparationUseCase } from '@/inscription/application/edition/get-edition-en-preparation.usecase';
 import { CreateEditionUseCase } from '@/inscription/application/edition/create-edition.usecase';
 import { UpdateEditionUseCase } from '@/inscription/application/edition/update-edition.usecase';
 import { DemarrerTournoiUseCase } from '@/inscription/application/edition/demarrer-tournoi.usecase';
+import { OuvrirInscriptionsUseCase } from '@/inscription/application/edition/ouvrir-inscriptions.usecase';
+import { CloturerInscriptionsUseCase } from '@/inscription/application/edition/cloturer-inscriptions.usecase';
 import { ExportTaUseCase } from '@/inscription/application/edition/export-ta.usecase';
 import { AjouterAnneeAgeUseCase } from '@/inscription/application/edition/ajouter-annee-age.usecase';
 import { RetirerAnneeAgeUseCase } from '@/inscription/application/edition/retirer-annee-age.usecase';
+import { UploadImageRibUseCase } from '@/inscription/application/edition/upload-image-rib.usecase';
+import { GetImageRibUseCase } from '@/inscription/application/edition/get-image-rib.usecase';
+import { DeleteImageRibUseCase } from '@/inscription/application/edition/delete-image-rib.usecase';
 import {
   buildInscriptionTestApp,
   givenRole,
@@ -22,9 +31,14 @@ describe('EditionController (integration)', () => {
   let createEdition: { execute: jest.Mock };
   let updateEdition: { execute: jest.Mock };
   let demarrerTournoi: { execute: jest.Mock };
+  let ouvrirInscriptions: { execute: jest.Mock };
+  let cloturerInscriptions: { execute: jest.Mock };
   let exportTa: { execute: jest.Mock };
   let ajouterAnneeAge: { execute: jest.Mock };
   let retirerAnneeAge: { execute: jest.Mock };
+  let uploadImageRib: { execute: jest.Mock };
+  let getImageRib: { execute: jest.Mock };
+  let deleteImageRib: { execute: jest.Mock };
 
   beforeEach(async () => {
     getEditionCourante = { execute: jest.fn() };
@@ -32,9 +46,14 @@ describe('EditionController (integration)', () => {
     createEdition = { execute: jest.fn() };
     updateEdition = { execute: jest.fn() };
     demarrerTournoi = { execute: jest.fn() };
+    ouvrirInscriptions = { execute: jest.fn() };
+    cloturerInscriptions = { execute: jest.fn() };
     exportTa = { execute: jest.fn() };
     ajouterAnneeAge = { execute: jest.fn() };
     retirerAnneeAge = { execute: jest.fn() };
+    uploadImageRib = { execute: jest.fn() };
+    getImageRib = { execute: jest.fn() };
+    deleteImageRib = { execute: jest.fn() };
 
     testApp = await buildInscriptionTestApp(
       [EditionController],
@@ -47,9 +66,14 @@ describe('EditionController (integration)', () => {
         { provide: CreateEditionUseCase, useValue: createEdition },
         { provide: UpdateEditionUseCase, useValue: updateEdition },
         { provide: DemarrerTournoiUseCase, useValue: demarrerTournoi },
+        { provide: OuvrirInscriptionsUseCase, useValue: ouvrirInscriptions },
+        { provide: CloturerInscriptionsUseCase, useValue: cloturerInscriptions },
         { provide: ExportTaUseCase, useValue: exportTa },
         { provide: AjouterAnneeAgeUseCase, useValue: ajouterAnneeAge },
         { provide: RetirerAnneeAgeUseCase, useValue: retirerAnneeAge },
+        { provide: UploadImageRibUseCase, useValue: uploadImageRib },
+        { provide: GetImageRibUseCase, useValue: getImageRib },
+        { provide: DeleteImageRibUseCase, useValue: deleteImageRib },
       ],
     );
   });
@@ -80,7 +104,6 @@ describe('EditionController (integration)', () => {
     annee: 2026,
     dateDebut: '2026-09-01T00:00:00.000Z',
     dateFinDebut: '2026-09-01T00:00:00.000Z',
-    dateFinFin: '2026-09-03T00:00:00.000Z',
     fraisInscription: 100,
     prixRepas: 10,
   };
@@ -244,6 +267,210 @@ describe('EditionController (integration)', () => {
         .post('/inscription/editions/1/demarrer-tournoi')
         .set('Authorization', 'Bearer organisateur-1')
         .expect(400);
+    });
+  });
+
+  describe.each([
+    ['ouvrir-inscriptions', () => ouvrirInscriptions, 'INSCRIPTIONS_OUVERTES'],
+    ['cloturer-inscriptions', () => cloturerInscriptions, 'CLOTUREE'],
+  ] as const)('POST /inscription/editions/:id/%s', (route, useCase, etape) => {
+    const url = `/inscription/editions/1/${route}`;
+
+    it('returns 401 without authentication and does not call the use case', async () => {
+      await request(testApp.app.getHttpServer()).post(url).expect(401);
+
+      expect(useCase().execute).not.toHaveBeenCalled();
+    });
+
+    it('returns 403 when the authenticated user has role RESPONSABLE_EQUIPE', async () => {
+      givenRole(testApp.prisma, 'RESPONSABLE_EQUIPE');
+
+      await request(testApp.app.getHttpServer())
+        .post(url)
+        .set('Authorization', 'Bearer responsable-1')
+        .expect(403);
+
+      expect(useCase().execute).not.toHaveBeenCalled();
+    });
+
+    it('returns 401 when no InscUtilisateur matches the authenticated user', async () => {
+      givenRole(testApp.prisma, null);
+
+      await request(testApp.app.getHttpServer())
+        .post(url)
+        .set('Authorization', 'Bearer inconnu-1')
+        .expect(401);
+
+      expect(useCase().execute).not.toHaveBeenCalled();
+    });
+
+    it('returns 201 and calls the use case when the authenticated user has role ORGANISATEUR', async () => {
+      givenRole(testApp.prisma, 'ORGANISATEUR');
+      useCase().execute.mockResolvedValue({ id: 1, etape });
+
+      const res = await request(testApp.app.getHttpServer())
+        .post(url)
+        .set('Authorization', 'Bearer organisateur-1')
+        .expect(201);
+
+      expect(res.body).toEqual({ id: 1, etape });
+      expect(useCase().execute).toHaveBeenCalledWith(1);
+    });
+
+    it('propagates a 409 when the transition is not allowed', async () => {
+      givenRole(testApp.prisma, 'ORGANISATEUR');
+      useCase().execute.mockRejectedValue(
+        new ConflictException("Transition d'étape interdite : X → Y"),
+      );
+
+      const res = await request(testApp.app.getHttpServer())
+        .post(url)
+        .set('Authorization', 'Bearer organisateur-1')
+        .expect(409);
+
+      expect(res.body.message).toBe("Transition d'étape interdite : X → Y");
+    });
+
+    it('propagates a 404 when the edition does not exist', async () => {
+      givenRole(testApp.prisma, 'ORGANISATEUR');
+      useCase().execute.mockRejectedValue(new NotFoundException('Édition 1 introuvable'));
+
+      await request(testApp.app.getHttpServer())
+        .post(url)
+        .set('Authorization', 'Bearer organisateur-1')
+        .expect(404);
+    });
+  });
+
+  describe('POST /inscription/editions/:id/image-rib (ORGANISATEUR only)', () => {
+    it('returns 401 without authentication and does not call the use case', async () => {
+      await request(testApp.app.getHttpServer())
+        .post('/inscription/editions/1/image-rib')
+        .attach('file', Buffer.from('fake-png-bytes'), 'rib.png')
+        .expect(401);
+
+      expect(uploadImageRib.execute).not.toHaveBeenCalled();
+    });
+
+    it('returns 403 when the authenticated user has role RESPONSABLE_EQUIPE', async () => {
+      givenRole(testApp.prisma, 'RESPONSABLE_EQUIPE');
+
+      await request(testApp.app.getHttpServer())
+        .post('/inscription/editions/1/image-rib')
+        .set('Authorization', 'Bearer responsable-1')
+        .attach('file', Buffer.from('fake-png-bytes'), 'rib.png')
+        .expect(403);
+
+      expect(uploadImageRib.execute).not.toHaveBeenCalled();
+    });
+
+    it('returns 201 and calls the use case with the uploaded file for ORGANISATEUR (AC2)', async () => {
+      givenRole(testApp.prisma, 'ORGANISATEUR');
+      uploadImageRib.execute.mockResolvedValue({
+        id: 1,
+        hasImageRib: true,
+      });
+
+      const res = await request(testApp.app.getHttpServer())
+        .post('/inscription/editions/1/image-rib')
+        .set('Authorization', 'Bearer organisateur-1')
+        .attach('file', Buffer.from('fake-png-bytes'), 'rib.png')
+        .expect(201);
+
+      expect(res.body).toEqual({ id: 1, hasImageRib: true });
+      expect(uploadImageRib.execute).toHaveBeenCalledTimes(1);
+      const [editionId, file] = uploadImageRib.execute.mock.calls[0];
+      expect(editionId).toBe(1);
+      expect(file.mimetype).toBe('image/png');
+      expect(file.originalname).toBe('rib.png');
+    });
+
+    it('propagates a 400 when the use case rejects an unauthorized MIME type (AC3)', async () => {
+      givenRole(testApp.prisma, 'ORGANISATEUR');
+      uploadImageRib.execute.mockRejectedValue(
+        new BadRequestException('Type de fichier non autorisé'),
+      );
+
+      await request(testApp.app.getHttpServer())
+        .post('/inscription/editions/1/image-rib')
+        .set('Authorization', 'Bearer organisateur-1')
+        .attach('file', Buffer.from('fake-pdf-bytes'), 'rib.pdf')
+        .expect(400);
+    });
+
+    it('rejects an oversized file before reaching the use case (AC3 — enforced at the interceptor layer)', async () => {
+      givenRole(testApp.prisma, 'ORGANISATEUR');
+      const oversizedBuffer = Buffer.alloc(6 * 1024 * 1024, 1);
+
+      const res = await request(testApp.app.getHttpServer())
+        .post('/inscription/editions/1/image-rib')
+        .set('Authorization', 'Bearer organisateur-1')
+        .attach('file', oversizedBuffer, 'rib.png');
+
+      expect(res.status).toBeGreaterThanOrEqual(400);
+      expect(res.status).toBeLessThan(500);
+      expect(uploadImageRib.execute).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('GET /inscription/editions/:id/image-rib (public)', () => {
+    it('is publicly accessible and returns the binary with the right Content-Type (AC8)', async () => {
+      getImageRib.execute.mockResolvedValue({
+        data: Buffer.from('fake-png-bytes'),
+        mimeType: 'image/png',
+      });
+
+      const res = await request(testApp.app.getHttpServer())
+        .get('/inscription/editions/1/image-rib')
+        .expect(200);
+
+      expect(res.headers['content-type']).toContain('image/png');
+      expect(res.body).toEqual(Buffer.from('fake-png-bytes'));
+      expect(getImageRib.execute).toHaveBeenCalledWith(1);
+    });
+
+    it('returns 404 when the use case reports no image (AC5/AC6/AC8)', async () => {
+      getImageRib.execute.mockRejectedValue(
+        new NotFoundException('Aucune image RIB enregistrée'),
+      );
+
+      await request(testApp.app.getHttpServer())
+        .get('/inscription/editions/1/image-rib')
+        .expect(404);
+    });
+  });
+
+  describe('DELETE /inscription/editions/:id/image-rib (ORGANISATEUR only)', () => {
+    it('returns 401 without authentication and does not call the use case', async () => {
+      await request(testApp.app.getHttpServer())
+        .delete('/inscription/editions/1/image-rib')
+        .expect(401);
+
+      expect(deleteImageRib.execute).not.toHaveBeenCalled();
+    });
+
+    it('returns 403 when the authenticated user has role RESPONSABLE_EQUIPE', async () => {
+      givenRole(testApp.prisma, 'RESPONSABLE_EQUIPE');
+
+      await request(testApp.app.getHttpServer())
+        .delete('/inscription/editions/1/image-rib')
+        .set('Authorization', 'Bearer responsable-1')
+        .expect(403);
+
+      expect(deleteImageRib.execute).not.toHaveBeenCalled();
+    });
+
+    it('returns 200 and calls the use case for ORGANISATEUR (AC6)', async () => {
+      givenRole(testApp.prisma, 'ORGANISATEUR');
+      deleteImageRib.execute.mockResolvedValue({ id: 1, hasImageRib: false });
+
+      const res = await request(testApp.app.getHttpServer())
+        .delete('/inscription/editions/1/image-rib')
+        .set('Authorization', 'Bearer organisateur-1')
+        .expect(200);
+
+      expect(res.body).toEqual({ id: 1, hasImageRib: false });
+      expect(deleteImageRib.execute).toHaveBeenCalledWith(1);
     });
   });
 });

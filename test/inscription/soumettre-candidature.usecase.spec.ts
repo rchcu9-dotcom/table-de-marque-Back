@@ -29,7 +29,6 @@ function makePrisma(overrides: {
 
 const EDITION_OUVERTE = {
   id: 10,
-  dateFinFin: new Date('2099-01-01'),
 };
 
 describe('SoumettreCanditatureUseCase', () => {
@@ -83,43 +82,38 @@ describe('SoumettreCanditatureUseCase', () => {
     });
   });
 
-  it('throws BadRequestException when the current date is past edition.dateFinFin (clôture)', async () => {
-    const prisma = makePrisma({
-      findUniqueUtilisateur: jest.fn().mockResolvedValue({ id: 1 }),
-      findFirstEdition: jest.fn().mockResolvedValue({
-        id: 10,
-        dateFinFin: new Date('2020-01-01'),
-      }),
-    });
-    const useCase = new SoumettreCanditatureUseCase(prisma);
+  it.each([
+    ['dateFinFin passée', { id: 10, dateFinFin: new Date('2020-01-01') }],
+    ['dateFinFin NULL', { id: 10, dateFinFin: null }],
+    ['dateFinFin absente', { id: 10 }],
+  ])(
+    'accepte une candidature sur une édition INSCRIPTIONS_OUVERTES quelle que soit la date de fin (%s) — etape est la seule garde',
+    async (_label, edition) => {
+      const createInscription = jest.fn().mockResolvedValue({
+        id: 1,
+        equipeNom: 'Equipe A',
+        statut: InscriptionStatut.CANDIDATE,
+        createdAt: new Date('2026-01-01'),
+      });
+      const prisma = makePrisma({
+        findUniqueUtilisateur: jest.fn().mockResolvedValue({ id: 1 }),
+        findFirstEdition: jest.fn().mockResolvedValue(edition),
+        findFirstInscription: jest.fn().mockResolvedValue(null),
+        findUniqueEquipe: jest
+          .fn()
+          .mockResolvedValue({ id: 5, nom: 'Equipe A', active: true }),
+        findUniqueInscription: jest.fn().mockResolvedValue(null),
+        createInscription,
+      });
+      const useCase = new SoumettreCanditatureUseCase(prisma);
 
-    await expect(useCase.execute('user-1', dto)).rejects.toThrow(
-      "La période d'inscription pour cette édition est close",
-    );
-  });
-
-  it('does not reject when the current date is before edition.dateFinFin', async () => {
-    const createInscription = jest.fn().mockResolvedValue({
-      id: 1,
-      equipeNom: 'Equipe A',
-      statut: InscriptionStatut.CANDIDATE,
-      createdAt: new Date('2026-01-01'),
-    });
-    const prisma = makePrisma({
-      findUniqueUtilisateur: jest.fn().mockResolvedValue({ id: 1 }),
-      findFirstEdition: jest.fn().mockResolvedValue(EDITION_OUVERTE),
-      findFirstInscription: jest.fn().mockResolvedValue(null),
-      findUniqueEquipe: jest.fn().mockResolvedValue({ id: 5, nom: 'Equipe A', active: true }),
-      findUniqueInscription: jest.fn().mockResolvedValue(null),
-      createInscription,
-    });
-    const useCase = new SoumettreCanditatureUseCase(prisma);
-
-    await expect(useCase.execute('user-1', dto)).resolves.toMatchObject({
-      id: 1,
-      statut: InscriptionStatut.CANDIDATE,
-    });
-  });
+      await expect(useCase.execute('user-1', dto)).resolves.toMatchObject({
+        id: 1,
+        statut: InscriptionStatut.CANDIDATE,
+      });
+      expect(createInscription).toHaveBeenCalledTimes(1);
+    },
+  );
 
   it('throws ConflictException when the user already has an inscription for this edition', async () => {
     const prisma = makePrisma({
@@ -162,38 +156,69 @@ describe('SoumettreCanditatureUseCase', () => {
     );
   });
 
-  it('throws ConflictException("déjà inscrite") when the equipe already has a DOSSIER_COMPLET inscription', async () => {
-    const prisma = makePrisma({
-      findUniqueUtilisateur: jest.fn().mockResolvedValue({ id: 1 }),
-      findFirstEdition: jest.fn().mockResolvedValue(EDITION_OUVERTE),
-      findFirstInscription: jest.fn().mockResolvedValue(null),
-      findUniqueEquipe: jest.fn().mockResolvedValue({ id: 5, nom: 'Equipe A', active: true }),
-      findUniqueInscription: jest
-        .fn()
-        .mockResolvedValue({ statut: InscriptionStatut.DOSSIER_COMPLET }),
-    });
-    const useCase = new SoumettreCanditatureUseCase(prisma);
+  const MESSAGE_EQUIPE_INDISPONIBLE =
+    'Cette équipe ne peut pas être sélectionnée pour le moment.';
 
-    await expect(useCase.execute('user-1', dto)).rejects.toThrow(
-      'Cette équipe est déjà inscrite',
+  it.each([
+    InscriptionStatut.CANDIDATE,
+    InscriptionStatut.LISTE_ATTENTE,
+    InscriptionStatut.RESERVEE,
+    InscriptionStatut.PAIEMENT_ATTENDU,
+    InscriptionStatut.VALIDEE,
+    InscriptionStatut.DOSSIER_EN_COURS,
+    InscriptionStatut.DOSSIER_COMPLET,
+    InscriptionStatut.REFUSEE,
+  ])(
+    'throws ConflictException with the same generic message regardless of the existing inscription statut (%s) — AC1, AC2, AC6',
+    async (statutExistant) => {
+      const prisma = makePrisma({
+        findUniqueUtilisateur: jest.fn().mockResolvedValue({ id: 1 }),
+        findFirstEdition: jest.fn().mockResolvedValue(EDITION_OUVERTE),
+        findFirstInscription: jest.fn().mockResolvedValue(null),
+        findUniqueEquipe: jest
+          .fn()
+          .mockResolvedValue({ id: 5, nom: 'Equipe A', active: true }),
+        findUniqueInscription: jest
+          .fn()
+          .mockResolvedValue({ statut: statutExistant }),
+      });
+      const useCase = new SoumettreCanditatureUseCase(prisma);
+
+      await expect(useCase.execute('user-1', dto)).rejects.toThrow(
+        ConflictException,
+      );
+      await expect(useCase.execute('user-1', dto)).rejects.toThrow(
+        MESSAGE_EQUIPE_INDISPONIBLE,
+      );
+    },
+  );
+
+  it('never surfaces the existing inscription statut in the error message (non-distinguishability, AC1, AC2)', async () => {
+    const messages = await Promise.all(
+      [InscriptionStatut.CANDIDATE, InscriptionStatut.DOSSIER_COMPLET].map(
+        async (statut) => {
+          const prisma = makePrisma({
+            findUniqueUtilisateur: jest.fn().mockResolvedValue({ id: 1 }),
+            findFirstEdition: jest.fn().mockResolvedValue(EDITION_OUVERTE),
+            findFirstInscription: jest.fn().mockResolvedValue(null),
+            findUniqueEquipe: jest
+              .fn()
+              .mockResolvedValue({ id: 5, nom: 'Equipe A', active: true }),
+            findUniqueInscription: jest.fn().mockResolvedValue({ statut }),
+          });
+          const useCase = new SoumettreCanditatureUseCase(prisma);
+          try {
+            await useCase.execute('user-1', dto);
+            throw new Error('expected ConflictException');
+          } catch (e) {
+            return (e as ConflictException).message;
+          }
+        },
+      ),
     );
-  });
 
-  it('throws ConflictException("en cours d\'inscription") when the equipe already has a non-complete inscription', async () => {
-    const prisma = makePrisma({
-      findUniqueUtilisateur: jest.fn().mockResolvedValue({ id: 1 }),
-      findFirstEdition: jest.fn().mockResolvedValue(EDITION_OUVERTE),
-      findFirstInscription: jest.fn().mockResolvedValue(null),
-      findUniqueEquipe: jest.fn().mockResolvedValue({ id: 5, nom: 'Equipe A', active: true }),
-      findUniqueInscription: jest
-        .fn()
-        .mockResolvedValue({ statut: InscriptionStatut.CANDIDATE }),
-    });
-    const useCase = new SoumettreCanditatureUseCase(prisma);
-
-    await expect(useCase.execute('user-1', dto)).rejects.toThrow(
-      "Cette équipe est déjà en cours d'inscription",
-    );
+    expect(messages[0]).toBe(messages[1]);
+    expect(messages[0]).toBe(MESSAGE_EQUIPE_INDISPONIBLE);
   });
 
   it('creates the inscription with statut CANDIDATE when all checks pass', async () => {

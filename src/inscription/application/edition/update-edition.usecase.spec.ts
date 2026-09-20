@@ -1,4 +1,4 @@
-import { BadRequestException, NotFoundException } from '@nestjs/common';
+import { NotFoundException } from '@nestjs/common';
 import { UpdateEditionUseCase } from './update-edition.usecase';
 import type { InscriptionPrismaService } from '../../infrastructure/persistence/inscription-prisma.service';
 
@@ -15,7 +15,6 @@ function makeRawEdition(overrides: { id?: number; etape?: string; nom?: string }
     etape: overrides.etape ?? 'INSCRIPTIONS_OUVERTES',
     dateDebut: new Date('2026-01-15'),
     dateFinDebut: new Date('2026-01-15'),
-    dateFinFin: new Date('2026-01-16'),
     fraisInscription: 100,
     prixRepas: 15,
     nbPlacesMax: 16,
@@ -66,19 +65,6 @@ function makePrisma(overrides: {
 // ---------------------------------------------------------------------------
 
 describe('UpdateEditionUseCase', () => {
-  it("lève BadRequestException quand dto.etape === 'TOURNOI_DEMARRE' sans même lire l'édition en base", async () => {
-    const findUnique = jest.fn();
-    const update = jest.fn();
-    const prisma = makePrisma({ findUnique, update });
-    const useCase = new UpdateEditionUseCase(prisma);
-
-    await expect(
-      useCase.execute(1, { etape: 'TOURNOI_DEMARRE' } as never),
-    ).rejects.toThrow(BadRequestException);
-    expect(findUnique).not.toHaveBeenCalled();
-    expect(update).not.toHaveBeenCalled();
-  });
-
   it("lève NotFoundException quand l'édition n'existe pas", async () => {
     const prisma = makePrisma({ findUnique: jest.fn().mockResolvedValue(null) });
     const useCase = new UpdateEditionUseCase(prisma);
@@ -88,28 +74,20 @@ describe('UpdateEditionUseCase', () => {
     );
   });
 
-  it.each(['CREEE', 'INSCRIPTIONS_OUVERTES', 'CLOTUREE'] as const)(
-    'autorise toujours les autres transitions (%s) via le PATCH générique',
-    async (etape) => {
-      const update = jest
-        .fn()
-        .mockResolvedValue(makeRawEdition({ id: 1, etape }));
-      const prisma = makePrisma({
-        findUnique: jest.fn().mockResolvedValue(makeRawEdition({ id: 1 })),
-        update,
-      });
-      const useCase = new UpdateEditionUseCase(prisma);
+  it("ne contient plus de garde propre à l'étape : le PATCH générique transmet le dto tel quel (etape est rejetée en amont par le ValidationPipe)", async () => {
+    const update = jest.fn().mockResolvedValue(makeRawEdition({ id: 1 }));
+    const prisma = makePrisma({
+      findUnique: jest.fn().mockResolvedValue(makeRawEdition({ id: 1 })),
+      update,
+    });
+    const useCase = new UpdateEditionUseCase(prisma);
 
-      const result = await useCase.execute(1, { etape });
+    await useCase.execute(1, { nom: 'X' });
 
-      expect(update).toHaveBeenCalledWith({
-        where: { id: 1 },
-        data: { etape },
-        include: { anneesAge: true },
-      });
-      expect(result.etape).toBe(etape);
-    },
-  );
+    expect(update).toHaveBeenCalledWith(
+      expect.objectContaining({ data: { nom: 'X' } }),
+    );
+  });
 
   it('met à jour un champ arbitraire (hors etape) et retourne l\'édition mappée', async () => {
     const update = jest

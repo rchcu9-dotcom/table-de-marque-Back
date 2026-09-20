@@ -43,10 +43,6 @@ export class CreateEditionDto {
   dateFinDebut?: Date;
 
   @IsOptional()
-  @Type(() => Date)
-  dateFinFin?: Date;
-
-  @IsOptional()
   @IsNumber()
   fraisInscription?: number;
 

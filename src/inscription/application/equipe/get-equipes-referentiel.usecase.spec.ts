@@ -41,46 +41,117 @@ function makeEditionResolver(edition: { id: number } | null) {
 // ---------------------------------------------------------------------------
 
 describe('GetEquipesReferentielUseCase', () => {
-  it('marque candidatureEnCours: true pour une équipe ayant déjà une inscription sur l’édition active (bug — blocage anticipé équipe déjà en cours)', async () => {
-    const prisma = makePrisma(
-      [makeRawEquipe({ id: 1 }), makeRawEquipe({ id: 2, nom: 'Les Coqs' })],
-      [{ equipeRefId: 2 }],
-    );
-    const useCase = new GetEquipesReferentielUseCase(
-      prisma,
-      makeEditionResolver({ id: 10 }),
-    );
+  describe('execute(false) / execute() — route publique (AC3, AC4 : aucune fuite de candidature)', () => {
+    it('renvoie candidatureEnCours: false pour toutes les équipes, y compris celles ayant une inscription sur l’édition active', async () => {
+      const prisma = makePrisma(
+        [makeRawEquipe({ id: 1 }), makeRawEquipe({ id: 2, nom: 'Les Coqs' })],
+        [{ equipeRefId: 2 }],
+      );
+      const useCase = new GetEquipesReferentielUseCase(
+        prisma,
+        makeEditionResolver({ id: 10 }),
+      );
 
-    const result = await useCase.execute();
+      const result = await useCase.execute();
 
-    expect(result.find((e) => e.id === 1)?.candidatureEnCours).toBe(false);
-    expect(result.find((e) => e.id === 2)?.candidatureEnCours).toBe(true);
+      expect(result.every((e) => e.candidatureEnCours === false)).toBe(true);
+    });
+
+    it('ne déclenche jamais de requête sur inscInscription (ni via findMany, ni via l’édition active)', async () => {
+      const prisma = makePrisma(
+        [makeRawEquipe({ id: 1 }), makeRawEquipe({ id: 2 })],
+        [{ equipeRefId: 2 }],
+      );
+      const editionResolver = makeEditionResolver({ id: 10 });
+      const useCase = new GetEquipesReferentielUseCase(prisma, editionResolver);
+
+      await useCase.execute(false);
+
+      expect(prisma.inscInscription.findMany).not.toHaveBeenCalled();
+      expect(editionResolver.getEditionActive).not.toHaveBeenCalled();
+    });
+
+    it('ne filtre que sur active: true (comportement de filtrage inchangé)', async () => {
+      const findMany = jest.fn().mockResolvedValue([makeRawEquipe({ id: 1 })]);
+      const prisma = {
+        inscEquipeReferentiel: { findMany },
+        inscInscription: { findMany: jest.fn() },
+      } as unknown as InscriptionPrismaService;
+      const useCase = new GetEquipesReferentielUseCase(
+        prisma,
+        makeEditionResolver({ id: 10 }),
+      );
+
+      await useCase.execute(false);
+
+      expect(findMany).toHaveBeenCalledWith({
+        where: { active: true },
+        orderBy: { nom: 'asc' },
+      });
+    });
   });
 
-  it('renvoie candidatureEnCours: false pour toutes les équipes quand aucune édition active n’est trouvée', async () => {
-    const prisma = makePrisma([makeRawEquipe({ id: 1 })], []);
-    const useCase = new GetEquipesReferentielUseCase(
-      prisma,
-      makeEditionResolver(null),
-    );
+  describe('execute(true) — route organisateur (comportement de calcul inchangé, hors périmètre)', () => {
+    it('marque candidatureEnCours: true pour une équipe ayant déjà une inscription sur l’édition active', async () => {
+      const prisma = makePrisma(
+        [makeRawEquipe({ id: 1 }), makeRawEquipe({ id: 2, nom: 'Les Coqs' })],
+        [{ equipeRefId: 2 }],
+      );
+      const useCase = new GetEquipesReferentielUseCase(
+        prisma,
+        makeEditionResolver({ id: 10 }),
+      );
 
-    const result = await useCase.execute();
+      const result = await useCase.execute(true);
 
-    expect(result.every((e) => e.candidatureEnCours === false)).toBe(true);
-  });
+      expect(result.find((e) => e.id === 1)?.candidatureEnCours).toBe(false);
+      expect(result.find((e) => e.id === 2)?.candidatureEnCours).toBe(true);
+    });
 
-  it('ignore les inscriptions sans equipeRefId (ex. dossier créé hors référentiel)', async () => {
-    const prisma = makePrisma(
-      [makeRawEquipe({ id: 1 })],
-      [{ equipeRefId: null }],
-    );
-    const useCase = new GetEquipesReferentielUseCase(
-      prisma,
-      makeEditionResolver({ id: 10 }),
-    );
+    it('renvoie candidatureEnCours: false pour toutes les équipes quand aucune édition active n’est trouvée', async () => {
+      const prisma = makePrisma([makeRawEquipe({ id: 1 })], []);
+      const useCase = new GetEquipesReferentielUseCase(
+        prisma,
+        makeEditionResolver(null),
+      );
 
-    const result = await useCase.execute();
+      const result = await useCase.execute(true);
 
-    expect(result[0].candidatureEnCours).toBe(false);
+      expect(result.every((e) => e.candidatureEnCours === false)).toBe(true);
+    });
+
+    it('ignore les inscriptions sans equipeRefId (ex. dossier créé hors référentiel)', async () => {
+      const prisma = makePrisma(
+        [makeRawEquipe({ id: 1 })],
+        [{ equipeRefId: null }],
+      );
+      const useCase = new GetEquipesReferentielUseCase(
+        prisma,
+        makeEditionResolver({ id: 10 }),
+      );
+
+      const result = await useCase.execute(true);
+
+      expect(result[0].candidatureEnCours).toBe(false);
+    });
+
+    it('ne filtre pas sur active (toutes les équipes, actives et inactives)', async () => {
+      const findMany = jest.fn().mockResolvedValue([makeRawEquipe({ id: 1 })]);
+      const prisma = {
+        inscEquipeReferentiel: { findMany },
+        inscInscription: { findMany: jest.fn().mockResolvedValue([]) },
+      } as unknown as InscriptionPrismaService;
+      const useCase = new GetEquipesReferentielUseCase(
+        prisma,
+        makeEditionResolver({ id: 10 }),
+      );
+
+      await useCase.execute(true);
+
+      expect(findMany).toHaveBeenCalledWith({
+        where: {},
+        orderBy: { nom: 'asc' },
+      });
+    });
   });
 });

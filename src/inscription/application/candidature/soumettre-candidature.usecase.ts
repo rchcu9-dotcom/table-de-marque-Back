@@ -44,11 +44,6 @@ export class SoumettreCanditatureUseCase {
         'Aucune édition ouverte aux inscriptions pour le moment',
       );
     }
-    if (new Date() > edition.dateFinFin) {
-      throw new BadRequestException(
-        "La période d'inscription pour cette édition est close",
-      );
-    }
 
     // Vérifier que l'utilisateur n'a pas déjà une candidature pour cette édition
     const existingUser = await this.prisma.inscInscription.findFirst({
@@ -81,11 +76,8 @@ export class SoumettreCanditatureUseCase {
       },
     });
     if (existingEquipe) {
-      if (existingEquipe.statut === InscriptionStatut.DOSSIER_COMPLET) {
-        throw new ConflictException('Cette équipe est déjà inscrite');
-      }
       throw new ConflictException(
-        "Cette équipe est déjà en cours d'inscription",
+        'Cette équipe ne peut pas être sélectionnée pour le moment.',
       );
     }
 

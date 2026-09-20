@@ -17,7 +17,6 @@ function makeRawEdition(overrides: Record<string, unknown> = {}) {
     etape: overrides.etape ?? 'CREATION_NOUVEAU_TOURNOI',
     dateDebut: new Date('2027-01-01'),
     dateFinDebut: new Date('2027-01-01'),
-    dateFinFin: new Date('2027-01-01'),
     fraisInscription: 0,
     prixRepas: 0,
     nbPlacesMax: 16,
@@ -206,13 +205,22 @@ describe('CreateEditionUseCase', () => {
           etape: 'CREEE',
           dateDebut: new Date(Date.UTC(2027, 0, 1)),
           dateFinDebut: new Date(Date.UTC(2027, 0, 1)),
-          dateFinFin: new Date(Date.UTC(2027, 0, 1)),
           fraisInscription: 0,
           prixRepas: 0,
           nbPlacesMax: 16,
         }),
         include: { anneesAge: true },
       });
+    });
+
+    it("ne renseigne plus dateFinFin (colonne laissée NULL : etape est la seule source de vérité des inscriptions)", async () => {
+      const create = jest.fn().mockResolvedValue(makeRawEdition());
+      const useCase = new CreateEditionUseCase(makePrisma(create), makeResolver());
+
+      await useCase.execute(minimalDto({ annee: 2027 }));
+
+      const { data } = create.mock.calls[0][0];
+      expect(data).not.toHaveProperty('dateFinFin');
     });
 
     it('conserve etape=CREATION_NOUVEAU_TOURNOI quand fourni explicitement dans le dto', async () => {
@@ -236,7 +244,6 @@ describe('CreateEditionUseCase', () => {
         minimalDto({
           dateDebut: dateExplicite,
           dateFinDebut: dateExplicite,
-          dateFinFin: dateExplicite,
           fraisInscription: 150,
           prixRepas: 12,
         }),
@@ -246,7 +253,6 @@ describe('CreateEditionUseCase', () => {
         data: expect.objectContaining({
           dateDebut: dateExplicite,
           dateFinDebut: dateExplicite,
-          dateFinFin: dateExplicite,
           fraisInscription: 150,
           prixRepas: 12,
         }),
@@ -390,7 +396,6 @@ describe('CreateEditionUseCase', () => {
           annee: 2027,
           dateDebut: new Date(Date.UTC(2027, 0, 1)),
           dateFinDebut: new Date(Date.UTC(2027, 0, 1)),
-          dateFinFin: new Date(Date.UTC(2027, 0, 1)),
         }),
         include: { anneesAge: true },
       });

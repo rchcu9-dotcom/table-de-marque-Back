@@ -1,9 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import type { InscEdition } from '@prisma/client';
+import type { InscEdition, ModePaiementRepas } from '@prisma/client';
 import { InscriptionPrismaService } from '../../infrastructure/persistence/inscription-prisma.service';
 import { EditionResolverService } from '../shared/edition-resolver.service';
+import {
+  derivePaiementInscription,
+  type PaiementInscription,
+} from '../shared/paiement-inscription';
 
-export interface CandidatureOrganisateurItem {
+export interface CandidatureOrganisateurItem extends PaiementInscription {
   id: number;
   equipeNom: string;
   equipeLogoUrl: string | null;
@@ -11,6 +15,9 @@ export interface CandidatureOrganisateurItem {
   utilisateurDisplayName: string | null;
   statut: string;
   createdAt: Date;
+  repasDatePaiement: Date | null;
+  repasModePaiement: ModePaiementRepas | null;
+  commentaireOrganisateur: string | null;
 }
 
 @Injectable()
@@ -36,6 +43,7 @@ export class GetToutesCandidaturesUseCase {
       include: {
         utilisateur: true,
         equipeRef: true,
+        dossier: { include: { joueurs: true } },
       },
       orderBy: { createdAt: 'asc' },
     });
@@ -48,6 +56,10 @@ export class GetToutesCandidaturesUseCase {
       utilisateurDisplayName: i.utilisateur.displayName,
       statut: i.statut,
       createdAt: i.createdAt,
+      repasDatePaiement: i.dossier?.datePaiementRepas ?? null,
+      repasModePaiement: i.dossier?.repasModePaiement ?? null,
+      commentaireOrganisateur: i.commentaireOrganisateur,
+      ...derivePaiementInscription(i),
     }));
   }
 }

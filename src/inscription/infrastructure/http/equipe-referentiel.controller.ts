@@ -26,7 +26,17 @@ export class EquipeReferentielController {
 
   @Get()
   async listActives() {
-    return this.getEquipes.execute(false);
+    const equipes = await this.getEquipes.execute(false);
+    // Contrat d'API public : ne jamais exposer d'information dérivée d'une
+    // candidature (candidatureEnCours ou tout futur champ similaire).
+    return equipes.map(({ id, nom, logoUrl, active, createdAt, updatedAt }) => ({
+      id,
+      nom,
+      logoUrl,
+      active,
+      createdAt,
+      updatedAt,
+    }));
   }
 
   @Get('toutes')

@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  NotFoundException,
-  BadRequestException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InscriptionPrismaService } from '../../infrastructure/persistence/inscription-prisma.service';
 import { Edition } from '../../domain/entities/edition.entity';
 import { toEditionEntity } from '../../infrastructure/persistence/edition.mapper';
@@ -15,12 +11,6 @@ export class UpdateEditionUseCase {
   constructor(private readonly prisma: InscriptionPrismaService) {}
 
   async execute(id: number, dto: UpdateEditionDto): Promise<Edition> {
-    if (dto.etape === 'TOURNOI_DEMARRE') {
-      throw new BadRequestException(
-        'Utiliser POST /inscription/editions/:id/demarrer-tournoi pour démarrer le tournoi.',
-      );
-    }
-
     const existing = await this.prisma.inscEdition.findUnique({
       where: { id },
     });

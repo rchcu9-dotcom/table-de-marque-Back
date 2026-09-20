@@ -43,7 +43,7 @@ export class CreateEditionUseCase {
       }
     }
 
-    // dateDebut/dateFinDebut/dateFinFin : le formulaire minimal du cycle
+    // dateDebut/dateFinDebut : le formulaire minimal du cycle
     // annuel (nom/catégorie/année, spec §5.2) ne les fournit pas — bootstrap
     // grossier au 1er janvier de `annee`, jamais repris de l'édition active
     // (CA4 : mauvaise année quasi certaine sinon), ajustées ensuite via
@@ -68,7 +68,6 @@ export class CreateEditionUseCase {
         etape: dto.etape ?? 'CREEE',
         dateDebut: dto.dateDebut ?? dateBootstrap,
         dateFinDebut: dto.dateFinDebut ?? dateBootstrap,
-        dateFinFin: dto.dateFinFin ?? dateBootstrap,
         // Tarifs/quota, contact, images et messages du parcours
         // d'inscription : repris de l'édition active si non fournis
         // explicitement dans le dto (priorité dto > editionActive >

@@ -30,14 +30,22 @@ function makeInscriptionRow(overrides: {
   id?: number;
   statut?: string;
   equipeNom?: string;
+  commentaireOrganisateur?: string | null;
+  dossier?: {
+    repasPaiementRecu?: boolean;
+    joueurs?: unknown[];
+    datePaiementRepas?: Date | null;
+    repasModePaiement?: string | null;
+  } | null;
 } = {}) {
-  return {
+  const row: Record<string, unknown> = {
     id: overrides.id ?? 1,
     editionId: 10,
     utilisateurId: 5,
     equipeNom: overrides.equipeNom ?? 'TestTeam',
     statut: overrides.statut ?? 'VALIDEE',
     equipeRef: null,
+    commentaireOrganisateur: overrides.commentaireOrganisateur ?? null,
     utilisateur: {
       id: 5,
       email: 'coach@example.com',
@@ -45,6 +53,20 @@ function makeInscriptionRow(overrides: {
     },
     createdAt: new Date(),
   };
+  // N'ajoute la clé `dossier` que si explicitement fournie, pour reproduire
+  // fidèlement le cas Prisma `include: { dossier: ... }` avec relation absente
+  // (dossier === null) vs. non testée par les specs qui ne s'en soucient pas.
+  if ('dossier' in overrides) {
+    row.dossier = overrides.dossier === null
+      ? null
+      : {
+          repasPaiementRecu: overrides.dossier?.repasPaiementRecu ?? false,
+          joueurs: overrides.dossier?.joueurs ?? [],
+          datePaiementRepas: overrides.dossier?.datePaiementRepas ?? null,
+          repasModePaiement: overrides.dossier?.repasModePaiement ?? null,
+        };
+  }
+  return row;
 }
 
 // ---------------------------------------------------------------------------
@@ -146,5 +168,109 @@ describe('GetToutesCandidaturesUseCase', () => {
 
       await expect(useCase.execute()).rejects.toThrow('Connexion DB perdue');
     });
+
+    // AC8 — récapitulatif de paiement : nbJoueurs, fraisInscriptionPaye, repasPaiementRecu
+    it('dérive nbJoueurs, fraisInscriptionPaye et repasPaiementRecu pour une candidature avec dossier et joueurs', async () => {
+      const row = makeInscriptionRow({
+        id: 1,
+        statut: 'VALIDEE',
+        dossier: { repasPaiementRecu: true, joueurs: [{ id: 1 }, { id: 2 }, { id: 3 }] },
+      });
+      const useCase = new GetToutesCandidaturesUseCase(
+        makePrisma(jest.fn().mockResolvedValue([row])),
+        makeEditionResolver(jest.fn().mockResolvedValue(makeRawEdition())),
+      );
+
+      const result = await useCase.execute();
+
+      expect(result[0].nbJoueurs).toBe(3);
+      expect(result[0].fraisInscriptionPaye).toBe(true);
+      expect(result[0].repasPaiementRecu).toBe(true);
+    });
+
+    it('expose date, mode de paiement du repas et commentaire organisateur', async () => {
+      const datePaiement = new Date('2026-09-10T00:00:00.000Z');
+      const row = makeInscriptionRow({
+        id: 1,
+        commentaireOrganisateur: 'Chèque à récupérer au tournoi',
+        dossier: {
+          repasPaiementRecu: true,
+          datePaiementRepas: datePaiement,
+          repasModePaiement: 'CHEQUE',
+        },
+      });
+      const useCase = new GetToutesCandidaturesUseCase(
+        makePrisma(jest.fn().mockResolvedValue([row])),
+        makeEditionResolver(jest.fn().mockResolvedValue(makeRawEdition())),
+      );
+
+      const result = await useCase.execute();
+
+      expect(result[0].repasDatePaiement).toEqual(datePaiement);
+      expect(result[0].repasModePaiement).toBe('CHEQUE');
+      expect(result[0].commentaireOrganisateur).toBe('Chèque à récupérer au tournoi');
+    });
+
+    it('retourne date/mode/commentaire à null pour une candidature sans dossier ni commentaire', async () => {
+      const row = makeInscriptionRow({ id: 2, dossier: null });
+      const useCase = new GetToutesCandidaturesUseCase(
+        makePrisma(jest.fn().mockResolvedValue([row])),
+        makeEditionResolver(jest.fn().mockResolvedValue(makeRawEdition())),
+      );
+
+      const result = await useCase.execute();
+
+      expect(result[0].repasDatePaiement).toBeNull();
+      expect(result[0].repasModePaiement).toBeNull();
+      expect(result[0].commentaireOrganisateur).toBeNull();
+    });
+
+    it('retourne nbJoueurs=0, repasPaiementRecu=false et fraisInscriptionPaye=false pour une candidature sans dossier', async () => {
+      const row = makeInscriptionRow({
+        id: 2,
+        statut: 'PAIEMENT_ATTENDU',
+        dossier: null,
+      });
+      const useCase = new GetToutesCandidaturesUseCase(
+        makePrisma(jest.fn().mockResolvedValue([row])),
+        makeEditionResolver(jest.fn().mockResolvedValue(makeRawEdition())),
+      );
+
+      const result = await useCase.execute();
+
+      expect(result[0].nbJoueurs).toBe(0);
+      expect(result[0].repasPaiementRecu).toBe(false);
+      expect(result[0].fraisInscriptionPaye).toBe(false);
+    });
+
+    it.each(['VALIDEE', 'DOSSIER_EN_COURS', 'DOSSIER_COMPLET'])(
+      'fraisInscriptionPaye est true pour le statut %s',
+      async (statut) => {
+        const row = makeInscriptionRow({ id: 1, statut, dossier: null });
+        const useCase = new GetToutesCandidaturesUseCase(
+          makePrisma(jest.fn().mockResolvedValue([row])),
+          makeEditionResolver(jest.fn().mockResolvedValue(makeRawEdition())),
+        );
+
+        const result = await useCase.execute();
+
+        expect(result[0].fraisInscriptionPaye).toBe(true);
+      },
+    );
+
+    it.each(['CANDIDATE', 'LISTE_ATTENTE', 'RESERVEE', 'PAIEMENT_ATTENDU', 'REFUSEE'])(
+      'fraisInscriptionPaye est false pour le statut %s',
+      async (statut) => {
+        const row = makeInscriptionRow({ id: 1, statut, dossier: null });
+        const useCase = new GetToutesCandidaturesUseCase(
+          makePrisma(jest.fn().mockResolvedValue([row])),
+          makeEditionResolver(jest.fn().mockResolvedValue(makeRawEdition())),
+        );
+
+        const result = await useCase.execute();
+
+        expect(result[0].fraisInscriptionPaye).toBe(false);
+      },
+    );
   });
 });

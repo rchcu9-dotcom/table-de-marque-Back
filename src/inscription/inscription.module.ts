@@ -6,9 +6,15 @@ import { GetEditionEnPreparationUseCase } from './application/edition/get-editio
 import { CreateEditionUseCase } from './application/edition/create-edition.usecase';
 import { UpdateEditionUseCase } from './application/edition/update-edition.usecase';
 import { DemarrerTournoiUseCase } from './application/edition/demarrer-tournoi.usecase';
+import { ChangerEtapeEditionService } from './application/edition/changer-etape-edition.service';
+import { OuvrirInscriptionsUseCase } from './application/edition/ouvrir-inscriptions.usecase';
+import { CloturerInscriptionsUseCase } from './application/edition/cloturer-inscriptions.usecase';
 import { ExportTaUseCase } from './application/edition/export-ta.usecase';
 import { AjouterAnneeAgeUseCase } from './application/edition/ajouter-annee-age.usecase';
 import { RetirerAnneeAgeUseCase } from './application/edition/retirer-annee-age.usecase';
+import { UploadImageRibUseCase } from './application/edition/upload-image-rib.usecase';
+import { GetImageRibUseCase } from './application/edition/get-image-rib.usecase';
+import { DeleteImageRibUseCase } from './application/edition/delete-image-rib.usecase';
 import { GetEquipesReferentielUseCase } from './application/equipe/get-equipes-referentiel.usecase';
 import { CreateEquipeReferentielUseCase } from './application/equipe/create-equipe-referentiel.usecase';
 import { ValidateEquipeReferentielUseCase } from './application/equipe/validate-equipe-referentiel.usecase';
@@ -17,11 +23,10 @@ import { UpdatePseudoUseCase } from './application/auth/update-pseudo.usecase';
 import { SoumettreCanditatureUseCase } from './application/candidature/soumettre-candidature.usecase';
 import { GetMaCandidatureUseCase } from './application/candidature/get-ma-candidature.usecase';
 import { GetToutesCandidaturesUseCase } from './application/candidature/get-toutes-candidatures.usecase';
-import { AccepterCandidatureUseCase } from './application/candidature/accepter-candidature.usecase';
-import { MettreListeAttenteUseCase } from './application/candidature/mettre-liste-attente.usecase';
-import { RefuserCandidatureUseCase } from './application/candidature/refuser-candidature.usecase';
+import { ChangerStatutTriageUseCase } from './application/candidature/changer-statut-triage.usecase';
 import { ValiderPaiementUseCase } from './application/candidature/valider-paiement.usecase';
-import { PromouvoCandidatureUseCase } from './application/candidature/promouvoir-candidature.usecase';
+import { MarquerPaiementRepasUseCase } from './application/candidature/marquer-paiement-repas.usecase';
+import { DefinirCommentaireOrganisateurUseCase } from './application/candidature/definir-commentaire-organisateur.usecase';
 import { ValiderDossierUseCase } from './application/candidature/valider-dossier.usecase';
 import { RouvrirDossierUseCase } from './application/candidature/rouvrir-dossier.usecase';
 import { QuotaInscriptionService } from './application/shared/quota-inscription.service';
@@ -59,9 +64,15 @@ import { DossierController } from './infrastructure/http/dossier.controller';
     CreateEditionUseCase,
     UpdateEditionUseCase,
     DemarrerTournoiUseCase,
+    ChangerEtapeEditionService,
+    OuvrirInscriptionsUseCase,
+    CloturerInscriptionsUseCase,
     ExportTaUseCase,
     AjouterAnneeAgeUseCase,
     RetirerAnneeAgeUseCase,
+    UploadImageRibUseCase,
+    GetImageRibUseCase,
+    DeleteImageRibUseCase,
     GetEquipesReferentielUseCase,
     CreateEquipeReferentielUseCase,
     ValidateEquipeReferentielUseCase,
@@ -70,11 +81,10 @@ import { DossierController } from './infrastructure/http/dossier.controller';
     SoumettreCanditatureUseCase,
     GetMaCandidatureUseCase,
     GetToutesCandidaturesUseCase,
-    AccepterCandidatureUseCase,
-    MettreListeAttenteUseCase,
-    RefuserCandidatureUseCase,
+    ChangerStatutTriageUseCase,
     ValiderPaiementUseCase,
-    PromouvoCandidatureUseCase,
+    MarquerPaiementRepasUseCase,
+    DefinirCommentaireOrganisateurUseCase,
     ValiderDossierUseCase,
     RouvrirDossierUseCase,
     QuotaInscriptionService,

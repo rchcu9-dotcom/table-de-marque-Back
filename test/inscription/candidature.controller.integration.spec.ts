@@ -3,11 +3,10 @@ import { CandidatureController } from '@/inscription/infrastructure/http/candida
 import { SoumettreCanditatureUseCase } from '@/inscription/application/candidature/soumettre-candidature.usecase';
 import { GetMaCandidatureUseCase } from '@/inscription/application/candidature/get-ma-candidature.usecase';
 import { GetToutesCandidaturesUseCase } from '@/inscription/application/candidature/get-toutes-candidatures.usecase';
-import { AccepterCandidatureUseCase } from '@/inscription/application/candidature/accepter-candidature.usecase';
-import { MettreListeAttenteUseCase } from '@/inscription/application/candidature/mettre-liste-attente.usecase';
-import { RefuserCandidatureUseCase } from '@/inscription/application/candidature/refuser-candidature.usecase';
+import { ChangerStatutTriageUseCase } from '@/inscription/application/candidature/changer-statut-triage.usecase';
 import { ValiderPaiementUseCase } from '@/inscription/application/candidature/valider-paiement.usecase';
-import { PromouvoCandidatureUseCase } from '@/inscription/application/candidature/promouvoir-candidature.usecase';
+import { MarquerPaiementRepasUseCase } from '@/inscription/application/candidature/marquer-paiement-repas.usecase';
+import { DefinirCommentaireOrganisateurUseCase } from '@/inscription/application/candidature/definir-commentaire-organisateur.usecase';
 import { ValiderDossierUseCase } from '@/inscription/application/candidature/valider-dossier.usecase';
 import { RouvrirDossierUseCase } from '@/inscription/application/candidature/rouvrir-dossier.usecase';
 import {
@@ -22,11 +21,10 @@ describe('CandidatureController (integration)', () => {
   const soumettreUseCase = { execute: jest.fn() };
   const getMaCandidatureUseCase = { execute: jest.fn() };
   const getToutesCandidaturesUseCase = { execute: jest.fn() };
-  const accepterUseCase = { execute: jest.fn() };
-  const listeAttenteUseCase = { execute: jest.fn() };
-  const refuserUseCase = { execute: jest.fn() };
+  const changerStatutTriageUseCase = { execute: jest.fn() };
   const validerPaiementUseCase = { execute: jest.fn() };
-  const promouvoirUseCase = { execute: jest.fn() };
+  const marquerPaiementRepasUseCase = { execute: jest.fn() };
+  const definirCommentaireOrganisateurUseCase = { execute: jest.fn() };
   const validerDossierUseCase = { execute: jest.fn() };
   const rouvrirDossierUseCase = { execute: jest.fn() };
 
@@ -40,14 +38,22 @@ describe('CandidatureController (integration)', () => {
           provide: GetToutesCandidaturesUseCase,
           useValue: getToutesCandidaturesUseCase,
         },
-        { provide: AccepterCandidatureUseCase, useValue: accepterUseCase },
-        { provide: MettreListeAttenteUseCase, useValue: listeAttenteUseCase },
-        { provide: RefuserCandidatureUseCase, useValue: refuserUseCase },
+        {
+          provide: ChangerStatutTriageUseCase,
+          useValue: changerStatutTriageUseCase,
+        },
         {
           provide: ValiderPaiementUseCase,
           useValue: validerPaiementUseCase,
         },
-        { provide: PromouvoCandidatureUseCase, useValue: promouvoirUseCase },
+        {
+          provide: MarquerPaiementRepasUseCase,
+          useValue: marquerPaiementRepasUseCase,
+        },
+        {
+          provide: DefinirCommentaireOrganisateurUseCase,
+          useValue: definirCommentaireOrganisateurUseCase,
+        },
         { provide: ValiderDossierUseCase, useValue: validerDossierUseCase },
         { provide: RouvrirDossierUseCase, useValue: rouvrirDossierUseCase },
       ],
@@ -172,35 +178,12 @@ describe('CandidatureController (integration)', () => {
       successResult: [],
     },
     {
-      name: 'PATCH /inscription/candidatures/:id/accepter',
+      name: 'PATCH /inscription/candidatures/:id/statut-triage',
       method: 'patch',
-      path: '/inscription/candidatures/1/accepter',
-      useCase: accepterUseCase,
-      expectedArgs: [1],
-      successResult: { id: 1, statut: 'PAIEMENT_ATTENDU' },
-    },
-    {
-      name: 'PATCH /inscription/candidatures/:id/liste-attente',
-      method: 'patch',
-      path: '/inscription/candidatures/1/liste-attente',
-      useCase: listeAttenteUseCase,
-      expectedArgs: [1],
-      successResult: { id: 1, statut: 'LISTE_ATTENTE' },
-    },
-    {
-      name: 'PATCH /inscription/candidatures/:id/promouvoir',
-      method: 'patch',
-      path: '/inscription/candidatures/1/promouvoir',
-      useCase: promouvoirUseCase,
-      expectedArgs: [1],
-      successResult: { id: 1, statut: 'PAIEMENT_ATTENDU' },
-    },
-    {
-      name: 'PATCH /inscription/candidatures/:id/refuser',
-      method: 'patch',
-      path: '/inscription/candidatures/1/refuser',
-      useCase: refuserUseCase,
-      expectedArgs: [1],
+      path: '/inscription/candidatures/1/statut-triage',
+      body: { statut: 'REFUSEE' },
+      useCase: changerStatutTriageUseCase,
+      expectedArgs: [1, { statut: 'REFUSEE' }],
       successResult: { id: 1, statut: 'REFUSEE' },
     },
     {
@@ -217,6 +200,34 @@ describe('CandidatureController (integration)', () => {
         dateVirementInscription: '2026-01-15T00:00:00.000Z',
         updatedAt: '2026-01-15T00:00:00.000Z',
       },
+    },
+    {
+      name: 'PATCH /inscription/candidatures/:id/repas-paiement',
+      method: 'patch',
+      path: '/inscription/candidatures/1/repas-paiement',
+      body: { paye: true, datePaiement: '2026-01-15', mode: 'CHEQUE' },
+      useCase: marquerPaiementRepasUseCase,
+      expectedArgs: [
+        1,
+        { paye: true, datePaiement: '2026-01-15', mode: 'CHEQUE' },
+      ],
+      successResult: {
+        id: 1,
+        equipeNom: 'Equipe A',
+        repasPaiementRecu: true,
+        dateReceptionRepas: '2026-01-15T00:00:00.000Z',
+        datePaiementRepas: '2026-01-15T00:00:00.000Z',
+        repasModePaiement: 'CHEQUE',
+      },
+    },
+    {
+      name: 'PATCH /inscription/candidatures/:id/commentaire-organisateur',
+      method: 'patch',
+      path: '/inscription/candidatures/1/commentaire-organisateur',
+      body: { commentaire: 'Relancer le coach' },
+      useCase: definirCommentaireOrganisateurUseCase,
+      expectedArgs: [1, { commentaire: 'Relancer le coach' }],
+      successResult: { id: 1, commentaireOrganisateur: 'Relancer le coach' },
     },
     {
       name: 'PATCH /inscription/candidatures/:id/valider-dossier',

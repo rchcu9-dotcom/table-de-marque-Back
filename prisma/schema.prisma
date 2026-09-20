@@ -126,6 +126,14 @@ model TaConfiguration {
 
 // ===== MODULE INSCRIPTIONS =====
 
+enum ModePaiementRepas {
+  VIREMENT
+  CHEQUE
+  AUTRE
+
+  @@map("insc_mode_paiement_repas")
+}
+
 enum InscriptionStatut {
   CANDIDATE
   RESERVEE
@@ -170,13 +178,16 @@ model InscEdition {
   etape                   String   @default("CREEE") @db.VarChar(30)
   dateDebut               DateTime @map("date_debut")
   dateFinDebut            DateTime @map("date_fin_debut")
-  dateFinFin              DateTime @map("date_fin_fin")
+  dateFinFin              DateTime? @map("date_fin_fin")
   fraisInscription        Decimal  @map("frais_inscription") @db.Decimal(8,2)
   prixRepas               Decimal  @map("prix_repas") @db.Decimal(8,2)
   nbPlacesMax             Int      @default(16) @map("nb_places_max")
   imageUrl                String?  @map("image_url") @db.VarChar(500)
   imageDossierUrl         String?  @map("image_dossier_url") @db.VarChar(500)
   imageRibUrl             String?  @map("image_rib_url") @db.VarChar(500)
+  imageRibData            Bytes?   @map("image_rib_data") @db.MediumBlob
+  imageRibMimeType        String?  @map("image_rib_mime_type") @db.VarChar(100)
+  imageRibUpdatedAt       DateTime? @map("image_rib_updated_at")
   contactEmail            String?  @map("contact_email") @db.VarChar(255)
   contactPhone            String?  @map("contact_phone") @db.VarChar(30)
   dureeSurfacageMin       Int      @default(20) @map("duree_surfacage_min")
@@ -252,6 +263,7 @@ model InscInscription {
   equipeRefId     Int?     @map("equipe_ref_id")
   equipeNom       String   @map("equipe_nom") @db.VarChar(100)
   statut          InscriptionStatut @default(CANDIDATE)
+  commentaireOrganisateur String? @map("commentaire_organisateur") @db.Text
   createdAt       DateTime @default(now()) @map("created_at")
   updatedAt       DateTime @updatedAt @map("updated_at")
   edition         InscEdition @relation(fields: [editionId], references: [id])
@@ -271,6 +283,7 @@ model InscDossier {
   datePaiementRepas         DateTime? @map("date_paiement_repas")
   dateReceptionRepas        DateTime? @map("date_reception_repas")
   repasPaiementRecu         Boolean  @default(false) @map("repas_paiement_recu")
+  repasModePaiement         ModePaiementRepas? @map("repas_mode_paiement")
   droitsImageAcceptes       Boolean  @default(false) @map("droits_image_acceptes")
   droitsImageHorodatage     DateTime? @map("droits_image_horodatage")
   createdAt                 DateTime @default(now()) @map("created_at")

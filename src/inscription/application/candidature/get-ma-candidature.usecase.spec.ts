@@ -36,8 +36,15 @@ function makePrisma(overrides: {
   } as unknown as InscriptionPrismaService;
 }
 
-function makeInscription(overrides: { statut?: string; equipeRef?: object | null } = {}) {
-  return {
+function makeInscription(
+  overrides: {
+    statut?: string;
+    equipeRef?: object | null;
+    dossier?: { repasPaiementRecu: boolean; joueurs: object[] } | null;
+    sansCleDossier?: boolean;
+  } = {},
+) {
+  const base = {
     id: 1,
     editionId: 10,
     utilisateurId: 5,
@@ -47,6 +54,8 @@ function makeInscription(overrides: { statut?: string; equipeRef?: object | null
     createdAt: new Date(),
     updatedAt: new Date(),
   };
+  if (overrides.sansCleDossier) return base;
+  return { ...base, dossier: overrides.dossier === undefined ? null : overrides.dossier };
 }
 
 // ---------------------------------------------------------------------------
@@ -145,6 +154,122 @@ describe('GetMaCandidatureUseCase', () => {
       );
 
       await expect(useCase.execute(FIREBASE_UID)).rejects.toThrow(NotFoundException);
+    });
+  });
+
+  describe('execute() — récapitulatif de paiement (AC9)', () => {
+    function makeUseCase(inscription: object | null) {
+      const inscriptionFindFirst = jest.fn().mockResolvedValue(inscription);
+      const useCase = new GetMaCandidatureUseCase(
+        makePrisma({
+          utilisateurFindUnique: jest.fn().mockResolvedValue({ id: 5, firebaseUid: FIREBASE_UID }),
+          inscriptionFindFirst,
+        }),
+        makeEditionResolver(jest.fn().mockResolvedValue(makeRawEdition())),
+      );
+      return { useCase, inscriptionFindFirst };
+    }
+
+    it('avec dossier de 3 joueurs et repas reçu : renvoie nbJoueurs=3, repasPaiementRecu=true', async () => {
+      const { useCase } = makeUseCase(
+        makeInscription({
+          statut: 'DOSSIER_EN_COURS',
+          dossier: { repasPaiementRecu: true, joueurs: [{ id: 1 }, { id: 2 }, { id: 3 }] },
+        }),
+      );
+
+      const result = await useCase.execute(FIREBASE_UID);
+
+      expect(result!.nbJoueurs).toBe(3);
+      expect(result!.repasPaiementRecu).toBe(true);
+      expect(result!.fraisInscriptionPaye).toBe(true);
+    });
+
+    it('avec dossier, repas non reçu : repasPaiementRecu=false', async () => {
+      const { useCase } = makeUseCase(
+        makeInscription({ dossier: { repasPaiementRecu: false, joueurs: [{ id: 1 }] } }),
+      );
+
+      const result = await useCase.execute(FIREBASE_UID);
+
+      expect(result!.nbJoueurs).toBe(1);
+      expect(result!.repasPaiementRecu).toBe(false);
+    });
+
+    it('sans dossier (dossier: null) : nbJoueurs=0, repasPaiementRecu=false, sans erreur', async () => {
+      const { useCase } = makeUseCase(makeInscription({ statut: 'VALIDEE', dossier: null }));
+
+      const result = await useCase.execute(FIREBASE_UID);
+
+      expect(result!.nbJoueurs).toBe(0);
+      expect(result!.repasPaiementRecu).toBe(false);
+    });
+
+    it('sans dossier (clé dossier absente) : nbJoueurs=0, repasPaiementRecu=false, sans erreur', async () => {
+      const { useCase } = makeUseCase(
+        makeInscription({ statut: 'PAIEMENT_ATTENDU', sansCleDossier: true }),
+      );
+
+      const result = await useCase.execute(FIREBASE_UID);
+
+      expect(result!.nbJoueurs).toBe(0);
+      expect(result!.repasPaiementRecu).toBe(false);
+    });
+
+    it.each(['VALIDEE', 'DOSSIER_EN_COURS', 'DOSSIER_COMPLET'])(
+      'statut %s → fraisInscriptionPaye=true',
+      async (statut) => {
+        const { useCase } = makeUseCase(makeInscription({ statut }));
+        const result = await useCase.execute(FIREBASE_UID);
+        expect(result!.fraisInscriptionPaye).toBe(true);
+      },
+    );
+
+    it.each(['CANDIDATE', 'LISTE_ATTENTE', 'REFUSEE', 'RESERVEE', 'PAIEMENT_ATTENDU'])(
+      'statut %s → fraisInscriptionPaye=false',
+      async (statut) => {
+        const { useCase } = makeUseCase(makeInscription({ statut }));
+        const result = await useCase.execute(FIREBASE_UID);
+        expect(result!.fraisInscriptionPaye).toBe(false);
+      },
+    );
+
+    it('ne modifie pas les champs existants du contrat', async () => {
+      const createdAt = new Date('2026-04-01T00:00:00.000Z');
+      const inscription = {
+        ...makeInscription({
+          statut: 'VALIDEE',
+          equipeRef: { id: 3, nom: 'Rennes', logoUrl: 'https://logos.example.com/rennes.png' },
+          dossier: { repasPaiementRecu: false, joueurs: [] },
+        }),
+        createdAt,
+      };
+      const { useCase } = makeUseCase(inscription);
+
+      const result = await useCase.execute(FIREBASE_UID);
+
+      expect(result).toEqual({
+        id: 1,
+        equipeNom: 'TestTeam',
+        equipeLogoUrl: 'https://logos.example.com/rennes.png',
+        statut: 'VALIDEE',
+        createdAt,
+        nbJoueurs: 0,
+        fraisInscriptionPaye: true,
+        repasPaiementRecu: false,
+      });
+    });
+
+    it("charge le dossier avec ses joueurs et reste borné à l'utilisateur et à l'édition courants (aucune donnée d'une autre équipe)", async () => {
+      const { useCase, inscriptionFindFirst } = makeUseCase(makeInscription());
+
+      await useCase.execute(FIREBASE_UID);
+
+      expect(inscriptionFindFirst).toHaveBeenCalledTimes(1);
+      expect(inscriptionFindFirst).toHaveBeenCalledWith({
+        where: { editionId: 10, utilisateurId: 5 },
+        include: { equipeRef: true, dossier: { include: { joueurs: true } } },
+      });
     });
   });
 });
