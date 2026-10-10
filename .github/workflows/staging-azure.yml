@@ -12,6 +12,7 @@ on:
 env:
   ACR_NAME: acrtablemarque
   ACR_LOGIN_SERVER: acrtablemarque.azurecr.io
+  GHCR_IMAGE: ghcr.io/rchcu9-dotcom/table-de-marque-back
   IMAGE_NAME: table-de-marque-back
   CONTAINER_APP_NAME: table-de-marque-back
   RESOURCE_GROUP: rg-table-de-marque
@@ -21,6 +22,9 @@ env:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
 
     steps:
       - name: Checkout repository
@@ -52,16 +56,27 @@ jobs:
         run: |
           az acr login --name $ACR_NAME
 
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build Docker image
         run: |
           docker build \
             --no-cache \
+            --provenance=false \
+            --label org.opencontainers.image.source=https://github.com/${{ github.repository }} \
             -t $ACR_LOGIN_SERVER/$IMAGE_NAME:$TAG \
+            -t $GHCR_IMAGE:$TAG \
             .
 
       - name: Push Docker image
         run: |
           docker push $ACR_LOGIN_SERVER/$IMAGE_NAME:$TAG
+          docker push $GHCR_IMAGE:$TAG
 
       - name: Validate runtime env (Container Apps)
         env:
@@ -83,6 +98,33 @@ jobs:
             --name $CONTAINER_APP_NAME \
             --resource-group $RESOURCE_GROUP \
             --image $ACR_LOGIN_SERVER/$IMAGE_NAME:$TAG
+
+      - name: Verify deployed revision
+        env:
+          DEPLOY_IMAGE: ${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
+        run: |
+          echo "Expected image: $DEPLOY_IMAGE"
+          for i in {1..20}; do
+            REV=$(az containerapp show --name "$CONTAINER_APP_NAME" --resource-group "$RESOURCE_GROUP" --query properties.latestRevisionName -o tsv || true)
+            REV_JSON=$(az containerapp revision show --name "$CONTAINER_APP_NAME" --resource-group "$RESOURCE_GROUP" --revision "$REV" -o json || echo '{}')
+            IMAGE=$(echo "$REV_JSON" | jq -r '.properties.template.containers[0].image // ""')
+            PROVISIONING=$(echo "$REV_JSON" | jq -r '.properties.provisioningState // ""')
+            HEALTH=$(echo "$REV_JSON" | jq -r '.properties.healthState // ""')
+            RUNNING=$(echo "$REV_JSON" | jq -r '.properties.runningState // ""')
+            ACTIVE=$(echo "$REV_JSON" | jq -r '.properties.active // false')
+            echo "Attempt $i: revision=$REV image=$IMAGE provisioning=$PROVISIONING health=$HEALTH running=$RUNNING active=$ACTIVE"
+            if [ "$IMAGE" = "$DEPLOY_IMAGE" ] && [ "$PROVISIONING" = "Provisioned" ] && [ "$HEALTH" = "Healthy" ] && [ "$ACTIVE" = "true" ]; then
+              echo "Revision $REV is serving the expected image."
+              exit 0
+            fi
+            if [ "$PROVISIONING" = "Failed" ]; then
+              echo "Revision $REV failed to provision."
+              exit 1
+            fi
+            sleep 15
+          done
+          echo "Revision did not become healthy with the expected image in time."
+          exit 1
 
       - name: Wait for container readiness
         env:
