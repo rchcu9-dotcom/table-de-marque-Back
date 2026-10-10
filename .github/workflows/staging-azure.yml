@@ -10,8 +10,6 @@ on:
       - ".github/workflows/deploy-back-staging.yml"
 
 env:
-  ACR_NAME: acrtablemarque
-  ACR_LOGIN_SERVER: acrtablemarque.azurecr.io
   GHCR_IMAGE: ghcr.io/rchcu9-dotcom/table-de-marque-back
   IMAGE_NAME: table-de-marque-back
   CONTAINER_APP_NAME: table-de-marque-back
@@ -52,10 +50,6 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Login to ACR
-        run: |
-          az acr login --name $ACR_NAME
-
       - name: Login to GHCR
         uses: docker/login-action@v3
         with:
@@ -69,14 +63,11 @@ jobs:
             --no-cache \
             --provenance=false \
             --label org.opencontainers.image.source=https://github.com/${{ github.repository }} \
-            -t $ACR_LOGIN_SERVER/$IMAGE_NAME:$TAG \
             -t $GHCR_IMAGE:$TAG \
             .
 
       - name: Push Docker image
-        run: |
-          docker push $ACR_LOGIN_SERVER/$IMAGE_NAME:$TAG
-          docker push $GHCR_IMAGE:$TAG
+        run: docker push $GHCR_IMAGE:$TAG
 
       - name: Validate runtime env (Container Apps)
         env:
@@ -97,11 +88,11 @@ jobs:
           az containerapp update \
             --name $CONTAINER_APP_NAME \
             --resource-group $RESOURCE_GROUP \
-            --image $ACR_LOGIN_SERVER/$IMAGE_NAME:$TAG
+            --image $GHCR_IMAGE:$TAG
 
       - name: Verify deployed revision
         env:
-          DEPLOY_IMAGE: ${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
+          DEPLOY_IMAGE: ${{ env.GHCR_IMAGE }}:${{ env.TAG }}
         run: |
           echo "Expected image: $DEPLOY_IMAGE"
           for i in {1..20}; do
@@ -150,3 +141,10 @@ jobs:
           API_BASE_URL: https://table-de-marque-back.wittyrock-6c116ec6.westeurope.azurecontainerapps.io
         run: |
           curl -f --max-time 30 "$API_BASE_URL/matches"
+
+      - name: Purge old GHCR versions (keep last 3)
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: ${{ env.IMAGE_NAME }}
+          package-type: container
+          min-versions-to-keep: 3
