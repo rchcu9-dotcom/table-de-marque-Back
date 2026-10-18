@@ -77,3 +77,31 @@ describe('CacheSnapshotService.readThrough', () => {
     });
   });
 });
+
+describe('CacheSnapshotService snapshot key', () => {
+  const envBackup = { ...process.env };
+
+  afterEach(() => {
+    process.env = { ...envBackup };
+  });
+
+  it("uses the 'main' row by default", async () => {
+    delete process.env.CACHE_SNAPSHOT_KEY;
+    const prisma = makePrismaMock();
+    await new CacheSnapshotService(new CacheStore(), prisma).loadSnapshotsOnBoot();
+
+    expect(prisma.taCacheSnapshot.findUnique).toHaveBeenCalledWith({
+      where: { snapshotKey: 'main' },
+    });
+  });
+
+  it('uses CACHE_SNAPSHOT_KEY so staging and prod can share a database', async () => {
+    process.env.CACHE_SNAPSHOT_KEY = 'staging';
+    const prisma = makePrismaMock();
+    await new CacheSnapshotService(new CacheStore(), prisma).loadSnapshotsOnBoot();
+
+    expect(prisma.taCacheSnapshot.findUnique).toHaveBeenCalledWith({
+      where: { snapshotKey: 'staging' },
+    });
+  });
+});

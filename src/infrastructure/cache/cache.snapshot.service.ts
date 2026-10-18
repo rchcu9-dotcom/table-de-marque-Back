@@ -5,13 +5,14 @@ import { CacheStore } from './cache.store';
 import { CacheEntry, CacheKey } from './cache.types';
 import { PrismaService } from '@/infrastructure/persistence/mysql/prisma.service';
 
-const SNAPSHOT_KEY = 'main';
-
 @Injectable()
 export class CacheSnapshotService implements OnModuleInit {
   private readonly ttlMs = Number(process.env.CACHE_TTL_MS ?? '60000');
   private readonly snapshotPath =
     process.env.CACHE_SNAPSHOT_PATH ?? './cache/snapshots.json';
+  // Ligne de ta_cache_snapshots propre à l'environnement : staging et prod
+  // peuvent partager la même base sans écraser le snapshot l'un de l'autre.
+  private readonly snapshotKey = process.env.CACHE_SNAPSHOT_KEY ?? 'main';
   private readonly logger = new Logger(CacheSnapshotService.name);
 
   constructor(
@@ -27,7 +28,7 @@ export class CacheSnapshotService implements OnModuleInit {
     // Try MySQL first
     try {
       const row = await this.prisma.taCacheSnapshot.findUnique({
-        where: { snapshotKey: SNAPSHOT_KEY },
+        where: { snapshotKey: this.snapshotKey },
       });
       if (row) {
         const raw = JSON.parse(row.data) as Record<string, CacheEntry<unknown>>;
@@ -134,8 +135,8 @@ export class CacheSnapshotService implements OnModuleInit {
 
     this.prisma.taCacheSnapshot
       .upsert({
-        where: { snapshotKey: SNAPSHOT_KEY },
-        create: { snapshotKey: SNAPSHOT_KEY, data: json },
+        where: { snapshotKey: this.snapshotKey },
+        create: { snapshotKey: this.snapshotKey, data: json },
         update: { data: json },
       })
       .catch((err) =>
