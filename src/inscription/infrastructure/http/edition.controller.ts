@@ -26,6 +26,7 @@ import {
 import { DemarrerTournoiUseCase } from '../../application/edition/demarrer-tournoi.usecase';
 import { OuvrirInscriptionsUseCase } from '../../application/edition/ouvrir-inscriptions.usecase';
 import { CloturerInscriptionsUseCase } from '../../application/edition/cloturer-inscriptions.usecase';
+import { RevenirEnPreparationUseCase } from '../../application/edition/revenir-en-preparation.usecase';
 import { ExportTaUseCase } from '../../application/edition/export-ta.usecase';
 import {
   AjouterAnneeAgeUseCase,
@@ -48,6 +49,7 @@ export class EditionController {
     private readonly demarrerTournoi: DemarrerTournoiUseCase,
     private readonly ouvrirInscriptions: OuvrirInscriptionsUseCase,
     private readonly cloturerInscriptions: CloturerInscriptionsUseCase,
+    private readonly revenirEnPreparationUseCase: RevenirEnPreparationUseCase,
     private readonly exportTa: ExportTaUseCase,
     private readonly ajouterAnneeAge: AjouterAnneeAgeUseCase,
     private readonly retirerAnneeAge: RetirerAnneeAgeUseCase,
@@ -98,6 +100,12 @@ export class EditionController {
   @Roles('ORGANISATEUR')
   async cloturer(@Param('id', ParseIntPipe) id: number) {
     return this.cloturerInscriptions.execute(id);
+  }
+
+  @Post('editions/:id/revenir-en-preparation')
+  @Roles('ORGANISATEUR')
+  async revenirEnPreparation(@Param('id', ParseIntPipe) id: number) {
+    return this.revenirEnPreparationUseCase.execute(id);
   }
 
   @Post('editions/:id/annees-age')

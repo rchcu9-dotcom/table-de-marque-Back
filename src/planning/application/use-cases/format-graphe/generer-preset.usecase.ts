@@ -6,6 +6,7 @@ import {
 import { FormatGraphe } from '../../../domain/entities/format/format-graphe.entity';
 import { FormatPresetGeneratorService } from '../../services/format-preset-generator.service';
 import { GenererPresetDto } from '../../dto/format-graphe/generer-preset.dto';
+import { EditionVerrouService } from '@/inscription/application/shared/edition-verrou.service';
 
 @Injectable()
 export class GenererPresetUseCase {
@@ -13,12 +14,15 @@ export class GenererPresetUseCase {
     @Inject(FORMAT_GRAPHE_REPOSITORY)
     private readonly repo: FormatGrapheRepository,
     private readonly presetGenerator: FormatPresetGeneratorService,
+    private readonly editionVerrou: EditionVerrouService,
   ) {}
 
   async execute(
     editionId: number,
     dto: GenererPresetDto,
   ): Promise<FormatGraphe> {
+    // Formule sportive figée au lancement du tournoi (404 si l'édition n'existe pas).
+    await this.editionVerrou.assertFormuleSportiveModifiable(editionId);
     // Critère d'acceptation 5 : non-régénération destructive des modifications manuelles.
     const meta = await this.repo.getMeta(editionId);
     if (meta?.modifieManuellement && !dto.forcer) {

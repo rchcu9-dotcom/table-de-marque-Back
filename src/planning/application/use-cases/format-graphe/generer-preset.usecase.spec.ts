@@ -1,3 +1,4 @@
+import { verrouAutorise } from '../../../../../test/support/edition-verrou.mock';
 import { ConflictException } from '@nestjs/common';
 import { GenererPresetUseCase } from './generer-preset.usecase';
 import { FormatPhaseFinale } from '../../../domain/enums/format-phase-finale.enum';
@@ -18,7 +19,7 @@ describe('GenererPresetUseCase', () => {
       remplacerGrapheComplet: jest.fn().mockResolvedValue(grapheResultat),
     };
     const presetGenerator = { genererGraphe: jest.fn().mockReturnValue(propose) };
-    const useCase = new GenererPresetUseCase(repo as any, presetGenerator as any);
+    const useCase = new GenererPresetUseCase(repo as any, presetGenerator as any, verrouAutorise() as any);
 
     const result = await useCase.execute(1, dto);
 
@@ -37,7 +38,7 @@ describe('GenererPresetUseCase', () => {
       remplacerGrapheComplet: jest.fn().mockResolvedValue({}),
     };
     const presetGenerator = { genererGraphe: jest.fn().mockReturnValue({ phases: [], liens: [] }) };
-    const useCase = new GenererPresetUseCase(repo as any, presetGenerator as any);
+    const useCase = new GenererPresetUseCase(repo as any, presetGenerator as any, verrouAutorise() as any);
 
     await expect(useCase.execute(1, dto)).resolves.toBeDefined();
   });
@@ -48,7 +49,7 @@ describe('GenererPresetUseCase', () => {
       remplacerGrapheComplet: jest.fn(),
     };
     const presetGenerator = { genererGraphe: jest.fn() };
-    const useCase = new GenererPresetUseCase(repo as any, presetGenerator as any);
+    const useCase = new GenererPresetUseCase(repo as any, presetGenerator as any, verrouAutorise() as any);
 
     await expect(useCase.execute(1, dto)).rejects.toThrow(ConflictException);
     expect(repo.remplacerGrapheComplet).not.toHaveBeenCalled();
@@ -62,7 +63,7 @@ describe('GenererPresetUseCase', () => {
       remplacerGrapheComplet: jest.fn().mockResolvedValue(grapheResultat),
     };
     const presetGenerator = { genererGraphe: jest.fn().mockReturnValue({ phases: [], liens: [] }) };
-    const useCase = new GenererPresetUseCase(repo as any, presetGenerator as any);
+    const useCase = new GenererPresetUseCase(repo as any, presetGenerator as any, verrouAutorise() as any);
 
     const result = await useCase.execute(1, { ...dto, forcer: true });
 

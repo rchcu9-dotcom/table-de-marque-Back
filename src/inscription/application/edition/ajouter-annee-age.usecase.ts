@@ -1,5 +1,6 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InscriptionPrismaService } from '../../infrastructure/persistence/inscription-prisma.service';
+import { EditionVerrouService } from '../shared/edition-verrou.service';
 import { Edition } from '../../domain/entities/edition.entity';
 import { toEditionEntity } from '../../infrastructure/persistence/edition.mapper';
 import { AjouterAnneeAgeDto } from './dto/ajouter-annee-age.dto';
@@ -8,15 +9,14 @@ export { AjouterAnneeAgeDto };
 
 @Injectable()
 export class AjouterAnneeAgeUseCase {
-  constructor(private readonly prisma: InscriptionPrismaService) {}
+  constructor(
+    private readonly prisma: InscriptionPrismaService,
+    private readonly editionVerrou: EditionVerrouService,
+  ) {}
 
   async execute(editionId: number, dto: AjouterAnneeAgeDto): Promise<Edition> {
-    const existing = await this.prisma.inscEdition.findUnique({
-      where: { id: editionId },
-    });
-    if (!existing) {
-      throw new NotFoundException(`Édition ${editionId} introuvable`);
-    }
+    // Figés dès l'ouverture des inscriptions (404 si l'édition n'existe pas).
+    await this.editionVerrou.assertParametresInscriptionModifiables(editionId);
 
     // upsert plutôt que create : ajouter deux fois la même année est
     // idempotent, pas une erreur (@@unique([editionId, annee])).

@@ -1,3 +1,5 @@
+import { EditionVerrouService } from '@/inscription/application/shared/edition-verrou.service';
+import { verrouAutorise } from '../../../../test/support/edition-verrou.mock';
 import { NotFoundException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { UpdateParametresSportifsUseCase } from './update-parametres-sportifs.usecase';
@@ -17,16 +19,19 @@ function makeGetUseCase() {
 
 describe('UpdateParametresSportifsUseCase', () => {
   it("lève NotFoundException si l'édition n'existe pas", async () => {
+    // Le 404 vient désormais du garde d'étape (EditionVerrouService réel).
+    const prisma = makePrisma(null);
     const useCase = new UpdateParametresSportifsUseCase(
-      makePrisma(null) as any,
+      prisma as any,
       makeGetUseCase() as any,
+      new EditionVerrouService(prisma as any),
     );
     await expect(useCase.execute(999, {})).rejects.toThrow(NotFoundException);
   });
 
   it('met à jour les champs scalaires tels quels', async () => {
     const prisma = makePrisma();
-    const useCase = new UpdateParametresSportifsUseCase(prisma as any, makeGetUseCase() as any);
+    const useCase = new UpdateParametresSportifsUseCase(prisma as any, makeGetUseCase() as any, verrouAutorise() as any);
 
     await useCase.execute(1, { nbPoules: 4, dureeRepasMin: 45 });
 
@@ -38,7 +43,7 @@ describe('UpdateParametresSportifsUseCase', () => {
 
   it('convertit un delaiMinActivite explicitement null en Prisma.JsonNull', async () => {
     const prisma = makePrisma();
-    const useCase = new UpdateParametresSportifsUseCase(prisma as any, makeGetUseCase() as any);
+    const useCase = new UpdateParametresSportifsUseCase(prisma as any, makeGetUseCase() as any, verrouAutorise() as any);
 
     await useCase.execute(1, { delaiMinActivite: null });
 
@@ -50,7 +55,7 @@ describe('UpdateParametresSportifsUseCase', () => {
 
   it('transmet un delaiMinActivite fourni tel quel (objet JSON)', async () => {
     const prisma = makePrisma();
-    const useCase = new UpdateParametresSportifsUseCase(prisma as any, makeGetUseCase() as any);
+    const useCase = new UpdateParametresSportifsUseCase(prisma as any, makeGetUseCase() as any, verrouAutorise() as any);
     const matrice = { match: { match: 60 } };
 
     await useCase.execute(1, { delaiMinActivite: matrice });
@@ -63,7 +68,7 @@ describe('UpdateParametresSportifsUseCase', () => {
 
   it("n'inclut pas delaiMinActivite/reglesTieBreak dans la mise à jour si absents du DTO", async () => {
     const prisma = makePrisma();
-    const useCase = new UpdateParametresSportifsUseCase(prisma as any, makeGetUseCase() as any);
+    const useCase = new UpdateParametresSportifsUseCase(prisma as any, makeGetUseCase() as any, verrouAutorise() as any);
 
     await useCase.execute(1, { nbPoules: 4 });
 
@@ -74,7 +79,7 @@ describe('UpdateParametresSportifsUseCase', () => {
 
   it('retourne les paramètres relus après mise à jour', async () => {
     const getUseCase = makeGetUseCase();
-    const useCase = new UpdateParametresSportifsUseCase(makePrisma() as any, getUseCase as any);
+    const useCase = new UpdateParametresSportifsUseCase(makePrisma() as any, getUseCase as any, verrouAutorise() as any);
 
     const result = await useCase.execute(1, { nbPoules: 4 });
 

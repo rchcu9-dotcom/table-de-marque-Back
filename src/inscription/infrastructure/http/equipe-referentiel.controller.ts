@@ -13,6 +13,10 @@ import {
   CreateEquipeReferentielDto,
 } from '../../application/equipe/create-equipe-referentiel.usecase';
 import { ValidateEquipeReferentielUseCase } from '../../application/equipe/validate-equipe-referentiel.usecase';
+import {
+  UpdateEquipeReferentielUseCase,
+  UpdateEquipeReferentielDto,
+} from '../../application/equipe/update-equipe-referentiel.usecase';
 import { Roles } from '../../../auth/decorators/roles.decorator';
 import { RequireAuth } from '../../../auth/decorators/require-auth.decorator';
 
@@ -22,6 +26,7 @@ export class EquipeReferentielController {
     private readonly getEquipes: GetEquipesReferentielUseCase,
     private readonly createEquipe: CreateEquipeReferentielUseCase,
     private readonly validateEquipe: ValidateEquipeReferentielUseCase,
+    private readonly updateEquipe: UpdateEquipeReferentielUseCase,
   ) {}
 
   @Get()
@@ -29,14 +34,17 @@ export class EquipeReferentielController {
     const equipes = await this.getEquipes.execute(false);
     // Contrat d'API public : ne jamais exposer d'information dérivée d'une
     // candidature (candidatureEnCours ou tout futur champ similaire).
-    return equipes.map(({ id, nom, logoUrl, active, createdAt, updatedAt }) => ({
-      id,
-      nom,
-      logoUrl,
-      active,
-      createdAt,
-      updatedAt,
-    }));
+    return equipes.map(
+      ({ id, nom, nomComplet, logoUrl, active, createdAt, updatedAt }) => ({
+        id,
+        nom,
+        nomComplet,
+        logoUrl,
+        active,
+        createdAt,
+        updatedAt,
+      }),
+    );
   }
 
   @Get('toutes')
@@ -49,6 +57,15 @@ export class EquipeReferentielController {
   @RequireAuth()
   async create(@Body() dto: CreateEquipeReferentielDto) {
     return this.createEquipe.execute(dto);
+  }
+
+  @Patch(':id')
+  @Roles('ORGANISATEUR')
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: UpdateEquipeReferentielDto,
+  ) {
+    return this.updateEquipe.execute(id, dto);
   }
 
   @Patch(':id/activer')

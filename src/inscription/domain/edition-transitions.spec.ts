@@ -11,6 +11,9 @@ const AUTORISEES: ReadonlyArray<[EditionEtape, EditionEtape]> = [
   ['CREEE', 'INSCRIPTIONS_OUVERTES'],
   ['CREATION_NOUVEAU_TOURNOI', 'INSCRIPTIONS_OUVERTES'],
   ['INSCRIPTIONS_OUVERTES', 'CLOTUREE'],
+  // Retour en Préparation (RevenirEnPreparationUseCase porte ses conditions).
+  ['INSCRIPTIONS_OUVERTES', 'CREEE'],
+  ['INSCRIPTIONS_OUVERTES', 'CREATION_NOUVEAU_TOURNOI'],
   ['CLOTUREE', 'INSCRIPTIONS_OUVERTES'],
   ['CLOTUREE', 'TOURNOI_DEMARRE'],
 ];
@@ -36,10 +39,11 @@ describe('edition-transitions', () => {
     expect(estTransitionAutorisee(from, to)).toBe(false);
   });
 
-  it('ne permet jamais de revenir vers CREEE ni CREATION_NOUVEAU_TOURNOI', () => {
+  it('ne permet de revenir vers CREEE / CREATION_NOUVEAU_TOURNOI que depuis INSCRIPTIONS_OUVERTES', () => {
     for (const from of EDITION_ETAPES) {
-      expect(estTransitionAutorisee(from, 'CREEE')).toBe(false);
-      expect(estTransitionAutorisee(from, 'CREATION_NOUVEAU_TOURNOI')).toBe(false);
+      const attendu = from === 'INSCRIPTIONS_OUVERTES';
+      expect(estTransitionAutorisee(from, 'CREEE')).toBe(attendu);
+      expect(estTransitionAutorisee(from, 'CREATION_NOUVEAU_TOURNOI')).toBe(attendu);
     }
   });
 

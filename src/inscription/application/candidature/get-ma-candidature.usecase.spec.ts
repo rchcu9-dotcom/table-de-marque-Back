@@ -234,6 +234,28 @@ describe('GetMaCandidatureUseCase', () => {
       },
     );
 
+    // docs/specs/-ajout-de-la-colonne-nomcomplet-contexte-la-colonne-nomcompl.md — hors périmètre, CA9
+    it("n'expose pas le nom complet du club au responsable", async () => {
+      const inscription = makeInscription({
+        statut: 'VALIDEE',
+        equipeRef: {
+          id: 3,
+          nom: 'Courbevoie',
+          nomComplet: 'Les Coqs de Courbevoie',
+          logoUrl: null,
+        },
+        dossier: { repasPaiementRecu: false, joueurs: [] },
+      });
+      const { useCase } = makeUseCase(inscription);
+
+      const result = await useCase.execute(FIREBASE_UID);
+
+      expect(result).not.toHaveProperty('equipeNomComplet');
+      expect(result).not.toHaveProperty('nomComplet');
+      expect(JSON.stringify(result)).not.toContain('Les Coqs de Courbevoie');
+      expect(result!.equipeNom).toBe('TestTeam');
+    });
+
     it('ne modifie pas les champs existants du contrat', async () => {
       const createdAt = new Date('2026-04-01T00:00:00.000Z');
       const inscription = {

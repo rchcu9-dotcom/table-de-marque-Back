@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InscriptionPrismaService } from '../../infrastructure/persistence/inscription-prisma.service';
 import { DossierAccessService } from './dossier-access.service';
+import type { DossierActeur } from './dossier-acteur';
 import { AnneeAgeValidationService } from './annee-age-validation.service';
 import { CreateJoueurDossierDto } from './dto/upsert-joueur-dossier.dto';
 import { toJoueurDossierEntity } from '../../infrastructure/persistence/dossier.mapper';
@@ -15,12 +16,11 @@ export class AjouterJoueurUseCase {
   ) {}
 
   async execute(
-    providerUid: string,
+    acteur: DossierActeur,
     dto: CreateJoueurDossierDto,
   ): Promise<JoueurDossier> {
     const inscription =
-      await this.dossierAccess.getInscriptionActivePourUtilisateur(providerUid);
-    await this.dossierAccess.assertDossierModifiable(inscription);
+      await this.dossierAccess.getInscriptionModifiable(acteur);
     await this.anneeAgeValidation.assertAnneeAgeValide(
       inscription.editionId,
       dto.anneeNaissance,

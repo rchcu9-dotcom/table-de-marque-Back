@@ -32,6 +32,10 @@ import {
   UpdateCoachDossierDto,
 } from '../../application/dossier/dto/upsert-coach-dossier.dto';
 import { AccepterDroitsImageDto } from '../../application/dossier/dto/accepter-droits-image.dto';
+import {
+  organisateur,
+  referent,
+} from '../../application/dossier/dossier-acteur';
 
 @Controller('inscription/dossier')
 export class DossierController {
@@ -65,7 +69,10 @@ export class DossierController {
     @CurrentUser() currentUser: CurrentUserPayload,
     @Body() dto: CreateJoueurDossierDto,
   ) {
-    return this.ajouterJoueurUseCase.execute(currentUser.providerUid, dto);
+    return this.ajouterJoueurUseCase.execute(
+      referent(currentUser.providerUid),
+      dto,
+    );
   }
 
   @Patch('joueurs/:id')
@@ -75,7 +82,11 @@ export class DossierController {
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateJoueurDossierDto,
   ) {
-    return this.modifierJoueurUseCase.execute(currentUser.providerUid, id, dto);
+    return this.modifierJoueurUseCase.execute(
+      referent(currentUser.providerUid),
+      id,
+      dto,
+    );
   }
 
   @Delete('joueurs/:id')
@@ -84,7 +95,10 @@ export class DossierController {
     @CurrentUser() currentUser: CurrentUserPayload,
     @Param('id', ParseIntPipe) id: number,
   ) {
-    await this.supprimerJoueurUseCase.execute(currentUser.providerUid, id);
+    await this.supprimerJoueurUseCase.execute(
+      referent(currentUser.providerUid),
+      id,
+    );
     return { success: true };
   }
 
@@ -94,7 +108,10 @@ export class DossierController {
     @CurrentUser() currentUser: CurrentUserPayload,
     @Body() dto: CreateCoachDossierDto,
   ) {
-    return this.ajouterCoachUseCase.execute(currentUser.providerUid, dto);
+    return this.ajouterCoachUseCase.execute(
+      referent(currentUser.providerUid),
+      dto,
+    );
   }
 
   @Patch('coachs/:id')
@@ -104,7 +121,11 @@ export class DossierController {
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateCoachDossierDto,
   ) {
-    return this.modifierCoachUseCase.execute(currentUser.providerUid, id, dto);
+    return this.modifierCoachUseCase.execute(
+      referent(currentUser.providerUid),
+      id,
+      dto,
+    );
   }
 
   @Delete('coachs/:id')
@@ -113,7 +134,10 @@ export class DossierController {
     @CurrentUser() currentUser: CurrentUserPayload,
     @Param('id', ParseIntPipe) id: number,
   ) {
-    await this.supprimerCoachUseCase.execute(currentUser.providerUid, id);
+    await this.supprimerCoachUseCase.execute(
+      referent(currentUser.providerUid),
+      id,
+    );
     return { success: true };
   }
 
@@ -124,8 +148,80 @@ export class DossierController {
     @Body() dto: AccepterDroitsImageDto,
   ) {
     return this.accepterDroitsImageUseCase.execute(
-      currentUser.providerUid,
+      referent(currentUser.providerUid),
       dto,
     );
+  }
+
+  // ── Routes organisateur : écriture sur le dossier d'une candidature ──────
+  // Mêmes use cases que le référent, la candidature étant désignée par l'URL.
+  // DOSSIER_COMPLET reste modifiable pour l'organisateur (cf.
+  // DossierAccessService.assertDossierModifiable).
+
+  @Post('candidature/:id/joueurs')
+  @Roles('ORGANISATEUR')
+  async ajouterJoueurCandidature(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: CreateJoueurDossierDto,
+  ) {
+    return this.ajouterJoueurUseCase.execute(organisateur(id), dto);
+  }
+
+  @Patch('candidature/:id/joueurs/:joueurId')
+  @Roles('ORGANISATEUR')
+  async modifierJoueurCandidature(
+    @Param('id', ParseIntPipe) id: number,
+    @Param('joueurId', ParseIntPipe) joueurId: number,
+    @Body() dto: UpdateJoueurDossierDto,
+  ) {
+    return this.modifierJoueurUseCase.execute(organisateur(id), joueurId, dto);
+  }
+
+  @Delete('candidature/:id/joueurs/:joueurId')
+  @Roles('ORGANISATEUR')
+  async supprimerJoueurCandidature(
+    @Param('id', ParseIntPipe) id: number,
+    @Param('joueurId', ParseIntPipe) joueurId: number,
+  ) {
+    await this.supprimerJoueurUseCase.execute(organisateur(id), joueurId);
+    return { success: true };
+  }
+
+  @Post('candidature/:id/coachs')
+  @Roles('ORGANISATEUR')
+  async ajouterCoachCandidature(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: CreateCoachDossierDto,
+  ) {
+    return this.ajouterCoachUseCase.execute(organisateur(id), dto);
+  }
+
+  @Patch('candidature/:id/coachs/:coachId')
+  @Roles('ORGANISATEUR')
+  async modifierCoachCandidature(
+    @Param('id', ParseIntPipe) id: number,
+    @Param('coachId', ParseIntPipe) coachId: number,
+    @Body() dto: UpdateCoachDossierDto,
+  ) {
+    return this.modifierCoachUseCase.execute(organisateur(id), coachId, dto);
+  }
+
+  @Delete('candidature/:id/coachs/:coachId')
+  @Roles('ORGANISATEUR')
+  async supprimerCoachCandidature(
+    @Param('id', ParseIntPipe) id: number,
+    @Param('coachId', ParseIntPipe) coachId: number,
+  ) {
+    await this.supprimerCoachUseCase.execute(organisateur(id), coachId);
+    return { success: true };
+  }
+
+  @Patch('candidature/:id/droits-image')
+  @Roles('ORGANISATEUR')
+  async accepterDroitsImageCandidature(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: AccepterDroitsImageDto,
+  ) {
+    return this.accepterDroitsImageUseCase.execute(organisateur(id), dto);
   }
 }

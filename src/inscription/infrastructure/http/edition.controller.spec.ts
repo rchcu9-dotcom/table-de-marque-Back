@@ -7,6 +7,7 @@ import type { UpdateEditionUseCase } from '../../application/edition/update-edit
 import type { DemarrerTournoiUseCase } from '../../application/edition/demarrer-tournoi.usecase';
 import type { OuvrirInscriptionsUseCase } from '../../application/edition/ouvrir-inscriptions.usecase';
 import type { CloturerInscriptionsUseCase } from '../../application/edition/cloturer-inscriptions.usecase';
+import type { RevenirEnPreparationUseCase } from '../../application/edition/revenir-en-preparation.usecase';
 import type { ExportTaUseCase } from '../../application/edition/export-ta.usecase';
 
 /**
@@ -30,6 +31,9 @@ describe('EditionController', () => {
     const demarrerTournoi = { execute: jest.fn() } as unknown as DemarrerTournoiUseCase;
     const ouvrirInscriptions = { execute: jest.fn() } as unknown as OuvrirInscriptionsUseCase;
     const cloturerInscriptions = { execute: jest.fn() } as unknown as CloturerInscriptionsUseCase;
+    const revenirEnPreparation = {
+      execute: jest.fn(),
+    } as unknown as RevenirEnPreparationUseCase;
     const exportTa = { execute: jest.fn() } as unknown as ExportTaUseCase;
     const controller = new EditionController(
       getEditionCourante,
@@ -39,6 +43,7 @@ describe('EditionController', () => {
       demarrerTournoi,
       ouvrirInscriptions,
       cloturerInscriptions,
+      revenirEnPreparation,
       exportTa,
     );
     return {
@@ -50,6 +55,7 @@ describe('EditionController', () => {
       demarrerTournoi,
       ouvrirInscriptions,
       cloturerInscriptions,
+      revenirEnPreparation,
       exportTa,
     };
   }
@@ -178,6 +184,26 @@ describe('EditionController', () => {
 
       expect(cloturerInscriptions.execute).toHaveBeenCalledWith(1);
       expect(result).toEqual({ id: 1, etape: 'CLOTUREE' });
+    });
+  });
+
+  describe('revenirEnPreparation()', () => {
+    it('exige le rôle ORGANISATEUR (métadonnée @Roles posée sur la route)', () => {
+      const roles = Reflect.getMetadata(
+        ROLES_KEY,
+        EditionController.prototype.revenirEnPreparation,
+      );
+      expect(roles).toEqual(['ORGANISATEUR']);
+    });
+
+    it("délègue à RevenirEnPreparationUseCase.execute avec l'id parsé et retourne son résultat", async () => {
+      const { controller, revenirEnPreparation } = makeController();
+      (revenirEnPreparation.execute as jest.Mock).mockResolvedValue({ id: 1, etape: 'CREEE' });
+
+      const result = await controller.revenirEnPreparation(1);
+
+      expect(revenirEnPreparation.execute).toHaveBeenCalledWith(1);
+      expect(result).toEqual({ id: 1, etape: 'CREEE' });
     });
   });
 

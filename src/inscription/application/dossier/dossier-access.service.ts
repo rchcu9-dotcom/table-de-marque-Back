@@ -6,6 +6,7 @@ import {
 import { InscriptionPrismaService } from '../../infrastructure/persistence/inscription-prisma.service';
 import { EditionResolverService } from '../shared/edition-resolver.service';
 import { InscInscription, InscriptionStatut } from '@prisma/client';
+import type { DossierActeur, RoleDossier } from './dossier-acteur';
 
 const STATUTS_DOSSIER_ACCESSIBLE: InscriptionStatut[] = [
   InscriptionStatut.VALIDEE,
@@ -52,11 +53,45 @@ export class DossierAccessService {
   }
 
   /**
+   * Candidature désignée par son id (routes organisateur). Mêmes statuts
+   * accessibles que pour le référent : pas de dossier avant VALIDEE.
+   */
+  async getInscriptionParId(candidatureId: number): Promise<InscInscription> {
+    const inscription = await this.prisma.inscInscription.findUnique({
+      where: { id: candidatureId },
+    });
+    if (!inscription) {
+      throw new NotFoundException('Candidature non trouvée');
+    }
+
+    if (!STATUTS_DOSSIER_ACCESSIBLE.includes(inscription.statut)) {
+      throw new BadRequestException(
+        "Le dossier n'est pas encore accessible pour cette inscription",
+      );
+    }
+
+    return inscription;
+  }
+
+  getInscriptionPourActeur(acteur: DossierActeur): Promise<InscInscription> {
+    return acteur.role === 'ORGANISATEUR'
+      ? this.getInscriptionParId(acteur.candidatureId)
+      : this.getInscriptionActivePourUtilisateur(acteur.providerUid);
+  }
+
+  /**
    * Deux garde-fous distincts (raisons différentes) : TOURNOI_DEMARRE vérifié
    * en premier pour que le message reflète la cause la plus actuelle quand
    * les deux conditions sont vraies en même temps.
+   *
+   * DOSSIER_COMPLET ne verrouille que le référent : l'organisateur, qui a figé
+   * le dossier, peut encore le corriger sans le rouvrir. TOURNOI_DEMARRE
+   * verrouille tout le monde.
    */
-  async assertDossierModifiable(inscription: InscInscription): Promise<void> {
+  async assertDossierModifiable(
+    inscription: InscInscription,
+    role: RoleDossier = 'REFERENT',
+  ): Promise<void> {
     const edition = await this.editionResolver.getEditionActive();
     if (edition.etape === 'TOURNOI_DEMARRE') {
       throw new BadRequestException(
@@ -64,7 +99,10 @@ export class DossierAccessService {
       );
     }
 
-    if (inscription.statut === InscriptionStatut.DOSSIER_COMPLET) {
+    if (
+      role === 'REFERENT' &&
+      inscription.statut === InscriptionStatut.DOSSIER_COMPLET
+    ) {
       throw new BadRequestException(
         "Le dossier est validé et ne peut plus être modifié. Contactez l'organisateur pour le rouvrir.",
       );
@@ -72,8 +110,20 @@ export class DossierAccessService {
   }
 
   /**
+   * Résout l'inscription de l'acteur et vérifie qu'il peut y écrire.
+   */
+  async getInscriptionModifiable(
+    acteur: DossierActeur,
+  ): Promise<InscInscription> {
+    const inscription = await this.getInscriptionPourActeur(acteur);
+    await this.assertDossierModifiable(inscription, acteur.role);
+    return inscription;
+  }
+
+  /**
    * Garantit qu'un dossier existe pour l'inscription, et fait transiter
-   * VALIDEE -> DOSSIER_EN_COURS lors de la première écriture.
+   * VALIDEE -> DOSSIER_EN_COURS lors de la première écriture (quel que soit
+   * le rôle). Les autres statuts, dont DOSSIER_COMPLET, sont inchangés.
    */
   async assurerDossierEnCours(inscription: InscInscription): Promise<number> {
     const dossier = await this.prisma.inscDossier.upsert({

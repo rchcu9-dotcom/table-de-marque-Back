@@ -1,3 +1,4 @@
+import { verrouAutorise } from '../../../../test/support/edition-verrou.mock';
 import { UpsertJourUseCase } from './upsert-jour.usecase';
 import { makeJour } from '../services/__fixtures__/planning.fixtures';
 
@@ -5,7 +6,7 @@ describe('UpsertJourUseCase', () => {
   it('délègue au repository avec les champs du DTO', async () => {
     const jour = makeJour({ numeroJour: 1 });
     const repository = { upsert: jest.fn().mockResolvedValue(jour) };
-    const useCase = new UpsertJourUseCase(repository as any);
+    const useCase = new UpsertJourUseCase(repository as any, verrouAutorise() as any);
 
     const dto = {
       numeroJour: 1,

@@ -37,4 +37,33 @@ describe('GetClassementByPouleUseCase', () => {
 
     expect(result).toBeNull();
   });
+
+  it('accepte une phase demandée avec une casse différente', async () => {
+    const repo = new StubEquipeRepository({
+      pouleCode: 'A',
+      pouleName: 'Poule A',
+      phase: 'brassage',
+      equipes: [],
+    });
+    const useCase = new GetClassementByPouleUseCase(repo);
+
+    const result = await useCase.execute('A', 'Brassage');
+
+    expect(result).not.toBeNull();
+    expect(result?.phase).toBe('Brassage');
+  });
+
+  it('retourne null si la phase demandée ne correspond pas', async () => {
+    const repo = new StubEquipeRepository({
+      pouleCode: 'A',
+      pouleName: 'Poule A',
+      phase: 'brassage',
+      equipes: [],
+    });
+    const useCase = new GetClassementByPouleUseCase(repo);
+
+    const result = await useCase.execute('A', 'Qualification');
+
+    expect(result).toBeNull();
+  });
 });

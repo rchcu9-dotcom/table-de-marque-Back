@@ -1,3 +1,4 @@
+import { verrouAutorise } from '../../../../../test/support/edition-verrou.mock';
 import { NotFoundException } from '@nestjs/common';
 import { ModifierPhaseUseCase } from './modifier-phase.usecase';
 
@@ -8,7 +9,7 @@ describe('ModifierPhaseUseCase', () => {
       updatePhase: jest.fn().mockResolvedValue(phase),
       marquerModifieManuellement: jest.fn(),
     };
-    const useCase = new ModifierPhaseUseCase(repo as any);
+    const useCase = new ModifierPhaseUseCase(repo as any, verrouAutorise() as any);
 
     const result = await useCase.execute(1, 1, { nom: 'Qualification' });
 
@@ -22,7 +23,7 @@ describe('ModifierPhaseUseCase', () => {
       updatePhase: jest.fn().mockResolvedValue(null),
       marquerModifieManuellement: jest.fn(),
     };
-    const useCase = new ModifierPhaseUseCase(repo as any);
+    const useCase = new ModifierPhaseUseCase(repo as any, verrouAutorise() as any);
 
     await expect(useCase.execute(1, 999, { nom: 'X' })).rejects.toThrow(
       NotFoundException,

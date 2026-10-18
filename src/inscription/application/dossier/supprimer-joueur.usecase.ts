@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InscriptionPrismaService } from '../../infrastructure/persistence/inscription-prisma.service';
 import { DossierAccessService } from './dossier-access.service';
+import type { DossierActeur } from './dossier-acteur';
 
 @Injectable()
 export class SupprimerJoueurUseCase {
@@ -9,10 +10,9 @@ export class SupprimerJoueurUseCase {
     private readonly dossierAccess: DossierAccessService,
   ) {}
 
-  async execute(providerUid: string, joueurId: number): Promise<void> {
+  async execute(acteur: DossierActeur, joueurId: number): Promise<void> {
     const inscription =
-      await this.dossierAccess.getInscriptionActivePourUtilisateur(providerUid);
-    await this.dossierAccess.assertDossierModifiable(inscription);
+      await this.dossierAccess.getInscriptionModifiable(acteur);
 
     const joueur = await this.prisma.inscJoueurDossier.findUnique({
       where: { id: joueurId },

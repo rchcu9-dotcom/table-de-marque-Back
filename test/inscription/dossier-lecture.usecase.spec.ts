@@ -5,6 +5,8 @@ import { AccepterDroitsImageUseCase } from '@/inscription/application/dossier/ac
 import type { InscriptionPrismaService } from '@/inscription/infrastructure/persistence/inscription-prisma.service';
 import type { DossierAccessService } from '@/inscription/application/dossier/dossier-access.service';
 import { InscriptionStatut } from '@prisma/client';
+import { withGetInscriptionModifiable } from './support/dossier-access-mock';
+import { referent } from '@/inscription/application/dossier/dossier-acteur';
 
 const INSCRIPTION_EN_COURS = { id: 100, statut: InscriptionStatut.DOSSIER_EN_COURS };
 
@@ -12,14 +14,14 @@ function makeDossierAccess(overrides: {
   getInscriptionActivePourUtilisateur?: jest.Mock;
   assurerDossierEnCours?: jest.Mock;
 }): DossierAccessService {
-  return {
+  return withGetInscriptionModifiable({
     getInscriptionActivePourUtilisateur:
       overrides.getInscriptionActivePourUtilisateur ??
       jest.fn().mockResolvedValue(INSCRIPTION_EN_COURS),
     assertDossierModifiable: jest.fn(),
     assurerDossierEnCours:
       overrides.assurerDossierEnCours ?? jest.fn().mockResolvedValue(5),
-  } as unknown as DossierAccessService;
+  });
 }
 
 describe('GetMonDossierUseCase', () => {
@@ -147,7 +149,7 @@ describe('AccepterDroitsImageUseCase', () => {
     const prisma = { inscDossier: { update } } as unknown as InscriptionPrismaService;
     const useCase = new AccepterDroitsImageUseCase(prisma, makeDossierAccess({}));
 
-    const result = await useCase.execute('user-1', { accepte: true });
+    const result = await useCase.execute(referent('user-1'), { accepte: true });
 
     expect(update).toHaveBeenCalledWith({
       where: { id: 5 },
@@ -176,7 +178,7 @@ describe('AccepterDroitsImageUseCase', () => {
     const prisma = { inscDossier: { update } } as unknown as InscriptionPrismaService;
     const useCase = new AccepterDroitsImageUseCase(prisma, makeDossierAccess({}));
 
-    await useCase.execute('user-1', { accepte: false });
+    await useCase.execute(referent('user-1'), { accepte: false });
 
     expect(update).toHaveBeenCalledWith({
       where: { id: 5 },

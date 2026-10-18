@@ -1,3 +1,4 @@
+import { verrouAutorise } from '../../../../../test/support/edition-verrou.mock';
 import { CreerPhaseUseCase } from './creer-phase.usecase';
 
 describe('CreerPhaseUseCase', () => {
@@ -7,7 +8,7 @@ describe('CreerPhaseUseCase', () => {
       createPhase: jest.fn().mockResolvedValue(phase),
       marquerModifieManuellement: jest.fn(),
     };
-    const useCase = new CreerPhaseUseCase(repo as any);
+    const useCase = new CreerPhaseUseCase(repo as any, verrouAutorise() as any);
 
     const result = await useCase.execute(1, { nom: 'Brassage', ordre: 1 });
 

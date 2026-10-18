@@ -1,3 +1,4 @@
+import { verrouAutorise } from '../../../../../test/support/edition-verrou.mock';
 import { SupprimerPlaceUseCase } from './supprimer-place.usecase';
 
 describe('SupprimerPlaceUseCase', () => {
@@ -6,7 +7,7 @@ describe('SupprimerPlaceUseCase', () => {
       supprimerPlace: jest.fn().mockResolvedValue(undefined),
       marquerModifieManuellement: jest.fn(),
     };
-    const useCase = new SupprimerPlaceUseCase(repo as any);
+    const useCase = new SupprimerPlaceUseCase(repo as any, verrouAutorise() as any);
 
     await useCase.execute(1, 100);
 

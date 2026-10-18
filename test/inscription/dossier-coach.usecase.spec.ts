@@ -5,20 +5,22 @@ import { SupprimerCoachUseCase } from '@/inscription/application/dossier/supprim
 import type { InscriptionPrismaService } from '@/inscription/infrastructure/persistence/inscription-prisma.service';
 import type { DossierAccessService } from '@/inscription/application/dossier/dossier-access.service';
 import { InscriptionStatut } from '@prisma/client';
+import { withGetInscriptionModifiable } from './support/dossier-access-mock';
+import { referent } from '@/inscription/application/dossier/dossier-acteur';
 
 const INSCRIPTION_EN_COURS = { id: 100, statut: InscriptionStatut.DOSSIER_EN_COURS };
 
 function makeDossierAccess(overrides: {
   assurerDossierEnCours?: jest.Mock;
 }): DossierAccessService {
-  return {
+  return withGetInscriptionModifiable({
     getInscriptionActivePourUtilisateur: jest
       .fn()
       .mockResolvedValue(INSCRIPTION_EN_COURS),
     assertDossierModifiable: jest.fn(),
     assurerDossierEnCours:
       overrides.assurerDossierEnCours ?? jest.fn().mockResolvedValue(5),
-  } as unknown as DossierAccessService;
+  });
 }
 
 describe('AjouterCoachUseCase', () => {
@@ -35,7 +37,7 @@ describe('AjouterCoachUseCase', () => {
     const prisma = { inscCoachDossier: { create } } as unknown as InscriptionPrismaService;
     const useCase = new AjouterCoachUseCase(prisma, makeDossierAccess({}));
 
-    const result = await useCase.execute('user-1', {
+    const result = await useCase.execute(referent('user-1'), {
       nom: 'Bowman',
       prenom: 'Scotty',
     });
@@ -59,7 +61,7 @@ describe('AjouterCoachUseCase', () => {
     const prisma = { inscCoachDossier: { create } } as unknown as InscriptionPrismaService;
     const useCase = new AjouterCoachUseCase(prisma, makeDossierAccess({}));
 
-    await useCase.execute('user-1', {
+    await useCase.execute(referent('user-1'), {
       nom: 'Bowman',
       prenom: 'Scotty',
       presenceRepas: true,
@@ -82,7 +84,7 @@ describe('ModifierCoachUseCase', () => {
     } as unknown as InscriptionPrismaService;
     const useCase = new ModifierCoachUseCase(prisma, makeDossierAccess({}));
 
-    await expect(useCase.execute('user-1', 1, {})).rejects.toThrow(
+    await expect(useCase.execute(referent('user-1'), 1, {})).rejects.toThrow(
       NotFoundException,
     );
     expect(update).not.toHaveBeenCalled();
@@ -108,7 +110,7 @@ describe('ModifierCoachUseCase', () => {
     } as unknown as InscriptionPrismaService;
     const useCase = new ModifierCoachUseCase(prisma, makeDossierAccess({}));
 
-    const result = await useCase.execute('user-1', 1, { presenceRepas: true });
+    const result = await useCase.execute(referent('user-1'), 1, { presenceRepas: true });
 
     expect(update).toHaveBeenCalledWith({
       where: { id: 1 },
@@ -129,7 +131,7 @@ describe('SupprimerCoachUseCase', () => {
     } as unknown as InscriptionPrismaService;
     const useCase = new SupprimerCoachUseCase(prisma, makeDossierAccess({}));
 
-    await expect(useCase.execute('user-1', 1)).rejects.toThrow(
+    await expect(useCase.execute(referent('user-1'), 1)).rejects.toThrow(
       NotFoundException,
     );
     expect(del).not.toHaveBeenCalled();
@@ -147,7 +149,7 @@ describe('SupprimerCoachUseCase', () => {
     } as unknown as InscriptionPrismaService;
     const useCase = new SupprimerCoachUseCase(prisma, makeDossierAccess({}));
 
-    await useCase.execute('user-1', 1);
+    await useCase.execute(referent('user-1'), 1);
 
     expect(del).toHaveBeenCalledWith({ where: { id: 1 } });
   });

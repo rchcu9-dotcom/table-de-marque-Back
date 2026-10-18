@@ -21,7 +21,13 @@ export class GetClassementByPouleUseCase {
   ): Promise<PouleClassement | null> {
     const res = await this.equipeRepo.findClassementByPoule(code);
     if (!res) return null;
-    if (phase && res.phase && res.phase !== phase) {
+    // Comparaison insensible à la casse : le front envoie "Brassage",
+    // le classement interne renvoie "brassage".
+    if (
+      phase &&
+      res.phase &&
+      res.phase.trim().toLowerCase() !== phase.trim().toLowerCase()
+    ) {
       return null;
     }
     const phaseValue = phase ?? res.phase;

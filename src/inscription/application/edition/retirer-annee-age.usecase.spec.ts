@@ -1,3 +1,5 @@
+import { EditionVerrouService } from '../shared/edition-verrou.service';
+import { verrouAutorise } from '../../../../test/support/edition-verrou.mock';
 import { NotFoundException } from '@nestjs/common';
 import { RetirerAnneeAgeUseCase } from './retirer-annee-age.usecase';
 import type { InscriptionPrismaService } from '../../infrastructure/persistence/inscription-prisma.service';
@@ -76,7 +78,8 @@ describe('RetirerAnneeAgeUseCase', () => {
       findUnique: jest.fn().mockResolvedValue(null),
       deleteMany,
     });
-    const useCase = new RetirerAnneeAgeUseCase(prisma);
+    // Le 404 vient désormais du garde d'étape (EditionVerrouService réel).
+    const useCase = new RetirerAnneeAgeUseCase(prisma, new EditionVerrouService(prisma));
 
     await expect(useCase.execute(999, 2015)).rejects.toThrow(NotFoundException);
     expect(deleteMany).not.toHaveBeenCalled();
@@ -89,7 +92,7 @@ describe('RetirerAnneeAgeUseCase', () => {
       deleteMany,
       findUniqueOrThrow: jest.fn().mockResolvedValue(makeRawEditionAvecAnnees([2014])),
     });
-    const useCase = new RetirerAnneeAgeUseCase(prisma);
+    const useCase = new RetirerAnneeAgeUseCase(prisma, verrouAutorise() as any);
 
     const result = await useCase.execute(1, 2015);
 
@@ -106,7 +109,7 @@ describe('RetirerAnneeAgeUseCase', () => {
       deleteMany,
       findUniqueOrThrow: jest.fn().mockResolvedValue(makeRawEditionAvecAnnees([2014])),
     });
-    const useCase = new RetirerAnneeAgeUseCase(prisma);
+    const useCase = new RetirerAnneeAgeUseCase(prisma, verrouAutorise() as any);
 
     await expect(useCase.execute(1, 1999)).resolves.toBeDefined();
   });

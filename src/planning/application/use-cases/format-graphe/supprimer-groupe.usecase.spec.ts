@@ -1,3 +1,4 @@
+import { verrouAutorise } from '../../../../../test/support/edition-verrou.mock';
 import { SupprimerGroupeUseCase } from './supprimer-groupe.usecase';
 
 describe('SupprimerGroupeUseCase', () => {
@@ -6,7 +7,7 @@ describe('SupprimerGroupeUseCase', () => {
       deleteGroupe: jest.fn().mockResolvedValue(undefined),
       marquerModifieManuellement: jest.fn(),
     };
-    const useCase = new SupprimerGroupeUseCase(repo as any);
+    const useCase = new SupprimerGroupeUseCase(repo as any, verrouAutorise() as any);
 
     await useCase.execute(1, 10);
 

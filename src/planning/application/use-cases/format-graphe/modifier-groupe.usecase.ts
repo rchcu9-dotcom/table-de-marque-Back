@@ -5,12 +5,14 @@ import {
 } from '../../../domain/repositories/format-graphe.repository';
 import { FormatGroupe } from '../../../domain/entities/format/format-groupe.entity';
 import { ModifierGroupeDto } from '../../dto/format-graphe/modifier-groupe.dto';
+import { EditionVerrouService } from '@/inscription/application/shared/edition-verrou.service';
 
 @Injectable()
 export class ModifierGroupeUseCase {
   constructor(
     @Inject(FORMAT_GRAPHE_REPOSITORY)
     private readonly repo: FormatGrapheRepository,
+    private readonly editionVerrou: EditionVerrouService,
   ) {}
 
   async execute(
@@ -18,6 +20,8 @@ export class ModifierGroupeUseCase {
     groupeId: number,
     dto: ModifierGroupeDto,
   ): Promise<FormatGroupe> {
+    // Formule sportive figée au lancement du tournoi (404 si l'édition n'existe pas).
+    await this.editionVerrou.assertFormuleSportiveModifiable(editionId);
     const groupe = await this.repo.updateGroupe(groupeId, {
       nom: dto.nom,
       formule: dto.formule,

@@ -1,3 +1,4 @@
+import { verrouAutorise } from '../../../../../test/support/edition-verrou.mock';
 import { AjouterPlaceAliasUseCase } from './ajouter-place-alias.usecase';
 
 describe('AjouterPlaceAliasUseCase', () => {
@@ -7,7 +8,7 @@ describe('AjouterPlaceAliasUseCase', () => {
       ajouterPlaceAlias: jest.fn().mockResolvedValue(place),
       marquerModifieManuellement: jest.fn(),
     };
-    const useCase = new AjouterPlaceAliasUseCase(repo as any);
+    const useCase = new AjouterPlaceAliasUseCase(repo as any, verrouAutorise() as any);
 
     const result = await useCase.execute(1, 10, { aliasLabel: 'Équipe C' });
 

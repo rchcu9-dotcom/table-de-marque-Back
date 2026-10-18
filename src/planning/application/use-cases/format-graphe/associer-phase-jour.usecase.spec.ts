@@ -1,3 +1,4 @@
+import { verrouAutorise } from '../../../../../test/support/edition-verrou.mock';
 import { AssocierPhaseJourUseCase } from './associer-phase-jour.usecase';
 
 describe('AssocierPhaseJourUseCase', () => {
@@ -6,7 +7,7 @@ describe('AssocierPhaseJourUseCase', () => {
       associerPhaseJour: jest.fn().mockResolvedValue(undefined),
       marquerModifieManuellement: jest.fn(),
     };
-    const useCase = new AssocierPhaseJourUseCase(repo as any);
+    const useCase = new AssocierPhaseJourUseCase(repo as any, verrouAutorise() as any);
 
     await useCase.execute(1, 5, { editionJourId: 3 });
 

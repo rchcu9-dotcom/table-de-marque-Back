@@ -247,6 +247,37 @@ describe('CandidatureController (integration)', () => {
     },
   ];
 
+  // docs/specs/-ajout-de-la-colonne-nomcomplet-contexte-la-colonne-nomcompl.md — §2
+  describe('GET /inscription/candidatures — nom complet du club', () => {
+    it("transmet equipeNomComplet à l'organisateur, renseigné ou null", async () => {
+      givenRole(testApp.prisma, 'ORGANISATEUR');
+      getToutesCandidaturesUseCase.execute.mockResolvedValue([
+        {
+          id: 1,
+          equipeNom: 'Courbevoie',
+          equipeNomComplet: 'Les Coqs de Courbevoie',
+          statut: 'CANDIDATE',
+        },
+        { id: 2, equipeNom: 'Rennes', equipeNomComplet: null, statut: 'VALIDEE' },
+      ]);
+
+      const res = await request(testApp.app.getHttpServer())
+        .get('/inscription/candidatures')
+        .set('Authorization', 'Bearer organisateur-1')
+        .expect(200);
+
+      expect(res.body).toEqual([
+        {
+          id: 1,
+          equipeNom: 'Courbevoie',
+          equipeNomComplet: 'Les Coqs de Courbevoie',
+          statut: 'CANDIDATE',
+        },
+        { id: 2, equipeNom: 'Rennes', equipeNomComplet: null, statut: 'VALIDEE' },
+      ]);
+    });
+  });
+
   function makeRequest(method: 'get' | 'patch', path: string) {
     const agent = request(testApp.app.getHttpServer());
     return method === 'get' ? agent.get(path) : agent.patch(path);

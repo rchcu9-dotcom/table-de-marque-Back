@@ -10,6 +10,8 @@ import {
 export interface CandidatureOrganisateurItem extends PaiementInscription {
   id: number;
   equipeNom: string;
+  /** Lecture seule, tiré du référentiel : jamais recopié dans l'inscription. */
+  equipeNomComplet: string | null;
   equipeLogoUrl: string | null;
   utilisateurEmail: string;
   utilisateurDisplayName: string | null;
@@ -51,6 +53,7 @@ export class GetToutesCandidaturesUseCase {
     return inscriptions.map((i) => ({
       id: i.id,
       equipeNom: i.equipeNom,
+      equipeNomComplet: i.equipeRef?.nomComplet ?? null,
       equipeLogoUrl: i.equipeRef?.logoUrl ?? null,
       utilisateurEmail: i.utilisateur.email,
       utilisateurDisplayName: i.utilisateur.displayName,

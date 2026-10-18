@@ -1,3 +1,4 @@
+import { verrouAutorise } from '../../../../../test/support/edition-verrou.mock';
 import { CreerActiviteCatalogueUseCase } from './creer-activite-catalogue.usecase';
 import { makeActiviteCatalogue } from '../../services/__fixtures__/planning.fixtures';
 
@@ -5,7 +6,7 @@ describe('CreerActiviteCatalogueUseCase', () => {
   it('délègue au repository avec les champs du DTO', async () => {
     const activite = makeActiviteCatalogue({ id: 1, label: 'Photo' });
     const repository = { create: jest.fn().mockResolvedValue(activite) };
-    const useCase = new CreerActiviteCatalogueUseCase(repository as any);
+    const useCase = new CreerActiviteCatalogueUseCase(repository as any, verrouAutorise() as any);
 
     const dto = { label: 'Photo', dureeParEquipeMin: 15, capaciteParallele: 2 };
     const result = await useCase.execute(1, dto);

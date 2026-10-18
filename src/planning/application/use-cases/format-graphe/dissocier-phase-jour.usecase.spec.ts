@@ -1,3 +1,4 @@
+import { verrouAutorise } from '../../../../../test/support/edition-verrou.mock';
 import { DissocierPhaseJourUseCase } from './dissocier-phase-jour.usecase';
 
 describe('DissocierPhaseJourUseCase', () => {
@@ -6,7 +7,7 @@ describe('DissocierPhaseJourUseCase', () => {
       dissocierPhaseJour: jest.fn().mockResolvedValue(undefined),
       marquerModifieManuellement: jest.fn(),
     };
-    const useCase = new DissocierPhaseJourUseCase(repo as any);
+    const useCase = new DissocierPhaseJourUseCase(repo as any, verrouAutorise() as any);
 
     await useCase.execute(1, 5, 3);
 

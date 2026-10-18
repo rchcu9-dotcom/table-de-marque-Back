@@ -1,3 +1,4 @@
+import { verrouAutorise } from '../../../../../test/support/edition-verrou.mock';
 import { BadRequestException } from '@nestjs/common';
 import { DefinirLienUseCase } from './definir-lien.usecase';
 
@@ -8,7 +9,7 @@ describe('DefinirLienUseCase', () => {
       definirLien: jest.fn().mockResolvedValue(lien),
       marquerModifieManuellement: jest.fn(),
     };
-    const useCase = new DefinirLienUseCase(repo as any);
+    const useCase = new DefinirLienUseCase(repo as any, verrouAutorise() as any);
 
     const result = await useCase.execute(1, 10, 1, { groupeCibleId: 20 });
 
@@ -22,7 +23,7 @@ describe('DefinirLienUseCase', () => {
       definirLien: jest.fn().mockResolvedValue(null),
       marquerModifieManuellement: jest.fn(),
     };
-    const useCase = new DefinirLienUseCase(repo as any);
+    const useCase = new DefinirLienUseCase(repo as any, verrouAutorise() as any);
 
     await expect(useCase.execute(1, 10, 1, { groupeCibleId: 20 })).rejects.toThrow(
       BadRequestException,

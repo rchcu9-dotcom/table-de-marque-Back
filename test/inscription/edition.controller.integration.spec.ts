@@ -12,6 +12,11 @@ import { UpdateEditionUseCase } from '@/inscription/application/edition/update-e
 import { DemarrerTournoiUseCase } from '@/inscription/application/edition/demarrer-tournoi.usecase';
 import { OuvrirInscriptionsUseCase } from '@/inscription/application/edition/ouvrir-inscriptions.usecase';
 import { CloturerInscriptionsUseCase } from '@/inscription/application/edition/cloturer-inscriptions.usecase';
+import { RevenirEnPreparationUseCase } from '@/inscription/application/edition/revenir-en-preparation.usecase';
+import {
+  MESSAGE_INSCRIPTION_FIGEE,
+  MESSAGE_RETOUR_AVEC_CANDIDATURES,
+} from '@/inscription/domain/edition-regles';
 import { ExportTaUseCase } from '@/inscription/application/edition/export-ta.usecase';
 import { AjouterAnneeAgeUseCase } from '@/inscription/application/edition/ajouter-annee-age.usecase';
 import { RetirerAnneeAgeUseCase } from '@/inscription/application/edition/retirer-annee-age.usecase';
@@ -33,6 +38,7 @@ describe('EditionController (integration)', () => {
   let demarrerTournoi: { execute: jest.Mock };
   let ouvrirInscriptions: { execute: jest.Mock };
   let cloturerInscriptions: { execute: jest.Mock };
+  let revenirEnPreparation: { execute: jest.Mock };
   let exportTa: { execute: jest.Mock };
   let ajouterAnneeAge: { execute: jest.Mock };
   let retirerAnneeAge: { execute: jest.Mock };
@@ -48,6 +54,7 @@ describe('EditionController (integration)', () => {
     demarrerTournoi = { execute: jest.fn() };
     ouvrirInscriptions = { execute: jest.fn() };
     cloturerInscriptions = { execute: jest.fn() };
+    revenirEnPreparation = { execute: jest.fn() };
     exportTa = { execute: jest.fn() };
     ajouterAnneeAge = { execute: jest.fn() };
     retirerAnneeAge = { execute: jest.fn() };
@@ -68,6 +75,7 @@ describe('EditionController (integration)', () => {
         { provide: DemarrerTournoiUseCase, useValue: demarrerTournoi },
         { provide: OuvrirInscriptionsUseCase, useValue: ouvrirInscriptions },
         { provide: CloturerInscriptionsUseCase, useValue: cloturerInscriptions },
+        { provide: RevenirEnPreparationUseCase, useValue: revenirEnPreparation },
         { provide: ExportTaUseCase, useValue: exportTa },
         { provide: AjouterAnneeAgeUseCase, useValue: ajouterAnneeAge },
         { provide: RetirerAnneeAgeUseCase, useValue: retirerAnneeAge },
@@ -273,6 +281,7 @@ describe('EditionController (integration)', () => {
   describe.each([
     ['ouvrir-inscriptions', () => ouvrirInscriptions, 'INSCRIPTIONS_OUVERTES'],
     ['cloturer-inscriptions', () => cloturerInscriptions, 'CLOTUREE'],
+    ['revenir-en-preparation', () => revenirEnPreparation, 'CREEE'],
   ] as const)('POST /inscription/editions/:id/%s', (route, useCase, etape) => {
     const url = `/inscription/editions/1/${route}`;
 
@@ -339,6 +348,48 @@ describe('EditionController (integration)', () => {
         .post(url)
         .set('Authorization', 'Bearer organisateur-1')
         .expect(404);
+    });
+  });
+
+  it('POST revenir-en-preparation propage le 409 « candidatures existantes » avec son message', async () => {
+    givenRole(testApp.prisma, 'ORGANISATEUR');
+    revenirEnPreparation.execute.mockRejectedValue(
+      new ConflictException(MESSAGE_RETOUR_AVEC_CANDIDATURES),
+    );
+
+    const res = await request(testApp.app.getHttpServer())
+      .post('/inscription/editions/1/revenir-en-preparation')
+      .set('Authorization', 'Bearer organisateur-1')
+      .expect(409);
+
+    expect(res.body.message).toBe(MESSAGE_RETOUR_AVEC_CANDIDATURES);
+  });
+
+  // Paramètres d'inscription figés : chaque route d'écriture propage le 409 du
+  // garde d'étape (porté par les use cases) avec son message explicite.
+  describe.each([
+    ['PATCH', '/inscription/editions/1', () => updateEdition, { nom: 'X' }],
+    ['POST', '/inscription/editions/1/annees-age', () => ajouterAnneeAge, { annee: 2015 }],
+    ['DELETE', '/inscription/editions/1/annees-age/2015', () => retirerAnneeAge, undefined],
+    ['DELETE', '/inscription/editions/1/image-rib', () => deleteImageRib, undefined],
+  ] as const)("%s %s — paramètres d'inscription figés", (methode, url, useCase, body) => {
+    it('renvoie 409 avec le message du garde', async () => {
+      givenRole(testApp.prisma, 'ORGANISATEUR');
+      useCase().execute.mockRejectedValue(new ConflictException(MESSAGE_INSCRIPTION_FIGEE));
+
+      const server = request(testApp.app.getHttpServer());
+      const req =
+        methode === 'PATCH'
+          ? server.patch(url)
+          : methode === 'POST'
+            ? server.post(url)
+            : server.delete(url);
+      const res = await req
+        .set('Authorization', 'Bearer organisateur-1')
+        .send(body as object | undefined)
+        .expect(409);
+
+      expect(res.body.message).toBe(MESSAGE_INSCRIPTION_FIGEE);
     });
   });
 

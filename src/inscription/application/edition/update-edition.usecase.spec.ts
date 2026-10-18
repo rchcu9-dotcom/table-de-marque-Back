@@ -1,3 +1,5 @@
+import { EditionVerrouService } from '../shared/edition-verrou.service';
+import { verrouAutorise } from '../../../../test/support/edition-verrou.mock';
 import { NotFoundException } from '@nestjs/common';
 import { UpdateEditionUseCase } from './update-edition.usecase';
 import type { InscriptionPrismaService } from '../../infrastructure/persistence/inscription-prisma.service';
@@ -67,7 +69,8 @@ function makePrisma(overrides: {
 describe('UpdateEditionUseCase', () => {
   it("lève NotFoundException quand l'édition n'existe pas", async () => {
     const prisma = makePrisma({ findUnique: jest.fn().mockResolvedValue(null) });
-    const useCase = new UpdateEditionUseCase(prisma);
+    // Le 404 vient désormais du garde d'étape (EditionVerrouService réel).
+    const useCase = new UpdateEditionUseCase(prisma, new EditionVerrouService(prisma));
 
     await expect(useCase.execute(999, { nom: 'X' })).rejects.toThrow(
       NotFoundException,
@@ -80,7 +83,7 @@ describe('UpdateEditionUseCase', () => {
       findUnique: jest.fn().mockResolvedValue(makeRawEdition({ id: 1 })),
       update,
     });
-    const useCase = new UpdateEditionUseCase(prisma);
+    const useCase = new UpdateEditionUseCase(prisma, verrouAutorise() as any);
 
     await useCase.execute(1, { nom: 'X' });
 
@@ -97,7 +100,7 @@ describe('UpdateEditionUseCase', () => {
       findUnique: jest.fn().mockResolvedValue(makeRawEdition({ id: 1 })),
       update,
     });
-    const useCase = new UpdateEditionUseCase(prisma);
+    const useCase = new UpdateEditionUseCase(prisma, verrouAutorise() as any);
 
     const result = await useCase.execute(1, { nom: 'Renommée' });
 
@@ -117,7 +120,7 @@ describe('UpdateEditionUseCase', () => {
       findUnique: jest.fn().mockResolvedValue(makeRawEdition({ id: 1 })),
       update,
     });
-    const useCase = new UpdateEditionUseCase(prisma);
+    const useCase = new UpdateEditionUseCase(prisma, verrouAutorise() as any);
 
     await useCase.execute(1, { msgEquipeRefusee: 'Nouveau message de refus' });
 

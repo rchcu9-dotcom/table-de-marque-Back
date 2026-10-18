@@ -1,3 +1,5 @@
+import { EditionVerrouService } from '../shared/edition-verrou.service';
+import { verrouAutorise } from '../../../../test/support/edition-verrou.mock';
 import { NotFoundException } from '@nestjs/common';
 import { AjouterAnneeAgeUseCase } from './ajouter-annee-age.usecase';
 import type { InscriptionPrismaService } from '../../infrastructure/persistence/inscription-prisma.service';
@@ -76,7 +78,8 @@ describe('AjouterAnneeAgeUseCase', () => {
       findUnique: jest.fn().mockResolvedValue(null),
       upsert,
     });
-    const useCase = new AjouterAnneeAgeUseCase(prisma);
+    // Le 404 vient désormais du garde d'étape (EditionVerrouService réel).
+    const useCase = new AjouterAnneeAgeUseCase(prisma, new EditionVerrouService(prisma));
 
     await expect(useCase.execute(999, { annee: 2015 })).rejects.toThrow(
       NotFoundException,
@@ -93,7 +96,7 @@ describe('AjouterAnneeAgeUseCase', () => {
         .fn()
         .mockResolvedValue(makeRawEditionAvecAnnees([2014, 2015])),
     });
-    const useCase = new AjouterAnneeAgeUseCase(prisma);
+    const useCase = new AjouterAnneeAgeUseCase(prisma, verrouAutorise() as any);
 
     const result = await useCase.execute(1, { annee: 2015 });
 
@@ -112,7 +115,7 @@ describe('AjouterAnneeAgeUseCase', () => {
       upsert,
       findUniqueOrThrow: jest.fn().mockResolvedValue(makeRawEditionAvecAnnees([2015])),
     });
-    const useCase = new AjouterAnneeAgeUseCase(prisma);
+    const useCase = new AjouterAnneeAgeUseCase(prisma, verrouAutorise() as any);
 
     await expect(useCase.execute(1, { annee: 2015 })).resolves.toBeDefined();
     expect(upsert).toHaveBeenCalledWith(

@@ -1,3 +1,5 @@
+import { EditionVerrouService } from '../shared/edition-verrou.service';
+import { verrouAutorise } from '../../../../test/support/edition-verrou.mock';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { UploadImageRibUseCase } from './upload-image-rib.usecase';
 import type { InscriptionPrismaService } from '../../infrastructure/persistence/inscription-prisma.service';
@@ -93,7 +95,7 @@ describe('UploadImageRibUseCase', () => {
           anneesAge: [],
         }),
       );
-      const useCase = new UploadImageRibUseCase(makePrisma({ findUnique, update }));
+      const useCase = new UploadImageRibUseCase(makePrisma({ findUnique, update }), verrouAutorise() as any);
 
       const result = await useCase.execute(5, makeFile({ mimetype: 'image/png' }));
 
@@ -121,8 +123,8 @@ describe('UploadImageRibUseCase', () => {
           makePrisma({
             findUnique: jest.fn().mockResolvedValue(makeRawEdition()),
             update,
-          }),
-        );
+          }), verrouAutorise() as any
+    );
 
         await useCase.execute(1, makeFile({ mimetype }));
 
@@ -136,8 +138,8 @@ describe('UploadImageRibUseCase', () => {
         makePrisma({
           findUnique: jest.fn().mockResolvedValue(makeRawEdition()),
           update,
-        }),
-      );
+        }), verrouAutorise() as any
+    );
 
       await expect(
         useCase.execute(1, makeFile({ mimetype: 'application/pdf' })),
@@ -151,8 +153,8 @@ describe('UploadImageRibUseCase', () => {
         makePrisma({
           findUnique: jest.fn().mockResolvedValue(makeRawEdition()),
           update,
-        }),
-      );
+        }), verrouAutorise() as any
+    );
 
       await expect(
         useCase.execute(
@@ -171,8 +173,8 @@ describe('UploadImageRibUseCase', () => {
         makePrisma({
           findUnique: jest.fn().mockResolvedValue(makeRawEdition()),
           update,
-        }),
-      );
+        }), verrouAutorise() as any
+    );
 
       await useCase.execute(1, makeFile({ size: IMAGE_RIB_MAX_SIZE_BYTES }));
 
@@ -181,9 +183,9 @@ describe('UploadImageRibUseCase', () => {
 
     it("lève NotFoundException si l'édition n'existe pas, sans écrire en base", async () => {
       const update = jest.fn();
-      const useCase = new UploadImageRibUseCase(
-        makePrisma({ findUnique: jest.fn().mockResolvedValue(null), update }),
-      );
+      // Le 404 vient désormais du garde d'étape (EditionVerrouService réel).
+      const prisma = makePrisma({ findUnique: jest.fn().mockResolvedValue(null), update });
+      const useCase = new UploadImageRibUseCase(prisma, new EditionVerrouService(prisma));
 
       await expect(useCase.execute(999, makeFile())).rejects.toThrow(
         NotFoundException,

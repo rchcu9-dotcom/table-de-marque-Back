@@ -1,3 +1,5 @@
+import { EditionVerrouService } from '../shared/edition-verrou.service';
+import { verrouAutorise } from '../../../../test/support/edition-verrou.mock';
 import { NotFoundException } from '@nestjs/common';
 import { DeleteImageRibUseCase } from './delete-image-rib.usecase';
 import type { InscriptionPrismaService } from '../../infrastructure/persistence/inscription-prisma.service';
@@ -72,8 +74,8 @@ describe('DeleteImageRibUseCase', () => {
         anneesAge: [],
       });
       const useCase = new DeleteImageRibUseCase(
-        makePrisma({ findUnique, update }),
-      );
+        makePrisma({ findUnique, update }), verrouAutorise() as any
+    );
 
       const result = await useCase.execute(1);
 
@@ -92,9 +94,9 @@ describe('DeleteImageRibUseCase', () => {
 
     it("lève NotFoundException si l'édition n'existe pas, sans écrire en base", async () => {
       const update = jest.fn();
-      const useCase = new DeleteImageRibUseCase(
-        makePrisma({ findUnique: jest.fn().mockResolvedValue(null), update }),
-      );
+      // Le 404 vient désormais du garde d'étape (EditionVerrouService réel).
+      const prisma = makePrisma({ findUnique: jest.fn().mockResolvedValue(null), update });
+      const useCase = new DeleteImageRibUseCase(prisma, new EditionVerrouService(prisma));
 
       await expect(useCase.execute(999)).rejects.toThrow(NotFoundException);
       expect(update).not.toHaveBeenCalled();

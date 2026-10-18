@@ -236,6 +236,24 @@ describe('DossierAccessService', () => {
       );
     });
 
+    it("n'applique pas le verrou DOSSIER_COMPLET à l'organisateur", async () => {
+      const service = new DossierAccessService(makePrisma(), makeEditionResolver('CLOTUREE'));
+      const inscription = makeInscription(InscriptionStatut.DOSSIER_COMPLET);
+
+      await expect(
+        service.assertDossierModifiable(inscription as any, 'ORGANISATEUR'),
+      ).resolves.toBeUndefined();
+    });
+
+    it("applique le verrou TOURNOI_DEMARRE à l'organisateur, même en DOSSIER_COMPLET", async () => {
+      const service = new DossierAccessService(makePrisma(), makeEditionResolver('TOURNOI_DEMARRE'));
+      const inscription = makeInscription(InscriptionStatut.DOSSIER_COMPLET);
+
+      await expect(
+        service.assertDossierModifiable(inscription as any, 'ORGANISATEUR'),
+      ).rejects.toThrow('Le tournoi a démarré, les dossiers ne sont plus modifiables.');
+    });
+
     it("priorise le message TOURNOI_DEMARRE quand les deux garde-fous sont vrais (DOSSIER_COMPLET + tournoi démarré)", async () => {
       const service = new DossierAccessService(makePrisma(), makeEditionResolver('TOURNOI_DEMARRE'));
       const inscription = makeInscription(InscriptionStatut.DOSSIER_COMPLET);

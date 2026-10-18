@@ -1,3 +1,4 @@
+import { verrouAutorise } from '../../../../../test/support/edition-verrou.mock';
 import { ModifierCreneauActiviteUseCase } from './modifier-creneau-activite.usecase';
 import { makeCreneauActivite } from '../../services/__fixtures__/planning.fixtures';
 
@@ -5,7 +6,7 @@ describe('ModifierCreneauActiviteUseCase', () => {
   it("délègue au repository avec l'id, l'édition et les dates ISO converties du DTO", async () => {
     const creneau = makeCreneauActivite({ id: 1 });
     const repository = { update: jest.fn().mockResolvedValue(creneau) };
-    const useCase = new ModifierCreneauActiviteUseCase(repository as any);
+    const useCase = new ModifierCreneauActiviteUseCase(repository as any, verrouAutorise() as any);
 
     const dto = {
       activiteId: 10,

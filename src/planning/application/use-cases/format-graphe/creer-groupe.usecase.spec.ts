@@ -1,3 +1,4 @@
+import { verrouAutorise } from '../../../../../test/support/edition-verrou.mock';
 import { CreerGroupeUseCase } from './creer-groupe.usecase';
 
 describe('CreerGroupeUseCase', () => {
@@ -7,7 +8,7 @@ describe('CreerGroupeUseCase', () => {
       createGroupe: jest.fn().mockResolvedValue(groupe),
       marquerModifieManuellement: jest.fn(),
     };
-    const useCase = new CreerGroupeUseCase(repo as any);
+    const useCase = new CreerGroupeUseCase(repo as any, verrouAutorise() as any);
 
     const result = await useCase.execute(1, 1, { nom: 'Poule A' });
 

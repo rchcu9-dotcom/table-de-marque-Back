@@ -1,3 +1,4 @@
+import { verrouAutorise } from '../../../../../test/support/edition-verrou.mock';
 import { ReordonnerPhasesUseCase } from './reordonner-phases.usecase';
 
 describe('ReordonnerPhasesUseCase', () => {
@@ -6,7 +7,7 @@ describe('ReordonnerPhasesUseCase', () => {
       reordonnerPhases: jest.fn().mockResolvedValue(undefined),
       marquerModifieManuellement: jest.fn(),
     };
-    const useCase = new ReordonnerPhasesUseCase(repo as any);
+    const useCase = new ReordonnerPhasesUseCase(repo as any, verrouAutorise() as any);
 
     await useCase.execute(1, { ordreIds: [3, 1, 2] });
 

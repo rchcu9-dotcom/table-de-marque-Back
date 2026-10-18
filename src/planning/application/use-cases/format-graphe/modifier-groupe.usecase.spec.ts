@@ -1,3 +1,4 @@
+import { verrouAutorise } from '../../../../../test/support/edition-verrou.mock';
 import { ModifierGroupeUseCase } from './modifier-groupe.usecase';
 
 describe('ModifierGroupeUseCase', () => {
@@ -7,7 +8,7 @@ describe('ModifierGroupeUseCase', () => {
       updateGroupe: jest.fn().mockResolvedValue(groupe),
       marquerModifieManuellement: jest.fn(),
     };
-    const useCase = new ModifierGroupeUseCase(repo as any);
+    const useCase = new ModifierGroupeUseCase(repo as any, verrouAutorise() as any);
 
     const result = await useCase.execute(1, 10, { nom: 'Poule B' });
 
@@ -32,7 +33,7 @@ describe('ModifierGroupeUseCase', () => {
       updateGroupe: jest.fn().mockResolvedValue(groupe),
       marquerModifieManuellement: jest.fn(),
     };
-    const useCase = new ModifierGroupeUseCase(repo as any);
+    const useCase = new ModifierGroupeUseCase(repo as any, verrouAutorise() as any);
 
     const result = await useCase.execute(1, 10, { formule: 'RONDE_SUISSE' } as any);
 

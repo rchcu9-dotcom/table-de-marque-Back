@@ -5,12 +5,14 @@ import {
 } from '../../../domain/repositories/format-graphe.repository';
 import { FormatLien } from '../../../domain/entities/format/format-lien.entity';
 import { DefinirLienDto } from '../../dto/format-graphe/definir-lien.dto';
+import { EditionVerrouService } from '@/inscription/application/shared/edition-verrou.service';
 
 @Injectable()
 export class DefinirLienUseCase {
   constructor(
     @Inject(FORMAT_GRAPHE_REPOSITORY)
     private readonly repo: FormatGrapheRepository,
+    private readonly editionVerrou: EditionVerrouService,
   ) {}
 
   async execute(
@@ -19,6 +21,8 @@ export class DefinirLienUseCase {
     rangSource: number,
     dto: DefinirLienDto,
   ): Promise<FormatLien> {
+    // Formule sportive figée au lancement du tournoi (404 si l'édition n'existe pas).
+    await this.editionVerrou.assertFormuleSportiveModifiable(editionId);
     // Validation CA4 : les phases doivent être consécutives.
     // La validation de la consécutivité est effectuée dans le repository Prisma
     // pour avoir accès aux données ; le repository lèvera une BadRequestException si non.

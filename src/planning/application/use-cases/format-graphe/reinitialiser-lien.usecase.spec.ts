@@ -1,3 +1,4 @@
+import { verrouAutorise } from '../../../../../test/support/edition-verrou.mock';
 import { ReinitialiserLienUseCase } from './reinitialiser-lien.usecase';
 
 describe('ReinitialiserLienUseCase', () => {
@@ -7,7 +8,7 @@ describe('ReinitialiserLienUseCase', () => {
       reinitialiserLien: jest.fn().mockResolvedValue(lien),
       marquerModifieManuellement: jest.fn(),
     };
-    const useCase = new ReinitialiserLienUseCase(repo as any);
+    const useCase = new ReinitialiserLienUseCase(repo as any, verrouAutorise() as any);
 
     const result = await useCase.execute(1, 10, 1);
 

@@ -9,11 +9,16 @@ import { EditionEtape } from '../../domain/enums/edition-etape.enum';
 import { estTransitionAutorisee } from '../../domain/edition-transitions';
 import { toEditionEntity } from '../../infrastructure/persistence/edition.mapper';
 
-export type CibleEtape = 'INSCRIPTIONS_OUVERTES' | 'CLOTUREE';
+export type CibleEtape =
+  | 'INSCRIPTIONS_OUVERTES'
+  | 'CLOTUREE'
+  | 'CREEE'
+  | 'CREATION_NOUVEAU_TOURNOI';
 
 /**
- * Logique commune des transitions d'étape pilotées par le switch « Inscriptions
- * ouvertes / fermées ». TOURNOI_DEMARRE reste servi par DemarrerTournoiUseCase.
+ * Logique commune des transitions d'étape pilotées depuis l'accueil admin
+ * (ouvrir, clôturer, revenir en préparation). TOURNOI_DEMARRE reste servi par
+ * DemarrerTournoiUseCase.
  */
 @Injectable()
 export class ChangerEtapeEditionService {

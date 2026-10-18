@@ -6,6 +6,8 @@ import type { AnneeAgeValidationService } from '@/inscription/application/dossie
 import type { InscriptionPrismaService } from '@/inscription/infrastructure/persistence/inscription-prisma.service';
 import type { DossierAccessService } from '@/inscription/application/dossier/dossier-access.service';
 import { InscriptionStatut } from '@prisma/client';
+import { withGetInscriptionModifiable } from './support/dossier-access-mock';
+import { referent } from '@/inscription/application/dossier/dossier-acteur';
 
 const INSCRIPTION_EN_COURS = {
   id: 100,
@@ -18,14 +20,14 @@ function makeDossierAccess(overrides: {
   assertDossierModifiable?: jest.Mock;
   assurerDossierEnCours?: jest.Mock;
 }): DossierAccessService {
-  return {
+  return withGetInscriptionModifiable({
     getInscriptionActivePourUtilisateur:
       overrides.getInscriptionActivePourUtilisateur ??
       jest.fn().mockResolvedValue(INSCRIPTION_EN_COURS),
     assertDossierModifiable: overrides.assertDossierModifiable ?? jest.fn(),
     assurerDossierEnCours:
       overrides.assurerDossierEnCours ?? jest.fn().mockResolvedValue(5),
-  } as unknown as DossierAccessService;
+  });
 }
 
 function makeAnneeAgeValidation(
@@ -54,7 +56,7 @@ describe('AjouterJoueurUseCase', () => {
       makeAnneeAgeValidation(),
     );
 
-    await expect(useCase.execute('user-1', dto)).rejects.toThrow('verrouillé');
+    await expect(useCase.execute(referent('user-1'), dto)).rejects.toThrow('verrouillé');
     expect(prisma.inscJoueurDossier.create).not.toHaveBeenCalled();
   });
 
@@ -71,7 +73,7 @@ describe('AjouterJoueurUseCase', () => {
     );
 
     await expect(
-      useCase.execute('user-1', { ...dto, anneeNaissance: 2020 }),
+      useCase.execute(referent('user-1'), { ...dto, anneeNaissance: 2020 }),
     ).rejects.toThrow("Année d'âge 2020 non configurée pour cette édition.");
     expect(create).not.toHaveBeenCalled();
   });
@@ -98,7 +100,7 @@ describe('AjouterJoueurUseCase', () => {
       makeAnneeAgeValidation(assertAnneeAgeValide),
     );
 
-    await useCase.execute('user-1', dto);
+    await useCase.execute(referent('user-1'), dto);
 
     expect(assertAnneeAgeValide).toHaveBeenCalledWith(1, 2015);
   });
@@ -124,7 +126,7 @@ describe('AjouterJoueurUseCase', () => {
       makeAnneeAgeValidation(),
     );
 
-    const result = await useCase.execute('user-1', dto);
+    const result = await useCase.execute(referent('user-1'), dto);
 
     expect(create).toHaveBeenCalledWith({
       data: {
@@ -153,7 +155,7 @@ describe('ModifierJoueurUseCase', () => {
       makeAnneeAgeValidation(),
     );
 
-    await expect(useCase.execute('user-1', 1, {})).rejects.toThrow(
+    await expect(useCase.execute(referent('user-1'), 1, {})).rejects.toThrow(
       NotFoundException,
     );
   });
@@ -174,7 +176,7 @@ describe('ModifierJoueurUseCase', () => {
       makeAnneeAgeValidation(),
     );
 
-    await expect(useCase.execute('user-1', 1, {})).rejects.toThrow(
+    await expect(useCase.execute(referent('user-1'), 1, {})).rejects.toThrow(
       NotFoundException,
     );
     expect(prisma.inscJoueurDossier.update).not.toHaveBeenCalled();
@@ -209,7 +211,7 @@ describe('ModifierJoueurUseCase', () => {
       makeAnneeAgeValidation(),
     );
 
-    const result = await useCase.execute('user-1', 1, { nom: 'Lemieux' });
+    const result = await useCase.execute(referent('user-1'), 1, { nom: 'Lemieux' });
 
     expect(update).toHaveBeenCalledWith({
       where: { id: 1 },
@@ -256,7 +258,7 @@ describe('ModifierJoueurUseCase', () => {
       makeAnneeAgeValidation(assertAnneeAgeValide),
     );
 
-    await useCase.execute('user-1', 1, { nom: 'Lemieux' });
+    await useCase.execute(referent('user-1'), 1, { nom: 'Lemieux' });
 
     expect(assertAnneeAgeValide).not.toHaveBeenCalled();
   });
@@ -282,7 +284,7 @@ describe('ModifierJoueurUseCase', () => {
     );
 
     await expect(
-      useCase.execute('user-1', 1, { anneeNaissance: 2020 }),
+      useCase.execute(referent('user-1'), 1, { anneeNaissance: 2020 }),
     ).rejects.toThrow("Année d'âge 2020 non configurée pour cette édition.");
     expect(assertAnneeAgeValide).toHaveBeenCalledWith(1, 2020);
     expect(update).not.toHaveBeenCalled();
@@ -303,7 +305,7 @@ describe('SupprimerJoueurUseCase', () => {
     } as unknown as InscriptionPrismaService;
     const useCase = new SupprimerJoueurUseCase(prisma, makeDossierAccess({}));
 
-    await expect(useCase.execute('user-1', 1)).rejects.toThrow(
+    await expect(useCase.execute(referent('user-1'), 1)).rejects.toThrow(
       NotFoundException,
     );
     expect(del).not.toHaveBeenCalled();
@@ -322,7 +324,7 @@ describe('SupprimerJoueurUseCase', () => {
     } as unknown as InscriptionPrismaService;
     const useCase = new SupprimerJoueurUseCase(prisma, makeDossierAccess({}));
 
-    await useCase.execute('user-1', 1);
+    await useCase.execute(referent('user-1'), 1);
 
     expect(del).toHaveBeenCalledWith({ where: { id: 1 } });
   });

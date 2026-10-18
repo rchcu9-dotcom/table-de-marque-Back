@@ -1,3 +1,4 @@
+import { verrouAutorise } from '../../../../../test/support/edition-verrou.mock';
 import { MarquerEliminieUseCase } from './marquer-elimine.usecase';
 
 describe('MarquerEliminieUseCase', () => {
@@ -7,7 +8,7 @@ describe('MarquerEliminieUseCase', () => {
       marquerElimine: jest.fn().mockResolvedValue(lien),
       marquerModifieManuellement: jest.fn(),
     };
-    const useCase = new MarquerEliminieUseCase(repo as any);
+    const useCase = new MarquerEliminieUseCase(repo as any, verrouAutorise() as any);
 
     const result = await useCase.execute(1, 10, 2);
 

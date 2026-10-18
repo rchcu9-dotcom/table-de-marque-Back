@@ -246,6 +246,7 @@ model InscEditionAnneeAge {
 model InscEquipeReferentiel {
   id         Int      @id @default(autoincrement())
   nom        String   @unique @db.VarChar(100)
+  nomComplet String?  @map("nom_complet") @db.VarChar(150)
   logoUrl    String?  @map("logo_url") @db.VarChar(500)
   active     Boolean  @default(false)
   createdAt  DateTime @default(now()) @map("created_at")

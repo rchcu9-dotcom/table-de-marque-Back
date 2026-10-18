@@ -1,3 +1,4 @@
+import { verrouAutorise } from '../../../../../test/support/edition-verrou.mock';
 import { SupprimerPhaseUseCase } from './supprimer-phase.usecase';
 
 describe('SupprimerPhaseUseCase', () => {
@@ -6,7 +7,7 @@ describe('SupprimerPhaseUseCase', () => {
       deletePhase: jest.fn().mockResolvedValue(undefined),
       marquerModifieManuellement: jest.fn(),
     };
-    const useCase = new SupprimerPhaseUseCase(repo as any);
+    const useCase = new SupprimerPhaseUseCase(repo as any, verrouAutorise() as any);
 
     await useCase.execute(1, 5);
 

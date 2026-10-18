@@ -273,4 +273,94 @@ describe('GetToutesCandidaturesUseCase', () => {
       },
     );
   });
+
+  // docs/specs/-ajout-de-la-colonne-nomcomplet-contexte-la-colonne-nomcompl.md — §2, CA7, CA9
+  describe('execute() — nom complet du club (lecture seule)', () => {
+    async function executer(rows: unknown[]) {
+      const findMany = jest.fn().mockResolvedValue(rows);
+      const useCase = new GetToutesCandidaturesUseCase(
+        makePrisma(findMany),
+        makeEditionResolver(jest.fn().mockResolvedValue(makeRawEdition())),
+      );
+      return { result: await useCase.execute(), findMany };
+    }
+
+    it('expose equipeNomComplet depuis le référentiel', async () => {
+      const { result } = await executer([
+        {
+          ...makeInscriptionRow({ id: 1, equipeNom: 'Courbevoie' }),
+          equipeRef: {
+            id: 3,
+            nom: 'Courbevoie',
+            nomComplet: 'Les Coqs de Courbevoie',
+            logoUrl: null,
+          },
+        },
+      ]);
+
+      expect(result[0].equipeNomComplet).toBe('Les Coqs de Courbevoie');
+      expect(result[0].equipeNom).toBe('Courbevoie');
+    });
+
+    it('renvoie null quand l’équipe du référentiel n’a pas de nom complet', async () => {
+      const { result } = await executer([
+        {
+          ...makeInscriptionRow({ id: 1, equipeNom: 'Rennes' }),
+          equipeRef: { id: 4, nom: 'Rennes', nomComplet: null, logoUrl: null },
+        },
+      ]);
+
+      expect(result[0]).toHaveProperty('equipeNomComplet', null);
+    });
+
+    it('renvoie null, sans erreur, quand la candidature n’est plus rattachée au référentiel', async () => {
+      const { result } = await executer([
+        makeInscriptionRow({ id: 1, equipeNom: 'Orpheline' }),
+      ]);
+
+      expect(result[0]).toHaveProperty('equipeNomComplet', null);
+      expect(result[0].equipeNom).toBe('Orpheline');
+    });
+
+    it('garde pour equipeNom le nom recopié dans l’inscription, pas celui du référentiel', async () => {
+      // Le référentiel a pu être corrigé après la candidature : le nom de
+      // l'inscription fait foi pour le parcours.
+      const { result } = await executer([
+        {
+          ...makeInscriptionRow({ id: 1, equipeNom: 'Damarie' }),
+          equipeRef: {
+            id: 5,
+            nom: 'Dammarie',
+            nomComplet: 'Les Caribous de Seine-et-Marne',
+            logoUrl: null,
+          },
+        },
+      ]);
+
+      expect(result[0].equipeNom).toBe('Damarie');
+      expect(result[0].equipeNomComplet).toBe('Les Caribous de Seine-et-Marne');
+    });
+
+    it('traite chaque candidature indépendamment', async () => {
+      const { result } = await executer([
+        {
+          ...makeInscriptionRow({ id: 1, equipeNom: 'Courbevoie' }),
+          equipeRef: { id: 3, nom: 'Courbevoie', nomComplet: 'Les Coqs de Courbevoie' },
+        },
+        makeInscriptionRow({ id: 2, equipeNom: 'Rennes' }),
+      ]);
+
+      expect(result.map((c) => c.equipeNomComplet)).toEqual([
+        'Les Coqs de Courbevoie',
+        null,
+      ]);
+    });
+
+    it('n’ajoute aucune requête : le nom complet vient de la jointure equipeRef déjà chargée', async () => {
+      const { findMany } = await executer([]);
+
+      expect(findMany).toHaveBeenCalledTimes(1);
+      expect(findMany.mock.calls[0][0].include.equipeRef).toBe(true);
+    });
+  });
 });

@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { PersistenceModule } from '../infrastructure/persistence/persistence.module';
 import { InscriptionPrismaService } from './infrastructure/persistence/inscription-prisma.service';
+import { EditionVerrouService } from './application/shared/edition-verrou.service';
 import { GetEditionCouranteUseCase } from './application/edition/get-edition-courante.usecase';
 import { GetEditionEnPreparationUseCase } from './application/edition/get-edition-en-preparation.usecase';
 import { CreateEditionUseCase } from './application/edition/create-edition.usecase';
@@ -9,6 +10,7 @@ import { DemarrerTournoiUseCase } from './application/edition/demarrer-tournoi.u
 import { ChangerEtapeEditionService } from './application/edition/changer-etape-edition.service';
 import { OuvrirInscriptionsUseCase } from './application/edition/ouvrir-inscriptions.usecase';
 import { CloturerInscriptionsUseCase } from './application/edition/cloturer-inscriptions.usecase';
+import { RevenirEnPreparationUseCase } from './application/edition/revenir-en-preparation.usecase';
 import { ExportTaUseCase } from './application/edition/export-ta.usecase';
 import { AjouterAnneeAgeUseCase } from './application/edition/ajouter-annee-age.usecase';
 import { RetirerAnneeAgeUseCase } from './application/edition/retirer-annee-age.usecase';
@@ -18,6 +20,7 @@ import { DeleteImageRibUseCase } from './application/edition/delete-image-rib.us
 import { GetEquipesReferentielUseCase } from './application/equipe/get-equipes-referentiel.usecase';
 import { CreateEquipeReferentielUseCase } from './application/equipe/create-equipe-referentiel.usecase';
 import { ValidateEquipeReferentielUseCase } from './application/equipe/validate-equipe-referentiel.usecase';
+import { UpdateEquipeReferentielUseCase } from './application/equipe/update-equipe-referentiel.usecase';
 import { UpsertUtilisateurUseCase } from './application/auth/upsert-utilisateur.usecase';
 import { UpdatePseudoUseCase } from './application/auth/update-pseudo.usecase';
 import { SoumettreCanditatureUseCase } from './application/candidature/soumettre-candidature.usecase';
@@ -67,6 +70,7 @@ import { DossierController } from './infrastructure/http/dossier.controller';
     ChangerEtapeEditionService,
     OuvrirInscriptionsUseCase,
     CloturerInscriptionsUseCase,
+    RevenirEnPreparationUseCase,
     ExportTaUseCase,
     AjouterAnneeAgeUseCase,
     RetirerAnneeAgeUseCase,
@@ -76,6 +80,7 @@ import { DossierController } from './infrastructure/http/dossier.controller';
     GetEquipesReferentielUseCase,
     CreateEquipeReferentielUseCase,
     ValidateEquipeReferentielUseCase,
+    UpdateEquipeReferentielUseCase,
     UpsertUtilisateurUseCase,
     UpdatePseudoUseCase,
     SoumettreCanditatureUseCase,
@@ -89,6 +94,7 @@ import { DossierController } from './infrastructure/http/dossier.controller';
     RouvrirDossierUseCase,
     QuotaInscriptionService,
     EditionResolverService,
+    EditionVerrouService,
     DossierAccessService,
     AnneeAgeValidationService,
     GetMonDossierUseCase,
@@ -101,6 +107,10 @@ import { DossierController } from './infrastructure/http/dossier.controller';
     SupprimerCoachUseCase,
     AccepterDroitsImageUseCase,
   ],
-  exports: [InscriptionPrismaService, EditionResolverService],
+  exports: [
+    InscriptionPrismaService,
+    EditionResolverService,
+    EditionVerrouService,
+  ],
 })
 export class InscriptionModule {}

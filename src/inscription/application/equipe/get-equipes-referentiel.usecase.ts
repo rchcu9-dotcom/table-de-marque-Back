@@ -13,22 +13,29 @@ export class GetEquipesReferentielUseCase {
   ) {}
 
   async execute(toutesLesEquipes = false): Promise<EquipeReferentiel[]> {
-    const where = toutesLesEquipes ? {} : { active: true };
-    const equipes = await this.prisma.inscEquipeReferentiel.findMany({
-      where,
-      orderBy: { nom: 'asc' },
-    });
     if (!toutesLesEquipes) {
       // Route publique et non authentifiée (GET /inscription/equipes) : ne
       // jamais calculer ni exposer l'état de candidature d'une équipe, pour
       // ne pas divulguer quelles équipes sont déjà inscrites/en cours.
-      return equipes.map((equipe) => toEquipeReferentielEntity(equipe, false));
+      const actives = await this.prisma.inscEquipeReferentiel.findMany({
+        where: { active: true },
+        orderBy: { nom: 'asc' },
+      });
+      return actives.map((equipe) => toEquipeReferentielEntity(equipe, false));
     }
+    // `_count` : toutes éditions et tous statuts — c'est ce qui verrouille le
+    // nom court (cf. UpdateEquipeReferentielUseCase).
+    const equipes = await this.prisma.inscEquipeReferentiel.findMany({
+      where: {},
+      orderBy: { nom: 'asc' },
+      include: { _count: { select: { inscriptions: true } } },
+    });
     const equipeIdsAvecCandidature = await this.getEquipeIdsAvecCandidature();
     return equipes.map((equipe) =>
       toEquipeReferentielEntity(
         equipe,
         equipeIdsAvecCandidature.has(equipe.id),
+        equipe._count.inscriptions,
       ),
     );
   }

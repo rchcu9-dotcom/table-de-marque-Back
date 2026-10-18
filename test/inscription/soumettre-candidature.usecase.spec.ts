@@ -251,4 +251,37 @@ describe('SoumettreCanditatureUseCase', () => {
     });
     expect(result.id).toBe(42);
   });
+
+  // docs/specs/-prise-en-compte-du-nom-court-pour-les-logos-contexte-actuel.md — CA10
+  it('copies the short name (nom) into equipeNom, never nomComplet', async () => {
+    const createInscription = jest.fn().mockResolvedValue({
+      id: 43,
+      equipeNom: 'Courbevoie',
+      statut: InscriptionStatut.CANDIDATE,
+      createdAt: new Date('2026-01-01'),
+    });
+    const prisma = makePrisma({
+      findUniqueUtilisateur: jest.fn().mockResolvedValue({ id: 1 }),
+      findFirstEdition: jest.fn().mockResolvedValue(EDITION_OUVERTE),
+      findFirstInscription: jest.fn().mockResolvedValue(null),
+      findUniqueEquipe: jest.fn().mockResolvedValue({
+        id: 5,
+        nom: 'Courbevoie',
+        nomComplet: 'Les Coqs de Courbevoie',
+        active: true,
+      }),
+      findUniqueInscription: jest.fn().mockResolvedValue(null),
+      createInscription,
+    });
+    const useCase = new SoumettreCanditatureUseCase(prisma);
+
+    const result = await useCase.execute('user-1', dto);
+
+    const { data } = createInscription.mock.calls[0][0];
+    expect(data.equipeNom).toBe('Courbevoie');
+    expect(data).not.toHaveProperty('nomComplet');
+    expect(JSON.stringify(data)).not.toContain('Les Coqs de Courbevoie');
+    expect(result.equipeNom).toBe('Courbevoie');
+    expect(JSON.stringify(result)).not.toContain('Les Coqs de Courbevoie');
+  });
 });
