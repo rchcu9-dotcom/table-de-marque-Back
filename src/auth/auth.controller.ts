@@ -58,27 +58,57 @@ export class AuthController {
 
   /**
    * Connexion de secours pour tester l'application en local sans configurer de vrai
-   * client OAuth Google. Désactivée par défaut en production (cf. ENABLE_DEV_LOGIN).
+   * client OAuth Google. Fermée par défaut : il faut ENABLE_DEV_LOGIN=true, quel que
+   * soit NODE_ENV (que l'image Docker ne positionnait pas jusqu'ici).
    *
    * Ne prouvant jamais la possession de l'email fourni, cette route ne peut JAMAIS
-   * accorder un rôle privilégié (ORGANISATEUR / TABLE_DE_MARQUE).
+   * donner accès à un rôle privilégié (ORGANISATEUR / TABLE_DE_MARQUE) ni reprendre
+   * un compte existant par son email (pas de repli D3) : elle ne gère que ses propres
+   * comptes `dev-<email>`, au rôle RESPONSABLE_EQUIPE.
    */
   @Post('dev-login')
   async devLogin(@Body() dto: DevLoginDto): Promise<{ token: string }> {
-    if (
-      process.env.NODE_ENV === 'production' &&
-      process.env.ENABLE_DEV_LOGIN !== 'true'
-    ) {
-      throw new ForbiddenException('dev-login désactivé en production');
+    if (process.env.ENABLE_DEV_LOGIN !== 'true') {
+      throw new ForbiddenException(
+        'dev-login désactivé (ENABLE_DEV_LOGIN=true requis)',
+      );
     }
 
     const providerUid = `dev-${dto.email}`;
-    const utilisateur = await this.upsertUtilisateur(
-      providerUid,
-      'dev',
-      dto.email,
-      dto.displayName,
-    );
+    const existant = await this.authPrisma.inscUtilisateur.findUnique({
+      where: { providerUid },
+    });
+
+    let utilisateur: InscUtilisateur;
+    if (existant) {
+      if (existant.role !== 'RESPONSABLE_EQUIPE') {
+        throw new ForbiddenException(
+          'dev-login interdit pour un compte à rôle privilégié',
+        );
+      }
+      utilisateur = await this.authPrisma.inscUtilisateur.update({
+        where: { providerUid },
+        data: { displayName: dto.displayName || null },
+      });
+    } else {
+      const compteAvecEmail = await this.authPrisma.inscUtilisateur.findFirst({
+        where: { email: dto.email },
+      });
+      if (compteAvecEmail) {
+        throw new ForbiddenException(
+          'dev-login interdit : cet email appartient déjà à un compte',
+        );
+      }
+      utilisateur = await this.authPrisma.inscUtilisateur.create({
+        data: {
+          providerUid,
+          provider: 'dev',
+          email: dto.email,
+          displayName: dto.displayName || null,
+          role: 'RESPONSABLE_EQUIPE',
+        },
+      });
+    }
 
     const token = await this.signToken(utilisateur);
     return { token };

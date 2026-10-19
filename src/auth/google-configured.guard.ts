@@ -11,7 +11,7 @@ export class GoogleConfiguredGuard implements CanActivate {
     if (!isGoogleOAuthConfigured()) {
       throw new ServiceUnavailableException(
         'Connexion Google non configurée : renseignez GOOGLE_CLIENT_ID et GOOGLE_CLIENT_SECRET ' +
-          'dans back/.env.local (console.cloud.google.com), ou utilisez POST /auth/dev-login en local.',
+          'dans back/.env.local (console.cloud.google.com), ou utilisez POST /auth/dev-login en local (ENABLE_DEV_LOGIN=true).',
       );
     }
     return true;
