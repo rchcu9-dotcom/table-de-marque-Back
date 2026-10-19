@@ -25,7 +25,9 @@ export class DefinirCommentaireOrganisateurUseCase {
     const commentaire = dto.commentaire.trim();
     const updated = await this.prisma.inscInscription.update({
       where: { id },
-      data: { commentaireOrganisateur: commentaire === '' ? null : commentaire },
+      data: {
+        commentaireOrganisateur: commentaire === '' ? null : commentaire,
+      },
     });
 
     return {

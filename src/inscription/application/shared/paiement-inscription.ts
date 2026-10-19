@@ -16,7 +16,9 @@ export function derivePaiementInscription(inscription: {
 }): PaiementInscription {
   return {
     nbJoueurs: inscription.dossier?.joueurs.length ?? 0,
-    fraisInscriptionPaye: STATUTS_FRAIS_INSCRIPTION_PAYE.includes(inscription.statut),
+    fraisInscriptionPaye: STATUTS_FRAIS_INSCRIPTION_PAYE.includes(
+      inscription.statut,
+    ),
     repasPaiementRecu: inscription.dossier?.repasPaiementRecu ?? false,
   };
 }
