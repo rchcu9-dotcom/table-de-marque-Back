@@ -8,6 +8,8 @@ import {
 import { AuthController } from './auth.controller';
 import { AuthGuard } from './auth.guard';
 import { AuthPrismaService } from './auth-prisma.service';
+import { PrismaModule } from '../infrastructure/persistence/mysql/prisma.module';
+import { PrismaService } from '../infrastructure/persistence/mysql/prisma.service';
 import { GoogleConfiguredGuard } from './google-configured.guard';
 
 /**
@@ -27,6 +29,7 @@ function requireJwtSecret(): string {
 @Global()
 @Module({
   imports: [
+    PrismaModule,
     PassportModule,
     JwtModule.register({
       secret: requireJwtSecret(),
@@ -40,7 +43,7 @@ function requireJwtSecret(): string {
   providers: [
     AuthService,
     GoogleOAuthStrategy,
-    AuthPrismaService,
+    { provide: AuthPrismaService, useExisting: PrismaService },
     AuthGuard,
     GoogleConfiguredGuard,
   ],

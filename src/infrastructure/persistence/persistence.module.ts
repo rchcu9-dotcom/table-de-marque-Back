@@ -33,6 +33,7 @@ import { MatchCacheService } from './match-cache.service';
 import { MatchPollingService } from '@/hooks/match-polling.service';
 import { MatchStreamService } from '@/hooks/match-stream.service';
 import { PrismaService } from './mysql/prisma.service';
+import { PrismaModule } from './mysql/prisma.module';
 import { MySqlMatchRepository } from './mysql/mysql-match.repository';
 import { MatchEnrichmentService } from './mysql/match-enrichment.service';
 import { MySqlEquipeRepository } from './mysql/mysql-equipe.repository';
@@ -289,8 +290,8 @@ const challengeJ1MomentumPersistenceProvider = {
 };
 
 @Module({
+  imports: [PrismaModule],
   providers: [
-    PrismaService,
     MatchEnrichmentService,
     baseMatchRepositoryProvider,
     MatchStreamService,
@@ -312,7 +313,7 @@ const challengeJ1MomentumPersistenceProvider = {
     presentationPersistenceProvider,
   ],
   exports: [
-    PrismaService,
+    PrismaModule,
     MATCH_REPOSITORY,
     EQUIPE_REPOSITORY,
     MEAL_REPOSITORY,

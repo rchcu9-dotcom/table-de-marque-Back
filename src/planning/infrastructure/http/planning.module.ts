@@ -7,6 +7,8 @@ import { PlanningController } from './planning.controller';
 import { PlaceholdersController } from './placeholders.controller';
 import { FormatGrapheController } from './format-graphe.controller';
 import { PlanningPrismaService } from '../persistence/planning-prisma.service';
+import { PrismaModule } from '@/infrastructure/persistence/mysql/prisma.module';
+import { PrismaService } from '@/infrastructure/persistence/mysql/prisma.service';
 import { PrismaInscriptionEditionJourRepository } from '../persistence/prisma-inscription-edition-jour.repository';
 import { PrismaActiviteCatalogueRepository } from '../persistence/prisma-activite-catalogue.repository';
 import { PrismaCreneauActiviteRepository } from '../persistence/prisma-creneau-activite.repository';
@@ -70,7 +72,12 @@ import { DissocierPhaseJourUseCase } from '../../application/use-cases/format-gr
 import { GenererPresetUseCase } from '../../application/use-cases/format-graphe/generer-preset.usecase';
 
 @Module({
-  imports: [InscriptionModule, PersistenceModule, TableDeMarqueModule],
+  imports: [
+    PrismaModule,
+    InscriptionModule,
+    PersistenceModule,
+    TableDeMarqueModule,
+  ],
   controllers: [
     ParametresSportifsController,
     PlanningController,
@@ -78,7 +85,7 @@ import { GenererPresetUseCase } from '../../application/use-cases/format-graphe/
     FormatGrapheController,
   ],
   providers: [
-    PlanningPrismaService,
+    { provide: PlanningPrismaService, useExisting: PrismaService },
     {
       provide: INSCRIPTION_EDITION_JOUR_REPOSITORY,
       useClass: PrismaInscriptionEditionJourRepository,

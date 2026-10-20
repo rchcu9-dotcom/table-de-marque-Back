@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { PersistenceModule } from '../infrastructure/persistence/persistence.module';
 import { InscriptionPrismaService } from './infrastructure/persistence/inscription-prisma.service';
+import { PrismaModule } from '../infrastructure/persistence/mysql/prisma.module';
+import { PrismaService } from '../infrastructure/persistence/mysql/prisma.service';
 import { EditionVerrouService } from './application/shared/edition-verrou.service';
 import { GetEditionCouranteUseCase } from './application/edition/get-edition-courante.usecase';
 import { GetEditionEnPreparationUseCase } from './application/edition/get-edition-en-preparation.usecase';
@@ -52,7 +54,7 @@ import { CandidatureController } from './infrastructure/http/candidature.control
 import { DossierController } from './infrastructure/http/dossier.controller';
 
 @Module({
-  imports: [PersistenceModule],
+  imports: [PrismaModule, PersistenceModule],
   controllers: [
     EditionController,
     EquipeReferentielController,
@@ -61,7 +63,7 @@ import { DossierController } from './infrastructure/http/dossier.controller';
     DossierController,
   ],
   providers: [
-    InscriptionPrismaService,
+    { provide: InscriptionPrismaService, useExisting: PrismaService },
     GetEditionCouranteUseCase,
     GetEditionEnPreparationUseCase,
     CreateEditionUseCase,

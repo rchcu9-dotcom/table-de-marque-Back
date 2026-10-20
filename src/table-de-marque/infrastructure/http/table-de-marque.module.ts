@@ -3,6 +3,8 @@ import { InscriptionModule } from '@/inscription/inscription.module';
 import { PersistenceModule } from '@/infrastructure/persistence/persistence.module';
 import { TableDeMarqueController } from './table-de-marque.controller';
 import { TableDeMarquePrismaService } from '../persistence/table-de-marque-prisma.service';
+import { PrismaModule } from '@/infrastructure/persistence/mysql/prisma.module';
+import { PrismaService } from '@/infrastructure/persistence/mysql/prisma.service';
 import { PrismaMatchLiveRepository } from '../persistence/prisma-match-live.repository';
 import { PrismaMatchButRepository } from '../persistence/prisma-match-but.repository';
 import { PrismaMatchPenaliteRepository } from '../persistence/prisma-match-penalite.repository';
@@ -25,10 +27,10 @@ import { GetEffectifsMatchUseCase } from '../../application/use-cases/get-effect
 import { GetMatchLiveUseCase } from '../../application/use-cases/get-match-live.usecase';
 
 @Module({
-  imports: [InscriptionModule, PersistenceModule],
+  imports: [PrismaModule, InscriptionModule, PersistenceModule],
   controllers: [TableDeMarqueController],
   providers: [
-    TableDeMarquePrismaService,
+    { provide: TableDeMarquePrismaService, useExisting: PrismaService },
     { provide: MATCH_LIVE_REPOSITORY, useClass: PrismaMatchLiveRepository },
     { provide: MATCH_BUT_REPOSITORY, useClass: PrismaMatchButRepository },
     {
