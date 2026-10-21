@@ -23,6 +23,28 @@ interface LocalJwtPayload {
   displayName?: string;
 }
 
+/** Nom de la base visée par DATABASE_URL (chemin de l'URL), ou DB_NAME à défaut. */
+function nomBase(): string {
+  try {
+    const nom = new URL(process.env.DATABASE_URL ?? '').pathname.replace(
+      /^\//,
+      '',
+    );
+    if (nom) return nom;
+  } catch {
+    // DATABASE_URL absente ou illisible : repli sur DB_NAME.
+  }
+  return process.env.DB_NAME ?? '';
+}
+
+function devLoginPrivilegieAutorise(): boolean {
+  return (
+    process.env.DEV_LOGIN_ALLOW_PRIVILEGED === 'true' &&
+    process.env.NODE_ENV !== 'production' &&
+    nomBase().endsWith('_test')
+  );
+}
+
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -65,6 +87,11 @@ export class AuthController {
    * donner accès à un rôle privilégié (ORGANISATEUR / TABLE_DE_MARQUE) ni reprendre
    * un compte existant par son email (pas de repli D3) : elle ne gère que ses propres
    * comptes `dev-<email>`, au rôle RESPONSABLE_EQUIPE.
+   *
+   * Exception locale : DEV_LOGIN_ALLOW_PRIVILEGED=true laisse se reconnecter un compte
+   * `dev-<email>` existant déjà promu (ORGANISATEUR…), pour tester l'admin en local.
+   * Jamais en NODE_ENV=production, et seulement sur une base `*_test` (ADR-002) ;
+   * la route ne crée ni ne promeut jamais un rôle privilégié.
    */
   @Post('dev-login')
   async devLogin(@Body() dto: DevLoginDto): Promise<{ token: string }> {
@@ -81,7 +108,10 @@ export class AuthController {
 
     let utilisateur: InscUtilisateur;
     if (existant) {
-      if (existant.role !== 'RESPONSABLE_EQUIPE') {
+      if (
+        existant.role !== 'RESPONSABLE_EQUIPE' &&
+        !devLoginPrivilegieAutorise()
+      ) {
         throw new ForbiddenException(
           'dev-login interdit pour un compte à rôle privilégié',
         );

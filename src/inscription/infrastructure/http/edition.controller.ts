@@ -38,6 +38,11 @@ import { GetImageRibUseCase } from '../../application/edition/get-image-rib.usec
 import { DeleteImageRibUseCase } from '../../application/edition/delete-image-rib.usecase';
 import { IMAGE_RIB_MAX_SIZE_BYTES } from '../../application/edition/image-rib.constants';
 import { Roles } from '../../../auth/decorators/roles.decorator';
+import { RequireAuth } from '../../../auth/decorators/require-auth.decorator';
+import {
+  CurrentUser,
+  type CurrentUserPayload,
+} from '../../../auth/decorators/current-user.decorator';
 
 @Controller('inscription')
 export class EditionController {
@@ -138,17 +143,20 @@ export class EditionController {
     return this.uploadImageRib.execute(id, file);
   }
 
-  // Route publique : servie directement par une balise <img> côté
-  // InscriptionPage, qui ne peut pas transmettre d'en-tête Authorization.
+  // Coordonnées bancaires : réservé à l'organisateur et aux responsables dont
+  // la candidature attend le paiement (contrôle dans le use case). Le front
+  // charge l'image via fetch + header Authorization (blob), pas via <img src>.
   @Get('editions/:id/image-rib')
+  @RequireAuth()
   async getImageRibFile(
     @Param('id', ParseIntPipe) id: number,
+    @CurrentUser() user: CurrentUserPayload,
     @Res() res: Response,
   ) {
-    const { data, mimeType } = await this.getImageRib.execute(id);
+    const { data, mimeType } = await this.getImageRib.execute(id, user);
     res.set({
       'Content-Type': mimeType,
-      'Cache-Control': 'max-age=3600',
+      'Cache-Control': 'private, no-store',
     });
     res.send(data);
   }

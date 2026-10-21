@@ -2,6 +2,7 @@ import request from 'supertest';
 import {
   BadRequestException,
   ConflictException,
+  ForbiddenException,
   NotFoundException,
 } from '@nestjs/common';
 import { EditionController } from '@/inscription/infrastructure/http/edition.controller';
@@ -464,8 +465,17 @@ describe('EditionController (integration)', () => {
     });
   });
 
-  describe('GET /inscription/editions/:id/image-rib (public)', () => {
-    it('is publicly accessible and returns the binary with the right Content-Type (AC8)', async () => {
+  describe('GET /inscription/editions/:id/image-rib (authenticated)', () => {
+    it('returns 401 without authentication and does not call the use case', async () => {
+      await request(testApp.app.getHttpServer())
+        .get('/inscription/editions/1/image-rib')
+        .expect(401);
+
+      expect(getImageRib.execute).not.toHaveBeenCalled();
+    });
+
+    it('returns the binary with the right Content-Type and a private cache policy (AC8)', async () => {
+      givenRole(testApp.prisma, 'ORGANISATEUR');
       getImageRib.execute.mockResolvedValue({
         data: Buffer.from('fake-png-bytes'),
         mimeType: 'image/png',
@@ -473,11 +483,27 @@ describe('EditionController (integration)', () => {
 
       const res = await request(testApp.app.getHttpServer())
         .get('/inscription/editions/1/image-rib')
+        .set('Authorization', 'Bearer organisateur-1')
         .expect(200);
 
       expect(res.headers['content-type']).toContain('image/png');
+      expect(res.headers['cache-control']).toBe('private, no-store');
       expect(res.body).toEqual(Buffer.from('fake-png-bytes'));
-      expect(getImageRib.execute).toHaveBeenCalledWith(1);
+      expect(getImageRib.execute).toHaveBeenCalledWith(
+        1,
+        expect.objectContaining({ role: 'ORGANISATEUR' }),
+      );
+    });
+
+    it('returns 403 when the use case denies access (no candidature awaiting payment)', async () => {
+      getImageRib.execute.mockRejectedValue(
+        new ForbiddenException("Accès à l'image RIB non autorisé"),
+      );
+
+      await request(testApp.app.getHttpServer())
+        .get('/inscription/editions/1/image-rib')
+        .set('Authorization', 'Bearer responsable-1')
+        .expect(403);
     });
 
     it('returns 404 when the use case reports no image (AC5/AC6/AC8)', async () => {
@@ -487,6 +513,7 @@ describe('EditionController (integration)', () => {
 
       await request(testApp.app.getHttpServer())
         .get('/inscription/editions/1/image-rib')
+        .set('Authorization', 'Bearer responsable-1')
         .expect(404);
     });
   });

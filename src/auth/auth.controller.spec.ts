@@ -4,7 +4,9 @@ import type { InscUtilisateur } from '@prisma/client';
 import { AuthController } from './auth.controller';
 import type { AuthPrismaService } from './auth-prisma.service';
 
-function utilisateur(overrides: Partial<InscUtilisateur> = {}): InscUtilisateur {
+function utilisateur(
+  overrides: Partial<InscUtilisateur> = {},
+): InscUtilisateur {
   return {
     id: 1,
     providerUid: 'dev-coach@example.com',
@@ -83,7 +85,7 @@ describe('AuthController.devLogin', () => {
     });
   });
 
-  it("refuse de reprendre par email un compte existant (pas de repli D3)", async () => {
+  it('refuse de reprendre par email un compte existant (pas de repli D3)', async () => {
     prisma.inscUtilisateur.findFirst.mockResolvedValue(
       utilisateur({
         id: 7,
@@ -115,6 +117,57 @@ describe('AuthController.devLogin', () => {
       expect(jwt.signAsync).not.toHaveBeenCalled();
     },
   );
+
+  describe('DEV_LOGIN_ALLOW_PRIVILEGED (admin en local)', () => {
+    beforeEach(() => {
+      process.env.DEV_LOGIN_ALLOW_PRIVILEGED = 'true';
+      process.env.DATABASE_URL =
+        'mysql://u:p@localhost:3306/rchcu11_tournoi_test';
+      prisma.inscUtilisateur.findUnique.mockResolvedValue(
+        utilisateur({ role: 'ORGANISATEUR' }),
+      );
+      prisma.inscUtilisateur.update.mockResolvedValue(
+        utilisateur({ role: 'ORGANISATEUR' }),
+      );
+    });
+
+    it('reconnecte un compte dev déjà ORGANISATEUR sur une base *_test, sans toucher au rôle', async () => {
+      await expect(controller.devLogin(dto)).resolves.toEqual({
+        token: 'jeton',
+      });
+      expect(prisma.inscUtilisateur.update).toHaveBeenCalledWith({
+        where: { providerUid: 'dev-coach@example.com' },
+        data: { displayName: 'Coach' },
+      });
+    });
+
+    it('refuse en NODE_ENV=production', async () => {
+      process.env.NODE_ENV = 'production';
+      await expect(controller.devLogin(dto)).rejects.toBeInstanceOf(
+        ForbiddenException,
+      );
+      expect(jwt.signAsync).not.toHaveBeenCalled();
+    });
+
+    it("refuse quand la base n'est pas une base *_test", async () => {
+      process.env.DATABASE_URL = 'mysql://u:p@localhost:3306/rchcu11_tournoi';
+      await expect(controller.devLogin(dto)).rejects.toBeInstanceOf(
+        ForbiddenException,
+      );
+      expect(jwt.signAsync).not.toHaveBeenCalled();
+    });
+
+    it('ne crée jamais de compte privilégié ni ne reprend un email existant', async () => {
+      prisma.inscUtilisateur.findUnique.mockResolvedValue(null);
+      prisma.inscUtilisateur.findFirst.mockResolvedValue(
+        utilisateur({ providerUid: 'google-1', role: 'ORGANISATEUR' }),
+      );
+      await expect(controller.devLogin(dto)).rejects.toBeInstanceOf(
+        ForbiddenException,
+      );
+      expect(prisma.inscUtilisateur.create).not.toHaveBeenCalled();
+    });
+  });
 
   it("reconnecte un compte dev RESPONSABLE_EQUIPE sans toucher à l'email ni au rôle", async () => {
     prisma.inscUtilisateur.findUnique.mockResolvedValue(utilisateur());

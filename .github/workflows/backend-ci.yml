@@ -35,6 +35,9 @@ jobs:
       - name: Lint
         run: pnpm lint
 
+      - name: Unit tests + coverage (blocking)
+        run: pnpm test:cov --ci --maxWorkers=2
+
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:

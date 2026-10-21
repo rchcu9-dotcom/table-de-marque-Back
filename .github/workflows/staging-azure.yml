@@ -40,6 +40,9 @@ jobs:
       - name: Lint
         run: pnpm lint
 
+      - name: Unit tests + coverage (blocking)
+        run: pnpm test:cov --ci --maxWorkers=2
+
       - name: Azure Login
         uses: azure/login@v2
         with:
