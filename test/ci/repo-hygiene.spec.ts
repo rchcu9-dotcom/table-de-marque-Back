@@ -85,11 +85,12 @@ describeIfGit('Repo hygiene — état Git (cache tracké, fichier orphelin)', ()
     expect(result.stdout).toContain(LEAKED_KEY_PATTERN);
   });
 
-  it("cache/snapshots.json n'est plus suivi par Git (git ls-files) mais reste présent sur disque", () => {
+  // Pas de contrôle de présence sur disque : le fichier est généré au runtime et
+  // n'existe pas dans un checkout CI neuf.
+  it("cache/snapshots.json n'est plus suivi par Git (git ls-files)", () => {
     const result = git(['ls-files', '--', 'cache/snapshots.json']);
     expect(result.status).toBe(0);
     expect(result.stdout.trim()).toBe('');
-    expect(existsSync(CACHE_SNAPSHOT_PATH)).toBe(true);
   });
 
   it("un changement de contenu de cache/snapshots.json n'apparaît plus dans git status (régénération runtime silencieuse)", () => {
