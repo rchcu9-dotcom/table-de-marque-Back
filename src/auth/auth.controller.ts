@@ -10,10 +10,13 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { JwtService } from '@nestjs/jwt';
+import { Throttle, ThrottlerGuard } from '@nestjs/throttler';
 import type { OAuthProfile } from '@rchcu9-dotcom/auth-passport-back';
 import type { Request, Response } from 'express';
 import type { InscUtilisateur } from '@prisma/client';
 import { GoogleConfiguredGuard } from './google-configured.guard';
+import { Public } from './decorators/public.decorator';
+import { readAuthThrottleConfig } from './auth-throttle.config';
 import { AuthPrismaService } from './auth-prisma.service';
 import { DevLoginDto } from './dto/dev-login.dto';
 
@@ -45,7 +48,12 @@ function devLoginPrivilegieAutorise(): boolean {
   );
 }
 
+// Guard de classe : il passe avant les guards passport posés sur les méthodes, une rafale
+// est donc coupée avant toute redirection OAuth. Jamais en APP_GUARD : une limite globale
+// par IP produirait des 429 sur les pages publiques (Wi-Fi commun de la patinoire).
 @Controller('auth')
+@Public()
+@UseGuards(ThrottlerGuard)
 export class AuthController {
   constructor(
     private readonly jwtService: JwtService,
@@ -94,6 +102,9 @@ export class AuthController {
    * la route ne crée ni ne promeut jamais un rôle privilégié.
    */
   @Post('dev-login')
+  @Throttle({
+    default: { limit: () => readAuthThrottleConfig().devLoginLimit },
+  })
   async devLogin(@Body() dto: DevLoginDto): Promise<{ token: string }> {
     if (process.env.ENABLE_DEV_LOGIN !== 'true') {
       throw new ForbiddenException(

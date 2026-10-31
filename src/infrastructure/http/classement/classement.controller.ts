@@ -14,8 +14,10 @@ import {
 } from '@/application/equipe/use-cases/get-j3-final-squares.usecase';
 import { PouleClassement } from '@/domain/equipe/entities/equipe.entity';
 import { CacheSnapshotService } from '@/infrastructure/cache/cache.snapshot.service';
+import { Public } from '@/auth/decorators/public.decorator';
 
 @Controller()
+@Public()
 export class ClassementController {
   constructor(
     private readonly getClassementByPoule: GetClassementByPouleUseCase,

@@ -8,6 +8,7 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
+import { Public } from '@/auth/decorators/public.decorator';
 import { Roles } from '@/auth/decorators/roles.decorator';
 import { assertApiWritable } from '@/infrastructure/http/read-only.util';
 import { AnnoncerMatchUseCase } from '../../application/use-cases/annoncer-match.usecase';
@@ -120,11 +121,13 @@ export class TableDeMarqueController {
   }
 
   @Get(':numMatch/effectifs')
+  @Public()
   async effectifs(@Param('numMatch', ParseIntPipe) numMatch: number) {
     return this.getEffectifs.execute(numMatch);
   }
 
   @Get(':numMatch/live')
+  @Public()
   async live(@Param('numMatch', ParseIntPipe) numMatch: number) {
     return this.getMatchLive.execute(numMatch);
   }

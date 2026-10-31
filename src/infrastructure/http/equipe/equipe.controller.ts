@@ -1,9 +1,11 @@
 import { Controller, Get, Param } from '@nestjs/common';
+import { Public } from '@/auth/decorators/public.decorator';
 import { GetAllEquipesUseCase } from '@/application/equipe/use-cases/get-all-equipes.usecase';
 import { GetEquipeByIdUseCase } from '@/application/equipe/use-cases/get-equipe-by-id.usecase';
 import { CacheSnapshotService } from '@/infrastructure/cache/cache.snapshot.service';
 
 @Controller('equipes')
+@Public()
 export class EquipeController {
   constructor(
     private readonly getAllEquipes: GetAllEquipesUseCase,

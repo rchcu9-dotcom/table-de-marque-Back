@@ -17,6 +17,7 @@ import {
   UpdateEquipeReferentielUseCase,
   UpdateEquipeReferentielDto,
 } from '../../application/equipe/update-equipe-referentiel.usecase';
+import { Public } from '../../../auth/decorators/public.decorator';
 import { Roles } from '../../../auth/decorators/roles.decorator';
 import { RequireAuth } from '../../../auth/decorators/require-auth.decorator';
 
@@ -30,6 +31,7 @@ export class EquipeReferentielController {
   ) {}
 
   @Get()
+  @Public()
   async listActives() {
     const equipes = await this.getEquipes.execute(false);
     // Contrat d'API public : ne jamais exposer d'information dérivée d'une

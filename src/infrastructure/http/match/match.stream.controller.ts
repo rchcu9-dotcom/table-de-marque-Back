@@ -2,6 +2,7 @@ import { Controller, Get, Header, Req, Res } from '@nestjs/common';
 import type { Request, Response } from 'express';
 import { interval, Subscription } from 'rxjs';
 
+import { Public } from '@/auth/decorators/public.decorator';
 import { MatchStreamService } from '@/hooks/match-stream.service';
 import { formatParisIso } from '@/infrastructure/persistence/mysql/date-paris.utils';
 
@@ -31,7 +32,9 @@ function mapMatchDate(match: MatchLike) {
   };
 }
 
+// EventSource n'envoie pas d'en-tête Authorization : ce flux ne peut être que public.
 @Controller('matches')
+@Public()
 export class MatchStreamController {
   constructor(private readonly streamService: MatchStreamService) {}
 

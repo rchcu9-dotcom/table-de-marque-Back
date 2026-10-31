@@ -2,9 +2,12 @@ import { Controller, Get, Header, Req, Res } from '@nestjs/common';
 import type { Request, Response } from 'express';
 import { interval, Subscription } from 'rxjs';
 
+import { Public } from '@/auth/decorators/public.decorator';
 import { ChallengeStreamService } from '@/hooks/challenge-stream.service';
 
+// EventSource n'envoie pas d'en-tête Authorization : ce flux ne peut être que public.
 @Controller('challenge')
+@Public()
 export class ChallengeStreamController {
   constructor(private readonly streamService: ChallengeStreamService) {}
 

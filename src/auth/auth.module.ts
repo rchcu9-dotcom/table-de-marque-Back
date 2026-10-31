@@ -1,10 +1,12 @@
 import { Global, Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
+import { ThrottlerModule } from '@nestjs/throttler';
 import {
   AuthService,
   GoogleOAuthStrategy,
 } from '@rchcu9-dotcom/auth-passport-back';
+import { buildAuthThrottlerOptions } from './auth-throttle.config';
 import { AuthController } from './auth.controller';
 import { AuthGuard } from './auth.guard';
 import { AuthPrismaService } from './auth-prisma.service';
@@ -31,6 +33,7 @@ function requireJwtSecret(): string {
   imports: [
     PrismaModule,
     PassportModule,
+    ThrottlerModule.forRoot(buildAuthThrottlerOptions()),
     JwtModule.register({
       secret: requireJwtSecret(),
       signOptions: {

@@ -24,6 +24,7 @@ import { RetirerAnneeAgeUseCase } from '@/inscription/application/edition/retire
 import { UploadImageRibUseCase } from '@/inscription/application/edition/upload-image-rib.usecase';
 import { GetImageRibUseCase } from '@/inscription/application/edition/get-image-rib.usecase';
 import { DeleteImageRibUseCase } from '@/inscription/application/edition/delete-image-rib.usecase';
+import { IMAGE_RIB_MAX_SIZE_BYTES } from '@/inscription/application/edition/image-rib.constants';
 import {
   buildInscriptionTestApp,
   givenRole,
@@ -459,9 +460,78 @@ describe('EditionController (integration)', () => {
         .set('Authorization', 'Bearer organisateur-1')
         .attach('file', oversizedBuffer, 'rib.png');
 
-      expect(res.status).toBeGreaterThanOrEqual(400);
-      expect(res.status).toBeLessThan(500);
+      expect(res.status).toBe(413);
       expect(uploadImageRib.execute).not.toHaveBeenCalled();
+    });
+
+    it('rejects a file one byte over the limit with a 413', async () => {
+      givenRole(testApp.prisma, 'ORGANISATEUR');
+
+      await request(testApp.app.getHttpServer())
+        .post('/inscription/editions/1/image-rib')
+        .set('Authorization', 'Bearer organisateur-1')
+        .attach('file', Buffer.alloc(IMAGE_RIB_MAX_SIZE_BYTES + 1, 1), 'rib.png')
+        .expect(413);
+
+      expect(uploadImageRib.execute).not.toHaveBeenCalled();
+    });
+
+    it('accepts a file exactly at the limit, with its full content', async () => {
+      givenRole(testApp.prisma, 'ORGANISATEUR');
+      uploadImageRib.execute.mockResolvedValue({ id: 1, hasImageRib: true });
+
+      await request(testApp.app.getHttpServer())
+        .post('/inscription/editions/1/image-rib')
+        .set('Authorization', 'Bearer organisateur-1')
+        .attach('file', Buffer.alloc(IMAGE_RIB_MAX_SIZE_BYTES, 1), 'rib.png')
+        .expect(201);
+
+      const [, file] = uploadImageRib.execute.mock.calls[0];
+      expect(file.size).toBe(IMAGE_RIB_MAX_SIZE_BYTES);
+      expect(file.buffer).toHaveLength(IMAGE_RIB_MAX_SIZE_BYTES);
+    });
+
+    // Répond 500 et non 400 : multer dit « Unexpected file field », Nest attend « Unexpected
+    // field » (multer.utils.js). Défaut connu, d'où un statut non figé : seul le refus compte.
+    it('refuses a multipart field other than "file" before the use case', async () => {
+      givenRole(testApp.prisma, 'ORGANISATEUR');
+
+      const res = await request(testApp.app.getHttpServer())
+        .post('/inscription/editions/1/image-rib')
+        .set('Authorization', 'Bearer organisateur-1')
+        .attach('autre', Buffer.from('fake-png-bytes'), 'rib.png');
+
+      expect(res.status).toBeGreaterThanOrEqual(400);
+      expect(uploadImageRib.execute).not.toHaveBeenCalled();
+    });
+
+    it('refuses a second file on the same field before the use case', async () => {
+      givenRole(testApp.prisma, 'ORGANISATEUR');
+
+      const res = await request(testApp.app.getHttpServer())
+        .post('/inscription/editions/1/image-rib')
+        .set('Authorization', 'Bearer organisateur-1')
+        .attach('file', Buffer.from('un'), 'un.png')
+        .attach('file', Buffer.from('deux'), 'deux.png');
+
+      expect(res.status).toBeGreaterThanOrEqual(400);
+      expect(uploadImageRib.execute).not.toHaveBeenCalled();
+    });
+
+    it('hands over the exact bytes and the text fields are ignored', async () => {
+      givenRole(testApp.prisma, 'ORGANISATEUR');
+      uploadImageRib.execute.mockResolvedValue({ id: 1, hasImageRib: true });
+      const contenu = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x00, 0xff, 0x0d, 0x0a]);
+
+      await request(testApp.app.getHttpServer())
+        .post('/inscription/editions/1/image-rib')
+        .set('Authorization', 'Bearer organisateur-1')
+        .field('commentaire', 'ignoré')
+        .attach('file', contenu, 'rib.png')
+        .expect(201);
+
+      const [, file] = uploadImageRib.execute.mock.calls[0];
+      expect(Buffer.compare(file.buffer, contenu)).toBe(0);
     });
   });
 

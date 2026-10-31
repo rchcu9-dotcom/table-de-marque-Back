@@ -10,6 +10,8 @@ import { GetChallengeGardienJ3UseCase } from '@/application/challenge/use-cases/
 import { GetChallengeJ1MomentumUseCase } from '@/application/challenge/use-cases/get-challenge-j1-momentum.usecase';
 import { RecordTentativeDto } from '@/application/challenge/dto/record-tentative.dto';
 import type { TentativeMetrics } from '@/domain/challenge/entities/tentative-atelier.entity';
+import { Public } from '@/auth/decorators/public.decorator';
+import { Roles } from '@/auth/decorators/roles.decorator';
 import { assertApiWritable } from '@/infrastructure/http/read-only.util';
 
 @Controller('challenge')
@@ -27,21 +29,25 @@ export class ChallengeController {
   ) {}
 
   @Get('ateliers')
+  @Public()
   async listAteliers() {
     return this.getAteliers.execute();
   }
 
   @Get('ateliers/:id/classement')
+  @Public()
   async classement(@Param('id') id: string) {
     return this.getClassement.execute(id);
   }
 
   @Get('classement-global')
+  @Public()
   async classementGlobal() {
     return this.getClassementGlobal.execute();
   }
 
   @Post('ateliers/:id/tentatives')
+  @Roles('ORGANISATEUR')
   async createTentative(
     @Param('id') id: string,
     @Body() dto: RecordTentativeDto,
@@ -55,26 +61,31 @@ export class ChallengeController {
   }
 
   @Get('equipes/:id')
+  @Public()
   async challengeByEquipe(@Param('id') id: string) {
     return this.getChallengeByEquipe.execute(id);
   }
 
   @Get('all')
+  @Public()
   async challengeAll(@Query('teamId') teamId?: string) {
     return this.getChallengeAll.execute(teamId);
   }
 
   @Get('vitesse/j3')
+  @Public()
   async challengeVitesseJ3() {
     return this.getChallengeVitesseJ3.execute();
   }
 
   @Get('gardien/j3')
+  @Public()
   async challengeGardienJ3() {
     return this.getChallengeGardienJ3.execute();
   }
 
   @Get('j1/momentum')
+  @Public()
   async challengeJ1Momentum() {
     return this.getChallengeJ1Momentum.execute();
   }

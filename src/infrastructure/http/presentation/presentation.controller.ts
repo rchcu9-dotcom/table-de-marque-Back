@@ -12,6 +12,7 @@ import {
   Res,
 } from '@nestjs/common';
 import type { Response } from 'express';
+import { Public } from '@/auth/decorators/public.decorator';
 import { Roles } from '@/auth/decorators/roles.decorator';
 import { DriveImageProxyService } from './drive-image-proxy.service';
 import { assertApiWritable } from '@/infrastructure/http/read-only.util';
@@ -47,6 +48,7 @@ export class PresentationController {
   ) {}
 
   @Get()
+  @Public()
   async findAll(): Promise<PresentationGroupe[]> {
     return this.cache.readThrough('presentation', () =>
       this.getPresentation.execute(),
@@ -57,6 +59,7 @@ export class PresentationController {
   // Google Drive de la présentation — le navigateur ne peut pas les charger en direct
   // (cf. commentaire de DriveImageProxyService), ce endpoint fait l'appel côté serveur.
   @Get('image/:fileId')
+  @Public()
   async image(
     @Param('fileId') fileId: string,
     @Query('w') w: string | undefined,

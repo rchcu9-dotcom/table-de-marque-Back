@@ -37,6 +37,7 @@ import { UploadImageRibUseCase } from '../../application/edition/upload-image-ri
 import { GetImageRibUseCase } from '../../application/edition/get-image-rib.usecase';
 import { DeleteImageRibUseCase } from '../../application/edition/delete-image-rib.usecase';
 import { IMAGE_RIB_MAX_SIZE_BYTES } from '../../application/edition/image-rib.constants';
+import { Public } from '../../../auth/decorators/public.decorator';
 import { Roles } from '../../../auth/decorators/roles.decorator';
 import { RequireAuth } from '../../../auth/decorators/require-auth.decorator';
 import {
@@ -64,6 +65,7 @@ export class EditionController {
   ) {}
 
   @Get('edition/courante')
+  @Public()
   async courante() {
     return this.getEditionCourante.execute();
   }

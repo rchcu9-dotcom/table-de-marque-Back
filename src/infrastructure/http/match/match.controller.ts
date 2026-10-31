@@ -21,6 +21,8 @@ import { UpdateMatchDto } from '@/application/match/dto/update-match.dto';
 import { GetMomentumMatchesUseCase } from '@/application/match/use-cases/get-momentum-matches.usecase';
 import { formatParisIso } from '@/infrastructure/persistence/mysql/date-paris.utils';
 import type { Match } from '@/domain/match/entities/match.entity';
+import { Public } from '@/auth/decorators/public.decorator';
+import { Roles } from '@/auth/decorators/roles.decorator';
 import { assertApiWritable } from '@/infrastructure/http/read-only.util';
 
 type MatchResponse = Omit<Match, 'date'> & { date: string };
@@ -63,6 +65,7 @@ export class MatchController {
 
   // CREATE
   @Post()
+  @Roles('ORGANISATEUR')
   async create(@Body() dto: CreateMatchDto) {
     assertApiWritable();
     const match = await this.createMatchUseCase.execute(dto);
@@ -70,6 +73,7 @@ export class MatchController {
   }
 
   @Get('momentum')
+  @Public()
   async momentum(
     @Query('competition') competition?: '5v5' | '3v3' | 'challenge',
     @Query('surface') surface?: 'GG' | 'PG',
@@ -85,6 +89,7 @@ export class MatchController {
 
   // READ ALL
   @Get()
+  @Public()
   async findAll(
     @Query('competition') competition?: '5v5' | '3v3' | 'challenge',
     @Query('surface') surface?: 'GG' | 'PG',
@@ -104,6 +109,7 @@ export class MatchController {
 
   // READ ONE
   @Get(':id')
+  @Public()
   async findOne(@Param('id') id: string) {
     const match = await this.getMatchByIdUseCase.execute(id);
     return match ? toMatchResponse(match) : null;
@@ -111,6 +117,7 @@ export class MatchController {
 
   // UPDATE
   @Put(':id')
+  @Roles('ORGANISATEUR')
   async update(@Param('id') id: string, @Body() dto: UpdateMatchDto) {
     assertApiWritable();
     const match = await this.updateMatchUseCase.execute(id, dto);
@@ -119,6 +126,7 @@ export class MatchController {
 
   // DELETE
   @Delete(':id')
+  @Roles('ORGANISATEUR')
   async delete(@Param('id') id: string, @Body() dto: DeleteMatchDto) {
     assertApiWritable();
     return await this.deleteMatchUseCase.execute(id, dto);

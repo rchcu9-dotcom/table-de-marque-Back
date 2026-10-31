@@ -9,6 +9,7 @@ dotenv.config();
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
+import { configureHttpSecurity } from './infrastructure/http/security/http-security';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -21,22 +22,7 @@ async function bootstrap() {
     }),
   );
 
-  const envOrigins = process.env.CORS_ORIGINS;
-  const defaultOrigins = [
-    'http://localhost:5173',
-    'https://sttablemarque.z6.web.core.windows.net',
-    'https://table-de-marque-72e86.web.app',
-    'https://table-de-marque-72e86.firebaseapp.com',
-  ];
-
-  const origins = envOrigins
-    ? envOrigins
-        .split(',')
-        .map((o) => o.trim())
-        .filter(Boolean)
-    : defaultOrigins;
-
-  app.enableCors({ origin: origins });
+  configureHttpSecurity(app);
 
   await app.listen(process.env.PORT ?? 3000);
 }

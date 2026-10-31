@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import type { InscEdition, ModePaiementRepas } from '@prisma/client';
 import { InscriptionPrismaService } from '../../infrastructure/persistence/inscription-prisma.service';
 import { EditionResolverService } from '../shared/edition-resolver.service';
+import { resoudreLogoEquipe } from '../../domain/equipe-referentiel-logo';
 import {
   derivePaiementInscription,
   type PaiementInscription,
@@ -54,7 +55,9 @@ export class GetToutesCandidaturesUseCase {
       id: i.id,
       equipeNom: i.equipeNom,
       equipeNomComplet: i.equipeRef?.nomComplet ?? null,
-      equipeLogoUrl: i.equipeRef?.logoUrl ?? null,
+      equipeLogoUrl: i.equipeRef
+        ? resoudreLogoEquipe(i.equipeRef.logoUrl, i.equipeRef.nom)
+        : null,
       utilisateurEmail: i.utilisateur.email,
       utilisateurDisplayName: i.utilisateur.displayName,
       statut: i.statut,

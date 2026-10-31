@@ -1,10 +1,12 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 
+import { Public } from '@/auth/decorators/public.decorator';
 import { GetAllJoueursUseCase } from '@/application/joueur/use-cases/get-all-joueurs.usecase';
 import { GetJoueurByIdUseCase } from '@/application/joueur/use-cases/get-joueur-by-id.usecase';
 import { GetJoueursByEquipeUseCase } from '@/application/joueur/use-cases/get-joueurs-by-equipe.usecase';
 
 @Controller('joueurs')
+@Public()
 export class JoueurController {
   constructor(
     private readonly getAll: GetAllJoueursUseCase,

@@ -13,6 +13,7 @@ import {
   normaliserEspaces,
   normaliserNomComplet,
 } from '../../domain/equipe-referentiel-noms';
+import { normaliserLogoUrl } from '../../domain/equipe-referentiel-logo';
 import { toEquipeReferentielEntity } from '../../infrastructure/persistence/equipe-referentiel.mapper';
 import { CreateEquipeReferentielDto } from './dto/create-equipe-referentiel.dto';
 
@@ -38,7 +39,7 @@ export class CreateEquipeReferentielUseCase {
         data: {
           nom,
           nomComplet: normaliserNomComplet(nom, dto.nomComplet),
-          logoUrl: dto.logoUrl ?? null,
+          logoUrl: normaliserLogoUrl(dto.logoUrl),
           active: true, // était `false` — la validation préalable obligatoire est retirée
         },
       });

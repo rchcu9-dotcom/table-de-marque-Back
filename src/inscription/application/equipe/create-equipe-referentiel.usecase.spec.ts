@@ -74,6 +74,20 @@ describe('CreateEquipeReferentielUseCase', () => {
     });
   });
 
+  it("n'enregistre pas une adresse blob: (fichier jamais envoyé au serveur)", async () => {
+    const create = jest.fn().mockResolvedValue(makeRawEquipe());
+    const useCase = new CreateEquipeReferentielUseCase(makePrisma(create));
+
+    await useCase.execute({
+      nom: 'Dammarie',
+      logoUrl: 'blob:https://table-de-marque-72e86.web.app/3f2c',
+    });
+
+    expect(create).toHaveBeenCalledWith({
+      data: expect.objectContaining({ logoUrl: null }),
+    });
+  });
+
   it("retourne l'équipe créée mappée en entité de domaine, immédiatement active", async () => {
     const create = jest.fn().mockResolvedValue(makeRawEquipe({ id: 42, active: true }));
     const useCase = new CreateEquipeReferentielUseCase(makePrisma(create));

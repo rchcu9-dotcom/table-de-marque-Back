@@ -8,8 +8,7 @@ import {
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import type { Request } from 'express';
-import { REQUIRE_AUTH_KEY } from './decorators/require-auth.decorator';
-import { ROLES_KEY } from './decorators/roles.decorator';
+import { readAccessMetadata, resolveAccess } from './access-policy';
 import { AuthPrismaService } from './auth-prisma.service';
 import type { CurrentUserPayload } from './decorators/current-user.decorator';
 
@@ -32,19 +31,13 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const requireAuth = this.reflector.getAllAndOverride<boolean>(
-      REQUIRE_AUTH_KEY,
-      [context.getHandler(), context.getClass()],
+    const access = resolveAccess(
+      readAccessMetadata(this.reflector, [
+        context.getHandler(),
+        context.getClass(),
+      ]),
     );
-    const requiredRoles = this.reflector.getAllAndOverride<string[]>(
-      ROLES_KEY,
-      [context.getHandler(), context.getClass()],
-    );
-
-    // Route publique : aucun décorateur d'auth posé
-    if (!requireAuth && (!requiredRoles || requiredRoles.length === 0)) {
-      return true;
-    }
+    if (access === 'public') return true;
 
     const request = context.switchToHttp().getRequest<RequestWithUser>();
     const token = this.extractBearer(request);
@@ -76,7 +69,10 @@ export class AuthGuard implements CanActivate {
       role: utilisateur.role,
     };
 
-    if (requiredRoles?.length && !requiredRoles.includes(utilisateur.role)) {
+    if (
+      access !== 'authenticated' &&
+      !access.roles.includes(utilisateur.role)
+    ) {
       throw new ForbiddenException(
         "Vous n'avez pas les droits nécessaires pour effectuer cette action",
       );

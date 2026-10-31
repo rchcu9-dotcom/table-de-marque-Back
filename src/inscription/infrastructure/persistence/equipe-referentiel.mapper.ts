@@ -1,5 +1,6 @@
 import { InscEquipeReferentiel } from '@prisma/client';
 import { EquipeReferentiel } from '../../domain/entities/equipe-referentiel.entity';
+import { resoudreLogoEquipe } from '../../domain/equipe-referentiel-logo';
 
 export function toEquipeReferentielEntity(
   raw: InscEquipeReferentiel,
@@ -10,7 +11,7 @@ export function toEquipeReferentielEntity(
     raw.id,
     raw.nom,
     raw.nomComplet,
-    raw.logoUrl,
+    resoudreLogoEquipe(raw.logoUrl, raw.nom),
     raw.active,
     raw.createdAt,
     raw.updatedAt,
