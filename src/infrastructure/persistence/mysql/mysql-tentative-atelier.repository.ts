@@ -35,8 +35,10 @@ type TaEquipeRow = {
 };
 
 @Injectable()
-export class MySqlTentativeAtelierRepository implements TentativeAtelierRepository {
-  constructor(private readonly prisma: PrismaService) {}
+export class MySqlTentativeAtelierRepository extends TentativeAtelierRepository {
+  constructor(private readonly prisma: PrismaService) {
+    super();
+  }
 
   create(tentative: TentativeAtelier): Promise<TentativeAtelier> {
     void tentative;
@@ -100,7 +102,12 @@ export class MySqlTentativeAtelierRepository implements TentativeAtelierReposito
               'atelier-gardien-arret',
               String(row.ID),
               'gardien_arret',
-              { type: 'gardien_arret', tempsMs: gardienAtelier, nbButs: gardienNbBut, tempsTotal: gardienTempsTotal },
+              {
+                type: 'gardien_arret',
+                tempsMs: gardienAtelier,
+                nbButs: gardienNbBut,
+                tempsTotal: gardienTempsTotal,
+              },
               baseDate,
             ),
           );
@@ -121,7 +128,11 @@ export class MySqlTentativeAtelierRepository implements TentativeAtelierReposito
             'atelier-vitesse',
             String(row.ID),
             'vitesse',
-            { type: 'vitesse', tempsMs: vitesse, ...(tempsTotal > 0 ? { tempsTotal } : {}) },
+            {
+              type: 'vitesse',
+              tempsMs: vitesse,
+              ...(tempsTotal > 0 ? { tempsTotal } : {}),
+            },
             baseDate,
           ),
         );

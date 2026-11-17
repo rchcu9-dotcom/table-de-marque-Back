@@ -26,14 +26,15 @@ export class GetClassementGlobalUseCase {
   ) {}
 
   async execute(): Promise<ClassementGlobalEntry[]> {
-    const ateliers = await this.ateliers.findAll();
-    const perAtelier = await Promise.all(
-      ateliers.map(async (atelier) => {
-        const data = await this.tentatives.findByAtelier(atelier.id);
-        const classement = this.classementService.compute(atelier, data);
-        return { atelierId: atelier.id, classement };
-      }),
-    );
+    const [ateliers, grouped] = await Promise.all([
+      this.ateliers.findAll(),
+      this.tentatives.findAllGrouped(),
+    ]);
+    const perAtelier = ateliers.map((atelier) => {
+      const data = grouped.get(atelier.id) ?? [];
+      const classement = this.classementService.compute(atelier, data);
+      return { atelierId: atelier.id, classement };
+    });
 
     const aggregator = new Map<string, ClassementGlobalEntry>();
     perAtelier.forEach(({ atelierId, classement }) => {

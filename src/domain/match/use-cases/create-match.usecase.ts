@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { MatchRepository } from '../../../domain/match/repositories/match.repository';
 import { Match } from '../../../domain/match/entities/match.entity';
 import { v4 as uuid } from 'uuid';

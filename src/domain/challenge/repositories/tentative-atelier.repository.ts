@@ -9,4 +9,15 @@ export abstract class TentativeAtelierRepository {
   abstract findByAtelier(atelierId: string): Promise<TentativeAtelier[]>;
   abstract findAll(): Promise<TentativeAtelier[]>;
   abstract clear(): Promise<void>;
+
+  async findAllGrouped(): Promise<Map<string, TentativeAtelier[]>> {
+    const all = await this.findAll();
+    const grouped = new Map<string, TentativeAtelier[]>();
+    for (const t of all) {
+      const bucket = grouped.get(t.atelierId);
+      if (bucket) bucket.push(t);
+      else grouped.set(t.atelierId, [t]);
+    }
+    return grouped;
+  }
 }

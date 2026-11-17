@@ -4,7 +4,7 @@ import { TentativeAtelier } from '@/domain/challenge/entities/tentative-atelier.
 import { TentativeAtelierRepository } from '@/domain/challenge/repositories/tentative-atelier.repository';
 
 @Injectable()
-export class InMemoryTentativeAtelierRepository implements TentativeAtelierRepository {
+export class InMemoryTentativeAtelierRepository extends TentativeAtelierRepository {
   private items: TentativeAtelier[] = [];
 
   async create(tentative: TentativeAtelier): Promise<TentativeAtelier> {
